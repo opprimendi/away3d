@@ -13,4 +13,5 @@ target/
 .project
 .DS_Store
 *.iml
+lib/
 build.properties

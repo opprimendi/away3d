@@ -29,7 +29,7 @@ package away3d.animators.nodes
 		 * @param	numSegmentPoint
 		 * @param	startScale
 		 * @param	endScale
-		 * @param	segmentScales Vector.<Vector3D>. the x,y,z present the scaleX,scaleY,scaleX, and w present the life
+		 * @param	segmentScales Vector.&lt;Vector3D&gt;. the x,y,z present the scaleX,scaleY,scaleX, and w present the life
 		 */
 		public function ParticleSegmentedScaleNode(numSegmentPoint:int, startScale:Vector3D, endScale:Vector3D, segmentScales:Vector.<Vector3D>)
 		{
