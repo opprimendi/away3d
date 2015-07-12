@@ -137,13 +137,21 @@ package away3d.lights
 			zMin = z - d;
 			zMax = z + d;
 			
-			raw[uint(5)] = raw[uint(0)] = zMin/d;
-			raw[uint(10)] = zMax/(zMax - zMin);
-			raw[uint(11)] = 1;
-			raw[uint(1)] = raw[uint(2)] = raw[uint(3)] = raw[uint(4)] =
-				raw[uint(6)] = raw[uint(7)] = raw[uint(8)] = raw[uint(9)] =
-				raw[uint(12)] = raw[uint(13)] = raw[uint(15)] = 0;
-			raw[uint(14)] = -zMin*raw[uint(10)];
+			raw[5] = raw[0] = zMin/d;
+			raw[10] = zMax/(zMax - zMin);
+			raw[11] = 1;
+			raw[1] = 0;
+			raw[2] = 0;
+			raw[3] = 0;
+			raw[4] = 0;
+			raw[6] = 0;
+			raw[7] = 0;
+			raw[8] = 0;
+			raw[9] = 0;
+			raw[12] = 0;
+			raw[13] = 0;
+			raw[15] = 0;
+			raw[14] = -zMin*raw[10];
 			
 			target ||= new Matrix3D();
 			target.copyRawDataFrom(raw);

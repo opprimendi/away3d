@@ -95,14 +95,22 @@ package away3d.cameras.lenses
 				top = -_yMax;
 				bottom = _yMax;
 				
-				raw[uint(0)] = 2/(_projectionHeight*_aspectRatio);
-				raw[uint(5)] = 2/_projectionHeight;
-				raw[uint(10)] = 1/(_far - _near);
-				raw[uint(14)] = _near/(_near - _far);
-				raw[uint(1)] = raw[uint(2)] = raw[uint(3)] = raw[uint(4)] =
-					raw[uint(6)] = raw[uint(7)] = raw[uint(8)] = raw[uint(9)] =
-					raw[uint(11)] = raw[uint(12)] = raw[uint(13)] = 0;
-				raw[uint(15)] = 1;
+				raw[0] = 2/(_projectionHeight*_aspectRatio);
+				raw[5] = 2/_projectionHeight;
+				raw[10] = 1/(_far - _near);
+				raw[14] = _near/(_near - _far);
+				raw[1] = 0;
+				raw[2] = 0;
+				raw[3] = 0;
+				raw[4] = 0;
+				raw[6] = 0;
+				raw[7] = 0;
+				raw[8] = 0;
+				raw[9] = 0;
+				raw[11] = 0;
+				raw[12] = 0;
+				raw[13] = 0;
+				raw[15] = 1;
 				
 			} else {
 				
@@ -116,17 +124,22 @@ package away3d.cameras.lenses
 				top = middle - yHgt;
 				bottom = middle + yHgt;
 				
-				raw[uint(0)] = 2*1/(right - left);
-				raw[uint(5)] = -2*1/(top - bottom);
-				raw[uint(10)] = 1/(_far - _near);
-				
-				raw[uint(12)] = (right + left)/(right - left);
-				raw[uint(13)] = (bottom + top)/(bottom - top);
-				raw[uint(14)] = _near/(near - far);
-				
-				raw[uint(1)] = raw[uint(2)] = raw[uint(3)] = raw[uint(4)] =
-					raw[uint(6)] = raw[uint(7)] = raw[uint(8)] = raw[uint(9)] = raw[uint(11)] = 0;
-				raw[uint(15)] = 1;
+				raw[0] = 2*1/(right - left);
+				raw[5] = -2*1/(top - bottom);
+				raw[10] = 1/(_far - _near);
+				raw[12] = (right + left)/(right - left);
+				raw[13] = (bottom + top)/(bottom - top);
+				raw[14] = _near/(near - far);
+				raw[1] = 0;
+				raw[2] = 0;
+				raw[3] = 0;
+				raw[4] = 0;
+				raw[6] = 0;
+				raw[7] = 0;
+				raw[8] = 0;
+				raw[9] = 0;
+				raw[11] = 0;
+				raw[15] = 1;
 			}
 			
 			_frustumCorners[0] = _frustumCorners[9] = _frustumCorners[12] = _frustumCorners[21] = left;

@@ -608,8 +608,8 @@ package away3d.extrusions
 			
 			if (!_varr)
 				_varr = new Vector.<Vector3D>();
-			
-			for (i = 0; i < vectors.length; ++i) {
+			var length:int = vectors.length;
+			for (i = 0; i < length; ++i) {
 				_varr.push(new Vector3D(vectors[i].x, vectors[i].y, vectors[i].z));
 				_uvarr.push(new UV(0, 1%i));
 			}
@@ -626,9 +626,9 @@ package away3d.extrusions
 			for (i = 0; i <= lsub; ++i) {
 				
 				tmpVecs = new Vector.<Vector3D>();
-				tmpVecs = vectors.concat();
-				
-				for (j = 0; j < tmpVecs.length; ++j) {
+				tmpVecs = vectors.slice();
+				var tmpVecsLength:int = tmpVecs.length;
+				for (j = 0; j < tmpVecsLength; ++j) {
 					
 					factor = ((_revolutions - 1)/(_varr.length + 1));
 					
@@ -835,17 +835,16 @@ package away3d.extrusions
 								prop2 = Z_AXIS;
 								prop3 = Y_AXIS;
 								break;
-							
 							case Y_AXIS:
 								prop1 = Y_AXIS;
 								prop2 = X_AXIS;
 								prop3 = Z_AXIS;
 								break;
-							
 							case Z_AXIS:
 								prop1 = Z_AXIS;
 								prop2 = Y_AXIS;
 								prop3 = X_AXIS;
+								break;
 						}
 						
 						var lines:Array = buildThicknessPoints(_profile, thickness, prop1, prop2);

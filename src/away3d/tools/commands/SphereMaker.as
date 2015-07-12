@@ -94,24 +94,19 @@ package away3d.tools.commands
 		
 		private function spherizeSubGeom(subGeom:ISubGeometry):void
 		{
-			var i:uint;
-			var len:uint;
-			var vectorVert:Vector3D;
-			var vectorVertLength:Number;
-			var vectorNormal:Vector3D;
-			var vectordifference:Number;
+			;
 			var vd:Vector.<Number> = subGeom.vertexData;
 			var vStride:uint = subGeom.vertexStride;
 			var vOffs:uint = subGeom.vertexOffset;
 			var nd:Vector.<Number> = subGeom.vertexNormalData;
 			var nStride:uint = subGeom.vertexNormalStride;
 			var nOffs:uint = subGeom.vertexNormalOffset;
-			len = subGeom.numVertices;
-			for (i = 0; i < len; i++) {
-				vectorVert = new Vector3D(vd[vOffs + i*vStride + 0], vd[vOffs + i*vStride + 1], vd[vOffs + i*vStride + 2]);
-				vectorVertLength = vectorVert.length;
-				vectorNormal = vectorVert.clone();
-				vectordifference = Number(_radius) - Number(vectorVertLength);
+			var numVertices:uint = subGeom.numVertices;
+			for (var i:uint = 0; i < numVertices; i++) {
+				var vectorVert:Vector3D = new Vector3D(vd[vOffs + i*vStride + 0], vd[vOffs + i*vStride + 1], vd[vOffs + i*vStride + 2]);
+				var vectorVertLength:Number = vectorVert.length;
+				var vectorNormal:Vector3D = vectorVert.clone();
+				var vectordifference:Number = _radius - vectorVertLength;
 				vectorNormal.normalize();
 				
 				vd[vOffs + i*vStride + 0] = vectorVert.x + ((vectorNormal.x*vectordifference)*_weight);

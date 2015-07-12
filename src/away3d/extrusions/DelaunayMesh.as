@@ -799,7 +799,7 @@ package away3d.extrusions
 			_circle.y = yc;
 			_circle.z = Math.sqrt(rsqr);
 			
-			return Boolean(drsqr <= rsqr);
+			return drsqr <= rsqr;
 		}
 	}
 }

@@ -112,7 +112,7 @@ package away3d.materials.methods
 				(value && _texture && (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format))) {
 				invalidateShaderProgram();
 			}
-			_useTexture = Boolean(value);
+			_useTexture = value != null;
 			_texture = value;
 		}
 		

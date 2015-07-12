@@ -40,7 +40,7 @@ package away3d.lights.shadowmaps
 			for (var i:int = 0; i < 12; ++i) {
 				var v:Number = corners[i];
 				_localFrustum[i] = v;
-				_localFrustum[uint(i + 12)] = v + (corners[uint(i + 12)] - v)*_coverageRatio;
+				_localFrustum[i + 12] = v + (corners[i + 12] - v)*_coverageRatio;
 			}
 			
 			updateProjectionFromFrustumCorners(viewCamera, _localFrustum, _matrix);

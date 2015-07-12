@@ -428,7 +428,8 @@ package away3d.materials.passes
 				return;
 			}
 			
-			for (var i:int = 0; i < _passes.length; ++i) {
+			var length:int = _passes.length;
+			for (var i:int = 0; i < length; ++i) {
 				if (_passes[i] != oldPasses[i]) {
 					_passesDirty = true;
 					return;

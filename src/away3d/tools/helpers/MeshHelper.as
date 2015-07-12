@@ -351,7 +351,7 @@ package away3d.tools.helpers
 			for (i = 0; i < numSubGeoms; ++i) {
 				subGeom = ISubGeometry(geometries[i]);
 				indices = subGeom.indexData;
-				indicesC = subGeom.indexData.concat();
+				indicesC = subGeom.indexData.slice();
 				
 				normals = subGeom.vertexNormalData;
 				nOffs = subGeom.vertexNormalOffset;

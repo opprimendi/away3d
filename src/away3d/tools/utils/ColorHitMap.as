@@ -48,9 +48,9 @@ package away3d.tools.utils
 			
 			var color:uint = _colorMap.getPixel((x/_scaleX) + _offsetX, (y/_scaleY) + _offsetY);
 			
-			var co:ColorObject;
-			for (var i:uint = 0; i < _colorObjects.length; ++i) {
-				co = ColorObject(_colorObjects[i]);
+			var length:int = _colorObjects.length;
+			for (var i:uint = 0; i < length; ++i) {
+				var co:ColorObject = _colorObjects[i];
 				if (co.color == color) {
 					fireColorEvent(co.eventID);
 					break;
@@ -117,10 +117,9 @@ package away3d.tools.utils
 		{
 			if (!_colorObjects)
 				return;
-			
-			var co:ColorObject;
-			for (var i:uint = 0; i < _colorObjects.length; ++i) {
-				co = ColorObject(_colorObjects[i]);
+			var length:int = _colorObjects.length;
+			for (var i:uint = 0; i < length; ++i) {
+				var co:ColorObject = _colorObjects[i];
 				if (co.eventID == eventID) {
 					if (hasEventListener(eventID))
 						removeEventListener(eventID, co.listener);

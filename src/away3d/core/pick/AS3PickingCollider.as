@@ -56,20 +56,20 @@ package away3d.core.pick
 			
 			for (var index:uint = 0; index < numIndices; index += 3) { // sweep all triangles
 				// evaluate triangle indices
-				i0 = vertexOffset + indexData[ index ]*vertexStride;
-				i1 = vertexOffset + indexData[ uint(index + 1) ]*vertexStride;
-				i2 = vertexOffset + indexData[ uint(index + 2) ]*vertexStride;
+				i0 = vertexOffset + indexData[index]*vertexStride;
+				i1 = vertexOffset + indexData[index + 1]*vertexStride;
+				i2 = vertexOffset + indexData[index + 2]*vertexStride;
 				
 				// evaluate triangle vertices
-				p0x = vertexData[ i0 ];
-				p0y = vertexData[ uint(i0 + 1) ];
-				p0z = vertexData[ uint(i0 + 2) ];
-				p1x = vertexData[ i1 ];
-				p1y = vertexData[ uint(i1 + 1) ];
-				p1z = vertexData[ uint(i1 + 2) ];
-				p2x = vertexData[ i2 ];
-				p2y = vertexData[ uint(i2 + 1) ];
-				p2z = vertexData[ uint(i2 + 2) ];
+				p0x = vertexData[i0 ];
+				p0y = vertexData[i0 + 1];
+				p0z = vertexData[i0 + 2];
+				p1x = vertexData[i1];
+				p1y = vertexData[i1 + 1];
+				p1z = vertexData[i1 + 2];
+				p2x = vertexData[i2];
+				p2y = vertexData[i2 + 1];
+				p2z = vertexData[i2 + 2];
 				
 				// evaluate sides and triangle normal
 				s0x = p1x - p0x; // s0 = p1 - p0

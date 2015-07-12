@@ -181,16 +181,16 @@ package away3d.core.base
 				
 				vi = posOffset + index1*posStride;
 				x0 = vertices[vi];
-				y0 = vertices[uint(vi + 1)];
-				z0 = vertices[uint(vi + 2)];
+				y0 = vertices[vi + 1];
+				z0 = vertices[vi + 2];
 				vi = posOffset + index2*posStride;
-				dx1 = vertices[uint(vi)] - x0;
-				dy1 = vertices[uint(vi + 1)] - y0;
-				dz1 = vertices[uint(vi + 2)] - z0;
+				dx1 = vertices[vi] - x0;
+				dy1 = vertices[vi + 1] - y0;
+				dz1 = vertices[vi + 2] - z0;
 				vi = posOffset + index3*posStride;
-				dx2 = vertices[uint(vi)] - x0;
-				dy2 = vertices[uint(vi + 1)] - y0;
-				dz2 = vertices[uint(vi + 2)] - z0;
+				dx2 = vertices[vi] - x0;
+				dy2 = vertices[vi + 1] - y0;
+				dz2 = vertices[vi + 2] - z0;
 				
 				cx = dv2*dx1 - dv1*dx2;
 				cy = dv2*dy1 - dv1*dy2;

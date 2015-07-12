@@ -182,11 +182,11 @@ package away3d.lights.shadowmaps
 			
 			while (i < 12) {
 				xN = _localFrustum[i];
-				yN = _localFrustum[uint(i + 1)];
-				zN = _localFrustum[uint(i + 2)];
-				xF = xN + (_localFrustum[uint(i + 12)] - xN)*splitRatio;
-				yF = yN + (_localFrustum[uint(i + 13)] - yN)*splitRatio;
-				zF = zN + (_localFrustum[uint(i + 14)] - zN)*splitRatio;
+				yN = _localFrustum[i + 1];
+				zN = _localFrustum[i + 2];
+				xF = xN + (_localFrustum[i + 12] - xN)*splitRatio;
+				yF = yN + (_localFrustum[i + 13] - yN)*splitRatio;
+				zF = zN + (_localFrustum[i + 14] - zN)*splitRatio;
 				if (xN < minX)
 					minX = xN;
 				if (xN > maxX)

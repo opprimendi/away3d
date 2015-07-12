@@ -64,7 +64,7 @@ package away3d.core.base
 		 */
 		public function get animatedData():Vector.<Number>
 		{
-			return _animatedData || _vertexData.concat();
+			return _animatedData || _vertexData.slice();
 		}
 		
 		public function updateAnimatedData(value:Vector.<Number>):void
@@ -132,10 +132,10 @@ package away3d.core.base
 		override public function clone():ISubGeometry
 		{
 			var clone:SkinnedSubGeometry = new SkinnedSubGeometry(_jointsPerVertex);
-			clone.updateData(_vertexData.concat());
-			clone.updateIndexData(_indices.concat());
-			clone.updateJointIndexData(_jointIndexData.concat());
-			clone.updateJointWeightsData(_jointWeightsData.concat());
+			clone.updateData(_vertexData.slice());
+			clone.updateIndexData(_indices.slice());
+			clone.updateJointIndexData(_jointIndexData.slice());
+			clone.updateJointWeightsData(_jointWeightsData.slice());
 			clone._autoDeriveVertexNormals = _autoDeriveVertexNormals;
 			clone._autoDeriveVertexTangents = _autoDeriveVertexTangents;
 			clone._numCondensedJoints = _numCondensedJoints;

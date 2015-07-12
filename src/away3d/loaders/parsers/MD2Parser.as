@@ -409,9 +409,9 @@ package away3d.loaders.parsers
 				
 				k = 0;
 				for (j = 0; j < vertLen; j++) {
-					fvertices[k++] = tvertices[uint(_vertIndices[j]*3)];
-					fvertices[k++] = tvertices[uint(_vertIndices[j]*3 + 2)];
-					fvertices[k++] = tvertices[uint(_vertIndices[j]*3 + 1)];
+					fvertices[k++] = tvertices[_vertIndices[j]*3];
+					fvertices[k++] = tvertices[_vertIndices[j]*3 + 2];
+					fvertices[k++] = tvertices[_vertIndices[j]*3 + 1];
 				}
 				
 				subGeom.fromVectors(fvertices, _finalUV, null, null);
@@ -462,10 +462,10 @@ package away3d.loaders.parsers
 			for (var j:uint = 0; j < 16; j++) {
 				var ch:uint = _byteData.readUnsignedByte();
 				
-				if (uint(ch) > 0x39 && uint(ch) <= 0x7A && k == 0)
+				if (ch > 0x39 && ch <= 0x7A && k == 0)
 					name += String.fromCharCode(ch);
 				
-				if (uint(ch) >= 0x30 && uint(ch) <= 0x39)
+				if (ch >= 0x30 && ch <= 0x39)
 					k++;
 			}
 			return name;

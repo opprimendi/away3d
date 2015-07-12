@@ -92,15 +92,15 @@ package away3d.tools.helpers
 			var pointer:uint = index*3;
 			var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
 			
-			var indices:Vector.<uint> = subGeom.indexData.concat();
+			var indices:Vector.<uint> = subGeom.indexData.slice();
 			
 			if (pointer > indices.length - 3)
 				throw new Error("ERROR >> face index out of range! Use the location in indice vector /3. For example, pass 1 if you want edit face 1, not 3!");
 			
-			var vertices:Vector.<Number> = subGeom.vertexData.concat();
-			var normals:Vector.<Number> = subGeom.vertexNormalData.concat();
-			var tangents:Vector.<Number> = subGeom.vertexTangentData.concat();
-			var uvs:Vector.<Number> = subGeom.UVData.concat();
+			var vertices:Vector.<Number> = subGeom.vertexData.slice();
+			var normals:Vector.<Number> = subGeom.vertexNormalData.slice();
+			var tangents:Vector.<Number> = subGeom.vertexTangentData.slice();
+			var uvs:Vector.<Number> = subGeom.UVData.slice();
 			
 			var pointerEnd:uint = pointer + 2;
 			
@@ -243,21 +243,21 @@ package away3d.tools.helpers
 		{
 			var pointer:uint = indice*3;
 			var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
-			var indices:Vector.<uint> = subGeom.indexData.concat();
+			var indices:Vector.<uint> = subGeom.indexData.slice();
 			
 			if (pointer > indices.length - 3)
 				throw new Error("ERROR >> face index out of range! Use the location in indice vector /3. For example, pass 1 if you want edit face 1, not 3!");
 			
-			var vertices:Vector.<Number> = subGeom.vertexData.concat();
+			var vertices:Vector.<Number> = subGeom.vertexData.slice();
 			
 			if (indices.length + 3 > LIMIT || vertices.length + 9 > LIMIT) {
 				trace("splitFace cannot take place, not enough room in target subGeometry");
 				return;
 			}
 			
-			var uvs:Vector.<Number> = subGeom.UVData.concat();
-			var normals:Vector.<Number> = subGeom.vertexNormalData.concat();
-			var tangents:Vector.<Number> = subGeom.vertexTangentData.concat();
+			var uvs:Vector.<Number> = subGeom.UVData.slice();
+			var normals:Vector.<Number> = subGeom.vertexNormalData.slice();
+			var tangents:Vector.<Number> = subGeom.vertexTangentData.slice();
 			
 			var pointerverts:uint = indices[pointer]*3;
 			var v0:Vertex = new Vertex(vertices[pointerverts], vertices[pointerverts + 1], vertices[pointerverts + 2]);
@@ -339,21 +339,21 @@ package away3d.tools.helpers
 		{
 			var pointer:uint = indice*3;
 			var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
-			var indices:Vector.<uint> = subGeom.indexData.concat();
+			var indices:Vector.<uint> = subGeom.indexData.slice();
 			
 			if (pointer > indices.length - 3)
 				throw new Error("ERROR >> face index out of range! Use the location in indice vector /3. For example, pass 1 if you want edit face 1, not 3!");
 			
-			var vertices:Vector.<Number> = subGeom.vertexData.concat();
+			var vertices:Vector.<Number> = subGeom.vertexData.slice();
 			
 			if (indices.length + 6 > LIMIT || vertices.length + 18 > LIMIT) {
 				trace("triFace cannot take place, not enough room in target subGeometry");
 				return;
 			}
 			
-			var uvs:Vector.<Number> = subGeom.UVData.concat();
-			var normals:Vector.<Number> = subGeom.vertexNormalData.concat();
-			var tangents:Vector.<Number> = subGeom.vertexTangentData.concat();
+			var uvs:Vector.<Number> = subGeom.UVData.slice();
+			var normals:Vector.<Number> = subGeom.vertexNormalData.slice();
+			var tangents:Vector.<Number> = subGeom.vertexTangentData.slice();
 			
 			var pointerverts:uint = indices[pointer]*3;
 			var v0:Vertex = new Vertex(vertices[pointerverts], vertices[pointerverts + 1], vertices[pointerverts + 2]);
@@ -411,21 +411,21 @@ package away3d.tools.helpers
 		{
 			var pointer:uint = indice*3;
 			var subGeom:SubGeometry = getSubGeometry(mesh, subGeomIndice);
-			var indices:Vector.<uint> = subGeom.indexData.concat();
+			var indices:Vector.<uint> = subGeom.indexData.slice();
 			
 			if (pointer > indices.length - 3)
 				throw new Error("ERROR >> face index out of range! Use the location in indice vector /3. For example, pass 1 if you want edit face 1, not 3!");
 			
-			var vertices:Vector.<Number> = subGeom.vertexData.concat();
+			var vertices:Vector.<Number> = subGeom.vertexData.slice();
 			
 			if (indices.length + 9 > LIMIT || vertices.length + 27 > LIMIT) {
 				trace("quarterFace cannot take place, not enough room in target subGeometry");
 				return;
 			}
 			
-			var uvs:Vector.<Number> = subGeom.UVData.concat();
-			var normals:Vector.<Number> = subGeom.vertexNormalData.concat();
-			var tangents:Vector.<Number> = subGeom.vertexTangentData.concat();
+			var uvs:Vector.<Number> = subGeom.UVData.slice();
+			var normals:Vector.<Number> = subGeom.vertexNormalData.slice();
+			var tangents:Vector.<Number> = subGeom.vertexTangentData.slice();
 			
 			var pointerverts:uint = indices[pointer]*3;
 			var v0:Vertex = new Vertex(vertices[pointerverts], vertices[pointerverts + 1], vertices[pointerverts + 2]);

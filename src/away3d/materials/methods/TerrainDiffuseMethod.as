@@ -56,9 +56,9 @@ package away3d.materials.methods
 			data[index] = _tileData? _tileData[0] : 1;
 			for (var i:int = 0; i < _numSplattingLayers; ++i) {
 				if (i < 3)
-					data[uint(index + i + 1)] = _tileData? _tileData[i + 1] : 50;
+					data[index + i + 1] = _tileData? _tileData[i + 1] : 50;
 				else
-					data[uint(index + i - 4)] = _tileData? _tileData[i + 1] : 50;
+					data[index + i - 4] = _tileData? _tileData[i + 1] : 50;
 			}
 		}
 
