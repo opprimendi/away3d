@@ -1,9 +1,9 @@
 <project name="opprimendi-away3d-swc" default="build">
-
+	<property name="properties.file" value="build.properties"/>
+	<property file="${properties.file}" />
 	<property environment="env" />
 	<fail unless="env.FLEX_HOME" message="FLEX_HOME needs to be defined as an environment variable or in the Ant build." />
 	<property name="FLEX_HOME" location="${env.FLEX_HOME}" />
-	
 	<property name="OUTPUT" location="lib/opprimendi-away3d-swc.swc"/>
 
 	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar"/>
@@ -17,6 +17,7 @@
 			<!-- <load-config filename="${FLEX_HOME}/frameworks/air-config.xml" /> --> <!-- uncomment for AIR -->
 			<sp path-element="src" />
 			<include-sources dir="src" includes="*"  />
+			<include-sources dir="${agal.src}" includes="*"  />
 		</compc>
 
 		<!-- generate documentation -->
@@ -24,6 +25,7 @@
 			<!-- <load-config filename="${FLEX_HOME}/frameworks/air-config.xml" /> --> <!-- uncomment for AIR -->
 			<sp path-element="src"/>
 			<doc-sources path-element="src" />
+			<doc-sources path-element="${agal.src}" />
 		</asdoc>
 
 		<!-- inject documentation inside SWC -->
@@ -36,6 +38,6 @@
 		</zip>
 
 		<!-- cleanup -->
-		<delete dir="lib/tempDoc" />
+		<!--<delete dir="lib/tempDoc" />-->
 	</target>
 </project>
