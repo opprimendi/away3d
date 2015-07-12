@@ -47,8 +47,8 @@ package away3d.filters
 		public function set textureWidth(value:int):void
 		{
 			_textureWidth = value;
-			
-			for (var i:int = 0; i < _tasks.length; ++i)
+			var length:int = _tasks.length;
+			for (var i:int = 0; i < length; ++i)
 				_tasks[i].textureWidth = value;
 		}
 		
@@ -60,7 +60,8 @@ package away3d.filters
 		public function set textureHeight(value:int):void
 		{
 			_textureHeight = value;
-			for (var i:int = 0; i < _tasks.length; ++i)
+			var length:int = _tasks.length;
+			for (var i:int = 0; i < length; ++i)
 				_tasks[i].textureHeight = value;
 		}
 		
@@ -72,13 +73,13 @@ package away3d.filters
 		
 		public function dispose():void
 		{
-			for (var i:int = 0; i < _tasks.length; ++i)
+			var length:int = _tasks.length;
+			for (var i:int = 0; i < length; ++i)
 				_tasks[i].dispose();
 		}
 		
 		public function update(stage:Stage3DProxy, camera:Camera3D):void
 		{
-		
 		}
 	}
 }

@@ -66,7 +66,7 @@ package away3d.materials
 		public function set ambientTexture(value:Texture2DBase):void
 		{
 			ambientMethod.texture = value;
-			diffuseMethod.useAmbientTexture = Boolean(value);
+			diffuseMethod.useAmbientTexture = value != null;
 		}
 		
 		override protected function updateScreenPasses():void

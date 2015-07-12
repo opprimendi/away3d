@@ -220,8 +220,8 @@ package away3d.materials.methods
 			clearListeners(_shadowMethod);
 			clearListeners(_ambientMethod);
 			clearListeners(_specularMethod);
-			
-			for (var i:int = 0; i < _methods.length; ++i)
+			var length:int = _methods.length;
+			for (var i:int = 0; i < length; ++i)
 				clearListeners(_methods[i].method);
 			
 			_methods = null;

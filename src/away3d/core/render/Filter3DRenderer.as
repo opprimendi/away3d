@@ -67,17 +67,15 @@ package away3d.core.render
 			_requireDepthRender = false;
 			if (!_filters)
 				return;
-			
-			for (var i:int = 0; i < _filters.length; ++i)
-				_requireDepthRender ||= Boolean(_filters[i].requireDepthRender);
+			var length:int = _filters.length;
+			for (var i:int = 0; i < length; ++i)
+				_requireDepthRender ||= _filters[i].requireDepthRender;
 			
 			_filterSizesInvalid = true;
 		}
 		
 		private function updateFilterTasks(stage3DProxy:Stage3DProxy):void
 		{
-			var len:uint;
-			
 			if (_filterSizesInvalid)
 				updateFilterSizes();
 			
@@ -88,14 +86,11 @@ package away3d.core.render
 			
 			_tasks = new Vector.<Filter3DTaskBase>();
 			
-			len = _filters.length - 1;
-			
-			var filter:Filter3DBase;
-			
-			for (var i:uint = 0; i <= len; ++i) {
+			var length:uint = _filters.length - 1;
+			for (var i:uint = 0; i <= length; ++i) {
 				// make sure all internal tasks are linked together
-				filter = _filters[i];
-				filter.setRenderTargets(i == len? null : Filter3DBase(_filters[i + 1]).getMainInputTexture(stage3DProxy) as Texture, stage3DProxy);
+				var filter:Filter3DBase = _filters[i];
+				filter.setRenderTargets(i == length ? null : _filters[i + 1].getMainInputTexture(stage3DProxy) as Texture, stage3DProxy);
 				_tasks = _tasks.concat(filter.tasks);
 			}
 			
@@ -104,7 +99,6 @@ package away3d.core.render
 		
 		public function render(stage3DProxy:Stage3DProxy, camera3D:Camera3D, depthTexture:Texture, shareContext:Boolean):void
 		{
-			var len:int;
 			var i:int;
 			var task:Filter3DTaskBase;
 			var context:Context3D = stage3DProxy.context3D;
@@ -118,18 +112,18 @@ package away3d.core.render
 			if (_filterTasksInvalid)
 				updateFilterTasks(stage3DProxy);
 			
-			len = _filters.length;
-			for (i = 0; i < len; ++i)
+			var length:int = _filters.length;
+			for (i = 0; i < length; ++i)
 				_filters[i].update(stage3DProxy, camera3D);
 			
-			len = _tasks.length;
+			length = _tasks.length;
 			
-			if (len > 1) {
+			if (length > 1) {
 				context.setVertexBufferAt(0, vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_2);
 				context.setVertexBufferAt(1, vertexBuffer, 2, Context3DVertexBufferFormat.FLOAT_2);
 			}
 			
-			for (i = 0; i < len; ++i) {
+			for (i = 0; i < length; ++i) {
 				task = _tasks[i];
 				stage3DProxy.setRenderTarget(task.target);
 				
@@ -161,7 +155,8 @@ package away3d.core.render
 		
 		private function updateFilterSizes():void
 		{
-			for (var i:int = 0; i < _filters.length; ++i) {
+			var length:int = _filters.length;
+			for (var i:int = 0; i < length; ++i) {
 				_filters[i].textureWidth = _rttManager.textureWidth;
 				_filters[i].textureHeight = _rttManager.textureHeight;
 			}

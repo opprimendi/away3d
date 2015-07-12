@@ -73,7 +73,7 @@ package away3d.tools.utils
 		 */
 		public function intersectsSphere(pOrig:Vector3D, dir:Vector3D, sPos:Vector3D, radius:Number):Boolean
 		{
-			return Boolean(hasSphereIntersection(pOrig, dir, sPos, radius) > 0);
+			return hasSphereIntersection(pOrig, dir, sPos, radius) > 0;
 		}
 		
 		/**

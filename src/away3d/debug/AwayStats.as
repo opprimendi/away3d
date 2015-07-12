@@ -279,10 +279,8 @@ package away3d.debug
 			_data_format = new TextFormat('_sans', 9, 0xffffff, false);
 			
 			if (_mean_data_length > 0) {
-				var i:int;
-				
 				_mean_data = [];
-				for (i = 0; i < _mean_data_length; i++)
+				for (var i:int = 0; i < _mean_data_length; i++)
 					_mean_data[i] = 0.0;
 			}
 		}
@@ -641,17 +639,15 @@ package away3d.debug
 		
 		private function _redrawMemGraph():void
 		{
-			var i:int;
-			var g:Graphics;
 			var max_val:Number = 0;
 			
 			// Redraw memory graph (only every 5th update)
 			_mem_graph.scaleY = 1;
-			g = _mem_graph.graphics;
+			var g:Graphics = _mem_graph.graphics;
 			g.clear();
 			g.lineStyle(.5, _MEM_COL, 1, true, LineScaleMode.NONE);
 			g.moveTo(5*(_mem_points.length - 1), -_mem_points[_mem_points.length - 1]);
-			for (i = _mem_points.length - 1; i >= 0; --i) {
+			for (var i:int = _mem_points.length - 1; i >= 0; --i) {
 				if (_mem_points[i + 1] == 0 || _mem_points[i] == 0) {
 					g.moveTo(i*5, -_mem_points[i]);
 					continue;
@@ -699,8 +695,9 @@ package away3d.debug
 			
 			// Reset FPS log if any
 			if (_mean_data) {
-				for (i = 0; i < _mean_data.length; i++)
-					_mean_data[i] = 0.0;
+				var length:uint = _mean_data.length;
+				for (i = 0; i < length; i++)
+					_mean_data[i] = 0;
 			}
 			
 			// Clear diagram graphics
@@ -710,20 +707,20 @@ package away3d.debug
 		
 		private function _endDrag():void
 		{
-			if (this.x < -_WIDTH)
-				this.x = -(_WIDTH - 20);
-			else if (this.x > stage.stageWidth)
-				this.x = stage.stageWidth - 20;
+			if (x < -_WIDTH)
+				x = -(_WIDTH - 20);
+			else if (x > stage.stageWidth)
+				x = stage.stageWidth - 20;
 			
-			if (this.y < 0)
-				this.y = 0;
-			else if (this.y > stage.stageHeight)
-				this.y = stage.stageHeight - 15;
+			if (y < 0)
+				y = 0;
+			else if (y > stage.stageHeight)
+				y = stage.stageHeight - 15;
 			
 			// Round x/y position to make sure it's on
 			// whole pixels to avoid weird anti-aliasing
-			this.x = Math.round(this.x);
-			this.y = Math.round(this.y);
+			x = Math.round(x);
+			y = Math.round(y);
 			
 			_dragging = false;
 			stage.removeEventListener(Event.MOUSE_LEAVE, _onMouseUpOrLeave);
@@ -759,18 +756,18 @@ package away3d.debug
 			_rvertss = _tfaces = _rfaces = 0;
 			
 			// Update polycount if views are available
-			if (_views.length > 0) {
+			var length:int = _views.length;
+			if (length > 0) {
 				var i:int;
 				
 				// Sum up poly counts across all registered views
-				for (i = 0; i < _views.length; i++) {
+				for (i = 0; i < length; i++) {
 					_rfaces += _views[i].renderedFacesCount;
 						//_tfaces += 0;// TODO: total faces
 				}
 				
-				for (i = 0; i < _views.length; i++) {
+				for (i = 0; i < length; i++) {
 					_rvertss += _views[i].renderedVertices;
-						
 				}
 			}
 			
@@ -831,8 +828,9 @@ package away3d.debug
 				_fps_sum = 0;
 				
 				if (_mean_data) {
-					for (i = 0; i < _mean_data.length; i++)
-						_mean_data[i] = 0.0;
+					var length:uint = _mean_data.length;
+					for (i = 0; i < length; i++)
+						_mean_data[i] = 0;
 				}
 			}
 		}
