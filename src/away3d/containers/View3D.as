@@ -547,6 +547,14 @@
 		}
 		
 		/**
+		 * The amount of vertices that rendered on the last frame
+		 */
+		public function get renderedVertices():uint
+		{
+			return _entityCollector.numVertices;
+		}
+		
+		/**
 		 * The amount of faces that were pushed through the render pipeline on the last frame render.
 		 */
 		public function get renderedFacesCount():uint
