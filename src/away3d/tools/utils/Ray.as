@@ -5,19 +5,19 @@ package away3d.tools.utils
 	public class Ray
 	{
 		
-		private var _orig:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-		private var _dir:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-		private var _tu:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-		private var _tv:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-		private var _w:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-		private var _pn:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-		private var _npn:Vector3D = new Vector3D(0.0, 0.0, 0.0);
+		private var _orig:Vector3D = new Vector3D();
+		private var _dir:Vector3D = new Vector3D();
+		private var _tu:Vector3D = new Vector3D();
+		private var _tv:Vector3D = new Vector3D();
+		private var _w:Vector3D = new Vector3D();
+		private var _pn:Vector3D = new Vector3D();
+		private var _npn:Vector3D = new Vector3D();
 		private var _a:Number;
 		private var _b:Number;
 		private var _c:Number;
 		private var _d:Number;
 		
-		function Ray()
+		public function Ray()
 		{
 		}
 		
@@ -115,10 +115,10 @@ package away3d.tools.utils
 			
 			var t:Number = (bNearest)? (-0.5)*(_b - _d)/_a : (-0.5)*(_b + _d)/_a;
 			
-			if (t == 0.0)
+			if (t == 0)
 				return null;
 			
-			var result:Vector3D = outVector3D || new Vector3D(0.0, 0.0, 0.0);
+			var result:Vector3D = outVector3D || new Vector3D();
 			result.x = pOrig.x + (_pn.x*t);
 			result.y = pOrig.y + (_pn.y*t);
 			result.z = pOrig.z + (_pn.z*t);
@@ -203,7 +203,7 @@ package away3d.tools.utils
 			if (r < 0 || r > 1)
 				return null;
 			
-			var result:Vector3D = outVector3D || new Vector3D(0.0, 0.0, 0.0);
+			var result:Vector3D = outVector3D || new Vector3D();
 			result.x = p0.x + (_dir.x*r);
 			result.y = p0.y + (_dir.y*r);
 			result.z = p0.z + (_dir.z*r);
@@ -225,7 +225,7 @@ package away3d.tools.utils
 				return null;
 			
 			var t:Number = (uv*wu - uu*wv)/d;
-			if (t < 0 || (v + t) > 1.0)
+			if (t < 0 || (v + t) > 1)
 				return null;
 			
 			return result;

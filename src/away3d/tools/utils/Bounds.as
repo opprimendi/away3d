@@ -1,24 +1,19 @@
 package away3d.tools.utils
 {
-	import away3d.lights.LightBase;
-	import flash.utils.Dictionary;
-	
-	import away3d.entities.Entity;
-	
-	import flash.geom.Matrix3D;
-	
 	import away3d.arcane;
 	import away3d.containers.ObjectContainer3D;
+	import away3d.entities.Entity;
 	import away3d.entities.Mesh;
-	
+	import away3d.lights.LightBase;
+	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
+	import flash.utils.Dictionary;
 	
 	use namespace arcane;
 	
 	/**
 	 * Helper Class to retrieve objects bounds <code>Bounds</code>
 	 */
-	
 	public class Bounds
 	{
 		
@@ -28,7 +23,7 @@ package away3d.tools.utils
 		private static var _maxX:Number;
 		private static var _maxY:Number;
 		private static var _maxZ:Number;
-		private static var _defaultPosition:Vector3D = new Vector3D(0.0, 0.0, 0.0);
+		private static var _defaultPosition:Vector3D = new Vector3D();
 		private static var _containers:Dictionary;
 		
 		/**
@@ -78,18 +73,14 @@ package away3d.tools.utils
 		public static function getVerticesVectorBounds(vertices:Vector.<Number>):void
 		{
 			reset();
-			var l:uint = vertices.length;
-			if (l%3 != 0)
+			var length:uint = vertices.length;
+			if (length % 3 != 0)
 				return;
 			
-			var x:Number;
-			var y:Number;
-			var z:Number;
-			
-			for (var i:uint = 0; i < l; i += 3) {
-				x = vertices[i];
-				y = vertices[i + 1];
-				z = vertices[i + 2];
+			for (var i:uint = 0; i < length; i += 3) {
+				var x:Number = vertices[i];
+				var y:Number = vertices[i + 1];
+				var z:Number = vertices[i + 2];
 				
 				if (x < _minX)
 					_minX = x;
@@ -118,7 +109,6 @@ package away3d.tools.utils
 			center.x = _minX + (_maxX - _minX)*.5;
 			center.y = _minY + (_maxY - _minY)*.5;
 			center.z = _minZ + (_maxZ - _minZ)*.5;
-			
 			return center;
 		}
 		
@@ -199,9 +189,9 @@ package away3d.tools.utils
 			_containers = new Dictionary();
 			_minX = _minY = _minZ = Infinity;
 			_maxX = _maxY = _maxZ = -Infinity;
-			_defaultPosition.x = 0.0;
-			_defaultPosition.y = 0.0;
-			_defaultPosition.z = 0.0;
+			_defaultPosition.x = 0;
+			_defaultPosition.y = 0;
+			_defaultPosition.z = 0;
 		}
 		
 		private static function parseObjectContainerBounds(obj:ObjectContainer3D, parentTransform:Matrix3D = null):void
@@ -226,8 +216,8 @@ package away3d.tools.utils
 				mat.invert();
 				parseObjectBounds(obj, mat);
 			}
-			
-			for (var i:uint = 0; i < obj.numChildren; ++i) {
+			var numChildren:uint = obj.numChildren;
+			for (var i:uint = 0; i < numChildren; ++i) {
 				child = obj.getChildAt(i);
 				parseObjectContainerBounds(child, containerTransform);
 			}
@@ -300,23 +290,18 @@ package away3d.tools.utils
 				maxX, minY, maxZ,
 				maxX, maxY, minZ,
 				maxX, maxY, maxZ
-				]);
+			]);
 		}
 		
 		private static function transformContainer(bounds:Vector.<Number>, corners:Vector.<Number>, matrix:Matrix3D):void
 		{
-			
 			matrix.transformVectors(corners, corners);
-			
-			var x:Number;
-			var y:Number;
-			var z:Number;
-			
-			var pCtr:int = 0;
-			while (pCtr < corners.length) {
-				x = corners[pCtr++];
-				y = corners[pCtr++];
-				z = corners[pCtr++];
+			var pCtr:int;
+			var length:int = corners.length;
+			while (pCtr < length) {
+				var x:Number = corners[pCtr++];
+				var y:Number = corners[pCtr++];
+				var z:Number = corners[pCtr++];
 				
 				if (x < bounds[0])
 					bounds[0] = x;

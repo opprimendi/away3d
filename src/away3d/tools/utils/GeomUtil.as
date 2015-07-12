@@ -246,16 +246,14 @@ package away3d.tools.utils
 		 */
 		public static function getMeshSubgeometryIndex(subGeometry:ISubGeometry):uint
 		{
-			var index:uint;
 			var subGeometries:Vector.<ISubGeometry> = subGeometry.parentGeometry.subGeometries;
-			for (var i:uint = 0; i < subGeometries.length; ++i) {
+			var length:int = subGeometries.length;
+			for (var i:uint = 0; i < length; ++i) {
 				if (subGeometries[i] == subGeometry) {
-					index = i;
-					break;
+					return i;
 				}
 			}
-			
-			return index;
+			return 0;
 		}
 		
 		/*
@@ -263,16 +261,14 @@ package away3d.tools.utils
 		 */
 		public static function getMeshSubMeshIndex(subMesh:SubMesh):uint
 		{
-			var index:uint;
 			var subMeshes:Vector.<SubMesh> = subMesh.parentMesh.subMeshes;
-			for (var i:uint = 0; i < subMeshes.length; ++i) {
+			var length:int = subMeshes.length;
+			for (var i:uint = 0; i < length; ++i) {
 				if (subMeshes[i] == subMesh) {
-					index = i;
-					break;
+					return i;
 				}
 			}
-			
-			return index;
+			return 0;
 		}
 	}
 }
