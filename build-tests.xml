@@ -11,6 +11,7 @@
 		<delete dir="${away3d.tests.report}" includeEmptyDirs="true" failonerror="false"/>
 		<mkdir dir="${away3d.tests.report}"/>
 		<as3unit debug="true" workingDir="${away3d.tests}" toDir="${away3d.tests.report}" haltonfailure="false" verbose="true" localTrusted="true">
+			<source dir="${agal.src}"/>
 			<source dir="${away3d.src}"/>
 			<testSource dir="${away3d.tests}">
 				<include name="**/*Test.as" />
