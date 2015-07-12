@@ -17,5 +17,6 @@ lib/
 build.properties
 tests/report/
 tests/TestRunner.mxml
+tests/TestRunner.as
 tests/TestRunner.swf
 opprimendi-away3d-unittests.as3proj
