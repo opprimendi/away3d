@@ -334,20 +334,20 @@ package away3d.animators
 				m33 = raw[10];
 				m34 = raw[14];
 				
-				_globalMatrices[uint(mtxOffset)] = n11*m11 + n12*m21 + n13*m31;
-				_globalMatrices[uint(mtxOffset + 1)] = n11*m12 + n12*m22 + n13*m32;
-				_globalMatrices[uint(mtxOffset + 2)] = n11*m13 + n12*m23 + n13*m33;
-				_globalMatrices[uint(mtxOffset + 3)] = n11*m14 + n12*m24 + n13*m34 + vec.x;
-				_globalMatrices[uint(mtxOffset + 4)] = n21*m11 + n22*m21 + n23*m31;
-				_globalMatrices[uint(mtxOffset + 5)] = n21*m12 + n22*m22 + n23*m32;
-				_globalMatrices[uint(mtxOffset + 6)] = n21*m13 + n22*m23 + n23*m33;
-				_globalMatrices[uint(mtxOffset + 7)] = n21*m14 + n22*m24 + n23*m34 + vec.y;
-				_globalMatrices[uint(mtxOffset + 8)] = n31*m11 + n32*m21 + n33*m31;
-				_globalMatrices[uint(mtxOffset + 9)] = n31*m12 + n32*m22 + n33*m32;
-				_globalMatrices[uint(mtxOffset + 10)] = n31*m13 + n32*m23 + n33*m33;
-				_globalMatrices[uint(mtxOffset + 11)] = n31*m14 + n32*m24 + n33*m34 + vec.z;
+				_globalMatrices[mtxOffset] = n11*m11 + n12*m21 + n13*m31;
+				_globalMatrices[mtxOffset + 1] = n11*m12 + n12*m22 + n13*m32;
+				_globalMatrices[mtxOffset + 2] = n11*m13 + n12*m23 + n13*m33;
+				_globalMatrices[mtxOffset + 3] = n11*m14 + n12*m24 + n13*m34 + vec.x;
+				_globalMatrices[mtxOffset + 4] = n21*m11 + n22*m21 + n23*m31;
+				_globalMatrices[mtxOffset + 5] = n21*m12 + n22*m22 + n23*m32;
+				_globalMatrices[mtxOffset + 6] = n21*m13 + n22*m23 + n23*m33;
+				_globalMatrices[mtxOffset + 7] = n21*m14 + n22*m24 + n23*m34 + vec.y;
+				_globalMatrices[mtxOffset + 8] = n31*m11 + n32*m21 + n33*m31;
+				_globalMatrices[mtxOffset + 9] = n31*m12 + n32*m22 + n33*m32;
+				_globalMatrices[mtxOffset + 10] = n31*m13 + n32*m23 + n33*m33;
+				_globalMatrices[mtxOffset + 11] = n31*m14 + n32*m24 + n33*m34 + vec.z;
 				
-				mtxOffset = uint(mtxOffset + 12);
+				mtxOffset = mtxOffset + 12;
 			}
 		}
 		
@@ -378,14 +378,14 @@ package away3d.animators
 			
 			while (index < len) {
 				vertX = vertexData[index];
-				vertY = vertexData[uint(index + 1)];
-				vertZ = vertexData[uint(index + 2)];
-				normX = vertexData[uint(index + 3)];
-				normY = vertexData[uint(index + 4)];
-				normZ = vertexData[uint(index + 5)];
-				tangX = vertexData[uint(index + 6)];
-				tangY = vertexData[uint(index + 7)];
-				tangZ = vertexData[uint(index + 8)];
+				vertY = vertexData[index + 1];
+				vertZ = vertexData[index + 2];
+				normX = vertexData[index + 3];
+				normY = vertexData[index + 4];
+				normZ = vertexData[index + 5];
+				tangX = vertexData[index + 6];
+				tangY = vertexData[index + 7];
+				tangZ = vertexData[index + 8];
 				vx = 0;
 				vy = 0;
 				vz = 0;
@@ -402,17 +402,17 @@ package away3d.animators
 						// implicit /3*12 (/3 because indices are multiplied by 3 for gpu matrix access, *12 because it's the matrix size)
 						var mtxOffset:uint = uint(jointIndices[j++]) << 2;
 						m11 = _globalMatrices[mtxOffset];
-						m12 = _globalMatrices[uint(mtxOffset + 1)];
-						m13 = _globalMatrices[uint(mtxOffset + 2)];
-						m14 = _globalMatrices[uint(mtxOffset + 3)];
-						m21 = _globalMatrices[uint(mtxOffset + 4)];
-						m22 = _globalMatrices[uint(mtxOffset + 5)];
-						m23 = _globalMatrices[uint(mtxOffset + 6)];
-						m24 = _globalMatrices[uint(mtxOffset + 7)];
-						m31 = _globalMatrices[uint(mtxOffset + 8)];
-						m32 = _globalMatrices[uint(mtxOffset + 9)];
-						m33 = _globalMatrices[uint(mtxOffset + 10)];
-						m34 = _globalMatrices[uint(mtxOffset + 11)];
+						m12 = _globalMatrices[mtxOffset + 1];
+						m13 = _globalMatrices[mtxOffset + 2];
+						m14 = _globalMatrices[mtxOffset + 3];
+						m21 = _globalMatrices[mtxOffset + 4];
+						m22 = _globalMatrices[mtxOffset + 5];
+						m23 = _globalMatrices[mtxOffset + 6];
+						m24 = _globalMatrices[mtxOffset + 7];
+						m31 = _globalMatrices[mtxOffset + 8];
+						m32 = _globalMatrices[mtxOffset + 9];
+						m33 = _globalMatrices[mtxOffset + 10];
+						m34 = _globalMatrices[mtxOffset + 11];
 						vx += weight*(m11*vertX + m12*vertY + m13*vertZ + m14);
 						vy += weight*(m21*vertX + m22*vertY + m23*vertZ + m24);
 						vz += weight*(m31*vertX + m32*vertY + m33*vertZ + m34);
@@ -424,22 +424,22 @@ package away3d.animators
 						tz += weight*(m31*tangX + m32*tangY + m33*tangZ);
 						++k;
 					} else {
-						j += uint(_jointsPerVertex - k);
+						j += _jointsPerVertex - k;
 						k = _jointsPerVertex;
 					}
 				}
 				
 				targetData[index] = vx;
-				targetData[uint(index + 1)] = vy;
-				targetData[uint(index + 2)] = vz;
-				targetData[uint(index + 3)] = nx;
-				targetData[uint(index + 4)] = ny;
-				targetData[uint(index + 5)] = nz;
-				targetData[uint(index + 6)] = tx;
-				targetData[uint(index + 7)] = ty;
-				targetData[uint(index + 8)] = tz;
+				targetData[index + 1] = vy;
+				targetData[index + 2] = vz;
+				targetData[index + 3] = nx;
+				targetData[index + 4] = ny;
+				targetData[index + 5] = nz;
+				targetData[index + 6] = tx;
+				targetData[index + 7] = ty;
+				targetData[index + 8] = tz;
 				
-				index = uint(index + 13);
+				index = index + 13;
 			}
 		}
 		

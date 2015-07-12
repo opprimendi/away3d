@@ -367,8 +367,8 @@ package away3d.core.partition
 			
 			for (var i:uint = 3; i < 24; i += 3) {
 				var x:Number = _entityWorldBounds[i];
-				var y:Number = _entityWorldBounds[uint(i + 1)];
-				var z:Number = _entityWorldBounds[uint(i + 2)];
+				var y:Number = _entityWorldBounds[i + 1];
+				var z:Number = _entityWorldBounds[i + 2];
 				if (x < minX)
 					minX = x;
 				else if (x > maxX)

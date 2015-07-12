@@ -159,9 +159,9 @@ package away3d.animators
 			
 			// add code for bitangents if tangents are used
 			if (useTangents) {
-				code += "dp3 " + temp1 + ".x, " + sourceRegisters[uint(2)] + ", " + targetRegisters[uint(1)] + "\n" +
-					"mul " + temp1 + ", " + targetRegisters[uint(1)] + ", " + temp1 + ".x			 \n" +
-					"sub " + targetRegisters[uint(2)] + ", " + sourceRegisters[uint(2)] + ", " + temp1 + "\n";
+				code += "dp3 " + temp1 + ".x, " + sourceRegisters[2] + ", " + targetRegisters[1] + "\n" +
+					"mul " + temp1 + ", " + targetRegisters[1] + ", " + temp1 + ".x			 \n" +
+					"sub " + targetRegisters[2] + ", " + sourceRegisters[2] + ", " + temp1 + "\n";
 			}
 			return code;
 		}
@@ -196,9 +196,9 @@ package away3d.animators
 			}
 			
 			if (useTangents) {
-				code += "dp3 " + temp1 + ".x, " + sourceRegisters[uint(2)] + ", " + targetRegisters[uint(1)] + "\n" +
-					"mul " + temp1 + ", " + targetRegisters[uint(1)] + ", " + temp1 + ".x			 \n" +
-					"sub " + targetRegisters[uint(2)] + ", " + sourceRegisters[uint(2)] + ", " + temp1 + "\n";
+				code += "dp3 " + temp1 + ".x, " + sourceRegisters[2] + ", " + targetRegisters[1] + "\n" +
+					"mul " + temp1 + ", " + targetRegisters[1] + ", " + temp1 + ".x			 \n" +
+					"sub " + targetRegisters[2] + ", " + sourceRegisters[2] + ", " + temp1 + "\n";
 			}
 			
 			return code;

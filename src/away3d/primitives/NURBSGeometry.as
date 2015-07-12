@@ -441,16 +441,17 @@
 			// Iterate through the surface points (u=>0-1, v=>0-1)
 			var stepuinc:Number = 1/_uSegments;
 			var stepvinc:Number = 1/_vSegments;
-			
 			var vBase:int = 0;
 			var nV:Vector3D;
-			for (var vinc:Number = 0; vinc < (1 + (stepvinc/2)); vinc += stepvinc) {
-				for (var uinc:Number = 0; uinc < (1 + (stepuinc/2)); uinc += stepuinc) {
+			var length0:int = (1 + (stepvinc / 2));
+			var length1:int = (1 + (stepuinc / 2));
+			for (var vinc:Number = 0; vinc < length0; vinc += stepvinc) {
+				for (var uinc:Number = 0; uinc < length1; uinc += stepuinc) {
 					nV = nurbPoint(uinc, vinc);
 					
 					data[vBase] = nV.x;
-					data[uint(vBase + 1)] = nV.y;
-					data[uint(vBase + 2)] = nV.z;
+					data[vBase + 1] = nV.y;
+					data[vBase + 2] = nV.z;
 					vBase += stride;
 				}
 			}
@@ -510,8 +511,8 @@
 			var uvBase:int = target.UVOffset;
 			for (i = _vSegments; i >= 0; i--) {
 				for (j = _uSegments; j >= 0; j--) {
-					data[uint(uvBase)] = j/_uSegments;
-					data[uint(uvBase + 1)] = i/_vSegments;
+					data[uvBase] = j/_uSegments;
+					data[uvBase + 1] = i/_vSegments;
 					uvBase += stride;
 				}
 			}
@@ -529,16 +530,16 @@
 			var nV:Vector3D = new Vector3D();
 			var subGeom:CompactSubGeometry = CompactSubGeometry(subGeometries[0]);
 			var data:Vector.<Number> = subGeom.vertexData;
-			var len:int = data.length;
 			var vertexStride:int = subGeom.vertexStride;
 			var uvIndex:int = subGeom.UVOffset;
 			var uvStride:int = subGeom.UVStride;
 			
-			for (var vBase:uint = subGeom.vertexOffset; vBase < len; vBase += vertexStride) {
-				nurbPoint(data[uvIndex], data[uint(uvIndex + 1)], nV);
+			var length:int = data.length;
+			for (var vBase:uint = subGeom.vertexOffset; vBase < length; vBase += vertexStride) {
+				nurbPoint(data[uvIndex], data[uvIndex + 1], nV);
 				data[vBase] = nV.x;
-				data[uint(vBase + 1)] = nV.y;
-				data[uint(vBase + 2)] = nV.z;
+				data[vBase + 1] = nV.y;
+				data[vBase + 2] = nV.z;
 				uvIndex += uvStride;
 			}
 			

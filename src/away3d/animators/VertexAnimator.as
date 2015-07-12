@@ -90,9 +90,10 @@ package away3d.animators
 		{
 			super.updateDeltaTime(dt);
 			
-			_poses[uint(0)] = _activeVertexState.currentGeometry;
-			_poses[uint(1)] = _activeVertexState.nextGeometry;
-			_weights[uint(0)] = 1 - (_weights[uint(1)] = _activeVertexState.blendWeight);
+			_poses[0] = _activeVertexState.currentGeometry;
+			_poses[1] = _activeVertexState.nextGeometry;
+			_weights[1] = _activeVertexState.blendWeight
+			_weights[0] = 1 - _weights[1];
 		}
 		
 		/**
@@ -118,7 +119,7 @@ package away3d.animators
 			
 			if (_blendMode == VertexAnimationMode.ABSOLUTE) {
 				i = 1;
-				subGeom = _poses[uint(0)].subGeometries[subMesh._index];
+				subGeom = _poses[0].subGeometries[subMesh._index];
 				// set the base sub-geometry so the material can simply pick up on this data
 				if (subGeom)
 					subMesh.subGeometry = subGeom;

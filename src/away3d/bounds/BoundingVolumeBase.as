@@ -114,9 +114,9 @@ package away3d.bounds
 			
 			var v:Number;
 			
-			minX = maxX = vertices[uint(i++)];
-			minY = maxY = vertices[uint(i++)];
-			minZ = maxZ = vertices[uint(i++)];
+			minX = maxX = vertices[i++];
+			minY = maxY = vertices[i++];
+			minZ = maxZ = vertices[i++];
 			
 			while (i < len) {
 				v = vertices[i++];

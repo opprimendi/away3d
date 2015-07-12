@@ -96,22 +96,22 @@ package away3d.cameras
 			var invLen:Number;
 			viewProjection.copyRawDataTo(raw);
 			
-			c11 = raw[uint(0)];
-			c12 = raw[uint(4)];
-			c13 = raw[uint(8)];
-			c14 = raw[uint(12)];
-			c21 = raw[uint(1)];
-			c22 = raw[uint(5)];
-			c23 = raw[uint(9)];
-			c24 = raw[uint(13)];
-			c31 = raw[uint(2)];
-			c32 = raw[uint(6)];
-			c33 = raw[uint(10)];
-			c34 = raw[uint(14)];
-			c41 = raw[uint(3)];
-			c42 = raw[uint(7)];
-			c43 = raw[uint(11)];
-			c44 = raw[uint(15)];
+			c11 = raw[0];
+			c12 = raw[4];
+			c13 = raw[8];
+			c14 = raw[12];
+			c21 = raw[1];
+			c22 = raw[5];
+			c23 = raw[9];
+			c24 = raw[13];
+			c31 = raw[2];
+			c32 = raw[6];
+			c33 = raw[10];
+			c34 = raw[14];
+			c41 = raw[3];
+			c42 = raw[7];
+			c43 = raw[11];
+			c44 = raw[15];
 			
 			// left plane
 			p = _frustumPlanes[0];
