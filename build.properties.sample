@@ -1,1 +1,10 @@
 agal.src = ../adobe-flash/graphicscorelib/src
+flex.sdk = 
+air.sdk = 
+flexunit.lib = 
+away3d = .
+away3d.ant = ${away3d}/ant
+away3d.src = ${away3d}/src
+away3d.tests = ${away3d}/tests
+away3d.tests.report = ${away3d.tests}/report
+tool.browser = c:/Program Files (x86)/Google/Chrome/Application/chrome.exe
