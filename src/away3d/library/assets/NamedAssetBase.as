@@ -7,6 +7,8 @@ package away3d.library.assets
 	
 	use namespace arcane;
 	
+	[Event(name = 'assetRename', type = 'away3d.events.AssetEvent')]
+	
 	public class NamedAssetBase extends EventDispatcher
 	{
 		private var _originalName:String;
