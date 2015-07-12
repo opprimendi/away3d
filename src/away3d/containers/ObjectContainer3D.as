@@ -7,7 +7,6 @@ package away3d.containers
 	import away3d.events.Scene3DEvent;
 	import away3d.library.assets.AssetType;
 	import away3d.library.assets.IAsset;
-	
 	import flash.events.Event;
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
@@ -20,7 +19,7 @@ package away3d.containers
 	 * @eventType away3d.events.Object3DEvent
 	 * @see    #sceneTransform
 	 */
-	[Event(name="scenetransformChanged", type="away3d.events.Object3DEvent")]
+	[Event(name="sceneTransformChanged", type="away3d.events.Object3DEvent")]
 	
 	/**
 	 * Dispatched when the parent scene of the 3d object changes.
@@ -85,8 +84,6 @@ package away3d.containers
 		protected var _explicitPartition:Partition3D; // what the user explicitly set as the partition
 		protected var _implicitPartition:Partition3D; // what is inherited from the parents if it doesn't have its own explicitPartition
 		protected var _mouseEnabled:Boolean;
-		private var _sceneTransformChanged:Object3DEvent;
-		private var _scenechanged:Object3DEvent;
 		private var _children:Vector.<ObjectContainer3D> = new Vector.<ObjectContainer3D>();
 		private var _mouseChildren:Boolean;
 		private var _oldScene:Scene3D;
@@ -96,8 +93,6 @@ package away3d.containers
 		private var _scenePositionDirty:Boolean = true;
 		private var _explicitVisibility:Boolean = true;
 		private var _implicitVisibility:Boolean = true;
-		private var _listenToSceneTransformChanged:Boolean;
-		private var _listenToSceneChanged:Boolean;
 		// visibility passed on from parents
 		
 		protected var _ignoreTransform:Boolean;
@@ -187,10 +182,8 @@ package away3d.containers
 				_children[i++].notifySceneTransformChange();
 			
 			//trigger event if listener exists
-			if (_listenToSceneTransformChanged) {
-				if (!_sceneTransformChanged)
-					_sceneTransformChanged = new Object3DEvent(Object3DEvent.SCENETRANSFORM_CHANGED, this);
-				dispatchEvent(_sceneTransformChanged);
+			if (hasEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED)) {
+				dispatchEvent(new Object3DEvent(Object3DEvent.SCENE_TRANSFORM_CHANGED, this));
 			}
 		}
 		
@@ -204,12 +197,8 @@ package away3d.containers
 			while (i < length)
 				_children[i++].notifySceneChange();
 			
-			if (_listenToSceneChanged) {
-				if (!_scenechanged)
-					_scenechanged = new Object3DEvent(Object3DEvent.SCENE_CHANGED, this);
-				
-				dispatchEvent(_scenechanged);
-			}
+			if (hasEventListener(Object3DEvent.SCENE_CHANGED))
+				dispatchEvent(new Object3DEvent(Object3DEvent.SCENE_CHANGED, this));
 		}
 		
 		protected function updateMouseChildren():void
@@ -484,10 +473,13 @@ package away3d.containers
 			
 			_scene = value;
 			
-			if (_scene)
-				_scene.dispatchEvent(new Scene3DEvent(Scene3DEvent.ADDED_TO_SCENE, this));
-			else if (_oldScene)
-				_oldScene.dispatchEvent(new Scene3DEvent(Scene3DEvent.REMOVED_FROM_SCENE, this));
+			if (_scene) {
+				if (_scene.hasEventListener(Scene3DEvent.ADDED_TO_SCENE))
+					_scene.dispatchEvent(new Scene3DEvent(Scene3DEvent.ADDED_TO_SCENE, this));
+			} else if (_oldScene) {
+				if (_oldScene.hasEventListener(Scene3DEvent.REMOVED_FROM_SCENE))
+					_oldScene.dispatchEvent(new Scene3DEvent(Scene3DEvent.REMOVED_FROM_SCENE, this));
+			}
 		}
 		
 		/**
@@ -556,7 +548,7 @@ package away3d.containers
 		/**
 		 * Adds an array of 3d objects to the scene as children of the container
 		 *
-		 * @param    ...childarray        An array of 3d objects to be added
+		 * @param    ...children        An array of 3d objects to be added
 		 */
 		public function addChildren(...children):void
 		{
@@ -711,36 +703,6 @@ package away3d.containers
 			var length:uint = _children.length;
 			for (var i:uint = 0; i < length; ++i)
 				_children[i].updateImplicitVisibility();
-		}
-		
-		override public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void
-		{
-			super.addEventListener(type, listener, useCapture, priority, useWeakReference);
-			switch (type) {
-				case Object3DEvent.SCENETRANSFORM_CHANGED:
-					_listenToSceneTransformChanged = true;
-					break;
-				case Object3DEvent.SCENE_CHANGED:
-					_listenToSceneChanged = true;
-					break;
-			}
-		}
-		
-		override public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void
-		{
-			super.removeEventListener(type, listener, useCapture);
-			
-			if (hasEventListener(type))
-				return;
-			
-			switch (type) {
-				case Object3DEvent.SCENETRANSFORM_CHANGED:
-					_listenToSceneTransformChanged = false;
-					break;
-				case Object3DEvent.SCENE_CHANGED:
-					_listenToSceneChanged = false;
-					break;
-			}
 		}
 		
 		override public function get zOffset():int

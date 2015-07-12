@@ -57,8 +57,8 @@ package away3d.audio
 			_driver.addEventListener(Event.SOUND_COMPLETE, onSoundComplete);
 			
 			addEventListener(Object3DEvent.SCENE_CHANGED, onSceneChanged);
-			addEventListener(Object3DEvent.SCENETRANSFORM_CHANGED, onSceneTransformChanged);
-			_reference.addEventListener(Object3DEvent.SCENETRANSFORM_CHANGED, onSceneTransformChanged);
+			addEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED, onSceneTransformChanged);
+			_reference.addEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED, onSceneTransformChanged);
 		}
 		
 		/**
