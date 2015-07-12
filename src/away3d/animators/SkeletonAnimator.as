@@ -560,6 +560,6 @@ class SubGeomAnimationState
 	
 	public function SubGeomAnimationState(subGeom:CompactSubGeometry)
 	{
-		animatedVertexData = subGeom.vertexData.concat();
+		animatedVertexData = subGeom.vertexData.slice();
 	}
 }

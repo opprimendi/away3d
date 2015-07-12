@@ -553,7 +553,7 @@ package away3d.extrusions
 				extrudePoints(points[i], points[i + 1], (1/uvlength)*offset, uvlength, offset/(_subdivision - 1));
 				
 				if (i == 0 && _isClosedProfile)
-					_doubles = _varr.concat();
+					_doubles = _varr.slice();
 			}
 			_varr = _doubles = null;
 		}

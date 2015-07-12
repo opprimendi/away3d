@@ -245,8 +245,8 @@ package away3d.core.base
 			var clone:CompactSubGeometry = new CompactSubGeometry();
 			clone._autoDeriveVertexNormals = _autoDeriveVertexNormals;
 			clone._autoDeriveVertexTangents = _autoDeriveVertexTangents;
-			clone.updateData(_vertexData.concat());
-			clone.updateIndexData(_indices.concat());
+			clone.updateData(_vertexData.slice());
+			clone.updateIndexData(_indices.slice());
 			return clone;
 		}
 		
@@ -337,7 +337,7 @@ package away3d.core.base
 				clone.updateVertexTangentData(stripBuffer(6, 3));
 			clone.updateUVData(stripBuffer(9, 2));
 			clone.updateSecondaryUVData(stripBuffer(11, 2));
-			clone.updateIndexData(indexData.concat());
+			clone.updateIndexData(indexData.slice());
 			return clone;
 		}
 		

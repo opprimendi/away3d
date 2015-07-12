@@ -496,7 +496,7 @@ package away3d.library
 			
 			// Empty the assets vector after having stored a copy of it.
 			// The copy will be filled with all assets which weren't removed.
-			old_assets = _assets.concat();
+			old_assets = _assets.slice();
 			_assets.length = 0;
 			
 			ns ||= NamedAssetBase.DEFAULT_NAMESPACE;

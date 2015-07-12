@@ -197,11 +197,11 @@ package away3d.tools.commands
 			uvs = new Vector.<Number>();
 			
 			if (keepOld) {
-				indices = subGeom.indexData.concat();
+				indices = subGeom.indexData.slice();
 				
-				vd = subGeom.vertexData.concat();
-				nd = subGeom.vertexNormalData.concat();
-				ud = subGeom.UVData.concat();
+				vd = subGeom.vertexData.slice();
+				nd = subGeom.vertexNormalData.slice();
+				ud = subGeom.UVData.slice();
 				
 			} else {
 				indices = subGeom.indexData;
@@ -280,7 +280,7 @@ package away3d.tools.commands
 			} else {
 				
 				len = indices.length;
-				var oldindicies:Vector.<uint> = indices.concat();
+				var oldindicies:Vector.<uint> = indices.slice();
 				
 				if (_flipWinding) {
 					for (i = 0; i < len; i += 3) {

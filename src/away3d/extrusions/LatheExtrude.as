@@ -626,7 +626,7 @@ package away3d.extrusions
 			for (i = 0; i <= lsub; ++i) {
 				
 				tmpVecs = new Vector.<Vector3D>();
-				tmpVecs = vectors.concat();
+				tmpVecs = vectors.slice();
 				
 				for (j = 0; j < tmpVecs.length; ++j) {
 					

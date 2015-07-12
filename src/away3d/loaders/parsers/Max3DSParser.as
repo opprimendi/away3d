@@ -552,7 +552,7 @@ package away3d.loaders.parsers
 					if (obj.transform) {
 						// If a transform was found while parsing the
 						// object chunk, use it to find the local pivot vector
-						var dat:Vector.<Number> = obj.transform.concat();
+						var dat:Vector.<Number> = obj.transform.slice();
 						dat[12] = 0;
 						dat[13] = 0;
 						dat[14] = 0;

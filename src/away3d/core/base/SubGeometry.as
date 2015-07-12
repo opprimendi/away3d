@@ -195,15 +195,15 @@
 		public function clone():ISubGeometry
 		{
 			var clone:SubGeometry = new SubGeometry();
-			clone.updateVertexData(_vertexData.concat());
-			clone.updateUVData(_uvs.concat());
-			clone.updateIndexData(_indices.concat());
+			clone.updateVertexData(_vertexData.slice());
+			clone.updateUVData(_uvs.slice());
+			clone.updateIndexData(_indices.slice());
 			if (_secondaryUvs)
-				clone.updateSecondaryUVData(_secondaryUvs.concat());
+				clone.updateSecondaryUVData(_secondaryUvs.slice());
 			if (!_autoDeriveVertexNormals)
-				clone.updateVertexNormalData(_vertexNormals.concat());
+				clone.updateVertexNormalData(_vertexNormals.slice());
 			if (!_autoDeriveVertexTangents)
-				clone.updateVertexTangentData(_vertexTangents.concat());
+				clone.updateVertexTangentData(_vertexTangents.slice());
 			return clone;
 		}
 		
