@@ -49,9 +49,6 @@ package away3d.animators
 		private var _broadcaster:Sprite = new Sprite();
 		private var _isPlaying:Boolean;
 		private var _autoUpdate:Boolean = true;
-		private var _startEvent:AnimatorEvent;
-		private var _stopEvent:AnimatorEvent;
-		private var _cycleEvent:AnimatorEvent;
 		private var _time:int;
 		private var _playbackSpeed:Number = 1;
 		
@@ -215,10 +212,8 @@ package away3d.animators
 			if (!_broadcaster.hasEventListener(Event.ENTER_FRAME))
 				_broadcaster.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			
-			if (!hasEventListener(AnimatorEvent.START))
-				return;
-			
-			dispatchEvent(_startEvent ||= new AnimatorEvent(AnimatorEvent.START, this));
+			if (hasEventListener(AnimatorEvent.START))
+				dispatchEvent(new AnimatorEvent(AnimatorEvent.START, this));
 		}
 		
 		/**
@@ -238,10 +233,8 @@ package away3d.animators
 			if (_broadcaster.hasEventListener(Event.ENTER_FRAME))
 				_broadcaster.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 			
-			if (!hasEventListener(AnimatorEvent.STOP))
-				return;
-			
-			dispatchEvent(_stopEvent || (_stopEvent = new AnimatorEvent(AnimatorEvent.STOP, this)));
+			if (hasEventListener(AnimatorEvent.STOP))
+				dispatchEvent(new AnimatorEvent(AnimatorEvent.STOP, this));
 		}
 		
 		/**
@@ -328,7 +321,7 @@ package away3d.animators
 		public function dispatchCycleEvent():void
 		{
 			if (hasEventListener(AnimatorEvent.CYCLE_COMPLETE))
-				dispatchEvent(_cycleEvent || (_cycleEvent = new AnimatorEvent(AnimatorEvent.CYCLE_COMPLETE, this)));
+				dispatchEvent(new AnimatorEvent(AnimatorEvent.CYCLE_COMPLETE, this));
 		}
 		
 		/**
