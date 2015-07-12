@@ -13,7 +13,13 @@ package away3d.core.base
 		
 		public function ParticleGeometry()
 		{
+			
+		}
 		
+		public function reduceParticlesNum(count:int):void
+		{
+			particles.splice(particles.length-count-1, count)
+			numParticles -= count;
 		}
 	
 	}

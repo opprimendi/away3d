@@ -25,6 +25,12 @@ package away3d.animators
 	 */
 	public class ParticleAnimator extends AnimatorBase implements IAnimator
 	{
+		private var animationEnded:Boolean = false;
+		
+		arcane var _duration:Number = 0;
+		arcane var _isUsesLoop:Boolean = false;
+		arcane var _maxStartTime:Number = 0;
+		arcane var _absoluteAnimationTime:Number = 0;
 		
 		private var _particleAnimationSet:ParticleAnimationSet;
 		private var _animationParticleStates:Vector.<ParticleStateBase> = new Vector.<ParticleStateBase>;
@@ -41,21 +47,46 @@ package away3d.animators
 		public function ParticleAnimator(particleAnimationSet:ParticleAnimationSet)
 		{
 			super(particleAnimationSet);
+			
 			_particleAnimationSet = particleAnimationSet;
 			
 			var state:ParticleStateBase;
 			var node:ParticleNodeBase;
-			for each (node in _particleAnimationSet.particleNodes) {
+			
+			for each (node in _particleAnimationSet.particleNodes) 
+			{
 				state = getAnimationState(node) as ParticleStateBase;
-				if (node.mode == ParticlePropertiesMode.LOCAL_DYNAMIC) {
+				if (node.mode == ParticlePropertiesMode.LOCAL_DYNAMIC) 
+				{
 					_animatorParticleStates.push(state);
 					node.dataOffset = _totalLenOfOneVertex;
 					_totalLenOfOneVertex += node.dataLength;
-				} else
+				} 
+				else
 					_animationParticleStates.push(state);
 				if (state.needUpdateTime)
 					_timeParticleStates.push(state);
 			}
+		}
+		
+		public function get duration():Number 
+		{
+			return _duration;
+		}
+		
+		public function get isUsesLoop():Boolean 
+		{
+			return _isUsesLoop;
+		}
+		
+		public function get maxStartTime():Number 
+		{
+			return _maxStartTime;
+		}
+		
+		public function get absoluteAnimationTime():Number 
+		{
+			return _absoluteAnimationTime;
 		}
 		
 		/**
@@ -128,8 +159,14 @@ package away3d.animators
 		{
 			_absoluteTime += dt;
 			
+			if (animationEnded)
+				return;
+				
 			for each (var state:ParticleStateBase in _timeParticleStates)
 				state.update(_absoluteTime);
+			
+			if(!_isUsesLoop && _absoluteAnimationTime > 0)
+				animationEnded = _absoluteTime >= _absoluteAnimationTime * 1000;
 		}
 		
 		/**
@@ -139,6 +176,7 @@ package away3d.animators
 		{
 			for each (var state:ParticleStateBase in _timeParticleStates)
 				state.offset(_absoluteTime + offset);
+				
 			update(time);
 		}
 		
