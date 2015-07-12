@@ -60,7 +60,7 @@ package away3d.controllers
 		public function set lookAtPosition(val:Vector3D):void
 		{
 			if (_lookAtObject) {
-				_lookAtObject.removeEventListener(Object3DEvent.SCENETRANSFORM_CHANGED, onLookAtObjectChanged);
+				_lookAtObject.removeEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED, onLookAtObjectChanged);
 				_lookAtObject = null;
 			}
 			
@@ -86,12 +86,12 @@ package away3d.controllers
 				return;
 			
 			if (_lookAtObject)
-				_lookAtObject.removeEventListener(Object3DEvent.SCENETRANSFORM_CHANGED, onLookAtObjectChanged);
+				_lookAtObject.removeEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED, onLookAtObjectChanged);
 			
 			_lookAtObject = val;
 			
 			if (_lookAtObject)
-				_lookAtObject.addEventListener(Object3DEvent.SCENETRANSFORM_CHANGED, onLookAtObjectChanged);
+				_lookAtObject.addEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED, onLookAtObjectChanged);
 			
 			notifyUpdate();
 		}

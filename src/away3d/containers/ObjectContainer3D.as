@@ -7,7 +7,6 @@ package away3d.containers
 	import away3d.events.Scene3DEvent;
 	import away3d.library.assets.AssetType;
 	import away3d.library.assets.IAsset;
-	
 	import flash.events.Event;
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
@@ -20,7 +19,7 @@ package away3d.containers
 	 * @eventType away3d.events.Object3DEvent
 	 * @see    #sceneTransform
 	 */
-	[Event(name="scenetransformChanged", type="away3d.events.Object3DEvent")]
+	[Event(name="sceneTransformChanged", type="away3d.events.Object3DEvent")]
 	
 	/**
 	 * Dispatched when the parent scene of the 3d object changes.
@@ -85,10 +84,8 @@ package away3d.containers
 		protected var _explicitPartition:Partition3D; // what the user explicitly set as the partition
 		protected var _implicitPartition:Partition3D; // what is inherited from the parents if it doesn't have its own explicitPartition
 		protected var _mouseEnabled:Boolean;
-		private var _sceneTransformChanged:Object3DEvent;
-		private var _scenechanged:Object3DEvent;
 		private var _children:Vector.<ObjectContainer3D> = new Vector.<ObjectContainer3D>();
-		private var _mouseChildren:Boolean = false;
+		private var _mouseChildren:Boolean;
 		private var _oldScene:Scene3D;
 		private var _inverseSceneTransform:Matrix3D = new Matrix3D();
 		private var _inverseSceneTransformDirty:Boolean = true;
@@ -96,11 +93,9 @@ package away3d.containers
 		private var _scenePositionDirty:Boolean = true;
 		private var _explicitVisibility:Boolean = true;
 		private var _implicitVisibility:Boolean = true;
-		private var _listenToSceneTransformChanged:Boolean;
-		private var _listenToSceneChanged:Boolean;
 		// visibility passed on from parents
 		
-		protected var _ignoreTransform:Boolean = false;
+		protected var _ignoreTransform:Boolean;
 		
 		/**
 		 * Does not apply any transformations to this object. Allows static objects to be described in world coordinates without any matrix calculations.
@@ -137,14 +132,12 @@ package away3d.containers
 			if (value == _implicitPartition)
 				return;
 			
-			var i:uint;
-			var len:uint = _children.length;
-			var child:ObjectContainer3D;
-			
 			_implicitPartition = value;
 			
-			while (i < len) {
-				child = _children[i++];
+			var i:uint;
+			var length:uint = _children.length;
+			while (i < length) {
+				var child:ObjectContainer3D = _children[i++];
 				
 				// assign implicit partition if no explicit one is given
 				if (!child._explicitPartition)
@@ -182,17 +175,15 @@ package away3d.containers
 			invalidateSceneTransform();
 			
 			var i:uint;
-			var len:uint = _children.length;
+			var length:uint = _children.length;
 			
 			//act recursively on child objects
-			while (i < len)
+			while (i < length)
 				_children[i++].notifySceneTransformChange();
 			
 			//trigger event if listener exists
-			if (_listenToSceneTransformChanged) {
-				if (!_sceneTransformChanged)
-					_sceneTransformChanged = new Object3DEvent(Object3DEvent.SCENETRANSFORM_CHANGED, this);
-				dispatchEvent(_sceneTransformChanged);
+			if (hasEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED)) {
+				dispatchEvent(new Object3DEvent(Object3DEvent.SCENE_TRANSFORM_CHANGED, this));
 			}
 		}
 		
@@ -201,18 +192,13 @@ package away3d.containers
 			notifySceneTransformChange();
 			
 			var i:uint;
-			var len:uint = _children.length;
-			
+			var length:uint = _children.length;
 			//act recursively on child objects
-			while (i < len)
+			while (i < length)
 				_children[i++].notifySceneChange();
 			
-			if (_listenToSceneChanged) {
-				if (!_scenechanged)
-					_scenechanged = new Object3DEvent(Object3DEvent.SCENE_CHANGED, this);
-				
-				dispatchEvent(_scenechanged);
-			}
+			if (hasEventListener(Object3DEvent.SCENE_CHANGED))
+				dispatchEvent(new Object3DEvent(Object3DEvent.SCENE_CHANGED, this));
 		}
 		
 		protected function updateMouseChildren():void
@@ -224,8 +210,8 @@ package away3d.containers
 				_ancestorsAllowMouseEnabled = mouseChildren;
 			
 			// Sweep children.
-			var len:uint = _children.length;
-			for (var i:uint = 0; i < len; ++i)
+			var length:uint = _children.length;
+			for (var i:uint = 0; i < length; ++i)
 				_children[i].updateMouseChildren();
 		}
 		
@@ -301,11 +287,11 @@ package away3d.containers
 		
 		public function set visible(value:Boolean):void
 		{
-			var len:uint = _children.length;
 			
 			_explicitVisibility = value;
 			
-			for (var i:uint = 0; i < len; ++i)
+			var length:uint = _children.length;
+			for (var i:uint = 0; i < length; ++i)
 				_children[i].updateImplicitVisibility();
 		}
 		
@@ -323,7 +309,6 @@ package away3d.containers
 				sceneTransform.copyColumnTo(3, _scenePosition);
 				_scenePositionDirty = false;
 			}
-			
 			return _scenePosition;
 		}
 		
@@ -332,18 +317,15 @@ package away3d.containers
 		 */
 		public function get minX():Number
 		{
-			var i:uint;
-			var len:uint = _children.length;
 			var min:Number = Number.POSITIVE_INFINITY;
-			var m:Number;
-			
-			while (i < len) {
+			var i:uint;
+			var length:uint = _children.length;
+			while (i < length) {
 				var child:ObjectContainer3D = _children[i++];
-				m = child.minX + child.x;
+				var m:Number = child.minX + child.x;
 				if (m < min)
 					min = m;
 			}
-			
 			return min;
 		}
 		
@@ -352,18 +334,15 @@ package away3d.containers
 		 */
 		public function get minY():Number
 		{
-			var i:uint;
-			var len:uint = _children.length;
 			var min:Number = Number.POSITIVE_INFINITY;
-			var m:Number;
-			
-			while (i < len) {
+			var i:uint;
+			var length:uint = _children.length;
+			while (i < length) {
 				var child:ObjectContainer3D = _children[i++];
-				m = child.minY + child.y;
+				var m:Number = child.minY + child.y;
 				if (m < min)
 					min = m;
 			}
-			
 			return min;
 		}
 		
@@ -372,18 +351,15 @@ package away3d.containers
 		 */
 		public function get minZ():Number
 		{
-			var i:uint;
-			var len:uint = _children.length;
 			var min:Number = Number.POSITIVE_INFINITY;
-			var m:Number;
-			
-			while (i < len) {
+			var i:uint;
+			var length:uint = _children.length;
+			while (i < length) {
 				var child:ObjectContainer3D = _children[i++];
-				m = child.minZ + child.z;
+				var m:Number = child.minZ + child.z;
 				if (m < min)
 					min = m;
 			}
-			
 			return min;
 		}
 		
@@ -393,18 +369,15 @@ package away3d.containers
 		public function get maxX():Number
 		{
 			// todo: this isn't right, doesn't take into account transforms
-			var i:uint;
-			var len:uint = _children.length;
 			var max:Number = Number.NEGATIVE_INFINITY;
-			var m:Number;
-			
-			while (i < len) {
+			var i:uint;
+			var length:uint = _children.length;
+			while (i < length) {
 				var child:ObjectContainer3D = _children[i++];
-				m = child.maxX + child.x;
+				var m:Number = child.maxX + child.x;
 				if (m > max)
 					max = m;
 			}
-			
 			return max;
 		}
 		
@@ -413,18 +386,15 @@ package away3d.containers
 		 */
 		public function get maxY():Number
 		{
-			var i:uint;
-			var len:uint = _children.length;
 			var max:Number = Number.NEGATIVE_INFINITY;
-			var m:Number;
-			
-			while (i < len) {
+			var i:uint;
+			var length:uint = _children.length;
+			while (i < length) {
 				var child:ObjectContainer3D = _children[i++];
-				m = child.maxY + child.y;
+				var m:Number = child.maxY + child.y;
 				if (m > max)
 					max = m;
 			}
-			
 			return max;
 		}
 		
@@ -433,18 +403,15 @@ package away3d.containers
 		 */
 		public function get maxZ():Number
 		{
-			var i:uint;
-			var len:uint = _children.length;
 			var max:Number = Number.NEGATIVE_INFINITY;
-			var m:Number;
-			
-			while (i < len) {
+			var i:uint;
+			var length:uint = _children.length;
+			while (i < length) {
 				var child:ObjectContainer3D = _children[i++];
-				m = child.maxZ + child.z;
+				var m:Number = child.maxZ + child.z;
 				if (m > max)
 					max = m;
 			}
-			
 			return max;
 		}
 		
@@ -486,9 +453,8 @@ package away3d.containers
 		public function set scene(value:Scene3D):void
 		{
 			var i:uint;
-			var len:uint = _children.length;
-			
-			while (i < len)
+			var length:uint = _children.length;
+			while (i < length)
 				_children[i++].scene = value;
 			
 			if (_scene == value)
@@ -507,10 +473,13 @@ package away3d.containers
 			
 			_scene = value;
 			
-			if (_scene)
-				_scene.dispatchEvent(new Scene3DEvent(Scene3DEvent.ADDED_TO_SCENE, this));
-			else if (_oldScene)
-				_oldScene.dispatchEvent(new Scene3DEvent(Scene3DEvent.REMOVED_FROM_SCENE, this));
+			if (_scene) {
+				if (_scene.hasEventListener(Scene3DEvent.ADDED_TO_SCENE))
+					_scene.dispatchEvent(new Scene3DEvent(Scene3DEvent.ADDED_TO_SCENE, this));
+			} else if (_oldScene) {
+				if (_oldScene.hasEventListener(Scene3DEvent.REMOVED_FROM_SCENE))
+					_oldScene.dispatchEvent(new Scene3DEvent(Scene3DEvent.REMOVED_FROM_SCENE, this));
+			}
 		}
 		
 		/**
@@ -579,11 +548,11 @@ package away3d.containers
 		/**
 		 * Adds an array of 3d objects to the scene as children of the container
 		 *
-		 * @param    ...childarray        An array of 3d objects to be added
+		 * @param    ...children        An array of 3d objects to be added
 		 */
-		public function addChildren(...childarray):void
+		public function addChildren(...children):void
 		{
-			for each (var child:ObjectContainer3D in childarray)
+			for each (var child:ObjectContainer3D in children)
 				addChild(child);
 		}
 		
@@ -692,17 +661,11 @@ package away3d.containers
 		 */
 		override public function clone():Object3D
 		{
-			var clone:ObjectContainer3D = new ObjectContainer3D();
-			clone.pivotPoint = pivotPoint;
-			clone.transform = transform;
+			var clone:ObjectContainer3D = ObjectContainer3D(super.clone());
 			clone.partition = partition;
-			clone.name = name;
-			
-			var len:uint = _children.length;
-			
-			for (var i:uint = 0; i < len; ++i)
+			var length:uint = _children.length;
+			for (var i:uint = 0; i < length; ++i)
 				clone.addChild(ObjectContainer3D(_children[i].clone()));
-			
 			// todo: implement for all subtypes
 			return clone;
 		}
@@ -735,42 +698,11 @@ package away3d.containers
 		
 		public function updateImplicitVisibility():void
 		{
-			var len:uint = _children.length;
-			
 			_implicitVisibility = _parent._explicitVisibility && _parent._implicitVisibility;
 			
-			for (var i:uint = 0; i < len; ++i)
+			var length:uint = _children.length;
+			for (var i:uint = 0; i < length; ++i)
 				_children[i].updateImplicitVisibility();
-		}
-		
-		override public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void
-		{
-			super.addEventListener(type, listener, useCapture, priority, useWeakReference);
-			switch (type) {
-				case Object3DEvent.SCENETRANSFORM_CHANGED:
-					_listenToSceneTransformChanged = true;
-					break;
-				case Object3DEvent.SCENE_CHANGED:
-					_listenToSceneChanged = true;
-					break;
-			}
-		}
-		
-		override public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void
-		{
-			super.removeEventListener(type, listener, useCapture);
-			
-			if (hasEventListener(type))
-				return;
-			
-			switch (type) {
-				case Object3DEvent.SCENETRANSFORM_CHANGED:
-					_listenToSceneTransformChanged = false;
-					break;
-				case Object3DEvent.SCENE_CHANGED:
-					_listenToSceneChanged = false;
-					break;
-			}
 		}
 		
 		override public function get zOffset():int
@@ -782,7 +714,8 @@ package away3d.containers
 		{
 			super.zOffset = value;
 			
-			for (var i:int = 0; i < _children.length; i++)
+			var length:int = _children.length;
+			for (var i:int = 0; i < length; i++)
 				_children[i].zOffset = value;
 		}
 	}

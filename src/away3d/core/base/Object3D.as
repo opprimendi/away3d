@@ -5,8 +5,8 @@ package away3d.core.base
 	import away3d.core.math.*;
 	import away3d.events.*;
 	import away3d.library.assets.*;
-	
 	import flash.geom.*;
+	
 	
 	use namespace arcane;
 	
@@ -91,19 +91,12 @@ package away3d.core.base
 		// private var _rotationValuesDirty:Boolean;
 		// private var _scaleValuesDirty:Boolean;
 		
-		private var _positionChanged:Object3DEvent;
-		private var _rotationChanged:Object3DEvent;
-		private var _scaleChanged:Object3DEvent;
-		
 		private var _rotationX:Number = 0;
 		private var _rotationY:Number = 0;
 		private var _rotationZ:Number = 0;
 		private var _eulers:Vector3D = new Vector3D();
 		
 		private var _flipY:Matrix3D = new Matrix3D();
-		private var _listenToPositionChanged:Boolean;
-		private var _listenToRotationChanged:Boolean;
-		private var _listenToScaleChanged:Boolean;
 		
 		protected var _zOffset:int = 0;
 		
@@ -123,52 +116,8 @@ package away3d.core.base
 			
 			invalidateTransform();
 			
-			if (_listenToPositionChanged)
-				notifyPositionChanged();
-		}
-		
-		private function notifyPositionChanged():void
-		{
-			if (!_positionChanged)
-				_positionChanged = new Object3DEvent(Object3DEvent.POSITION_CHANGED, this);
-			
-			dispatchEvent(_positionChanged);
-		}
-		
-		override public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void
-		{
-			super.addEventListener(type, listener, useCapture, priority, useWeakReference);
-			switch (type) {
-				case Object3DEvent.POSITION_CHANGED:
-					_listenToPositionChanged = true;
-					break;
-				case Object3DEvent.ROTATION_CHANGED:
-					_listenToRotationChanged = true;
-					break;
-				case Object3DEvent.SCALE_CHANGED:
-					_listenToRotationChanged = true;
-					break;
-			}
-		}
-		
-		override public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void
-		{
-			super.removeEventListener(type, listener, useCapture);
-			
-			if (hasEventListener(type))
-				return;
-			
-			switch (type) {
-				case Object3DEvent.POSITION_CHANGED:
-					_listenToPositionChanged = false;
-					break;
-				case Object3DEvent.ROTATION_CHANGED:
-					_listenToRotationChanged = false;
-					break;
-				case Object3DEvent.SCALE_CHANGED:
-					_listenToScaleChanged = false;
-					break;
-			}
+			if (hasEventListener(Object3DEvent.POSITION_CHANGED))
+				dispatchEvent(new Object3DEvent(Object3DEvent.POSITION_CHANGED, this));
 		}
 		
 		private function invalidateRotation():void
@@ -180,16 +129,8 @@ package away3d.core.base
 			
 			invalidateTransform();
 			
-			if (_listenToRotationChanged)
-				notifyRotationChanged();
-		}
-		
-		private function notifyRotationChanged():void
-		{
-			if (!_rotationChanged)
-				_rotationChanged = new Object3DEvent(Object3DEvent.ROTATION_CHANGED, this);
-			
-			dispatchEvent(_rotationChanged);
+			if (hasEventListener(Object3DEvent.ROTATION_CHANGED))
+				dispatchEvent(new Object3DEvent(Object3DEvent.ROTATION_CHANGED, this));
 		}
 		
 		private function invalidateScale():void
@@ -201,16 +142,8 @@ package away3d.core.base
 			
 			invalidateTransform();
 			
-			if (_listenToScaleChanged)
-				notifyScaleChanged();
-		}
-		
-		private function notifyScaleChanged():void
-		{
-			if (!_scaleChanged)
-				_scaleChanged = new Object3DEvent(Object3DEvent.SCALE_CHANGED, this);
-			
-			dispatchEvent(_scaleChanged);
+			if (hasEventListener(Object3DEvent.SCALE_CHANGED))
+				dispatchEvent(new Object3DEvent(Object3DEvent.SCALE_CHANGED, this));
 		}
 		
 		protected var _transform:Matrix3D = new Matrix3D();
@@ -240,12 +173,12 @@ package away3d.core.base
 			return _x;
 		}
 		
-		public function set x(val:Number):void
+		public function set x(value:Number):void
 		{
-			if (_x == val)
+			if (_x == value)
 				return;
 			
-			_x = val;
+			_x = value;
 			
 			invalidatePosition();
 		}
@@ -258,12 +191,12 @@ package away3d.core.base
 			return _y;
 		}
 		
-		public function set y(val:Number):void
+		public function set y(value:Number):void
 		{
-			if (_y == val)
+			if (_y == value)
 				return;
 			
-			_y = val;
+			_y = value;
 			
 			invalidatePosition();
 		}
@@ -276,12 +209,12 @@ package away3d.core.base
 			return _z;
 		}
 		
-		public function set z(val:Number):void
+		public function set z(value:Number):void
 		{
-			if (_z == val)
+			if (_z == value)
 				return;
 			
-			_z = val;
+			_z = value;
 			
 			invalidatePosition();
 		}
@@ -294,12 +227,12 @@ package away3d.core.base
 			return _rotationX*MathConsts.RADIANS_TO_DEGREES;
 		}
 		
-		public function set rotationX(val:Number):void
+		public function set rotationX(value:Number):void
 		{
-			if (rotationX == val)
+			if (rotationX == value)
 				return;
 			
-			_rotationX = val*MathConsts.DEGREES_TO_RADIANS;
+			_rotationX = value*MathConsts.DEGREES_TO_RADIANS;
 			
 			invalidateRotation();
 		}
@@ -312,12 +245,12 @@ package away3d.core.base
 			return _rotationY*MathConsts.RADIANS_TO_DEGREES;
 		}
 		
-		public function set rotationY(val:Number):void
+		public function set rotationY(value:Number):void
 		{
-			if (rotationY == val)
+			if (rotationY == value)
 				return;
 			
-			_rotationY = val*MathConsts.DEGREES_TO_RADIANS;
+			_rotationY = value*MathConsts.DEGREES_TO_RADIANS;
 			
 			invalidateRotation();
 		}
@@ -330,12 +263,12 @@ package away3d.core.base
 			return _rotationZ*MathConsts.RADIANS_TO_DEGREES;
 		}
 		
-		public function set rotationZ(val:Number):void
+		public function set rotationZ(value:Number):void
 		{
-			if (rotationZ == val)
+			if (rotationZ == value)
 				return;
 			
-			_rotationZ = val*MathConsts.DEGREES_TO_RADIANS;
+			_rotationZ = value*MathConsts.DEGREES_TO_RADIANS;
 			
 			invalidateRotation();
 		}
@@ -348,12 +281,12 @@ package away3d.core.base
 			return _scaleX;
 		}
 		
-		public function set scaleX(val:Number):void
+		public function set scaleX(value:Number):void
 		{
-			if (_scaleX == val)
+			if (_scaleX == value)
 				return;
 			
-			_scaleX = val;
+			_scaleX = value;
 			
 			invalidateScale();
 		}
@@ -366,12 +299,12 @@ package away3d.core.base
 			return _scaleY;
 		}
 		
-		public function set scaleY(val:Number):void
+		public function set scaleY(value:Number):void
 		{
-			if (_scaleY == val)
+			if (_scaleY == value)
 				return;
 			
-			_scaleY = val;
+			_scaleY = value;
 			
 			invalidateScale();
 		}
@@ -384,12 +317,12 @@ package away3d.core.base
 			return _scaleZ;
 		}
 		
-		public function set scaleZ(val:Number):void
+		public function set scaleZ(value:Number):void
 		{
-			if (_scaleZ == val)
+			if (_scaleZ == value)
 				return;
 			
-			_scaleZ = val;
+			_scaleZ = value;
 			
 			invalidateScale();
 		}
@@ -426,20 +359,18 @@ package away3d.core.base
 			return _transform;
 		}
 		
-		public function set transform(val:Matrix3D):void
+		public function set transform(value:Matrix3D):void
 		{
 			//ridiculous matrix error
 			var raw:Vector.<Number> = Matrix3DUtils.RAW_DATA_CONTAINER;
-			val.copyRawDataTo(raw);
-			if (!raw[uint(0)]) {
-				raw[uint(0)] = _smallestNumber;
-				val.copyRawDataFrom(raw);
+			value.copyRawDataTo(raw);
+			if (!raw[0]) {
+				raw[0] = _smallestNumber;
+				value.copyRawDataFrom(raw);
 			}
 			
-			var elements:Vector.<Vector3D> = Matrix3DUtils.decompose(val);
-			var vec:Vector3D;
-			
-			vec = elements[0];
+			var elements:Vector.<Vector3D> = Matrix3DUtils.decompose(value);
+			var vec:Vector3D = elements[0];
 			
 			if (_x != vec.x || _y != vec.y || _z != vec.z) {
 				_x = vec.x;
@@ -478,12 +409,12 @@ package away3d.core.base
 			return _pivotPoint;
 		}
 		
-		public function set pivotPoint(pivot:Vector3D):void
+		public function set pivotPoint(value:Vector3D):void
 		{
 			if(!_pivotPoint) _pivotPoint = new Vector3D();
-			_pivotPoint.x = pivot.x;
-			_pivotPoint.y = pivot.y;
-			_pivotPoint.z = pivot.z;
+			_pivotPoint.x = value.x;
+			_pivotPoint.y = value.y;
+			_pivotPoint.z = value.z;
 
 			invalidatePivot();
 		}
@@ -772,7 +703,7 @@ package away3d.core.base
 		
 		public function clone():Object3D
 		{
-			var clone:Object3D = new Object3D();
+			var clone:Object3D = Object3D(new (this["constructor"] as Class)());
 			clone.pivotPoint = pivotPoint;
 			clone.transform = transform;
 			clone.name = name;
@@ -834,8 +765,6 @@ package away3d.core.base
 			var yAxis:Vector3D = tempAxeY;
 			var zAxis:Vector3D = tempAxeZ;
 
-			var raw:Vector.<Number>;
-			
 			upAxis ||= Vector3D.Y_AXIS;
 
 			if (_transformDirty) {
@@ -863,27 +792,27 @@ package away3d.core.base
 			yAxis.y = zAxis.z*xAxis.x - zAxis.x*xAxis.z;
 			yAxis.z = zAxis.x*xAxis.y - zAxis.y*xAxis.x;
 			
-			raw = Matrix3DUtils.RAW_DATA_CONTAINER;
+			var raw:Vector.<Number> = Matrix3DUtils.RAW_DATA_CONTAINER;
 			
-			raw[uint(0)] = _scaleX*xAxis.x;
-			raw[uint(1)] = _scaleX*xAxis.y;
-			raw[uint(2)] = _scaleX*xAxis.z;
-			raw[uint(3)] = 0;
+			raw[0] = _scaleX*xAxis.x;
+			raw[1] = _scaleX*xAxis.y;
+			raw[2] = _scaleX*xAxis.z;
+			raw[3] = 0;
 			
-			raw[uint(4)] = _scaleY*yAxis.x;
-			raw[uint(5)] = _scaleY*yAxis.y;
-			raw[uint(6)] = _scaleY*yAxis.z;
-			raw[uint(7)] = 0;
+			raw[4] = _scaleY*yAxis.x;
+			raw[5] = _scaleY*yAxis.y;
+			raw[6] = _scaleY*yAxis.z;
+			raw[7] = 0;
 			
-			raw[uint(8)] = _scaleZ*zAxis.x;
-			raw[uint(9)] = _scaleZ*zAxis.y;
-			raw[uint(10)] = _scaleZ*zAxis.z;
-			raw[uint(11)] = 0;
+			raw[8] = _scaleZ*zAxis.x;
+			raw[9] = _scaleZ*zAxis.y;
+			raw[10] = _scaleZ*zAxis.z;
+			raw[11] = 0;
 			
-			raw[uint(12)] = _x;
-			raw[uint(13)] = _y;
-			raw[uint(14)] = _z;
-			raw[uint(15)] = 1;
+			raw[12] = _x;
+			raw[13] = _y;
+			raw[14] = _z;
+			raw[15] = 1;
 			
 			_transform.copyRawDataFrom(raw);
 			
@@ -942,7 +871,7 @@ package away3d.core.base
 				_sca.x = _scaleX;
 				_sca.y = _scaleY;
 				_sca.z = _scaleZ;
-			}else{
+			} else {
 				_sca.x = _scaleX;
 				_sca.y = _scaleY;
 				_sca.z = _scaleZ;

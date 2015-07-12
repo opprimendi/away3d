@@ -10,7 +10,6 @@ package away3d.animators.states
 	public class AnimationClipState extends AnimationStateBase
 	{
 		private var _animationClipNode:AnimationClipNodeBase;
-		private var _animationStatePlaybackComplete:AnimationStateEvent;
 		protected var _blendWeight:Number;
 		protected var _currentFrame:uint;
 		protected var _nextFrame:uint;
@@ -56,7 +55,7 @@ package away3d.animators.states
 			return _nextFrame;
 		}
 		
-		function AnimationClipState(animator:IAnimator, animationClipNode:AnimationClipNodeBase)
+		public function AnimationClipState(animator:IAnimator, animationClipNode:AnimationClipNodeBase)
 		{
 			super(animator, animationClipNode);
 			
@@ -167,7 +166,8 @@ package away3d.animators.states
 		
 		private function notifyPlaybackComplete():void
 		{
-			_animationClipNode.dispatchEvent(_animationStatePlaybackComplete ||= new AnimationStateEvent(AnimationStateEvent.PLAYBACK_COMPLETE, _animator, this, _animationClipNode));
+			if(_animationClipNode.hasEventListener(AnimationStateEvent.PLAYBACK_COMPLETE))
+				_animationClipNode.dispatchEvent(new AnimationStateEvent(AnimationStateEvent.PLAYBACK_COMPLETE, _animator, this, _animationClipNode));
 		}
 	}
 }

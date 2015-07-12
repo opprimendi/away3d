@@ -17,7 +17,7 @@ package away3d.events
 		/**
 		 * Defines the value of the type property of a scenetransformChanged event object.
 		 */
-		public static const SCENETRANSFORM_CHANGED:String = "scenetransformChanged";
+		public static const SCENE_TRANSFORM_CHANGED:String = "sceneTransformChanged";
 		
 		/**
 		 * Defines the value of the type property of a sceneChanged event object.
