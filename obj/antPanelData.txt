@@ -1,1 +1,3 @@
 D:\projects\opprimendi-away3d\build.xml
+D:\projects\opprimendi-away3d\build-tests-air-sdk.xml
+D:\projects\opprimendi-away3d\build-tests-flex-sdk.xml

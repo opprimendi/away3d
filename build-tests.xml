@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="opprimendi-away3d-tests" basedir="." default="run">
+	<property file="build.properties"/>
+	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar"/>
+	<target name="run" depends="execute">
+		<exec executable="${tool.browser}">
+			<arg value="${away3d.tests.report}/index.html"/>
+		</exec>
+	</target>
+	<target name="execute">
+		<delete dir="${away3d.tests.report}" includeEmptyDirs="true" failonerror="false"/>
+		<mkdir dir="${away3d.tests.report}"/>
+		<as3unit debug="true" workingDir="${away3d.tests}" toDir="${away3d.tests.report}" haltonfailure="false" verbose="true" localTrusted="true">
+			<source dir="${away3d.src}"/>
+			<testSource dir="${away3d.tests}">
+				<include name="**/*Test.as" />
+			</testSource>
+			<library dir="${flexunit.lib}">
+				<include name="**/flexunit-*.swc"/>
+				<include name="**/hamcrest-*.swc"/>
+			</library>
+		</as3unit>
+		<junitreport todir="${away3d.tests.report}">
+			<fileset dir="${away3d.tests.report}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${away3d.tests.report}" />
+		</junitreport>
+	</target>
+</project>

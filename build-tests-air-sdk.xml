@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="opprimendi-away3d-tests-air-sdk" basedir="." default="run">
+	<property file="build.properties"/>
+	<property name="FLEX_HOME" location="${air.sdk}"/>
+	<taskdef name="as3unit" classname="org.flexunit.ant.tasks.ASC20UnitTask">
+		<classpath>
+			<fileset dir="${away3d.ant}/asc20unit">
+				<include name="asc20UnitTasks*.jar"/>
+			</fileset>
+		</classpath>
+	</taskdef>
+	<target name="run">
+		<ant antfile="build-tests.xml" target="run" dir="${basedir}"/>
+	</target>
+	<target name="execute">
+		<ant antfile="build-tests.xml" target="execute" dir="${basedir}"/>
+	</target>
+</project>
