@@ -222,15 +222,15 @@ package away3d.tools.commands
 			len = subGeom.numVertices;
 			
 			for (i = 0; i < len; i++) {
-				vertices[vIdx++] = vd[vOffs + i*vStride + 0];
+				vertices[vIdx++] = vd[vOffs + i*vStride];
 				vertices[vIdx++] = vd[vOffs + i*vStride + 1];
 				vertices[vIdx++] = vd[vOffs + i*vStride + 2];
 				
-				normals[nIdx++] = nd[nOffs + i*nStride + 0];
+				normals[nIdx++] = nd[nOffs + i*nStride];
 				normals[nIdx++] = nd[nOffs + i*nStride + 1];
 				normals[nIdx++] = nd[nOffs + i*nStride + 2];
 				
-				uvs[uIdx++] = ud[uOffs + i*uStride + 0];
+				uvs[uIdx++] = ud[uOffs + i*uStride];
 				uvs[uIdx++] = ud[uOffs + i*uStride + 1];
 			}
 			
@@ -247,15 +247,15 @@ package away3d.tools.commands
 				// Copy vertex attributes
 				len = subGeom.numVertices;
 				for (i = 0; i < len; i++) {
-					vertices[len*3 + i*3 + 0] = flippedVertices[i*3 + 0];
+					vertices[len*3 + i*3] = flippedVertices[i*3];
 					vertices[len*3 + i*3 + 1] = flippedVertices[i*3 + 1];
 					vertices[len*3 + i*3 + 2] = flippedVertices[i*3 + 2];
 					
-					normals[len*3 + i*3 + 0] = flippedNormals[i*3 + 0];
+					normals[len*3 + i*3] = flippedNormals[i*3];
 					normals[len*3 + i*3 + 1] = flippedNormals[i*3 + 1];
 					normals[len*3 + i*3 + 2] = flippedNormals[i*3 + 2];
 					
-					uvs[len*2 + i*2 + 0] = uvs[i*2 + 0];
+					uvs[len*2 + i*2] = uvs[i*2];
 					uvs[len*2 + i*2 + 1] = uvs[i*2 + 1];
 				}
 				// Copy indices
@@ -264,14 +264,14 @@ package away3d.tools.commands
 				
 				if (_flipWinding) {
 					for (i = 0; i < len; i += 3) {
-						indices[len + i + 0] = indices[i + 2] + indexOffset;
+						indices[len + i] = indices[i + 2] + indexOffset;
 						indices[len + i + 1] = indices[i + 1] + indexOffset;
-						indices[len + i + 2] = indices[i + 0] + indexOffset;
+						indices[len + i + 2] = indices[i] + indexOffset;
 					}
 					
 				} else {
 					for (i = 0; i < len; i += 3) {
-						indices[len + i + 0] = indices[i + 0] + indexOffset;
+						indices[len + i] = indices[i] + indexOffset;
 						indices[len + i + 1] = indices[i + 1] + indexOffset;
 						indices[len + i + 2] = indices[i + 2] + indexOffset;
 					}
@@ -284,9 +284,9 @@ package away3d.tools.commands
 				
 				if (_flipWinding) {
 					for (i = 0; i < len; i += 3) {
-						indices[i + 0] = oldindicies[i + 2];
+						indices[i] = oldindicies[i + 2];
 						indices[i + 1] = oldindicies[i + 1];
-						indices[i + 2] = oldindicies[i + 0];
+						indices[i + 2] = oldindicies[i];
 					}
 				}
 				

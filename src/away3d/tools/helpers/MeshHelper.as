@@ -128,24 +128,24 @@ package away3d.tools.helpers
 				
 				for (j = 0; j < len; j++) {
 					//verts
-					holder.x = vertices[vOffs + j*vStride + 0];
+					holder.x = vertices[vOffs + j*vStride];
 					holder.y = vertices[vOffs + j*vStride + 1];
 					holder.z = vertices[vOffs + j*vStride + 2];
 					
 					holder = t.deltaTransformVector(holder);
 					
-					vertices[vOffs + j*vStride + 0] = holder.x;
+					vertices[vOffs + j*vStride] = holder.x;
 					vertices[vOffs + j*vStride + 1] = holder.y;
 					vertices[vOffs + j*vStride + 2] = holder.z;
 					//norms
-					holder.x = normals[nOffs + j*nStride + 0];
+					holder.x = normals[nOffs + j*nStride];
 					holder.y = normals[nOffs + j*nStride + 1];
 					holder.z = normals[nOffs + j*nStride + 2];
 					
 					holder = t.deltaTransformVector(holder);
 					holder.normalize();
 					
-					normals[nOffs + j*nStride + 0] = holder.x;
+					normals[nOffs + j*nStride] = holder.x;
 					normals[nOffs + j*nStride + 1] = holder.y;
 					normals[nOffs + j*nStride + 2] = holder.z;
 				}
@@ -214,7 +214,7 @@ package away3d.tools.helpers
 				len = subGeom.numVertices;
 				
 				for (j = 0; j < len; j++) {
-					vertices[vOffs + j*vStride + 0] *= scaleX;
+					vertices[vOffs + j*vStride] *= scaleX;
 					vertices[vOffs + j*vStride + 1] *= scaleY;
 					vertices[vOffs + j*vStride + 2] *= scaleZ;
 				}
@@ -280,7 +280,7 @@ package away3d.tools.helpers
 				len = subGeom.numVertices;
 				
 				for (j = 0; j < len; j++) {
-					vertices[vOffs + j*vStride + 0] += dx;
+					vertices[vOffs + j*vStride] += dx;
 					vertices[vOffs + j*vStride + 1] += dy;
 					vertices[vOffs + j*vStride + 2] += dz;
 				}
@@ -367,24 +367,23 @@ package away3d.tools.helpers
 				tStride = subGeom.vertexTangentStride;
 				
 				for (i = 0; i < indices.length; i += 3) {
-					indices[i + 0] = indicesC[i + 2];
+					indices[i] = indicesC[i + 2];
 					indices[i + 1] = indicesC[i + 1];
-					indices[i + 2] = indicesC[i + 0];
+					indices[i + 2] = indicesC[i];
 				}
 				
 				for (j = 0; j < len; j++) {
 					
-					normals[nOffs + j*nStride + 0] *= -1;
+					normals[nOffs + j*nStride] *= -1;
 					normals[nOffs + j*nStride + 1] *= -1;
 					normals[nOffs + j*nStride + 2] *= -1;
 					
-					tangents[tOffs + j*tStride + 0] *= -1;
+					tangents[tOffs + j*tStride] *= -1;
 					tangents[tOffs + j*tStride + 1] *= -1;
 					tangents[tOffs + j*tStride + 2] *= -1;
 					
 					if (invertU)
-						uvs[uOffs + j*uStride + 0] = 1 - uvs[uOffs + j*uStride + 0];
-					
+						uvs[uOffs + j*uStride] = 1 - uvs[uOffs + j*uStride];
 				}
 				
 				if (subGeom is CompactSubGeometry)

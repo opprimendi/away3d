@@ -94,7 +94,7 @@ package away3d.tools.utils
 						
 						else {
 							
-							o0 = originalIndex*3 + 0;
+							o0 = originalIndex*3;
 							o1 = originalIndex*3 + 1;
 							o2 = originalIndex*3 + 2;
 							
@@ -102,7 +102,7 @@ package away3d.tools.utils
 							// needs to be copied from the long list.
 							splitIndex = splitVerts.length/3;
 							
-							s0 = splitIndex*3 + 0;
+							s0 = splitIndex*3;
 							s1 = splitIndex*3 + 1;
 							s2 = splitIndex*3 + 2;
 							
@@ -111,9 +111,9 @@ package away3d.tools.utils
 							splitVerts[s2] = verts[o2];
 							
 							if (uvs) {
-								su = splitIndex*2 + 0;
+								su = splitIndex*2;
 								sv = splitIndex*2 + 1;
-								ou = originalIndex*2 + 0;
+								ou = originalIndex*2;
 								ov = originalIndex*2 + 1;
 								
 								splitUvs[su] = uvs[ou];
@@ -121,9 +121,9 @@ package away3d.tools.utils
 							}
 							
 							if (secondaryUVs) {
-								su = splitIndex*2 + 0;
+								su = splitIndex*2;
 								sv = splitIndex*2 + 1;
-								ou = originalIndex*2 + 0;
+								ou = originalIndex*2;
 								ov = originalIndex*2 + 1;
 								
 								splitSecondaryUVs[su] = secondaryUVs[ou];

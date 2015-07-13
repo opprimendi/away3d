@@ -103,18 +103,18 @@ package away3d.tools.commands
 			var nOffs:uint = subGeom.vertexNormalOffset;
 			var numVertices:uint = subGeom.numVertices;
 			for (var i:uint = 0; i < numVertices; i++) {
-				var vectorVert:Vector3D = new Vector3D(vd[vOffs + i*vStride + 0], vd[vOffs + i*vStride + 1], vd[vOffs + i*vStride + 2]);
+				var vectorVert:Vector3D = new Vector3D(vd[vOffs + i*vStride], vd[vOffs + i*vStride + 1], vd[vOffs + i*vStride + 2]);
 				var vectorVertLength:Number = vectorVert.length;
 				var vectorNormal:Vector3D = vectorVert.clone();
 				var vectordifference:Number = _radius - vectorVertLength;
 				vectorNormal.normalize();
 				
-				vd[vOffs + i*vStride + 0] = vectorVert.x + ((vectorNormal.x*vectordifference)*_weight);
+				vd[vOffs + i*vStride] = vectorVert.x + ((vectorNormal.x*vectordifference)*_weight);
 				vd[vOffs + i*vStride + 1] = vectorVert.y + ((vectorNormal.y*vectordifference)*_weight);
 				vd[vOffs + i*vStride + 2] = vectorVert.z + ((vectorNormal.z*vectordifference)*_weight);
-				nd[nOffs + i*nStride + 0] = 0 + (nd[nOffs + i*nStride + 0]*(1 - _weight) + (vectorNormal.x*_weight));
-				nd[nOffs + i*nStride + 1] = 0 + (nd[nOffs + i*nStride + 1]*(1 - _weight) + (vectorNormal.y*_weight));
-				nd[nOffs + i*nStride + 2] = 0 + (nd[nOffs + i*nStride + 2]*(1 - _weight) + (vectorNormal.z*_weight));
+				nd[nOffs + i*nStride] = (nd[nOffs + i*nStride]*(1 - _weight) + (vectorNormal.x*_weight));
+				nd[nOffs + i*nStride + 1] = (nd[nOffs + i*nStride + 1]*(1 - _weight) + (vectorNormal.y*_weight));
+				nd[nOffs + i*nStride + 2] = (nd[nOffs + i*nStride + 2]*(1 - _weight) + (vectorNormal.z*_weight));
 			}
 		}
 	}

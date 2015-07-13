@@ -269,11 +269,11 @@ package away3d.loaders.parsers
 				var vertexData:Vector.<Number> = sub.vertexData;
 				
 				for (i = sub.vertexOffset; i < vertexData.length; i += sub.vertexStride) {
-					vec.x = vertexData[i + 0];
+					vec.x = vertexData[i];
 					vec.y = vertexData[i + 1];
 					vec.z = vertexData[i + 2];
 					vec = skin.bind_shape_matrix.transformVector(vec);
-					vertexData[i + 0] = vec.x;
+					vertexData[i] = vec.x;
 					vertexData[i + 1] = vec.y;
 					vertexData[i + 2] = vec.z;
 				}
@@ -1325,7 +1325,7 @@ class DAEPrimitive extends DAEElement
 					
 					switch (input.semantic) {
 						case "VERTEX":
-							vertex.x = source.floats[idx32 + 0];
+							vertex.x = source.floats[idx32];
 							vertex.y = source.floats[idx32 + 1];
 							if (DAEElement.USE_LEFT_HANDED)
 								vertex.z = -source.floats[idx32 + 2];
@@ -1334,7 +1334,7 @@ class DAEPrimitive extends DAEElement
 							vertex.daeIndex = index;
 							break;
 						case "NORMAL":
-							vertex.nx = source.floats[idx32 + 0];
+							vertex.nx = source.floats[idx32];
 							vertex.ny = source.floats[idx32 + 1];
 							if (DAEElement.USE_LEFT_HANDED)
 								vertex.nz = -source.floats[idx32 + 2];
@@ -1343,10 +1343,10 @@ class DAEPrimitive extends DAEElement
 							break;
 						case "TEXCOORD":
 							if (input.set == _texcoordSets[0]) {
-								vertex.uvx = source.floats[idx32 + 0];
+								vertex.uvx = source.floats[idx32];
 								vertex.uvy = source.floats[idx32 + 1];
 							} else {
-								vertex.uvx2 = source.floats[idx32 + 0];
+								vertex.uvx2 = source.floats[idx32];
 								vertex.uvy2 = source.floats[idx32 + 1];
 							}
 							break;

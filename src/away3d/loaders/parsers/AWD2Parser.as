@@ -2195,7 +2195,7 @@ package away3d.loaders.parsers
 				uStride = geometry.subGeometries[geoCnt].UVStride;
 				uOffs = geometry.subGeometries[geoCnt].UVOffset;
 				for (i = 0; i < numPoints; i++) {
-					newUvs.push(ud[uOffs + i*uStride + 0]);
+					newUvs.push(ud[uOffs + i*uStride]);
 					newUvs.push(ud[uOffs + i*uStride + 1]);
 				}
 				_blocks[meshID].uvsForVertexAnimation.push(newUvs);
