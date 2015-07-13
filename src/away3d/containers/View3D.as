@@ -65,7 +65,6 @@
 		private var _antiAlias:uint;
 		
 		public var _rttBufferManager:RTTBufferManager;
-		private var _enableErrorChecking:Boolean;
 		
 		private var _rightClickMenuEnabled:Boolean = true;
 		private var _sourceURL:String;
@@ -1074,20 +1073,6 @@
 		public function get mouse3DManager():Mouse3DManager 
 		{
 			return _mouse3DManager;
-		}
-		
-		public function get enableErrorChecking():Boolean 
-		{
-			return _enableErrorChecking;
-		}
-		
-		public function set enableErrorChecking(value:Boolean):void 
-		{	
-			if (_enableErrorChecking == value)
-				return;
-				
-			_enableErrorChecking = value;
-			renderer.context.enableErrorChecking = value;
 		}
 	}
 }
