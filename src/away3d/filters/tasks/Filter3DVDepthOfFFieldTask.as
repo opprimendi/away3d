@@ -29,7 +29,7 @@ package away3d.filters.tasks
 		{
 			super(true);
 			_maxBlur = maxBlur;
-			_data = Vector.<Number>([0, 0, 0, _focusDistance, 0, 0, 0, 0, _range, 0, 0, 0, 1.0, 1/255.0, 1/65025.0, 1/16581375.0]);
+			_data = new <Number>[0, 0, 0, _focusDistance, 0, 0, 0, 0, _range, 0, 0, 0, 1.0, 1/255.0, 1/65025.0, 1/16581375.0];
 			this.stepSize = stepSize;
 		}
 		

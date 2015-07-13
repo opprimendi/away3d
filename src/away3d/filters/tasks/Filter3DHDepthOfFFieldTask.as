@@ -3,7 +3,6 @@ package away3d.filters.tasks
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
-	
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DProgramType;
 	import flash.display3D.textures.Texture;
@@ -29,7 +28,7 @@ package away3d.filters.tasks
 		{
 			super(true);
 			_maxBlur = maxBlur;
-			_data = Vector.<Number>([0, 0, 0, _focusDistance, 0, 0, 0, 0, _range, 0, 0, 0, 1.0, 1/255.0, 1/65025.0, 1/16581375.0]);
+			_data = new <Number>[0, 0, 0, _focusDistance, 0, 0, 0, 0, _range, 0, 0, 0, 1.0, 1/255.0, 1/65025.0, 1/16581375.0];
 			this.stepSize = stepSize;
 		}
 		
@@ -124,7 +123,7 @@ package away3d.filters.tasks
 		
 		override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D, depthTexture:Texture):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.arcane::_context3D;
 			var n:Number = camera.lens.near;
 			var f:Number = camera.lens.far;
 			
@@ -137,7 +136,7 @@ package away3d.filters.tasks
 		
 		override public function deactivate(stage3DProxy:Stage3DProxy):void
 		{
-			stage3DProxy._context3D.setTextureAt(1, null);
+			stage3DProxy.arcane::_context3D.setTextureAt(1, null);
 		}
 		
 		override protected function updateTextures(stage:Stage3DProxy):void
@@ -158,8 +157,8 @@ package away3d.filters.tasks
 		
 		private function calculateStepSize():void
 		{
-			_realStepSize = _stepSize > 0? _stepSize :
-				_maxBlur > MAX_AUTO_SAMPLES? _maxBlur/MAX_AUTO_SAMPLES :
+			_realStepSize = _stepSize > 0 ? _stepSize :
+				_maxBlur > MAX_AUTO_SAMPLES ? _maxBlur/MAX_AUTO_SAMPLES :
 				1;
 		}
 	}
