@@ -141,8 +141,8 @@ package away3d.textures
 			
 			for (var i:int = 0; i < 6; ++i)
 			{
-				var w:uint = _bitmapDatas[i].width,
-				h:uint = _bitmapDatas[i].height;
+				var w:int = _bitmapDatas[i].width;
+				var h:int = _bitmapDatas[i].height;
 				
 				var miplevel:int = 0;
 				CubeTexture(texture).uploadFromBitmapData(_bitmapDatas[i], i, 0);

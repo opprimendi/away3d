@@ -2,9 +2,11 @@
 {
 	import away3d.arcane;
 	import away3d.materials.utils.MipmapGenerator;
+	import away3d.tools.utils.MathUtils;
 	import away3d.tools.utils.TextureUtils;
-	
 	import flash.display.BitmapData;
+	import flash.display3D.Context3D;
+	import flash.display3D.Context3DTextureFormat;
 	import flash.display3D.textures.Texture;
 	import flash.display3D.textures.TextureBase;
 	
@@ -12,12 +14,9 @@
 	
 	public class BitmapTexture extends Texture2DBase
 	{
-		private static var _mipMaps:Array = [];
-		private static var _mipMapUses:Array = [];
-		
 		private var _bitmapData:BitmapData;
-		private var _mipMapHolder:BitmapData;
 		private var _generateMipmaps:Boolean;
+		private var _isUseStreamingUpload:Boolean = false;
 		
 		public function BitmapTexture(bitmapData:BitmapData, generateMipmaps:Boolean = true)
 		{
@@ -44,63 +43,42 @@
 			setSize(value.width, value.height);
 			
 			_bitmapData = value;
-			
-			if (_generateMipmaps)
-				getMipMapHolder();
+		}
+		
+		public function get isUseStreamingUpload():Boolean 
+		{
+			return _isUseStreamingUpload;
+		}
+		
+		public function set isUseStreamingUpload(value:Boolean):void 
+		{
+			_isUseStreamingUpload = value;
+		}
+		
+		override protected function createTexture(context:Context3D):TextureBase
+		{
+			if(!_isUseStreamingUpload || !_generateMipmaps)
+				return context.createTexture(_width, _height, Context3DTextureFormat.BGRA, false);
+			else
+			{
+				var largestSide:int = Math.max(_width, _height);
+				var mipLevel:int = MathUtils.log(largestSide);
+				
+				return context.createTexture(_width, _height, Context3DTextureFormat.BGRA, false, mipLevel);
+			}
 		}
 		
 		override protected function uploadContent(texture:TextureBase):void
 		{
-			if (_generateMipmaps)
-				MipmapGenerator.generateMipMaps(_bitmapData, texture, _mipMapHolder, true);
+			if (_generateMipmaps) //может добавить какой нибудь тик для аплоада чтобы все мипмапы постепенно бы аплоадились а не сразу и аплоадить с самого маленького размера к большему
+				MipmapGenerator.generateMipMaps(_bitmapData, texture, true);
 			else
 				Texture(texture).uploadFromBitmapData(_bitmapData, 0);
-		}
-		
-		private function getMipMapHolder():void
-		{
-			var newW:uint, newH:uint;
-			
-			newW = _bitmapData.width;
-			newH = _bitmapData.height;
-			
-			if (_mipMapHolder) {
-				if (_mipMapHolder.width == newW && _bitmapData.height == newH)
-					return;
-				
-				freeMipMapHolder();
-			}
-			
-			if (!_mipMaps[newW]) {
-				_mipMaps[newW] = [];
-				_mipMapUses[newW] = [];
-			}
-			if (!_mipMaps[newW][newH]) {
-				_mipMapHolder = _mipMaps[newW][newH] = new BitmapData(newW, newH, true);
-				_mipMapUses[newW][newH] = 1;
-			} else {
-				_mipMapUses[newW][newH] = _mipMapUses[newW][newH] + 1;
-				_mipMapHolder = _mipMaps[newW][newH];
-			}
-		}
-		
-		private function freeMipMapHolder():void
-		{
-			var holderWidth:uint = _mipMapHolder.width;
-			var holderHeight:uint = _mipMapHolder.height;
-			
-			if (--_mipMapUses[holderWidth][holderHeight] == 0) {
-				_mipMaps[holderWidth][holderHeight].dispose();
-				_mipMaps[holderWidth][holderHeight] = null;
-			}
 		}
 		
 		override public function dispose():void
 		{
 			super.dispose();
-			
-			if (_mipMapHolder)
-				freeMipMapHolder();
 		}
 	}
 }
