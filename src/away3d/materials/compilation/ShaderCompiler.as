@@ -24,6 +24,7 @@ package away3d.materials.compilation
 		protected var _smooth:Boolean;
 		protected var _repeat:Boolean;
 		protected var _mipmap:Boolean;
+		protected var _anisotropy:int;
 		protected var _enableLightFallOff:Boolean;
 		protected var _preserveAlpha:Boolean = true;
 		protected var _animateUVs:Boolean;
@@ -198,11 +199,12 @@ package away3d.materials.compilation
 		 * @param repeat Indicates whether the texture should be tiled when sampled. Defaults to true.
 		 * @param mipmap Indicates whether or not any used textures should use mipmapping. Defaults to true.
 		 */
-		public function setTextureSampling(smooth:Boolean, repeat:Boolean, mipmap:Boolean):void
+		public function setTextureSampling(smooth:Boolean, repeat:Boolean, mipmap:Boolean, anisotropy:int):void
 		{
 			_smooth = smooth;
 			_repeat = repeat;
 			_mipmap = mipmap;
+			_anisotropy = anisotropy;
 		}
 
 		/**
@@ -500,6 +502,7 @@ package away3d.materials.compilation
 			methodVO.useSmoothTextures = _smooth;
 			methodVO.repeatTextures = _repeat;
 			methodVO.useMipmapping = _mipmap;
+			methodVO.anisotropy = _anisotropy;
 			methodVO.useLightFallOff = _enableLightFallOff && _profile != "baselineConstrained";
 			methodVO.numLights = _numLights + _numLightProbes;
 			method.initVO(methodVO);

@@ -1,5 +1,6 @@
 package away3d.materials.methods
 {
+	import away3d.textures.Anisotropy;
 	/**
 	 * MethodVO contains data for a given method for the use within a single material.
 	 * This allows methods to be shared across materials while their non-public state differs.
@@ -21,6 +22,8 @@ package away3d.materials.methods
 		public var useSmoothTextures:Boolean;
 		public var repeatTextures:Boolean;
 		
+		public var anisotropy:int = Anisotropy.NONE;
+		
 		// internal stuff for the material to know before assembling code
 		public var needsProjection:Boolean;
 		public var needsView:Boolean;
@@ -33,6 +36,7 @@ package away3d.materials.methods
 		
 		public var numLights:int;
 		public var useLightFallOff:Boolean = true;
+		
 
 		/**
 		 * Creates a new MethodVO object.

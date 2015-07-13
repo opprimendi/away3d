@@ -11,6 +11,7 @@ package away3d.materials.passes
 	import away3d.errors.AbstractMethodError;
 	import away3d.materials.MaterialBase;
 	import away3d.materials.lightpickers.LightPickerBase;
+	import away3d.textures.Anisotropy;
 	
 	import flash.display.BlendMode;
 	import flash.display3D.Context3D;
@@ -50,6 +51,7 @@ package away3d.materials.passes
 		protected var _smooth:Boolean = true;
 		protected var _repeat:Boolean = false;
 		protected var _mipmap:Boolean = true;
+		protected var _anisotropy:int = Anisotropy.NONE;
 		protected var _depthCompareMode:String = Context3DCompareMode.LESS_EQUAL;
 		
 		protected var _blendFactorSource:String = Context3DBlendFactor.ONE;
@@ -123,6 +125,20 @@ package away3d.materials.passes
 		public function set writeDepth(value:Boolean):void
 		{
 			_writeDepth = value;
+		}
+		
+		public function get anisotropy():int 
+		{
+			return _anisotropy;
+		}
+		
+		public function set anisotropy(value:int):void 
+		{
+			if (_anisotropy == value)
+				return;
+				
+			_anisotropy = value;
+			invalidateShaderProgram();
 		}
 		
 		/**
