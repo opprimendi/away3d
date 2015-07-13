@@ -14,6 +14,7 @@ package away3d.materials
 	import away3d.materials.passes.DepthMapPass;
 	import away3d.materials.passes.DistanceMapPass;
 	import away3d.materials.passes.MaterialPassBase;
+	import away3d.textures.Anisotropy;
 	
 	import flash.display.BlendMode;
 	import flash.display3D.Context3D;
@@ -96,6 +97,8 @@ package away3d.materials
 		protected var _mipmap:Boolean = true;
 		protected var _smooth:Boolean = true;
 		protected var _repeat:Boolean;
+		protected var _anisotropy:int = Anisotropy.NONE;
+		private var _bias:Number = 0;
 		
 		protected var _depthPass:DepthMapPass;
 		protected var _distancePass:DistanceMapPass;
@@ -103,6 +106,7 @@ package away3d.materials
 		protected var _lightPicker:LightPickerBase;
 		private var _distanceBasedDepthRender:Boolean;
 		private var _depthCompareMode:String = Context3DCompareMode.LESS_EQUAL;
+		
 		
 		/**
 		 * Creates a new MaterialBase object.
@@ -183,6 +187,37 @@ package away3d.materials
 				_passes[i].smooth = value;
 			_depthPass.smooth = value;
 			_distancePass.smooth = value;
+		}
+		
+		public function get bias():Number
+		{
+			return _bias;
+		}
+		
+		public function set bias(value:Number):void
+		{
+			_bias = value;
+			
+			for (var i:int = 0; i < _numPasses; ++i)
+				_passes[i].bias = value;
+				
+			_depthPass.bias = value;
+			_distancePass.bias = value;
+		}
+		
+		public function get anisotropy():int
+		{
+			return _anisotropy;
+		}
+		
+		public function set anisotropy(value:int):void
+		{
+			_anisotropy = value;
+			for (var i:int = 0; i < _numPasses; ++i)
+				_passes[i].anisotropy = value;
+				
+			_depthPass.anisotropy = value;
+			_distancePass.anisotropy = value;
 		}
 
 		/**
