@@ -5,18 +5,19 @@ package away3d.core.base
 	import away3d.library.assets.AssetType;
 	import away3d.library.assets.IAsset;
 	import away3d.library.assets.NamedAssetBase;
-	
 	import flash.geom.Matrix3D;
 	
 	use namespace arcane;
+	
+	[Event(name = 'SubGeometryAdded', type = 'away3d.events.GeometryEvent')]
+	[Event(name = 'SubGeometryRemoved', type = 'away3d.events.GeometryEvent')]
+	[Event(name = 'BoundsInvalid', type = 'away3d.events.GeometryEvent')]
 	
 	/**
 	 * Geometry is a collection of SubGeometries, each of which contain the actual geometrical data such as vertices,
 	 * normals, uvs, etc. It also contains a reference to an animation class, which defines how the geometry moves.
 	 * A Geometry object is assigned to a Mesh, a scene graph occurence of the geometry, which in turn assigns
 	 * the SubGeometries to its respective SubMesh objects.
-	 *
-	 *
 	 *
 	 * @see away3d.core.base.SubGeometry
 	 * @see away3d.scenegraph.Mesh
@@ -48,8 +49,8 @@ package away3d.core.base
 		
 		public function applyTransformation(transform:Matrix3D):void
 		{
-			var len:uint = _subGeometries.length;
-			for (var i:int = 0; i < len; ++i)
+			var length:uint = _subGeometries.length;
+			for (var i:int = 0; i < length; ++i)
 				_subGeometries[i].applyTransformation(transform);
 		}
 		
@@ -60,11 +61,9 @@ package away3d.core.base
 		public function addSubGeometry(subGeometry:ISubGeometry):void
 		{
 			_subGeometries.push(subGeometry);
-			
 			subGeometry.parentGeometry = this;
 			if (hasEventListener(GeometryEvent.SUB_GEOMETRY_ADDED))
 				dispatchEvent(new GeometryEvent(GeometryEvent.SUB_GEOMETRY_ADDED, subGeometry));
-			
 			invalidateBounds(subGeometry);
 		}
 		
@@ -78,7 +77,6 @@ package away3d.core.base
 			subGeometry.parentGeometry = null;
 			if (hasEventListener(GeometryEvent.SUB_GEOMETRY_REMOVED))
 				dispatchEvent(new GeometryEvent(GeometryEvent.SUB_GEOMETRY_REMOVED, subGeometry));
-			
 			invalidateBounds(subGeometry);
 		}
 		
@@ -88,9 +86,9 @@ package away3d.core.base
 		 */
 		public function clone():Geometry
 		{
-			var clone:Geometry = new Geometry();
-			var len:uint = _subGeometries.length;
-			for (var i:int = 0; i < len; ++i)
+			var clone:Geometry = Geometry(new (this["constructor"] as Class)());
+			var length:uint = _subGeometries.length;
+			for (var i:int = 0; i < length; ++i)
 				clone.addSubGeometry(_subGeometries[i].clone());
 			return clone;
 		}
@@ -101,8 +99,8 @@ package away3d.core.base
 		 */
 		public function scale(scale:Number):void
 		{
-			var numSubGeoms:uint = _subGeometries.length;
-			for (var i:uint = 0; i < numSubGeoms; ++i)
+			var length:uint = _subGeometries.length;
+			for (var i:uint = 0; i < length; ++i)
 				_subGeometries[i].scale(scale);
 		}
 		
@@ -111,9 +109,8 @@ package away3d.core.base
 		 */
 		public function dispose():void
 		{
-			var numSubGeoms:uint = _subGeometries.length;
-			
-			for (var i:uint = 0; i < numSubGeoms; ++i) {
+			var length:uint = _subGeometries.length;
+			for (var i:uint = 0; i < length; ++i) {
 				var subGeom:ISubGeometry = _subGeometries[0];
 				removeSubGeometry(subGeom);
 				subGeom.dispose();
@@ -127,8 +124,8 @@ package away3d.core.base
 		 */
 		public function scaleUV(scaleU:Number = 1, scaleV:Number = 1):void
 		{
-			var numSubGeoms:uint = _subGeometries.length;
-			for (var i:uint = 0; i < numSubGeoms; ++i)
+			var length:uint = _subGeometries.length;
+			for (var i:uint = 0; i < length; ++i)
 				_subGeometries[i].scaleUV(scaleU, scaleV);
 		}
 		
@@ -138,12 +135,10 @@ package away3d.core.base
 		 */
 		public function convertToSeparateBuffers():void
 		{
-			var subGeom:ISubGeometry;
-			var numSubGeoms:int = _subGeometries.length;
 			var _removableCompactSubGeometries:Vector.<CompactSubGeometry> = new Vector.<CompactSubGeometry>();
-			
-			for (var i:int = 0; i < numSubGeoms; ++i) {
-				subGeom = _subGeometries[i];
+			var length:int = _subGeometries.length;
+			for (var i:int = 0; i < length; ++i) {
+				var subGeom:ISubGeometry = _subGeometries[i];
 				if (subGeom is SubGeometry)
 					continue;
 				
@@ -151,9 +146,9 @@ package away3d.core.base
 				addSubGeometry(subGeom.cloneWithSeperateBuffers());
 			}
 			
-			for each (var s:CompactSubGeometry in _removableCompactSubGeometries) {
-				removeSubGeometry(s);
-				s.dispose();
+			for each (var item:CompactSubGeometry in _removableCompactSubGeometries) {
+				removeSubGeometry(item);
+				item.dispose();
 			}
 		}
 		
