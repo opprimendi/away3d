@@ -1,20 +1,10 @@
 package away3d.tools.commands
 {
-	import away3d.arcane;
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.containers.ObjectContainer3D;
-	import away3d.core.base.Geometry;
 	import away3d.core.base.ISubGeometry;
-	import away3d.core.base.SubGeometry;
-	import away3d.core.base.data.UV;
-	import away3d.core.base.data.Vertex;
 	import away3d.entities.Mesh;
-	import away3d.tools.utils.Bounds;
-	
 	import flash.geom.Vector3D;
-	import flash.utils.Dictionary;
-	
-	use namespace arcane;
 	
 	/**
 	 * Class SphereMaker transforms a Mesh into a Sphere unic<code>SphereMaker</code>
@@ -56,8 +46,6 @@ package away3d.tools.commands
 		 */
 		public function apply(mesh:Mesh, weight:Number = 1, radiusMode:int = RADIUS, radius:Number = 100):void
 		{
-			var i:uint;
-			
 			_weight = weight;
 			_radiusMode = radiusMode;
 			_radius = radius;
@@ -76,25 +64,24 @@ package away3d.tools.commands
 				if (_radius < vectorMinlength)
 					_radius = vectorMinlength;
 			}
-			for (i = 0; i < mesh.geometry.subGeometries.length; i++)
+			var length:int = mesh.geometry.subGeometries.length;
+			for (var i:uint = 0; i < length; i++)
 				spherizeSubGeom(mesh.geometry.subGeometries[i]);
 		}
 		
 		private function parse(object:ObjectContainer3D):void
 		{
-			var child:ObjectContainer3D;
 			if (object is Mesh)
 				apply(Mesh(object), _weight, _radiusMode, _radius);
 			
-			for (var i:uint = 0; i < object.numChildren; ++i) {
-				child = object.getChildAt(i);
-				parse(child);
+			var numChildren:uint = object.numChildren;
+			for (var i:uint = 0; i < numChildren; ++i) {
+				parse(object.getChildAt(i));
 			}
 		}
 		
 		private function spherizeSubGeom(subGeom:ISubGeometry):void
 		{
-			;
 			var vd:Vector.<Number> = subGeom.vertexData;
 			var vStride:uint = subGeom.vertexStride;
 			var vOffs:uint = subGeom.vertexOffset;
