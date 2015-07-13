@@ -165,14 +165,18 @@ package away3d.materials.methods
 			var filter:String;
 			var format:String = getFormatStringForTexture(texture);
 			var enableMipMaps:Boolean = vo.useMipmapping && texture.hasMipMaps;
+			var bias:String = "";
 			
 			if (enableMipMaps)
 				filter = getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy) + "," + getMipFilter(vo.useSmoothTextures);
 			else
 				filter = getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy);
+				
+			if (vo.bias != 0)
+				bias = "," + vo.bias.toString();
 			
 			uvReg ||= _sharedRegisters.uvVarying;
-			return "tex " + targetReg + ", " + uvReg + ", " + inputReg + " <2d," + filter + "," + format + wrap + ">\n";
+			return "tex " + targetReg + ", " + uvReg + ", " + inputReg + " <2d," + filter + "," + format + wrap + bias + ">\n";
 		}
 
 		/**

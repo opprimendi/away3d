@@ -52,6 +52,7 @@ package away3d.materials.passes
 		protected var _repeat:Boolean = false;
 		protected var _mipmap:Boolean = true;
 		protected var _anisotropy:int = Anisotropy.NONE;
+		protected var _bias:Number = 0;
 		protected var _depthCompareMode:String = Context3DCompareMode.LESS_EQUAL;
 		
 		protected var _blendFactorSource:String = Context3DBlendFactor.ONE;
@@ -138,6 +139,20 @@ package away3d.materials.passes
 				return;
 				
 			_anisotropy = value;
+			invalidateShaderProgram();
+		}
+		
+		public function get bias():Number 
+		{
+			return _bias;
+		}
+		
+		public function set bias(value:Number):void 
+		{
+			if (_bias == value)
+				return;
+				
+			_bias = value;
 			invalidateShaderProgram();
 		}
 		
