@@ -165,14 +165,18 @@ package away3d.materials.methods
 			var filter:String;
 			var format:String = getFormatStringForTexture(texture);
 			var enableMipMaps:Boolean = vo.useMipmapping && texture.hasMipMaps;
+			var bias:String = "";
 			
-			if (vo.useSmoothTextures)
-				filter = enableMipMaps? "linear,miplinear" : "linear";
+			if (enableMipMaps)
+				filter = getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy) + "," + getMipFilter(vo.useSmoothTextures);
 			else
-				filter = enableMipMaps? "nearest,mipnearest" : "nearest";
+				filter = getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy);
+				
+			if (vo.bias != 0)
+				bias = "," + vo.bias.toString();
 			
 			uvReg ||= _sharedRegisters.uvVarying;
-			return "tex " + targetReg + ", " + uvReg + ", " + inputReg + " <2d," + filter + "," + format + wrap + ">\n";
+			return "tex " + targetReg + ", " + uvReg + ", " + inputReg + " <2d," + filter + "," + format + wrap + bias + ">\n";
 		}
 
 		/**
@@ -189,10 +193,10 @@ package away3d.materials.methods
 			var format:String = getFormatStringForTexture(texture);
 			var enableMipMaps:Boolean = vo.useMipmapping && texture.hasMipMaps;
 			
-			if (vo.useSmoothTextures)
-				filter = enableMipMaps? "linear,miplinear" : "linear";
+			if (enableMipMaps)
+				filter = getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy) + "," + getMipFilter(vo.useSmoothTextures);
 			else
-				filter = enableMipMaps? "nearest,mipnearest" : "nearest";
+				filter = getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy);
 			
 			return "tex " + targetReg + ", " + uvReg + ", " + inputReg + " <cube," + format + filter + ">\n";
 		}
@@ -230,5 +234,35 @@ package away3d.materials.methods
 		public function copyFrom(method:ShadingMethodBase):void
 		{
 		}
-	}
+		
+		private function getMipFilter(smooth:Boolean):String
+		{
+			return smooth? Context3DMipFilter.MIPLINEAR:Context3DMipFilter.MIPNEAREST;
+		}
+		
+		private function getSmoothingFilter(smooth:Boolean, anisotropy:int):String
+		{
+			
+			if (smooth) 
+			{
+				switch (anisotropy) 
+				{
+					case Anisotropy.ANISOTROPIC2X: 
+						return Context3DTextureFilter.ANISOTROPIC2X;
+					case Anisotropy.ANISOTROPIC4X:
+						return Context3DTextureFilter.ANISOTROPIC4X;
+					case Anisotropy.ANISOTROPIC8X: 
+						return Context3DTextureFilter.ANISOTROPIC8X;
+					case Anisotropy.ANISOTROPIC16X: 
+						return Context3DTextureFilter.ANISOTROPIC16X;
+					case Anisotropy.NONE:
+						return Context3DTextureFilter.LINEAR;
+					default:
+						return Context3DTextureFilter.NEAREST;
+				}
+			} 
+			else
+				return Context3DTextureFilter.NEAREST;
+		}
+    }
 }
