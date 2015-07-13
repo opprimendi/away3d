@@ -924,7 +924,7 @@ package away3d.loaders.parsers
 			finalizeAsset(mesh, name);
 			_blocks[blockID].data = mesh;
 			if (_debug)
-				trace("Parsed a Mesh: Name = '" + name + "' | Parent-Name = " + parentName + "| Geometry-Name = " + geom.name + " | SubMeshes = " + mesh.subMeshes.length + " | Mat-Names = " + materialNames.toString());
+				trace("Parsed a Mesh: Name = '" + name + "' | Parent-Name = " + parentName + "| Geometry-Name = " + geom.name + " | SubMeshes = " + mesh.subMeshes.length + " | Mat-Names = " + materialNames);
 		
 		}
 		
@@ -1133,7 +1133,7 @@ package away3d.loaders.parsers
 			
 			_blocks[blockID].data = lightPick
 			if (_debug)
-				trace("Parsed a StaticLightPicker: Name = '" + name + "' | Texture-Name = " + lightsArrayNames.toString());
+				trace("Parsed a StaticLightPicker: Name = '" + name + "' | Texture-Name = " + lightsArrayNames);
 		}
 		
 		//Block ID = 81
@@ -1526,20 +1526,20 @@ package away3d.loaders.parsers
 			_blocks[blockID].name = parseVarStr();
 			var type:uint = _newBlockBytes.readUnsignedByte();
 			var data_len:uint;
-			_texture_users[_cur_block_id.toString()] = [];
+			_texture_users[_cur_block_id] = [];
 			
 			// External
 			if (type == 0) {
 				data_len = _newBlockBytes.readUnsignedInt();
 				var url:String;
 				url = _newBlockBytes.readUTFBytes(data_len);
-				addDependency(_cur_block_id.toString(), new URLRequest(url), false, null, true);
+				addDependency(String(_cur_block_id), new URLRequest(url), false, null, true);
 			} else {
 				data_len = _newBlockBytes.readUnsignedInt();
 				var data:ByteArray;
 				data = new ByteArray();
 				_newBlockBytes.readBytes(data, 0, data_len);
-				addDependency(_cur_block_id.toString(), null, false, data, true);
+				addDependency(String(_cur_block_id), null, false, data, true);
 			}
 			// Ignore for now
 			parseProperties(null);
@@ -1558,27 +1558,24 @@ package away3d.loaders.parsers
 			//blockLength = block.len;
 			var data_len:uint;
 			var asset:CubeTextureBase;
-			var i:int;
 			_cubeTextures = new Array();
-			_texture_users[_cur_block_id.toString()] = [];
+			_texture_users[_cur_block_id] = [];
 			var type:uint = _newBlockBytes.readUnsignedByte();
 			_blocks[blockID].name = parseVarStr();
 			
-			for (i = 0; i < 6; i++) {
-				_texture_users[_cur_block_id.toString()] = [];
+			for (var i:int = 0; i < 6; i++) {
+				_texture_users[_cur_block_id] = [];
 				_cubeTextures.push(null);
 				// External
 				if (type == 0) {
 					data_len = _newBlockBytes.readUnsignedInt();
-					var url:String;
-					url = _newBlockBytes.readUTFBytes(data_len);
-					addDependency(_cur_block_id.toString() + "#" + i, new URLRequest(url), false, null, true);
+					var url:String = _newBlockBytes.readUTFBytes(data_len);
+					addDependency(_cur_block_id + "#" + i, new URLRequest(url), false, null, true);
 				} else {
 					data_len = _newBlockBytes.readUnsignedInt();
-					var data:ByteArray;
-					data = new ByteArray();
+					var data:ByteArray = new ByteArray();
 					_newBlockBytes.readBytes(data, 0, data_len);
-					addDependency(_cur_block_id.toString() + "#" + i, null, false, data, true);
+					addDependency(_cur_block_id + "#" + i, null, false, data, true);
 				}
 			}
 			
@@ -2005,7 +2002,7 @@ package away3d.loaders.parsers
 				finalizeAsset(newVertexAnimationSet, name);
 				_blocks[blockID].data = newVertexAnimationSet;
 				if (_debug)
-					trace("Parsed a VertexAnimationSet: Name = " + name + " | Animations = " + newVertexAnimationSet.animations.length + " | Animation-Names = " + newVertexAnimationSet.animationNames.toString());
+					trace("Parsed a VertexAnimationSet: Name = " + name + " | Animations = " + newVertexAnimationSet.animations.length + " | Animation-Names = " + newVertexAnimationSet.animationNames);
 				
 			} else if (skeletonFrames.length > 0) {
 				returnedArray = getAssetByID(poseBlockAdress, [AssetType.ANIMATION_NODE]);
@@ -2015,7 +2012,7 @@ package away3d.loaders.parsers
 				finalizeAsset(newSkeletonAnimationSet, name);
 				_blocks[blockID].data = newSkeletonAnimationSet;
 				if (_debug)
-					trace("Parsed a SkeletonAnimationSet: Name = " + name + " | Animations = " + newSkeletonAnimationSet.animations.length + " | Animation-Names = " + newSkeletonAnimationSet.animationNames.toString());
+					trace("Parsed a SkeletonAnimationSet: Name = " + name + " | Animations = " + newSkeletonAnimationSet.animations.length + " | Animation-Names = " + newSkeletonAnimationSet.animationNames);
 				
 			}
 		}
@@ -2215,27 +2212,21 @@ package away3d.loaders.parsers
 		
 		private function parseProperties(expected:Object):AWDProperties
 		{
-			var list_end:uint;
-			var list_len:uint;
-			var propertyCnt:uint = 0;
+			var propertyCnt:uint;
 			var props:AWDProperties = new AWDProperties();
-			
-			list_len = _newBlockBytes.readUnsignedInt();
-			list_end = _newBlockBytes.position + list_len;
+			var list_len:uint = _newBlockBytes.readUnsignedInt();
+			var list_end:uint = _newBlockBytes.position + list_len;
 			if (expected) {
 				while (_newBlockBytes.position < list_end) {
-					var len:uint;
-					var key:uint;
-					var type:uint;
-					key = _newBlockBytes.readUnsignedShort();
-					len = _newBlockBytes.readUnsignedInt();
+					var key:uint = _newBlockBytes.readUnsignedShort();
+					var len:uint = _newBlockBytes.readUnsignedInt();
 					if ((_newBlockBytes.position + len) > list_end) {
 						trace("           Error in reading property # " + propertyCnt + " = skipped to end of propertie-list");
 						_newBlockBytes.position = list_end;
 						return props;
 					}
-					if (expected.hasOwnProperty(key.toString())) {
-						type = expected[key];
+					if (expected.hasOwnProperty(String(key))) {
+						var type:uint = expected[key];
 						props.set(key, parseAttrValue(type, len));
 					} else
 						_newBlockBytes.position += len;
@@ -2623,15 +2614,14 @@ internal dynamic class AWDProperties
 {
 	public function set(key:uint, value:*):void
 	{
-		this[key.toString()] = value;
+		this[String(key)] = value;
 	}
 	
 	public function get(key:uint, fallback:*):*
 	{
-		if (this.hasOwnProperty(key.toString()))
-			return this[key.toString()];
-		else
-			return fallback;
+		if (this.hasOwnProperty(String(key)))
+			return this[String(key)];
+		return fallback;
 	}
 }
 

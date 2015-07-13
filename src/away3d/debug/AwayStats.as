@@ -584,8 +584,8 @@ package away3d.debug
 			var dia_y:int;
 			
 			// Redraw counters
-			_fps_tf.text = _fps.toString().concat('/', int(stage.frameRate));
-			_afps_tf.text = Math.round(_avg_fps).toString();
+			_fps_tf.text = String(_fps).concat('/', int(stage.frameRate));
+			_afps_tf.text = String(Math.round(_avg_fps));
 			_ram_tf.text = _getRamString(_ram).concat(' / ', _getRamString(_max_ram));
 			
 			// Move entire diagram
