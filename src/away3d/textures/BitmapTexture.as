@@ -18,6 +18,9 @@
 		private var _generateMipmaps:Boolean;
 		private var _isUseStreamingUpload:Boolean = false;
 		
+		private var mipLevelMax:int = 0;
+		private var currentMipLevel:int = 0;
+		
 		public function BitmapTexture(bitmapData:BitmapData, generateMipmaps:Boolean = true)
 		{
 			super();
@@ -63,6 +66,8 @@
 			{
 				var largestSide:int = Math.max(_width, _height);
 				var mipLevel:int = MathUtils.log(largestSide);
+				mipLevelMax = mipLevel;
+				currentMipLevel = mipLevelMax;
 				
 				return context.createTexture(_width, _height, Context3DTextureFormat.BGRA, false, mipLevel);
 			}
@@ -70,8 +75,17 @@
 		
 		override protected function uploadContent(texture:TextureBase):void
 		{
-			if (_generateMipmaps) //может добавить какой нибудь тик для аплоада чтобы все мипмапы постепенно бы аплоадились а не сразу и аплоадить с самого маленького размера к большему
-				MipmapGenerator.generateMipMaps(_bitmapData, texture, true);
+			
+			if (_generateMipmaps)//может добавить какой нибудь тик для аплоада чтобы все мипмапы постепенно бы аплоадились а не сразу и аплоадить с самого маленького размера к большему
+			{
+				if (currentMipLevel == -1)
+					return;
+				else
+				{
+					MipmapGenerator.generateMipMaps(_bitmapData, texture, true, -1, currentMipLevel, 1);
+					currentMipLevel--;
+				}
+			}
 			else
 				Texture(texture).uploadFromBitmapData(_bitmapData, 0);
 		}

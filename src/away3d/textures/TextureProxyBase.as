@@ -64,9 +64,9 @@ package away3d.textures
 			if (!tex || _dirty[contextIndex] != context) {
 				_textures[contextIndex] = tex = createTexture(context);
 				_dirty[contextIndex] = context;
-				uploadContent(tex);
+				
 			}
-			
+			uploadContent(tex);
 			return tex;
 		}
 		
