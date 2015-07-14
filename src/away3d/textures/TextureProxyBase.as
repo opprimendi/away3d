@@ -58,16 +58,18 @@ package away3d.textures
 		public function getTextureForStage3D(stage3DProxy:Stage3DProxy):TextureBase
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var tex:TextureBase = _textures[contextIndex];
+			var texture:TextureBase = _textures[contextIndex];
 			var context:Context3D = stage3DProxy._context3D;
 			
-			if (!tex || _dirty[contextIndex] != context) {
-				_textures[contextIndex] = tex = createTexture(context);
+			if (!texture || _dirty[contextIndex] != context) 
+			{
+				texture = createTexture(context);
+				_textures[contextIndex] = texture;
 				_dirty[contextIndex] = context;
-				
+				uploadContent(texture);
 			}
-			uploadContent(tex);
-			return tex;
+			
+			return texture;
 		}
 		
 		protected function uploadContent(texture:TextureBase):void
