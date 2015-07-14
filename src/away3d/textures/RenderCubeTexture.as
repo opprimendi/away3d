@@ -33,12 +33,8 @@
 		
 		override protected function uploadContent(texture:TextureBase):void
 		{
-			// fake data, to complete texture for sampling
-			var bmd:BitmapData = new BitmapData(_width, _height, false, 0);
 			for (var i:int = 0; i < 6; ++i)
-				MipmapGenerator.generateMipMaps(bmd, texture, false, i);
-				
-			bmd.dispose();
+				MipmapGenerator.generateMipMaps(MipmapGenerator.getMipMapHolder(_width, _height, false), texture, false, i);
 		}
 		
 		override protected function createTexture(context:Context3D):TextureBase

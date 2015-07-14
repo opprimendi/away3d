@@ -22,7 +22,7 @@ package away3d.textures
 		
 		override protected function createTexture(context:Context3D):TextureBase
 		{
-			return context.createCubeTexture(width, Context3DTextureFormat.BGRA, false);
+			return context.createCubeTexture(_width, Context3DTextureFormat.BGRA, false);
 		}
 	}
 }

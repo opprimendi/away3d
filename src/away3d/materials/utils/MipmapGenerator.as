@@ -74,7 +74,7 @@ package away3d.materials.utils
 		}
 		
 		[Inline]
-		private static function getMipMapHolder(w:int, h:int, alpha:Boolean):BitmapData
+		public static function getMipMapHolder(w:int, h:int, alpha:Boolean):BitmapData
 		{
 			var holder:Object = alpha? alphaMipMaps:mipMaps;
 			

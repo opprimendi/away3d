@@ -2,6 +2,7 @@ package away3d.materials
 {
 	import away3d.arcane;
 	import away3d.materials.passes.SkyBoxPass;
+	import away3d.textures.Anisotropy;
 	import away3d.textures.CubeTextureBase;
 	
 	use namespace arcane;
@@ -18,10 +19,16 @@ package away3d.materials
 		
 		/**
 		 * Creates a new SkyBoxMaterial object.
-		 * @param cubeMap The CubeMap to use as the skybox.
+		 * @param 	cubeMap The CubeMap to use as the skybox.
+		 * @param	smooth - smoting (nearest or linear filtering)
+		 * @param	anisotropy - anisotropy level 
 		 */
-		public function SkyBoxMaterial(cubeMap:CubeTextureBase)
+		public function SkyBoxMaterial(cubeMap:CubeTextureBase, smooth:Boolean = true, anisotropy:int = Anisotropy.NONE)
 		{
+			this.smooth = smooth;
+			this.mipmap = mipmap;
+			this.anisotropy = anisotropy;
+			
 			_cubeMap = cubeMap;
 			addPass(_skyboxPass = new SkyBoxPass());
 			_skyboxPass.cubeTexture = _cubeMap;

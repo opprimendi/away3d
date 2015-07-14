@@ -138,7 +138,9 @@ package away3d.textures
 		override protected function uploadContent(texture:TextureBase):void
 		{
 			for (var i:int = 0; i < 6; ++i)
+			{
 				MipmapGenerator.generateMipMaps(_bitmapDatas[i], texture, _bitmapDatas[i].transparent, i);
+			}
 		}
 	}
 }
