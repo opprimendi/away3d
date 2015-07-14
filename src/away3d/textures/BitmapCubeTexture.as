@@ -135,29 +135,10 @@ package away3d.textures
 				throw new Error("Invalid bitmapData: Width and height must be power of 2 and cannot exceed 2048");
 		}
 		
-		private static const bmphelper:BitmapData = new BitmapData(1, 1, false, 0x0);
 		override protected function uploadContent(texture:TextureBase):void
 		{
-			
 			for (var i:int = 0; i < 6; ++i)
-			{
-				var w:int = _bitmapDatas[i].width;
-				var h:int = _bitmapDatas[i].height;
-				
-				var miplevel:int = 0;
-				CubeTexture(texture).uploadFromBitmapData(_bitmapDatas[i], i, 0);
-				
-				w >>= 1;
-				h >>= 1;
-				
-				while (w >= 1 || h >= 1) {
-					miplevel++;
-					w >>= 1;
-					h >>= 1;
-					CubeTexture(texture).uploadFromBitmapData(bmphelper, i, miplevel);
-				}
-				
-			}
+				MipmapGenerator.generateMipMaps(_bitmapDatas[i], texture, _bitmapDatas[i].transparent, i);
 		}
 	}
 }
