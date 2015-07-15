@@ -96,18 +96,18 @@ package away3d.tools.commands
 				var index:int;
 				
 				index = inIndices[i];
-				vertices[vIdx + 0] = vd[vOffs + index*vStride + 0];
+				vertices[vIdx] = vd[vOffs + index*vStride];
 				vertices[vIdx + 1] = vd[vOffs + index*vStride + 1];
 				vertices[vIdx + 2] = vd[vOffs + index*vStride + 2];
 				
 				if (_keepNormals) {
-					normals[vIdx + 0] = vd[nOffs + index*nStride + 0];
+					normals[vIdx] = vd[nOffs + index*nStride];
 					normals[vIdx + 1] = vd[nOffs + index*nStride + 1];
 					normals[vIdx + 2] = vd[nOffs + index*nStride + 2];
 				} else
-					normals[vIdx + 0] = normals[vIdx + 1] = normals[vIdx + 2] = 0;
+					normals[vIdx] = normals[vIdx + 1] = normals[vIdx + 2] = 0;
 				
-				uvs[uIdx++] = ud[uOffs + index*uStride + 0];
+				uvs[uIdx++] = ud[uOffs + index*uStride];
 				uvs[uIdx++] = ud[uOffs + index*uStride + 1];
 				
 				vIdx += 3;

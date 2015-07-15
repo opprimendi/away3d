@@ -23,8 +23,7 @@ package away3d.tools.utils
 		 * @param     unit                        [optional] Number. The grid unit. Default is 1.
 		 * @param     objectSpace            [optional] Boolean. Apply only to vertexes in geometry objectspace when Object3D are considered. Default is false.
 		 */
-		
-		function Grid(unit:Number = 1, objectSpace:Boolean = false):void
+		public function Grid(unit:Number = 1, objectSpace:Boolean = false):void
 		{
 			_objectSpace = objectSpace;
 			_unit = Math.abs(unit);
@@ -46,9 +45,9 @@ package away3d.tools.utils
 		 */
 		public function snapVertices(vertices:Vector.<Number>):Vector.<Number>
 		{
-			for (var i:uint = 0; i < vertices.length; ++i)
-				vertices[i] -= vertices[i]%_unit;
-			
+			var length:int = vertices.length;
+			for (var i:uint = 0; i < length; ++i)
+				vertices[i] -= vertices[i] % _unit;
 			return vertices;
 		}
 		
@@ -59,9 +58,9 @@ package away3d.tools.utils
 		public function snapMesh(mesh:Mesh):void
 		{
 			if (!_objectSpace) {
-				mesh.scenePosition.x -= mesh.scenePosition.x%_unit;
-				mesh.scenePosition.y -= mesh.scenePosition.y%_unit;
-				mesh.scenePosition.z -= mesh.scenePosition.z%_unit;
+				mesh.scenePosition.x -= mesh.scenePosition.x % _unit;
+				mesh.scenePosition.y -= mesh.scenePosition.y % _unit;
+				mesh.scenePosition.z -= mesh.scenePosition.z % _unit;
 			}
 			snap(mesh);
 		}
@@ -72,7 +71,7 @@ package away3d.tools.utils
 		public function set unit(val:Number):void
 		{
 			_unit = Math.abs(val);
-			_unit = (_unit == 0)? .001 : _unit;
+			_unit = (_unit == 0) ? .001 : _unit;
 		}
 		
 		public function get unit():Number
@@ -95,20 +94,16 @@ package away3d.tools.utils
 		
 		private function parse(object3d:ObjectContainer3D, dovert:Boolean = true):void
 		{
-			var child:ObjectContainer3D;
-			
 			if (!_objectSpace) {
-				object3d.scenePosition.x -= object3d.scenePosition.x%_unit;
-				object3d.scenePosition.y -= object3d.scenePosition.y%_unit;
-				object3d.scenePosition.z -= object3d.scenePosition.z%_unit;
+				object3d.scenePosition.x -= object3d.scenePosition.x % _unit;
+				object3d.scenePosition.y -= object3d.scenePosition.y % _unit;
+				object3d.scenePosition.z -= object3d.scenePosition.z % _unit;
 			}
-			
-			if (object3d is Mesh && object3d.numChildren == 0 && dovert)
+			var numChildren:uint = object3d.numChildren;
+			if (object3d is Mesh && numChildren == 0 && dovert)
 				snap(Mesh(object3d));
-			
-			for (var i:uint = 0; i < object3d.numChildren; ++i) {
-				child = object3d.getChildAt(i);
-				parse(child, dovert);
+			for (var i:uint = 0; i < numChildren; ++i) {
+				parse(object3d.getChildAt(i), dovert);
 			}
 		}
 		
@@ -117,26 +112,16 @@ package away3d.tools.utils
 			var geometry:Geometry = mesh.geometry;
 			var geometries:Vector.<ISubGeometry> = geometry.subGeometries;
 			var numSubGeoms:int = geometries.length;
-			
-			var vertices:Vector.<Number>;
-			var j:uint;
-			var i:uint;
-			var vecLength:uint;
-			var subGeom:SubGeometry;
-			var stride:uint;
-			
-			for (i = 0; i < numSubGeoms; ++i) {
-				subGeom = SubGeometry(geometries[i]);
-				vertices = subGeom.vertexData;
-				vecLength = vertices.length;
-				stride = subGeom.vertexStride;
-				
-				for (j = subGeom.vertexOffset; j < vecLength; j += stride) {
-					vertices[j] -= vertices[j]%_unit;
-					vertices[j + 1] -= vertices[j + 1]%_unit;
-					vertices[j + 2] -= vertices[j + 2]%_unit;
+			for (var i:uint = 0; i < numSubGeoms; ++i) {
+				var subGeom:SubGeometry = SubGeometry(geometries[i]);
+				var vertices:Vector.<Number> = subGeom.vertexData;
+				var vecLength:uint = vertices.length;
+				var stride:uint = subGeom.vertexStride;
+				for (var j:uint = subGeom.vertexOffset; j < vecLength; j += stride) {
+					vertices[j] -= vertices[j] % _unit;
+					vertices[j + 1] -= vertices[j + 1] % _unit;
+					vertices[j + 2] -= vertices[j + 2] % _unit;
 				}
-				
 				subGeom.updateVertexData(vertices);
 			}
 		}

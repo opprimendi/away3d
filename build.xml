@@ -38,6 +38,6 @@
 		</zip>
 
 		<!-- cleanup -->
-		<!--<delete dir="lib/tempDoc" />-->
+		<delete dir="lib/tempDoc" />
 	</target>
 </project>

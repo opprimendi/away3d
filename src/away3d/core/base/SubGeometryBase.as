@@ -126,8 +126,8 @@ package away3d.core.base
 		 */
 		public function getIndexBuffer(stage3DProxy:Stage3DProxy):IndexBuffer3D
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var contextIndex:int = stage3DProxy.arcane::_stage3DIndex;
+			var context:Context3D = stage3DProxy.arcane::_context3D;
 			
 			if (!_indexBuffer[contextIndex] || _indexBufferContext[contextIndex] != context) {
 				_indexBuffer[contextIndex] = context.createIndexBuffer(_numIndices);
@@ -147,17 +147,6 @@ package away3d.core.base
 		 */
 		protected function updateFaceTangents():void
 		{
-			var i:uint;
-			var index1:uint, index2:uint, index3:uint;
-			var len:uint = _indices.length;
-			var ui:uint, vi:uint;
-			var v0:Number;
-			var dv1:Number, dv2:Number;
-			var denom:Number;
-			var x0:Number, y0:Number, z0:Number;
-			var dx1:Number, dy1:Number, dz1:Number;
-			var dx2:Number, dy2:Number, dz2:Number;
-			var cx:Number, cy:Number, cz:Number;
 			var vertices:Vector.<Number> = _vertexData;
 			var uvs:Vector.<Number> = UVData;
 			var posStride:int = vertexStride;
@@ -167,40 +156,38 @@ package away3d.core.base
 			
 			_faceTangents ||= new Vector.<Number>(_indices.length, true);
 			
-			while (i < len) {
-				index1 = _indices[i];
-				index2 = _indices[i + 1];
-				index3 = _indices[i + 2];
-				
-				ui = texOffset + index1*texStride + 1;
-				v0 = uvs[ui];
+			var i:uint;
+			var length:uint = _indices.length;
+			while (i < length) {
+				var index1:uint = _indices[i];
+				var index2:uint = _indices[i + 1];
+				var index3:uint = _indices[i + 2];
+				var ui:uint = texOffset + index1*texStride + 1;
+				var v0:Number = uvs[ui];
 				ui = texOffset + index2*texStride + 1;
-				dv1 = uvs[ui] - v0;
+				var dv1:Number = uvs[ui] - v0;
 				ui = texOffset + index3*texStride + 1;
-				dv2 = uvs[ui] - v0;
-				
-				vi = posOffset + index1*posStride;
-				x0 = vertices[vi];
-				y0 = vertices[vi + 1];
-				z0 = vertices[vi + 2];
+				var dv2:Number = uvs[ui] - v0;
+				var vi:uint = posOffset + index1*posStride;
+				var x0:Number = vertices[vi];
+				var y0:Number = vertices[vi + 1];
+				var z0:Number = vertices[vi + 2];
 				vi = posOffset + index2*posStride;
-				dx1 = vertices[vi] - x0;
-				dy1 = vertices[vi + 1] - y0;
-				dz1 = vertices[vi + 2] - z0;
+				var dx1:Number = vertices[vi] - x0;
+				var dy1:Number = vertices[vi + 1] - y0;
+				var dz1:Number = vertices[vi + 2] - z0;
 				vi = posOffset + index3*posStride;
-				dx2 = vertices[vi] - x0;
-				dy2 = vertices[vi + 1] - y0;
-				dz2 = vertices[vi + 2] - z0;
-				
-				cx = dv2*dx1 - dv1*dx2;
-				cy = dv2*dy1 - dv1*dy2;
-				cz = dv2*dz1 - dv1*dz2;
-				denom = 1/Math.sqrt(cx*cx + cy*cy + cz*cz);
+				var dx2:Number = vertices[vi] - x0;
+				var dy2:Number = vertices[vi + 1] - y0;
+				var dz2:Number = vertices[vi + 2] - z0;
+				var cx:Number = dv2*dx1 - dv1*dx2;
+				var cy:Number = dv2*dy1 - dv1*dy2;
+				var cz:Number = dv2*dz1 - dv1*dz2;
+				var denom:Number = 1/Math.sqrt(cx*cx + cy*cy + cz*cz);
 				_faceTangents[i++] = denom*cx;
 				_faceTangents[i++] = denom*cy;
 				_faceTangents[i++] = denom*cz;
 			}
-			
 			_faceTangentsDirty = false;
 		}
 		
@@ -283,9 +270,9 @@ package away3d.core.base
 			target ||= new Vector.<Number>(lenV, true);
 			v1 = normalOffset;
 			while (v1 < lenV) {
-				target[v1] = 0.0;
-				target[v1 + 1] = 0.0;
-				target[v1 + 2] = 0.0;
+				target[v1] = 0;
+				target[v1 + 1] = 0;
+				target[v1 + 2] = 0;
 				v1 += normalStride;
 			}
 			
@@ -295,7 +282,7 @@ package away3d.core.base
 			var weight:Number;
 			
 			while (i < lenI) {
-				weight = _useFaceWeights? _faceWeights[k++] : 1;
+				weight = _useFaceWeights ? _faceWeights[k++] : 1;
 				index = normalOffset + _indices[i++]*normalStride;
 				target[index++] += _faceNormals[f1]*weight;
 				target[index++] += _faceNormals[f2]*weight;

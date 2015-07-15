@@ -52,7 +52,7 @@ package away3d.tools.utils
 			for (var i:uint = 0; i < length; ++i) {
 				var co:ColorObject = _colorObjects[i];
 				if (co.color == color) {
-					fireColorEvent(co.eventID);
+					dispatchEvent(new Event(co.eventID));
 					break;
 				}
 			}
@@ -193,11 +193,6 @@ package away3d.tools.utils
 			return _colorMap;
 		}
 		
-		private function fireColorEvent(eventID:String):void
-		{
-			dispatchEvent(new Event(eventID));
-		}
-	
 	}
 }
 
@@ -207,8 +202,5 @@ class ColorObject
 	public var eventID:String;
 	public var listener:Function;
 	
-	public function ColorObject()
-	{
-		
-	}
+	public function ColorObject() {}
 }

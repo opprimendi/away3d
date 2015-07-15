@@ -142,8 +142,6 @@ package away3d.tools.commands
 			var vStride:uint, nStride:uint, uStride:uint;
 			var vOffs:uint, nOffs:uint, uOffs:uint, sn:uint;
 			var vd:Vector.<Number>, nd:Vector.<Number>, ud:Vector.<Number>;
-			var sharedNormalsDic:Dictionary = new Dictionary();
-			var outnormal:Vector3D = new Vector3D();
 			
 			vd = subGeom.vertexData;
 			vStride = subGeom.vertexStride;
@@ -189,13 +187,13 @@ package away3d.tools.commands
 			for (i = 0; i < inLen; i++) {
 				origIndex = inIndices[i];
 				sharedNormalIndex = -1;
-				px = vd[vOffs + origIndex*vStride + 0];
+				px = vd[vOffs + origIndex*vStride];
 				py = vd[vOffs + origIndex*vStride + 1];
 				pz = vd[vOffs + origIndex*vStride + 2];
-				nx = nd[nOffs + origIndex*nStride + 0];
+				nx = nd[nOffs + origIndex*nStride];
 				ny = nd[nOffs + origIndex*nStride + 1];
 				nz = nd[nOffs + origIndex*nStride + 2];
-				u = ud[uOffs + origIndex*uStride + 0];
+				u = ud[uOffs + origIndex*uStride];
 				v = ud[uOffs + origIndex*uStride + 1];
 				
 				// set the targetNormalVector, dependend on the "_useNormalMode" (use vertexNormals or FaceNormals for calculation of the angle between two vertices)
@@ -241,7 +239,7 @@ package away3d.tools.commands
 							difUvs = false;
 							
 							//if uv should kept intact, check if this must be a new vertex or can be shared (because of uv)
-							if (_keepUvs && (u != outUvs[outIndex*2 + 0]) || (v != outUvs[outIndex*2 + 1]))
+							if (_keepUvs && (u != outUvs[outIndex*2]) || (v != outUvs[outIndex*2 + 1]))
 								difUvs = true;
 							
 							if (curangle < _normalThreshold) {
@@ -278,17 +276,17 @@ package away3d.tools.commands
 					}
 					
 					oldTargetNormals[outIndex] = targetNormal;
-					sharedPointNormals[outIndex] = new Vector.<Vector3D>;
+					sharedPointNormals[outIndex] = new Vector.<Vector3D>();
 					sharedPointNormals[outIndex][0] = targetNormal;
 					usedVertices[searchStringFinal] = outIndex;
 					sharedNormalIndices[outIndex] = sharedNormalIndex;
-					outVertices[outIndex*3 + 0] = px;
+					outVertices[outIndex*3] = px;
 					outVertices[outIndex*3 + 1] = py;
 					outVertices[outIndex*3 + 2] = pz;
-					outNormals[outIndex*3 + 0] = targetNormal.x;
+					outNormals[outIndex*3] = targetNormal.x;
 					outNormals[outIndex*3 + 1] = targetNormal.y;
 					outNormals[outIndex*3 + 2] = targetNormal.z;
-					outUvs[outIndex*2 + 0] = u;
+					outUvs[outIndex*2] = u;
 					outUvs[outIndex*2 + 1] = v;
 				}
 				
@@ -301,45 +299,41 @@ package away3d.tools.commands
 				var sharedPointsfinalDic:Dictionary = new Dictionary();
 				//stores all Normal-vectors that have already been calculated
 				var sharedPointsfinalVectors:Vector.<Vector3D> = new Vector.<Vector3D>();
-				var foundVector:int;
-				var curIdx:int;
-				inLen = outVertices.length/3;
-				
+				inLen = outVertices.length / 3;
 				for (i = 0; i < inLen; i++) {
-					outnormal = new Vector3D();
-					foundVector = -1;
-					curIdx = sharedNormalIndices[i];
+					var outnormal:Vector3D = new Vector3D();
+					var foundVector:int = -1;
+					var curIdx:int = sharedNormalIndices[i];
 					// the curIdx could point to list-position, thats pointing to another shared-Normal again, 
 					//so we need to make shure, we follow the redirection until we get a normal-index smaller than maxNormalIdx
 					while (curIdx > maxNormalIdx)
 						curIdx = sharedNormalIndices[curIdx];
-					if (sharedPointsfinalDic[curIdx.toString()] != undefined) {
-						foundVector = sharedPointsfinalDic[curIdx.toString()];
+					if (sharedPointsfinalDic[curIdx] != undefined) {
+						foundVector = sharedPointsfinalDic[curIdx];
 						outnormal = sharedPointsfinalVectors[foundVector];
 					}
 					
 					if (foundVector < 0) {
-						
-						sharedNormalsDic = new Dictionary();
 						foundNormalsCnt = 0;
-						
-						for (sn = 0; sn < sharedPointNormals[curIdx].length; sn++) {
-							
-							if (sharedNormalsDic[sharedPointNormals[curIdx][sn].toString()] != undefined)
+						var sharedNormalsDic:Dictionary = new Dictionary();
+						var normals:Vector.<Vector3D> = sharedPointNormals[curIdx];
+						var length:int = normals.length;
+						for (sn = 0; sn < length; sn++) {
+							var normal:Vector3D = normals[sn];
+							if (sharedNormalsDic[normal])
 								continue;
-							
 							foundNormalsCnt++;
-							sharedNormalsDic[sharedPointNormals[curIdx][sn].toString()] = 1;
-							outnormal.x += sharedPointNormals[curIdx][sn].x;
-							outnormal.y += sharedPointNormals[curIdx][sn].y;
-							outnormal.z += sharedPointNormals[curIdx][sn].z;
+							sharedNormalsDic[normal] = true;
+							outnormal.x += normal.x;
+							outnormal.y += normal.y;
+							outnormal.z += normal.z;
 						}
 						
 						outnormal.x /= foundNormalsCnt;
 						outnormal.y /= foundNormalsCnt;
 						outnormal.z /= foundNormalsCnt;
 						
-						sharedPointsfinalDic[curIdx.toString()] = sharedPointsfinalVectors.length;
+						sharedPointsfinalDic[curIdx] = sharedPointsfinalVectors.length;
 						sharedPointsfinalVectors[sharedPointsfinalVectors.length] = outnormal;
 					}
 					

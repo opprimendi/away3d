@@ -25,7 +25,7 @@ package away3d.filters.tasks
 			super();
 			_size = size;
 			_fov = fov;
-			_data = Vector.<Number>([0, 0, 0.5, 1]);
+			_data = new <Number>[0, 0, 0.5, 1];
 		}
 		
 		public function get fov():Number
@@ -38,7 +38,6 @@ package away3d.filters.tasks
 			if (value == _fov)
 				return;
 			_fov = value;
-			
 			invalidateProgram3D();
 		}
 		
@@ -52,19 +51,16 @@ package away3d.filters.tasks
 			if (value == _size)
 				return;
 			_size = value;
-			
 			_sizeDirty = true;
 		}
 		
 		override protected function getFragmentCode():String
 		{
-			var code:String;
-			var numSamples:int = 1;
 			//phi = sqrt(x^2 + y^2)
 			//x = sin(phi)*x/phi
 			//y = sin(phi)*y/phi
 			//z = cos(phi)
-			code = "sub ft0.x, v0.x, fc0.z\n" + //x = (uu-0.5)
+			var code:String = "sub ft0.x, v0.x, fc0.z\n" + //x = (uu-0.5)
 				"sub ft0.y, fc0.z, v0.y\n" + //y = (0.5-vv)
 				"mul ft0.xy, ft0.xy, fc0.xy\n" + //(xy = xy*fov)
 				"mul ft1.xy, ft0.xy, ft0.xy\n" + //xy = xy*xy
@@ -76,7 +72,6 @@ package away3d.filters.tasks
 				"cos ft0.z, ft1.z\n" + //z = cos(phi)
 				"mov ft0.w, fc0.w\n" +
 				"tex oc, ft0, fs0 <cube,linear,miplinear>\n";
-			
 			return code;
 		}
 		
