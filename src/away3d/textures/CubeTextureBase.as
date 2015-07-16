@@ -10,19 +10,26 @@ package away3d.textures
 	
 	public class CubeTextureBase extends TextureProxyBase
 	{
+		protected var _size:int;
+		
 		public function CubeTextureBase()
 		{
 			super();
 		}
 		
+		override protected function setSize(width:int, height:int):void 
+		{
+			_size = width;
+		}
+		
 		public function get size():int
 		{
-			return _width;
+			return _size;
 		}
 		
 		override protected function createTexture(context:Context3D):TextureBase
 		{
-			return context.createCubeTexture(width, Context3DTextureFormat.BGRA, false);
+			return context.createCubeTexture(_width, Context3DTextureFormat.BGRA, false);
 		}
 	}
 }

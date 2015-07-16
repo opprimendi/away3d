@@ -9,7 +9,6 @@ package away3d.tools.utils
 		 * @param	base
 		 * @return
 		 */
-		[Inline]
 		public static function log(value:Number, base:Number = 2):Number
 		{
 			return Math.log(value) / Math.log(base);

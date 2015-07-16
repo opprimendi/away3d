@@ -4,7 +4,10 @@ package away3d.materials.passes
 	import away3d.cameras.Camera3D;
 	import away3d.core.base.IRenderable;
 	import away3d.core.managers.Stage3DProxy;
+	import away3d.textures.Anisotropy;
 	import away3d.textures.CubeTextureBase;
+	import flash.display3D.Context3DMipFilter;
+	import flash.display3D.Context3DTextureFilter;
 	
 	import flash.display3D.Context3D;
 	
@@ -75,13 +78,50 @@ package away3d.materials.passes
 				default:
 					format = "";
 			}
-			var mip:String = ",mipnone";
+			
+			var bias:String = "";
+			
+			if (_bias)
+				bias = "," + _bias;
+			
+			var mip:String = "";
 			if (_cubeTexture.hasMipMaps)
-				mip = ",miplinear";
-			return "tex ft0, v0, fs0 <cube," + format + "linear,clamp" + mip + ">	\n" +
+				mip = "," + getMipFilter(_smooth);
+			
+			return "tex ft0, v0, fs0 <cube," + format + getSmoothingFilter(_smooth, _anisotropy) + ",clamp" + mip + bias + ">	\n" +
 				"mov oc, ft0							\n";
 		}
 
+		private function getMipFilter(smooth:Boolean):String
+		{
+			return smooth? Context3DMipFilter.MIPLINEAR:Context3DMipFilter.MIPNEAREST;
+		}
+		
+		private function getSmoothingFilter(smooth:Boolean, anisotropy:int):String
+		{
+			
+			if (smooth) 
+			{
+				switch (anisotropy) 
+				{
+					case Anisotropy.ANISOTROPIC2X: 
+						return Context3DTextureFilter.ANISOTROPIC2X;
+					case Anisotropy.ANISOTROPIC4X:
+						return Context3DTextureFilter.ANISOTROPIC4X;
+					case Anisotropy.ANISOTROPIC8X: 
+						return Context3DTextureFilter.ANISOTROPIC8X;
+					case Anisotropy.ANISOTROPIC16X: 
+						return Context3DTextureFilter.ANISOTROPIC16X;
+					case Anisotropy.NONE:
+						return Context3DTextureFilter.LINEAR;
+					default:
+						return Context3DTextureFilter.NEAREST;
+				}
+			} 
+			else
+				return Context3DTextureFilter.NEAREST;
+		}
+		
 		/**
 		 * @inheritDoc
 		 */

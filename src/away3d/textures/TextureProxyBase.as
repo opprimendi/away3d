@@ -24,10 +24,22 @@ package away3d.textures
 		protected var _width:int;
 		protected var _height:int;
 		
+		protected var _isUseStreamingUpload:Boolean = false;
+		
 		public function TextureProxyBase()
 		{
 			_textures = new Vector.<TextureBase>(8);
 			_dirty = new Vector.<Context3D>(8);
+		}
+		
+		public function get isUseStreamingUpload():Boolean 
+		{
+			return _isUseStreamingUpload;
+		}
+		
+		public function set isUseStreamingUpload(value:Boolean):void 
+		{
+			_isUseStreamingUpload = value;
 		}
 		
 		public function get hasMipMaps():Boolean
@@ -58,16 +70,18 @@ package away3d.textures
 		public function getTextureForStage3D(stage3DProxy:Stage3DProxy):TextureBase
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var tex:TextureBase = _textures[contextIndex];
+			var texture:TextureBase = _textures[contextIndex];
 			var context:Context3D = stage3DProxy._context3D;
 			
-			if (!tex || _dirty[contextIndex] != context) {
-				_textures[contextIndex] = tex = createTexture(context);
+			if (!texture || _dirty[contextIndex] != context) 
+			{
+				texture = createTexture(context);
+				_textures[contextIndex] = texture;
 				_dirty[contextIndex] = context;
-				uploadContent(tex);
+				uploadContent(texture);
 			}
 			
-			return tex;
+			return texture;
 		}
 		
 		protected function uploadContent(texture:TextureBase):void

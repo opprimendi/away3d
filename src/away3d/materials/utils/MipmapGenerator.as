@@ -26,31 +26,41 @@ package away3d.materials.utils
 		 * @param mipmap An optional mip map holder to avoids creating new instances for fe animated materials.
 		 * @param alpha Indicate whether or not the uploaded bitmapData is transparent.
 		 */
-		[Inline]
-		public static function generateMipMaps(source:BitmapData, target:TextureBase, alpha:Boolean = false, side:int = -1):void
+		public static function generateMipMaps(source:BitmapData, target:TextureBase, alpha:Boolean = false, side:int = -1, startLevel:int = -1, levelsToUpload:int = -1):void
 		{
 			var sourceWidth:Number = source.width;
 			var sourceHeight:Number = source.height;
 			
-			var w:int = 1;// source.width;
-			var h:int = 1;// source.height;
+			var w:int = 0;
+			var h:int = 0;
 			var mipmap:BitmapData;
 			
-			_rect.width = w;
-			_rect.height = h;
-			
 			var largestSide:int = Math.max(sourceWidth, sourceHeight);
-			var mipLevel:int = MathUtils.log(largestSide);
+			var mipLevel:int = startLevel;
 			
-			for (var i:int = mipLevel; i > -1; i--)
+			if (mipLevel == -1)
+				mipLevel = MathUtils.log(largestSide);
+				
+			var endLvel:int = -1;
+			if (levelsToUpload != -1)
+				endLvel = mipLevel - levelsToUpload;
+				
+			for (var i:int = mipLevel; i > endLvel; i--)
 			{
+				w = sourceWidth >> i;
+				h = sourceHeight >> i;
+				
+				//for rectangle textures
+				_rect.width = w > sourceWidth? sourceWidth:w;
+				_rect.height = h > sourceHeight? sourceHeight:h;
+				
 				mipmap = getMipMapHolder(w, h, alpha);
 				
 				if (alpha)
 					mipmap.fillRect(_rect, 0);
 				
-				_matrix.a = _rect.width/source.width;
-				_matrix.d = _rect.height/source.height;
+				_matrix.a = _rect.width / source.width;
+				_matrix.d = _rect.height / source.height;
 				
 				mipmap.draw(source, _matrix, null, null, null, true);
 				
@@ -59,19 +69,14 @@ package away3d.materials.utils
 					Texture(target).uploadFromBitmapData(mipmap, i);
 				}
 				else
+				{
 					CubeTexture(target).uploadFromBitmapData(mipmap, side, i);
-				
-				w = w << 1;
-				h = h << 1;
-				
-				//for rectangle textures
-				_rect.width = w > sourceWidth? sourceWidth:w;
-				_rect.height = h > sourceHeight? sourceHeight:h;
+				}
 			}
 		}
 		
 		[Inline]
-		private static function getMipMapHolder(w:int, h:int, alpha:Boolean):BitmapData
+		public static function getMipMapHolder(w:int, h:int, alpha:Boolean):BitmapData
 		{
 			var holder:Object = alpha? alphaMipMaps:mipMaps;
 			
