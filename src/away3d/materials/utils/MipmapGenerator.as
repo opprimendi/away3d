@@ -69,7 +69,9 @@ package away3d.materials.utils
 					Texture(target).uploadFromBitmapData(mipmap, i);
 				}
 				else
+				{
 					CubeTexture(target).uploadFromBitmapData(mipmap, side, i);
+				}
 			}
 		}
 		

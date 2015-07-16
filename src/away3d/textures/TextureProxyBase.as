@@ -24,10 +24,22 @@ package away3d.textures
 		protected var _width:int;
 		protected var _height:int;
 		
+		protected var _isUseStreamingUpload:Boolean = false;
+		
 		public function TextureProxyBase()
 		{
 			_textures = new Vector.<TextureBase>(8);
 			_dirty = new Vector.<Context3D>(8);
+		}
+		
+		public function get isUseStreamingUpload():Boolean 
+		{
+			return _isUseStreamingUpload;
+		}
+		
+		public function set isUseStreamingUpload(value:Boolean):void 
+		{
+			_isUseStreamingUpload = value;
 		}
 		
 		public function get hasMipMaps():Boolean

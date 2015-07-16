@@ -1,8 +1,12 @@
 package away3d.textures
 {
 	import away3d.arcane;
+	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.utils.MipmapGenerator;
+	import away3d.tools.utils.MathUtils;
 	import away3d.tools.utils.TextureUtils;
+	import flash.display3D.Context3D;
+	import flash.display3D.Context3DTextureFormat;
 	import flash.display3D.textures.CubeTexture;
 	
 	import flash.display.BitmapData;
@@ -13,12 +17,21 @@ package away3d.textures
 	public class BitmapCubeTexture extends CubeTextureBase
 	{
 		private var _bitmapDatas:Vector.<BitmapData>;
+		private var _generateMipmaps:Boolean;
+		
+		//TODO: refactor that upload mechanis should be same to BitmapCubeTexture and BitmapTexture with differend upload strategy(uploadCubeTexture, uploadTexture) probably all bitmap based textures should have same parent class or inject upload mechanism
+		private var maxMipLevel:int = 0;
+		private var currentMipLevel:int = 0;
+		private var isMipMapsUploaded:Boolean = false;
 		
 		//private var _useAlpha : Boolean;
 		
-		public function BitmapCubeTexture(posX:BitmapData, negX:BitmapData, posY:BitmapData, negY:BitmapData, posZ:BitmapData, negZ:BitmapData)
+		public function BitmapCubeTexture(posX:BitmapData, negX:BitmapData, posY:BitmapData, negY:BitmapData, posZ:BitmapData, negZ:BitmapData, generateMipmaps:Boolean = true)
 		{
 			super();
+			
+			_generateMipmaps = generateMipmaps;
+			this._hasMipmaps = generateMipmaps;
 			
 			_bitmapDatas = new Vector.<BitmapData>(6, true);
 			testSize(_bitmapDatas[0] = posX);
@@ -135,11 +148,77 @@ package away3d.textures
 				throw new Error("Invalid bitmapData: Width and height must be power of 2 and cannot exceed 2048");
 		}
 		
+		override protected function createTexture(context:Context3D):TextureBase 
+		{
+			if (_isUseStreamingUpload)
+			{
+				var mipLevel:int = MathUtils.log(_size);
+				maxMipLevel = mipLevel;
+				currentMipLevel = maxMipLevel;
+				isMipMapsUploaded = false;
+				
+				return context.createCubeTexture(_size, Context3DTextureFormat.BGRA, false, mipLevel);
+			}
+			else
+				return context.createCubeTexture(_size, Context3DTextureFormat.BGRA, false, 0);
+		}
+		
+		override public function getTextureForStage3D(stage3DProxy:Stage3DProxy):TextureBase 
+		{
+			var contextIndex:int = stage3DProxy._stage3DIndex;
+			var texture:TextureBase = _textures[contextIndex];
+			var context:Context3D = stage3DProxy._context3D;
+			
+			if (!texture || _dirty[contextIndex] != context) 
+			{
+				texture = createTexture(context);
+				_textures[contextIndex] = texture;
+				_dirty[contextIndex] = context;
+				
+				if (!_generateMipmaps)
+					uploadContent(texture);
+			}
+			
+			if(_generateMipmaps && !isMipMapsUploaded)
+				uploadContent(texture);
+				
+			return texture;
+		}
+		
 		override protected function uploadContent(texture:TextureBase):void
 		{
 			for (var i:int = 0; i < 6; ++i)
 			{
-				MipmapGenerator.generateMipMaps(_bitmapDatas[i], texture, _bitmapDatas[i].transparent, i);
+				if (_generateMipmaps)
+				{
+					if (_isUseStreamingUpload)
+					{
+						uploadCurrentMipLevel(texture, i);
+					}
+					else
+					{
+						isMipMapsUploaded = true;
+						MipmapGenerator.generateMipMaps(_bitmapDatas[i], texture, _bitmapDatas[i].transparent, i);
+					}
+				}
+				else
+					(texture as CubeTexture).uploadFromBitmapData(_bitmapDatas[i], i, 0);
+			}
+			
+			if (_isUseStreamingUpload)
+				currentMipLevel--;
+		}
+		
+		private function uploadCurrentMipLevel(texture:TextureBase, side:int):void 
+		{
+			if (currentMipLevel == -1)
+			{
+				isMipMapsUploaded = true;
+				return;
+			}
+			else
+			{				
+				MipmapGenerator.generateMipMaps(_bitmapDatas[side], texture, _bitmapDatas[side].transparent, side, currentMipLevel, 1);
 			}
 		}
 	}

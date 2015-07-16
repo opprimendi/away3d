@@ -18,7 +18,6 @@
 		private var _bitmapData:BitmapData;
 		private var _generateMipmaps:Boolean;
 		
-		private var _isUseStreamingUpload:Boolean = false;
 		private var maxMipLevel:int = 0;
 		private var currentMipLevel:int = 0;
 		private var isMipMapsUploaded:Boolean = false;
@@ -29,16 +28,6 @@
 			
 			this.bitmapData = bitmapData;
 			_generateMipmaps = generateMipmaps;
-		}
-		
-		public function get isUseStreamingUpload():Boolean 
-		{
-			return _isUseStreamingUpload;
-		}
-		
-		public function set isUseStreamingUpload(value:Boolean):void 
-		{
-			_isUseStreamingUpload = value;
 		}
 		
 		public function get bitmapData():BitmapData

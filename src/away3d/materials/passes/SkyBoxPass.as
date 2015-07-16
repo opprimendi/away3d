@@ -84,10 +84,10 @@ package away3d.materials.passes
 			if (_bias)
 				bias = "," + _bias;
 			
-			var mip:String = ",mipnone";
+			var mip:String = "";
 			if (_cubeTexture.hasMipMaps)
 				mip = "," + getMipFilter(_smooth);
-			//looks like mipmaps for cube texture are bugged
+			
 			return "tex ft0, v0, fs0 <cube," + format + getSmoothingFilter(_smooth, _anisotropy) + ",clamp" + mip + bias + ">	\n" +
 				"mov oc, ft0							\n";
 		}
