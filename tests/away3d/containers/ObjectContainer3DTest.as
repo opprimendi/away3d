@@ -2,6 +2,8 @@ package away3d.containers {
 	import away3d.events.Object3DEvent;
 	import away3d.events.Scene3DEvent;
 	import flash.geom.Matrix3D;
+	import org.flexunit.asserts.assertEquals;
+	import org.flexunit.asserts.assertNull;
 	import org.flexunit.async.Async;
 	
 	/**
@@ -47,5 +49,47 @@ package away3d.containers {
 			var sceneTransform:Matrix3D = _child.sceneTransform;
 			_container.addChild(_child);
 		}
+		
+		[Test]
+		public function testAddChild():void {
+			assertNull(_child.parent);
+			_container.addChild(_child);
+			assertEquals(_container, _child.parent);
+		}
+		
+		[Test]
+		public function testRemoveChild():void {
+			_container.addChild(_child);
+			_container.removeChild(_child);
+			assertNull(_child.parent);
+		}
+		
+		[Ignore]
+		[Test]
+		public function testAddChildAt():void {}
+		
+		[Ignore]
+		[Test]
+		public function testRemoveChildAt():void {}
+		
+		[Ignore]
+		[Test]
+		public function testGetChildAt():void {}
+		
+		[Ignore]
+		[Test]
+		public function testGetChildIndex():void {}
+		
+		[Ignore]
+		[Test]
+		public function testAddChildren():void {}
+		
+		[Ignore]
+		[Test]
+		public function testRemoveChildren():void {}
+		
+		[Ignore]
+		[Test]
+		public function testContains():void {}
 	}
 }
