@@ -1,5 +1,6 @@
 package away3d.loaders.parsers
 {
+	import away3d.materials.SkyBoxMaterial;
 	import flash.display.BitmapData;
 	import flash.display.BlendMode;
 	import flash.display.Sprite;
@@ -937,7 +938,9 @@ package away3d.loaders.parsers
 			var returnedArrayCubeTex:Array = getAssetByID(cubeTexAddr, [AssetType.TEXTURE], "CubeTexture");
 			if ((!returnedArrayCubeTex[0]) && (cubeTexAddr != 0))
 				_blocks[blockID].addError("Could not find the Cubetexture (ID = " + cubeTexAddr + " ) for this SkyBox");
-			var asset:SkyBox = new SkyBox(returnedArrayCubeTex[1] as BitmapCubeTexture);
+				
+			var material:SkyBoxMaterial = new SkyBoxMaterial(returnedArrayCubeTex[1] as BitmapCubeTexture);
+			var asset:SkyBox = new SkyBox(material);
 			
 			parseProperties(null)
 			asset.extra = parseUserAttributes();
