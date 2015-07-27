@@ -5,9 +5,6 @@ package away3d.animators.data
 	import flash.display3D.Context3D;
 	import flash.display3D.VertexBuffer3D;
 	
-	/**
-	 * ...
-	 */
 	public class AnimationSubGeometry
 	{
 		protected var _vertexData:Vector.<Number>;
@@ -60,8 +57,7 @@ package away3d.animators.data
 		public function dispose():void
 		{
 			while (_vertexBuffer.length) {
-				var vertexBuffer:VertexBuffer3D = _vertexBuffer.pop()
-				
+				var vertexBuffer:VertexBuffer3D = _vertexBuffer.pop();
 				if (vertexBuffer)
 					vertexBuffer.dispose();
 			}
