@@ -43,11 +43,13 @@ package away3d.animators.data
 		 */
 		public function jointFromName(jointName:String):SkeletonJoint
 		{
-			var jointIndex:int = jointIndexFromName(jointName);
-			if (jointIndex != -1)
-				return joints[jointIndex];
-			else
-				return null;
+			var length:int = joints.length;
+			for (var i:int = 0; i < length; i++) {
+				var joint:SkeletonJoint = joints[i];
+				if (joint.name == jointName)
+					return joint;
+			}
+			return null;
 		}
 		
 		/**
@@ -60,19 +62,10 @@ package away3d.animators.data
 		 */
 		public function jointIndexFromName(jointName:String):int
 		{
-			// this function is implemented as a linear search, rather than a possibly
-			// more optimal method (Dictionary lookup, for example) because:
-			// a) it is assumed that it will be called once for each joint
-			// b) it is assumed that it will be called only during load, and not during main loop
-			// c) maintaining a dictionary (for safety) would dictate an interface to access SkeletonJoints,
-			//    rather than direct array access.  this would be sub-optimal.
-			var jointIndex:int;
-			for each (var joint:SkeletonJoint in joints) {
-				if (joint.name == jointName)
-					return jointIndex;
-				jointIndex++;
-			}
-			
+			var length:int = joints.length;
+			for (var i:int = 0; i < length; i++)
+				if (joints[i].name == jointName)
+					return i;
 			return -1;
 		}
 		

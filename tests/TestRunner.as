@@ -22,6 +22,7 @@ package {
 
   import away3d.Away3DTest;
 import away3d.animators.AnimatorBaseTest;
+import away3d.animators.data.SkeletonUnitTest;
 import away3d.containers.ObjectContainer3DTest;
 import away3d.core.base.Object3DTest;
 
@@ -34,7 +35,7 @@ import away3d.core.base.Object3DTest;
       core.addListener(new CIListener());
       var request: Request = Request.qualifyClasses.apply(
         null,
-        [Away3DTest,AnimatorBaseTest,ObjectContainer3DTest,Object3DTest]
+        [Away3DTest,AnimatorBaseTest,SkeletonUnitTest,ObjectContainer3DTest,Object3DTest]
       );
       core.run(request);
     }
