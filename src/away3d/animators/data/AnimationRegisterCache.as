@@ -70,8 +70,8 @@ package away3d.animators.data
 			positionAttribute = getRegisterFromString(sourceRegisters[0]);
 			scaleAndRotateTarget = getRegisterFromString(targetRegisters[0]);
 			addVertexTempUsages(scaleAndRotateTarget, 1);
-			
-			for (var i:int = 1; i < targetRegisters.length; i++) {
+			var length:int = targetRegisters.length;
+			for (var i:int = 1; i < length; i++) {
 				rotationRegisters.push(getRegisterFromString(targetRegisters[i]));
 				addVertexTempUsages(rotationRegisters[i - 1], 1);
 			}
@@ -127,9 +127,9 @@ package away3d.animators.data
 		
 		public function getInitCode():String
 		{
-			var len:int = sourceRegisters.length;
 			var code:String = "";
-			for (var i:int = 0; i < len; i++)
+			var length:int = sourceRegisters.length;
+			for (var i:int = 0; i < length; i++)
 				code += "mov " + targetRegisters[i] + "," + sourceRegisters[i] + "\n";
 			
 			code += "mov " + positionTarget + ".xyz," + vertexZeroConst.toString() + "\n";
@@ -215,57 +215,58 @@ package away3d.animators.data
 		{
 			_numVertexConstant = _numUsedVertexConstants - _vertexConstantOffset;
 			_numFragmentConstant = _numUsedFragmentConstants - _fragmentConstantOffset;
-			vertexConstantData.length = _numVertexConstant*4;
-			fragmentConstantData.length = _numFragmentConstant*4;
+			vertexConstantData.length = _numVertexConstant * 4;
+			fragmentConstantData.length = _numFragmentConstant * 4;
 		}
 		
 		public function setVertexConst(index:int, x:Number = 0, y:Number = 0, z:Number = 0, w:Number = 0):void
 		{
-			var _index:int = (index - _vertexConstantOffset)*4;
-			vertexConstantData[_index++] = x;
-			vertexConstantData[_index++] = y;
-			vertexConstantData[_index++] = z;
-			vertexConstantData[_index] = w;
+			index = (index - _vertexConstantOffset) * 4;
+			vertexConstantData[index++] = x;
+			vertexConstantData[index++] = y;
+			vertexConstantData[index++] = z;
+			vertexConstantData[index] = w;
 		}
 		
 		public function setVertexConstFromVector(index:int, data:Vector.<Number>):void
 		{
-			var _index:int = (index - _vertexConstantOffset)*4;
-			for (var i:int = 0; i < data.length; i++)
-				vertexConstantData[_index++] = data[i];
+			index = (index - _vertexConstantOffset) * 4;
+			var length:int = data.length;
+			for (var i:int = 0; i < length; i++)
+				vertexConstantData[index++] = data[i];
 		}
 		
 		public function setVertexConstFromMatrix(index:int, matrix:Matrix3D):void
 		{
 			var rawData:Vector.<Number> = Matrix3DUtils.RAW_DATA_CONTAINER;
 			matrix.copyRawDataTo(rawData);
-			var _index:int = (index - _vertexConstantOffset)*4;
-			vertexConstantData[_index++] = rawData[0];
-			vertexConstantData[_index++] = rawData[4];
-			vertexConstantData[_index++] = rawData[8];
-			vertexConstantData[_index++] = rawData[12];
-			vertexConstantData[_index++] = rawData[1];
-			vertexConstantData[_index++] = rawData[5];
-			vertexConstantData[_index++] = rawData[9];
-			vertexConstantData[_index++] = rawData[13];
-			vertexConstantData[_index++] = rawData[2];
-			vertexConstantData[_index++] = rawData[6];
-			vertexConstantData[_index++] = rawData[10];
-			vertexConstantData[_index++] = rawData[14];
-			vertexConstantData[_index++] = rawData[3];
-			vertexConstantData[_index++] = rawData[7];
-			vertexConstantData[_index++] = rawData[11];
-			vertexConstantData[_index] = rawData[15];
+			index = (index - _vertexConstantOffset) * 4;
+			vertexConstantData[index++] = rawData[0];
+			vertexConstantData[index++] = rawData[4];
+			vertexConstantData[index++] = rawData[8];
+			vertexConstantData[index++] = rawData[12];
+			vertexConstantData[index++] = rawData[1];
+			vertexConstantData[index++] = rawData[5];
+			vertexConstantData[index++] = rawData[9];
+			vertexConstantData[index++] = rawData[13];
+			vertexConstantData[index++] = rawData[2];
+			vertexConstantData[index++] = rawData[6];
+			vertexConstantData[index++] = rawData[10];
+			vertexConstantData[index++] = rawData[14];
+			vertexConstantData[index++] = rawData[3];
+			vertexConstantData[index++] = rawData[7];
+			vertexConstantData[index++] = rawData[11];
+			vertexConstantData[index] = rawData[15];
 		
 		}
 		
 		public function setFragmentConst(index:int, x:Number = 0, y:Number = 0, z:Number = 0, w:Number = 0):void
 		{
-			var _index:int = (index - _fragmentConstantOffset)*4;
-			fragmentConstantData[_index++] = x;
-			fragmentConstantData[_index++] = y;
-			fragmentConstantData[_index++] = z;
-			fragmentConstantData[_index] = w;
+			index = (index - _fragmentConstantOffset) * 4;
+			fragmentConstantData[index++] = x;
+			fragmentConstantData[index++] = y;
+			fragmentConstantData[index++] = z;
+			fragmentConstantData[index] = w;
 		}
 	}
 
