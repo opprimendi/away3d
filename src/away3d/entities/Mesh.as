@@ -246,32 +246,32 @@
 		 */
 		override public function clone():Object3D
 		{
-			var clone:Mesh = new Mesh(_geometry, _material);
-			clone.transform = transform;
-			clone.pivotPoint = pivotPoint;
-			clone.partition = partition;
-			clone.bounds = _bounds.clone();
-			clone.name = name;
-			clone.castsShadows = castsShadows;
-			clone.shareAnimationGeometry = shareAnimationGeometry;
-			clone.mouseEnabled = this.mouseEnabled;
-			clone.mouseChildren = this.mouseChildren;
+			var result:Mesh = Mesh(new (this["constructor"] as Class)(_geometry, _material));
+			result.transform = transform;
+			result.pivotPoint = pivotPoint;
+			result.partition = partition;
+			result.bounds = _bounds.clone();
+			result.name = name;
+			result.castsShadows = castsShadows;
+			result.shareAnimationGeometry = shareAnimationGeometry;
+			result.mouseEnabled = this.mouseEnabled;
+			result.mouseChildren = this.mouseChildren;
 			//this is of course no proper cloning
 			//maybe use this instead?: http://blog.another-d-mention.ro/programming/how-to-clone-duplicate-an-object-in-actionscript-3/
-			clone.extra = this.extra;
+			result.extra = this.extra;
 			
-			var len:int = _subMeshes.length;
-			for (var i:int = 0; i < len; ++i)
-				clone._subMeshes[i]._material = _subMeshes[i]._material;
+			var length:int = _subMeshes.length;
+			for (var i:int = 0; i < length; ++i)
+				result._subMeshes[i]._material = _subMeshes[i]._material;
 			
-			len = numChildren;
-			for (i = 0; i < len; ++i)
-				clone.addChild(ObjectContainer3D(getChildAt(i).clone()));
+			length = numChildren;
+			for (i = 0; i < length; ++i)
+				result.addChild(ObjectContainer3D(getChildAt(i).clone()));
 			
 			if (_animator)
-				clone.animator = _animator.clone();
+				result.animator = _animator.clone();
 			
-			return clone;
+			return result;
 		}
 		
 		/**
