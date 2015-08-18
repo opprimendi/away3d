@@ -85,7 +85,7 @@ package away3d.containers
 		protected var _implicitPartition:Partition3D; // what is inherited from the parents if it doesn't have its own explicitPartition
 		protected var _mouseEnabled:Boolean;
 		private var _children:Vector.<ObjectContainer3D> = new Vector.<ObjectContainer3D>();
-		private var _mouseChildren:Boolean;
+		private var _mouseChildren:Boolean = true;
 		private var _oldScene:Scene3D;
 		private var _inverseSceneTransform:Matrix3D = new Matrix3D();
 		private var _inverseSceneTransformDirty:Boolean = true;
@@ -264,7 +264,7 @@ package away3d.containers
 		}
 		
 		/**
-		 *
+		 * 
 		 */
 		public function get mouseChildren():Boolean
 		{
