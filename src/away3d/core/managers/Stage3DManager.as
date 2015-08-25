@@ -82,8 +82,8 @@ package away3d.core.managers
 		 */
 		public function getFreeStage3DProxy(forceSoftware:Boolean = false, profile:String = "baseline"):Stage3DProxy
 		{
-			var i:uint;
-			var len:uint = _stageProxies.length;
+			var i:int;
+			var len:int = _stageProxies.length;
 			
 			while (i < len) {
 				if (!_stageProxies[i]) {
