@@ -525,23 +525,22 @@ package away3d.containers
 		 */
 		public function addChild(child:ObjectContainer3D):ObjectContainer3D
 		{
+			return addChildAt(child, _children.length);
+		}
+		
+		public function addChildAt(child:ObjectContainer3D, index:int):ObjectContainer3D {
 			if (child == null)
 				throw new Error("Parameter child cannot be null.");
-			
 			if (child._parent)
 				child._parent.removeChild(child);
-			
 			if (!child._explicitPartition)
 				child.implicitPartition = _implicitPartition;
-			
 			child.setParent(this);
 			child.scene = _scene;
 			child.notifySceneTransformChange();
 			child.updateMouseChildren();
 			child.updateImplicitVisibility();
-			
-			_children.push(child);
-			
+			_children.splice(index, 0, child);
 			return child;
 		}
 		
@@ -607,6 +606,10 @@ package away3d.containers
 		public function getChildAt(index:uint):ObjectContainer3D
 		{
 			return _children[index];
+		}
+		
+		public function getChildIndex(child:ObjectContainer3D):int {
+			return _children.indexOf(child);
 		}
 		
 		/**

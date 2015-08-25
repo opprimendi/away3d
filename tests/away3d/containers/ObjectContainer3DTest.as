@@ -2,6 +2,7 @@ package away3d.containers {
 	import away3d.events.Object3DEvent;
 	import away3d.events.Scene3DEvent;
 	import flash.geom.Matrix3D;
+	import flash.sampler.NewObjectSample;
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.async.Async;
@@ -64,25 +65,40 @@ package away3d.containers {
 			assertNull(_child.parent);
 		}
 		
-		[Ignore]
 		[Test]
-		public function testAddChildAt():void {}
+		public function testAddChildAt():void {
+			_container.addChild(_child);
+			_container.addChildAt(new ObjectContainer3D(), 0);
+			assertEquals(1, _container.getChildIndex(_child));
+		}
 		
-		[Ignore]
 		[Test]
-		public function testRemoveChildAt():void {}
+		public function testRemoveChildAt():void {
+			_container.addChild(_child);
+			_container.removeChildAt(0);
+			assertEquals(0, _container.numChildren);
+		}
 		
-		[Ignore]
 		[Test]
-		public function testGetChildAt():void {}
+		public function testGetChildAt():void {
+			_container.addChild(_child);
+			assertEquals(_child, _container.getChildAt(0));
+		}
 		
-		[Ignore]
 		[Test]
-		public function testGetChildIndex():void {}
+		public function testGetChildIndex():void {
+			_container.addChild(_child);
+			assertEquals(0, _container.getChildIndex(_child));
+		}
 		
-		[Ignore]
 		[Test]
-		public function testAddChildren():void {}
+		public function testAddChildren():void {
+			var child0:ObjectContainer3D = new ObjectContainer3D();
+			var child1:ObjectContainer3D = new ObjectContainer3D();
+			_container.addChildren(child0, child1);
+			assertEquals(0, _container.getChildIndex(child0));
+			assertEquals(1, _container.getChildIndex(child1));
+		}
 		
 		[Ignore]
 		[Test]
