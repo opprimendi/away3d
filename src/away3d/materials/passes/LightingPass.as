@@ -11,6 +11,7 @@ package away3d.materials.passes
 	import away3d.materials.MaterialBase;
 	import away3d.materials.compilation.LightingShaderCompiler;
 	import away3d.materials.compilation.ShaderCompiler;
+	import flash.display3D.Context3DProfile;
 	
 	import flash.display3D.Context3D;
 	import flash.geom.Matrix3D;
@@ -94,7 +95,7 @@ package away3d.materials.passes
 		 */
 		override protected function createCompiler(profile:String):ShaderCompiler
 		{
-			_maxLights = profile == "baselineConstrained"? 1 : 3;
+			_maxLights = profile == Context3DProfile.BASELINE_CONSTRAINED ? 1 : 3;
 			return new LightingShaderCompiler(profile);
 		}
 

@@ -1,6 +1,5 @@
 ﻿package away3d.entities
 {
-	import away3d.materials.utils.DefaultMaterialManager;
 	import away3d.animators.IAnimator;
 	import away3d.arcane;
 	import away3d.containers.*;
@@ -9,6 +8,7 @@
 	import away3d.events.*;
 	import away3d.library.assets.*;
 	import away3d.materials.*;
+	import away3d.materials.utils.DefaultMaterialManager;
 	
 	use namespace arcane;
 	
@@ -36,9 +36,7 @@
 		{
 			super();
 			_subMeshes = new Vector.<SubMesh>();
-			
 			this.geometry = geometry || new Geometry(); //this should never happen, but if people insist on trying to create their meshes before they have geometry to fill it, it becomes necessary
-			
 			this.material = material || DefaultMaterialManager.getDefaultMaterial(this);
 		}
 		
@@ -91,12 +89,9 @@
 			material = null;
 			material = oldMaterial;
 			
-			var len:uint = _subMeshes.length;
-			var subMesh:SubMesh;
-			
-			// reassign for each SubMesh
-			for (var i:int = 0; i < len; ++i) {
-				subMesh = _subMeshes[i];
+			var length:int = _subMeshes.length;
+			for (var i:int = 0; i < length; ++i) {
+				var subMesh:SubMesh = _subMeshes[i];
 				oldMaterial = subMesh._material;
 				if (oldMaterial) {
 					subMesh.material = null;

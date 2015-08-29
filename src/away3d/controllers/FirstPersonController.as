@@ -42,13 +42,11 @@ package away3d.controllers
 		
 		public function set steps(value:uint):void
 		{
-			value = (value < 1)? 1 : value;
-			
+			value = Math.max(value, 1);
 			if (_steps == value)
 				return;
 			
 			_steps = value;
-			
 			notifyUpdate();
 		}
 		

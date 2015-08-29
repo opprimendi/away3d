@@ -7,6 +7,7 @@ package away3d.materials.compilation
 	import away3d.materials.methods.MethodVOSet;
 	import away3d.materials.methods.ShaderMethodSetup;
 	import away3d.materials.methods.ShadingMethodBase;
+	import flash.display3D.Context3DProfile;
 
 	/**
 	 * ShaderCompiler is an abstract base class for shader compilers that use modular shader methods to assemble a
@@ -461,7 +462,6 @@ package away3d.materials.compilation
 			_dependencyCounter.reset();
 
 			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
-			var len:uint;
 
 			setupAndCountMethodDependencies(_methodSetup._diffuseMethod, _methodSetup._diffuseMethodVO);
 			if (_methodSetup._shadowMethod)
@@ -472,8 +472,8 @@ package away3d.materials.compilation
 			if (_methodSetup._colorTransformMethod)
 				setupAndCountMethodDependencies(_methodSetup._colorTransformMethod, _methodSetup._colorTransformMethodVO);
 
-			len = methods.length;
-			for (var i:uint = 0; i < len; ++i)
+			var length:int = methods.length;
+			for (var i:int = 0; i < length; ++i)
 				setupAndCountMethodDependencies(methods[i].method, methods[i].data);
 
 			if (usesNormals)
@@ -508,7 +508,7 @@ package away3d.materials.compilation
 			methodVO.useMipmapping = _mipmap;
 			methodVO.anisotropy = _anisotropy;
 			methodVO.bias = _bias;
-			methodVO.useLightFallOff = _enableLightFallOff && _profile != "baselineConstrained";
+			methodVO.useLightFallOff = _enableLightFallOff && _profile != Context3DProfile.BASELINE_CONSTRAINED;
 			methodVO.numLights = _numLights + _numLightProbes;
 			method.initVO(methodVO);
 		}
@@ -537,8 +537,8 @@ package away3d.materials.compilation
 				_methodSetup._colorTransformMethod.sharedRegisters = _sharedRegisters;
 
 			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
-			var len:int = methods.length;
-			for (var i:uint = 0; i < len; ++i)
+			var length:int = methods.length;
+			for (var i:int = 0; i < length; ++i)
 				methods[i].method.sharedRegisters = _sharedRegisters;
 		}
 
@@ -631,8 +631,8 @@ package away3d.materials.compilation
 				_methodSetup._colorTransformMethod.cleanCompilationData();
 
 			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
-			var len:uint = methods.length;
-			for (var i:uint = 0; i < len; ++i)
+			var length:uint = methods.length;
+			for (var i:int = 0; i < length; ++i)
 				methods[i].method.cleanCompilationData();
 		}
 
@@ -908,7 +908,7 @@ package away3d.materials.compilation
 				_fragmentCode += "mov " + alphaReg + ", " + _sharedRegisters.shadedTarget + ".w\n";
 			}
 
-			for (var i:uint = 0; i < numMethods; ++i) {
+			for (var i:int = 0; i < numMethods; ++i) {
 				method = methods[i].method;
 				data = methods[i].data;
 				_vertexCode += method.getVertexCode(data, _registerCache);

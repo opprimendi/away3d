@@ -3,6 +3,7 @@ package away3d.core.managers
 	import away3d.arcane;
 	import away3d.debug.Debug;
 	import away3d.events.Stage3DEvent;
+	import flash.display3D.Context3DProfile;
 	
 	import flash.display.Shape;
 	import flash.display.Stage3D;
@@ -550,7 +551,7 @@ package away3d.core.managers
 			
 			// ugly stuff for backward compatibility
 			var renderMode:String = forceSoftware? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
-			if (profile == "baseline")
+			if (profile == Context3DProfile.BASELINE)
 				_stage3D.requestContext3D(renderMode);
 			else {
 				try {
