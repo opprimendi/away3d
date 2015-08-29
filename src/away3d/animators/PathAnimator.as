@@ -29,7 +29,7 @@ package away3d.animators
 		private var _lastSegment:uint;
 		private var _rot:Vector3D;
 		private var _upAxis:Vector3D = new Vector3D(0, 1, 0);
-		private var _basePosition:Vector3D = new Vector3D(0, 0, 0);
+		private var _basePosition:Vector3D = new Vector3D();
 		
 		/**
 		 * Creates a new <code>PathAnimator</code>

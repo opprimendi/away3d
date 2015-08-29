@@ -41,8 +41,8 @@
 		{
 			var bound:Number = gridSize*.5;
 			var step:Number = gridSize/subDivision;
-			var v0:Vector3D = new Vector3D(0, 0, 0);
-			var v1:Vector3D = new Vector3D(0, 0, 0);
+			var v0:Vector3D = new Vector3D();
+			var v1:Vector3D = new Vector3D();
 			var inc:Number = -bound;
 			
 			while (inc <= bound) {

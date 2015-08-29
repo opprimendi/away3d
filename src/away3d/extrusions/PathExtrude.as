@@ -693,14 +693,14 @@ package away3d.extrusions
 		private function initHolders():void
 		{
 			if (!_uva) {
-				_uva = new UV(0, 0);
-				_uvb = new UV(0, 0);
-				_uvc = new UV(0, 0);
-				_uvd = new UV(0, 0);
-				_normal0 = new Vector3D(0.0, 0.0, 0.0);
-				_normal1 = new Vector3D(0.0, 0.0, 0.0);
-				_normal2 = new Vector3D(0.0, 0.0, 0.0);
-				_normalTmp = new Vector3D(0.0, 0.0, 0.0);
+				_uva = new UV();
+				_uvb = new UV();
+				_uvc = new UV();
+				_uvd = new UV();
+				_normal0 = new Vector3D();
+				_normal1 = new Vector3D();
+				_normal2 = new Vector3D();
+				_normalTmp = new Vector3D();
 			}
 			
 			if (_materials && _materials.length > 0) {
@@ -1081,7 +1081,7 @@ package away3d.extrusions
 			var vPtsList:Vector.<Vector3D> = new Vector.<Vector3D>();
 			var vSegResults:Vector.<Vector.<Vector3D>> = new Vector.<Vector.<Vector3D>>();
 			var atmp:Vector.<Vector3D>;
-			var tmppt:Vector3D = new Vector3D(0, 0, 0);
+			var tmppt:Vector3D = new Vector3D();
 			
 			var i:uint;
 			var j:uint;

@@ -967,10 +967,10 @@
 		private function initHolders():void
 		{
 			if (!_uva) {
-				_uva = new UV(0, 0);
-				_uvb = new UV(0, 0);
-				_uvc = new UV(0, 0);
-				_uvd = new UV(0, 0);
+				_uva = new UV();
+				_uvb = new UV();
+				_uvc = new UV();
+				_uvd = new UV();
 			}
 			
 			_varr = new Vector.<Vertex>();

@@ -313,14 +313,14 @@ package away3d.extrusions
 		private function initHolders():void
 		{
 			_indice = 0;
-			_uva = new UV(0, 0);
-			_uvb = new UV(0, 0);
-			_uvc = new UV(0, 0);
-			_uvd = new UV(0, 0);
-			_va = new Vertex(0, 0, 0);
-			_vb = new Vertex(0, 0, 0);
-			_vc = new Vertex(0, 0, 0);
-			_vd = new Vertex(0, 0, 0);
+			_uva = new UV();
+			_uvb = new UV();
+			_uvc = new UV();
+			_uvd = new UV();
+			_va = new Vertex();
+			_vb = new Vertex();
+			_vc = new Vertex();
+			_vd = new Vertex();
 			_uvs = new Vector.<Number>();
 			_vertices = new Vector.<Number>();
 			_indices = new Vector.<uint>();

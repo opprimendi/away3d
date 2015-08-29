@@ -5,8 +5,6 @@ package away3d.controllers
 	import away3d.entities.*;
 	import away3d.events.*;
 	import flash.geom.Vector3D;
-
-
 	
 	/**
 	 * Extended camera used to automatically look at a specified target object.
@@ -17,7 +15,7 @@ package away3d.controllers
 	{
 		protected var _lookAtPosition:Vector3D;
 		protected var _lookAtObject:ObjectContainer3D;
-		protected var _origin:Vector3D = new Vector3D(0.0, 0.0, 0.0);
+		protected var _origin:Vector3D = new Vector3D();
 		protected var _upAxis:Vector3D = Vector3D.Y_AXIS;
 		private var _pos:Vector3D = new Vector3D();
 		/**

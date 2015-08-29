@@ -1232,24 +1232,24 @@ package away3d.extrusions
 		private function initHolders():void
 		{
 			_uvarr = new Vector.<UV>();
-			_uva = new UV(0, 0);
-			_uvb = new UV(0, 0);
-			_uvc = new UV(0, 0);
-			_uvd = new UV(0, 0);
-			_va = new Vector3D(0, 0, 0);
-			_vb = new Vector3D(0, 0, 0);
-			_vc = new Vector3D(0, 0, 0);
-			_vd = new Vector3D(0, 0, 0);
+			_uva = new UV();
+			_uvb = new UV();
+			_uvc = new UV();
+			_uvd = new UV();
+			_va = new Vector3D();
+			_vb = new Vector3D();
+			_vc = new Vector3D();
+			_vd = new Vector3D();
 			_uvs = new Vector.<Number>();
 			_vertices = new Vector.<Number>();
 			_indices = new Vector.<uint>();
 			_normals = new Vector.<Number>();
 			
 			if (_smoothSurface) {
-				_normal0 = new Vector3D(0.0, 0.0, 0.0);
-				_normal1 = new Vector3D(0.0, 0.0, 0.0);
-				_normal2 = new Vector3D(0.0, 0.0, 0.0);
-				_normalTmp = new Vector3D(0.0, 0.0, 0.0);
+				_normal0 = new Vector3D();
+				_normal1 = new Vector3D();
+				_normal2 = new Vector3D();
+				_normalTmp = new Vector3D();
 			} else
 				_subGeometry.autoDeriveVertexNormals = true;
 			

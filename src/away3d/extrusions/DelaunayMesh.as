@@ -449,9 +449,9 @@ package away3d.extrusions
 				sortMid = (sortMax + sortMin)*.5;
 				loopMid = (loopMax + loopMin)*.5;
 				
-				nVectors[nv] = new Vector3D(0.0, 0.0, 0.0);
-				nVectors[nv + 1] = new Vector3D(0.0, 0.0, 0.0);
-				nVectors[nv + 2] = new Vector3D(0.0, 0.0, 0.0);
+				nVectors[nv] = new Vector3D();
+				nVectors[nv + 1] = new Vector3D();
+				nVectors[nv + 2] = new Vector3D();
 				
 				var offset:Number = 2.0;
 				nVectors[nv][_sortProp] = sortMid - offset*dmax;
