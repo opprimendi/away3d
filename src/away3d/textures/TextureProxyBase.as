@@ -6,7 +6,6 @@ package away3d.textures
 	import away3d.library.assets.AssetType;
 	import away3d.library.assets.IAsset;
 	import away3d.library.assets.NamedAssetBase;
-	
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DTextureFormat;
 	import flash.display3D.textures.TextureBase;
@@ -24,7 +23,7 @@ package away3d.textures
 		protected var _width:int;
 		protected var _height:int;
 		
-		protected var _isUseStreamingUpload:Boolean = false;
+		protected var _isUseStreamingUpload:Boolean;
 		
 		public function TextureProxyBase()
 		{
@@ -69,9 +68,9 @@ package away3d.textures
 		
 		public function getTextureForStage3D(stage3DProxy:Stage3DProxy):TextureBase
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
+			var contextIndex:int = stage3DProxy.arcane::_stage3DIndex;
 			var texture:TextureBase = _textures[contextIndex];
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.arcane::_context3D;
 			
 			if (!texture || _dirty[contextIndex] != context) 
 			{
@@ -106,9 +105,8 @@ package away3d.textures
 		
 		protected function invalidateSize():void
 		{
-			var tex:TextureBase;
 			for (var i:int = 0; i < 8; ++i) {
-				tex = _textures[i];
+				var tex:TextureBase = _textures[i];
 				if (tex) {
 					tex.dispose();
 					_textures[i] = null;
@@ -128,8 +126,9 @@ package away3d.textures
 		public function dispose():void
 		{
 			for (var i:int = 0; i < 8; ++i) {
-				if (_textures[i])
-					_textures[i].dispose();
+				var tex:TextureBase = _textures[i];
+				if (tex)
+					tex.dispose();
 			}
 		}
 	}

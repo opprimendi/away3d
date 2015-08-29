@@ -1,11 +1,7 @@
 package away3d.library.assets
 {
-	import away3d.arcane;
 	import away3d.events.AssetEvent;
-	
 	import flash.events.EventDispatcher;
-	
-	use namespace arcane;
 	
 	[Event(name = 'assetRename', type = 'away3d.events.AssetEvent')]
 	
@@ -82,13 +78,13 @@ package away3d.library.assets
 		
 		public function assetPathEquals(name:String, ns:String):Boolean
 		{
-			return (_name == name && (!ns || _namespace == ns));
+			return _name == name && (!ns || _namespace == ns);
 		}
 		
 		public function resetAssetPath(name:String, ns:String = null, overrideOriginal:Boolean = true):void
 		{
-			_name = name? name : 'null';
-			_namespace = ns? ns : DEFAULT_NAMESPACE;
+			_name = name ? name : 'null';
+			_namespace = ns ? ns : DEFAULT_NAMESPACE;
 			if (overrideOriginal)
 				_originalName = _name;
 			
@@ -97,7 +93,7 @@ package away3d.library.assets
 		
 		private function updateFullPath():void
 		{
-			_full_path = [ _namespace, _name ];
+			_full_path = [_namespace, _name];
 		}
 	}
 }

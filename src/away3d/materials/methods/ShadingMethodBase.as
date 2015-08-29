@@ -9,7 +9,6 @@ package away3d.materials.methods
 	import away3d.materials.compilation.*;
 	import away3d.materials.passes.*;
 	import away3d.textures.*;
-	
 	import flash.display3D.*;
 	
 	use namespace arcane;
@@ -161,17 +160,16 @@ package away3d.materials.methods
 		 */
 		protected function getTex2DSampleCode(vo:MethodVO, targetReg:ShaderRegisterElement, inputReg:ShaderRegisterElement, texture:TextureProxyBase, uvReg:ShaderRegisterElement = null, forceWrap:String = null):String
 		{
-			var wrap:String = forceWrap || (vo.repeatTextures? "wrap" : "clamp");
-			var filter:String;
+			var wrap:String = forceWrap || (vo.repeatTextures ? "wrap" : "clamp");
 			var format:String = getFormatStringForTexture(texture);
-			var enableMipMaps:Boolean = vo.useMipmapping && texture.hasMipMaps;
-			var bias:String = "";
 			
-			if (enableMipMaps)
+			var filter:String;
+			if (vo.useMipmapping && texture.hasMipMaps)
 				filter = getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy) + "," + getMipFilter(vo.useSmoothTextures);
 			else
 				filter = getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy);
 				
+			var bias:String = "";
 			if (vo.bias != 0)
 				bias = "," + vo.bias.toString();
 			
@@ -189,11 +187,10 @@ package away3d.materials.methods
 		 */
 		protected function getTexCubeSampleCode(vo:MethodVO, targetReg:ShaderRegisterElement, inputReg:ShaderRegisterElement, texture:TextureProxyBase, uvReg:ShaderRegisterElement):String
 		{
-			var filter:String;
 			var format:String = getFormatStringForTexture(texture);
-			var enableMipMaps:Boolean = vo.useMipmapping && texture.hasMipMaps;
 			
-			if (enableMipMaps)
+			var filter:String;
+			if (vo.useMipmapping && texture.hasMipMaps)
 				filter = getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy) + "," + getMipFilter(vo.useSmoothTextures);
 			else
 				filter = getSmoothingFilter(vo.useSmoothTextures, vo.anisotropy);
@@ -211,10 +208,8 @@ package away3d.materials.methods
 			switch (texture.format) {
 				case Context3DTextureFormat.COMPRESSED:
 					return "dxt1,";
-					break;
 				case "compressedAlpha":
 					return "dxt5,";
-					break;
 				default:
 					return "";
 			}
@@ -225,7 +220,8 @@ package away3d.materials.methods
 		 */
 		protected function invalidateShaderProgram():void
 		{
-			dispatchEvent(new ShadingMethodEvent(ShadingMethodEvent.SHADER_INVALIDATED));
+			if(hasEventListener(ShadingMethodEvent.SHADER_INVALIDATED))
+				dispatchEvent(new ShadingMethodEvent(ShadingMethodEvent.SHADER_INVALIDATED));
 		}
 		
 		/**
@@ -237,7 +233,7 @@ package away3d.materials.methods
 		
 		private function getMipFilter(smooth:Boolean):String
 		{
-			return smooth? Context3DMipFilter.MIPLINEAR:Context3DMipFilter.MIPNEAREST;
+			return smooth ? Context3DMipFilter.MIPLINEAR : Context3DMipFilter.MIPNEAREST;
 		}
 		
 		private function getSmoothingFilter(smooth:Boolean, anisotropy:int):String
