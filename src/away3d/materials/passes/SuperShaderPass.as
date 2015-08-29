@@ -193,10 +193,10 @@ package away3d.materials.passes
 				_methodSetup._colorTransformMethod.activate(_methodSetup._colorTransformMethodVO, stage3DProxy);
 			
 			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
-			var len:uint = methods.length;
-			for (var i:int = 0; i < len; ++i) {
-				var set:MethodVOSet = methods[i];
-				set.method.activate(set.data, stage3DProxy);
+			var length:uint = methods.length;
+			for (var i:int = 0; i < length; ++i) {
+				var vo:MethodVOSet = methods[i];
+				vo.method.activate(vo.data, stage3DProxy);
 			}
 			
 			if (_cameraPositionIndex >= 0) {
