@@ -1,6 +1,5 @@
 package away3d.tools.utils 
 {
-	
 	public class MathUtils
 	{	
 		/**
@@ -26,6 +25,14 @@ package away3d.tools.utils
 			return 180 * angle / Math.PI;
 		}	
 		
+		/**
+		 * Moves 'value' into the range between 'min' and 'max'.
+		 */
+		[Inline]
+		public static function clamp(value:Number, min:Number, max:Number):Number {
+			if(value < min) return min;
+			if(value > max) return max;
+			return value;
+		}
 	}
-
 }
