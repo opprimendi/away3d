@@ -11,7 +11,6 @@ package away3d.textures
 	import away3d.core.render.RendererBase;
 	import away3d.core.traverse.EntityCollector;
 	import away3d.tools.utils.TextureUtils;
-	
 	import flash.display.BitmapData;
 	import flash.display3D.textures.TextureBase;
 	import flash.geom.Matrix3D;
@@ -124,8 +123,8 @@ package away3d.textures
 		
 		public function set scale(value:Number):void
 		{
-			_scale = value > 1? 1 :
-				value < 0? 0 :
+			_scale = value > 1 ? 1 :
+				value < 0 ? 0 :
 				value;
 		}
 		

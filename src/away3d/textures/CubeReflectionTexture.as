@@ -1,6 +1,5 @@
 package away3d.textures
 {
-	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.cameras.lenses.PerspectiveLens;
 	import away3d.containers.Scene3D;
@@ -9,12 +8,9 @@ package away3d.textures
 	import away3d.core.render.DefaultRenderer;
 	import away3d.core.render.RendererBase;
 	import away3d.core.traverse.EntityCollector;
-	
 	import flash.display.BitmapData;
 	import flash.display3D.textures.TextureBase;
 	import flash.geom.Vector3D;
-	
-	use namespace arcane;
 	
 	/**
 	 * CubeReflectionTexture provides a cube map texture for real-time reflections, used for any method that uses environment maps,
@@ -109,7 +105,7 @@ package away3d.textures
 			_isRendering = true;
 			_renderer.stage3DProxy = stage3DProxy;
 			
-			for (var i:uint = 0; i < 6; ++i)
+			for (var i:int = 0; i < 6; ++i)
 				renderSurface(i, scene, targetTexture);
 			
 			_isRendering = false;
@@ -186,7 +182,7 @@ package away3d.textures
 			cam.rotationX = rotationX;
 			cam.rotationY = rotationY;
 			cam.rotationZ = rotationZ;
-			cam.lens.near = .01;
+			cam.lens.near = 0.01;
 			PerspectiveLens(cam.lens).fieldOfView = 90;
 			_lenses.push(PerspectiveLens(cam.lens));
 			cam.lens.aspectRatio = 1;
