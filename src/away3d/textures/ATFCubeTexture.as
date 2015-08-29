@@ -1,13 +1,9 @@
 package away3d.textures
 {
-	import away3d.arcane;
-	
 	import flash.display3D.Context3D;
 	import flash.display3D.textures.CubeTexture;
 	import flash.display3D.textures.TextureBase;
 	import flash.utils.ByteArray;
-	
-	use namespace arcane;
 	
 	public class ATFCubeTexture extends CubeTextureBase
 	{
@@ -31,9 +27,7 @@ package away3d.textures
 		public function set atfData(value:ATFData):void
 		{
 			_atfData = value;
-			
 			invalidateContent();
-			
 			setSize(value.width, value.height);
 		}
 		
