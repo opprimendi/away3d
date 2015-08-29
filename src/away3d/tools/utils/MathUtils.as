@@ -34,15 +34,5 @@ package away3d.tools.utils
 			if(value > max) return max;
 			return value;
 		}
-		
-		[Inline]
-		public static function min2(a:Number, b:Number):Number {
-			return a < b ? a : b;
-		}
-		
-		[Inline]
-		public static function max2(a:Number, b:Number):Number {
-			return a > b ? a : b;
-		}
 	}
 }
