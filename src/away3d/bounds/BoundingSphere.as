@@ -1,12 +1,8 @@
 package away3d.bounds
 {
-	import away3d.arcane;
 	import away3d.core.math.*;
 	import away3d.primitives.*;
-	
 	import flash.geom.*;
-	
-	use namespace arcane;
 	
 	/**
 	 * BoundingSphere represents a spherical bounding volume defined by a center point and a radius.
@@ -50,16 +46,15 @@ package away3d.bounds
 		 */
 		override public function isInFrustum(planes:Vector.<Plane3D>, numPlanes:int):Boolean
 		{
-			for (var i:uint = 0; i < numPlanes; ++i) {
+			for (var i:int = 0; i < numPlanes; ++i) {
 				var plane:Plane3D = planes[i];
-				var flippedExtentX:Number = plane.a < 0? -_radius : _radius;
-				var flippedExtentY:Number = plane.b < 0? -_radius : _radius;
-				var flippedExtentZ:Number = plane.c < 0? -_radius : _radius;
+				var flippedExtentX:Number = plane.a < 0 ? -_radius : _radius;
+				var flippedExtentY:Number = plane.b < 0 ? -_radius : _radius;
+				var flippedExtentZ:Number = plane.c < 0 ? -_radius : _radius;
 				var projDist:Number = plane.a*(_centerX + flippedExtentX) + plane.b*(_centerY + flippedExtentY) + plane.c*(_centerZ + flippedExtentZ) - plane.d;
 				if (projDist < 0)
 					return false;
 			}
-			
 			return true;
 		}
 		
@@ -189,10 +184,13 @@ package away3d.bounds
 			if (c < 0)
 				c = -c;
 			var rr:Number = (a + b + c)*_radius;
-			
-			return dd > rr? PlaneClassification.FRONT :
-				dd < -rr? PlaneClassification.BACK :
-				PlaneClassification.INTERSECT;
+			if(dd > rr) {
+				return PlaneClassification.FRONT;
+			}
+			if(dd < -rr) {
+				return PlaneClassification.BACK;
+			}
+			return PlaneClassification.INTERSECT;
 		}
 		
 		override public function transformFrom(bounds:BoundingVolumeBase, matrix:Matrix3D):void

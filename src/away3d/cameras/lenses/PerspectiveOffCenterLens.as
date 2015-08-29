@@ -2,7 +2,6 @@ package away3d.cameras.lenses
 {
 	import away3d.core.math.*;
 	import away3d.core.math.Matrix3DUtils;
-
 	import flash.geom.Vector3D;
 	
 	/**
@@ -25,13 +24,11 @@ package away3d.cameras.lenses
 		
 		/**
 		 * Creates a new PerspectiveLens object.
-		 *
 		 * @param fieldOfView The vertical field of view of the projection.
 		 */
 		public function PerspectiveOffCenterLens(minAngleX:Number = -40, maxAngleX:Number = 40, minAngleY:Number = -40, maxAngleY:Number = 40)
 		{
 			super();
-			
 			this.minAngleX = minAngleX;
 			this.maxAngleX = maxAngleX;
 			this.minAngleY = minAngleY;
@@ -88,9 +85,7 @@ package away3d.cameras.lenses
 		public function set maxAngleY(value:Number):void
 		{
 			_maxAngleY = value;
-			
 			_tanMaxY = Math.tan(_maxAngleY*Math.PI/180);
-			
 			invalidateMatrix();
 		}
 		
@@ -100,35 +95,31 @@ package away3d.cameras.lenses
 		 * @param nX The normalised x coordinate in screen space, -1 corresponds to the left edge of the viewport, 1 to the right.
 		 * @param nY The normalised y coordinate in screen space, -1 corresponds to the top edge of the viewport, 1 to the bottom.
 		 * @param sZ The z coordinate in screen space, representing the distance into the screen.
-		 * @param v The destination Vector3D object
+		 * @param result The destination Vector3D object
 		 * @return The scene position relative to the camera of the given screen coordinates.
 		 */
-		override public function unproject(nX:Number, nY:Number, sZ:Number, v:Vector3D = null):Vector3D
+		override public function unproject(nX:Number, nY:Number, sZ:Number, result:Vector3D = null):Vector3D
 		{
-			if(!v) v = new Vector3D();
-			v.x = nX;
-			v.y = -nY;
-			v.z = sZ;
-			v.w = 1;
-
-			v.x *= sZ;
-			v.y *= sZ;
-			
-			Matrix3DUtils.transformVector(unprojectionMatrix, v, v);
-			
+			result ||= new Vector3D();
+			result.x = nX;
+			result.y = -nY;
+			result.z = sZ;
+			result.w = 1;
+			result.x *= sZ;
+			result.y *= sZ;
+			Matrix3DUtils.transformVector(unprojectionMatrix, result, result);
 			//z is unaffected by transform
-			v.z = sZ;
-			
-			return v;
+			result.z = sZ;
+			return result;
 		}
 		
 		override public function clone():LensBase
 		{
-			var clone:PerspectiveOffCenterLens = new PerspectiveOffCenterLens(_minAngleX, _maxAngleX, _minAngleY, _maxAngleY);
-			clone._near = _near;
-			clone._far = _far;
-			clone._aspectRatio = _aspectRatio;
-			return clone;
+			var result:PerspectiveOffCenterLens = new PerspectiveOffCenterLens(_minAngleX, _maxAngleX, _minAngleY, _maxAngleY);
+			result._near = _near;
+			result._far = _far;
+			result._aspectRatio = _aspectRatio;
+			return result;
 		}
 		
 		/**

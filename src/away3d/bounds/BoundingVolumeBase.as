@@ -1,14 +1,10 @@
 package away3d.bounds
 {
-	import away3d.arcane;
 	import away3d.core.base.*;
 	import away3d.core.math.Plane3D;
 	import away3d.errors.*;
 	import away3d.primitives.*;
-	
 	import flash.geom.*;
-	
-	use namespace arcane;
 	
 	/**
 	 * An abstract base class for all bounding volume classes. It should not be instantiated directly.
@@ -102,23 +98,22 @@ package away3d.bounds
 		 */
 		public function fromVertices(vertices:Vector.<Number>):void
 		{
-			var i:uint;
-			var len:uint = vertices.length;
-			var minX:Number, minY:Number, minZ:Number;
-			var maxX:Number, maxY:Number, maxZ:Number;
-			
-			if (len == 0) {
+			var length:uint = vertices.length;
+			if (length == 0) {
 				nullify();
 				return;
 			}
 			
-			var v:Number;
+			var minX:Number, minY:Number, minZ:Number;
+			var maxX:Number, maxY:Number, maxZ:Number;
 			
+			var i:uint;
 			minX = maxX = vertices[i++];
 			minY = maxY = vertices[i++];
 			minZ = maxZ = vertices[i++];
 			
-			while (i < len) {
+			var v:Number;
+			while (i < length) {
 				v = vertices[i++];
 				if (v < minX)
 					minX = v;
@@ -148,10 +143,9 @@ package away3d.bounds
 		{
 			var subGeoms:Vector.<ISubGeometry> = geometry.subGeometries;
 			var numSubGeoms:uint = subGeoms.length;
-			var minX:Number, minY:Number, minZ:Number;
-			var maxX:Number, maxY:Number, maxZ:Number;
-			
 			if (numSubGeoms > 0) {
+				var minX:Number, minY:Number, minZ:Number;
+				var maxX:Number, maxY:Number, maxZ:Number;
 				var subGeom:ISubGeometry = subGeoms[0];
 				var vertices:Vector.<Number> = subGeom.vertexData;
 				var i:uint = subGeom.vertexOffset;
@@ -159,7 +153,7 @@ package away3d.bounds
 				minY = maxY = vertices[i + 1];
 				minZ = maxZ = vertices[i + 2];
 
-				var j:uint = 0;
+				var j:uint;
 				while (j < numSubGeoms) {
 					subGeom = subGeoms[j++];
 					vertices = subGeom.vertexData;
@@ -293,7 +287,6 @@ package away3d.bounds
 		 */
 		public function containsPoint(position:Vector3D):Boolean
 		{
-			position = position;
 			return false;
 		}
 		

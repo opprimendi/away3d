@@ -1,13 +1,9 @@
 package away3d.bounds
 {
 	
-	import away3d.arcane;
 	import away3d.core.math.*;
 	import away3d.primitives.*;
-	
 	import flash.geom.*;
-	
-	use namespace arcane;
 	
 	/**
 	 * AxisAlignedBoundingBox represents a bounding box volume that has its planes aligned to the local coordinate axes of the bounded object.
@@ -44,14 +40,14 @@ package away3d.bounds
 		 */
 		override public function isInFrustum(planes:Vector.<Plane3D>, numPlanes:int):Boolean
 		{
-			for (var i:uint = 0; i < numPlanes; ++i) {
+			for (var i:int = 0; i < numPlanes; ++i) {
 				var plane:Plane3D = planes[i];
 				var a:Number = plane.a;
 				var b:Number = plane.b;
 				var c:Number = plane.c;
-				var flippedExtentX:Number = a < 0? -_halfExtentsX : _halfExtentsX;
-				var flippedExtentY:Number = b < 0? -_halfExtentsY : _halfExtentsY;
-				var flippedExtentZ:Number = c < 0? -_halfExtentsZ : _halfExtentsZ;
+				var flippedExtentX:Number = a < 0 ? -_halfExtentsX : _halfExtentsX;
+				var flippedExtentY:Number = b < 0 ? -_halfExtentsY : _halfExtentsY;
+				var flippedExtentZ:Number = c < 0 ? -_halfExtentsZ : _halfExtentsZ;
 				var projDist:Number = a*(_centerX + flippedExtentX) + b*(_centerY + flippedExtentY) + c*(_centerZ + flippedExtentZ) - plane.d;
 				if (projDist < 0)
 					return false;
@@ -82,7 +78,6 @@ package away3d.bounds
 						targetNormal.x = 1;
 						targetNormal.y = 0;
 						targetNormal.z = 0;
-						
 						intersects = true;
 					}
 				}
@@ -153,7 +148,7 @@ package away3d.bounds
 				}
 			}
 			
-			return intersects? rayEntryDistance : -1;
+			return intersects ? rayEntryDistance : -1;
 		}
 		
 		/**
@@ -214,10 +209,8 @@ package away3d.bounds
 		 */
 		public function closestPointToPoint(point:Vector3D, target:Vector3D = null):Vector3D
 		{
-			var p:Number;
 			target ||= new Vector3D();
-			
-			p = point.x;
+			var p:Number = point.x;
 			if (p < _min.x)
 				p = _min.x;
 			if (p > _max.x)
@@ -269,10 +262,13 @@ package away3d.bounds
 			if (c < 0)
 				c = -c;
 			var boundOffset:Number = a*_halfExtentsX + b*_halfExtentsY + c*_halfExtentsZ;
-			
-			return centerDistance > boundOffset? PlaneClassification.FRONT :
-				centerDistance < -boundOffset? PlaneClassification.BACK :
-				PlaneClassification.INTERSECT;
+			if(centerDistance > boundOffset) {
+				return PlaneClassification.FRONT;
+			}
+			if(centerDistance < -boundOffset) {
+				return PlaneClassification.BACK;
+			}
+			return PlaneClassification.INTERSECT;
 		}
 		
 		override public function transformFrom(bounds:BoundingVolumeBase, matrix:Matrix3D):void

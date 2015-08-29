@@ -4,9 +4,7 @@ package away3d.cameras.lenses
 	import away3d.core.math.Matrix3DUtils;
 	import away3d.core.math.Plane3D;
 	import away3d.events.LensEvent;
-	
 	import flash.geom.Matrix3D;
-	
 	import flash.geom.Vector3D;
 	
 	use namespace arcane;
@@ -95,8 +93,8 @@ package away3d.cameras.lenses
 			var cy:Number = _plane.b;
 			var cz:Number = _plane.c;
 			var cw:Number = -_plane.d + .05;
-			var signX:Number = cx >= 0? 1 : -1;
-			var signY:Number = cy >= 0? 1 : -1;
+			var signX:Number = cx >= 0 ? 1 : -1;
+			var signY:Number = cy >= 0 ? 1 : -1;
 			var p:Vector3D = signCalculationVector;
 			p.x = signX;
 			p.y = signY;

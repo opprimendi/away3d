@@ -1,7 +1,6 @@
 package away3d.cameras.lenses
 {
 	import away3d.core.math.*;
-	
 	import flash.geom.*;
 	
 	/**
@@ -18,13 +17,11 @@ package away3d.cameras.lenses
 
 		/**
 		 * Creates a new PerspectiveLens object.
-		 *
 		 * @param fieldOfView The vertical field of view of the projection.
 		 */
 		public function PerspectiveLens(fieldOfView:Number = 60, coordinateSystem:uint = 0)
 		{
 			super();
-			
 			this.fieldOfView = fieldOfView;
 			this.coordinateSystem = coordinateSystem;
 		}
@@ -43,10 +40,8 @@ package away3d.cameras.lenses
 				return;
 			
 			_fieldOfView = value;
-			
 			_focalLengthInv = Math.tan(_fieldOfView*Math.PI/360);
 			_focalLength = 1/_focalLengthInv;
-			
 			invalidateMatrix();
 		}
 		
@@ -64,10 +59,8 @@ package away3d.cameras.lenses
 				return;
 			
 			_focalLength = value;
-			
 			_focalLengthInv = 1/_focalLength;
 			_fieldOfView = Math.atan(_focalLengthInv)*360/Math.PI;
-			
 			invalidateMatrix();
 		}
 		
@@ -77,26 +70,22 @@ package away3d.cameras.lenses
 		 * @param nX The normalised x coordinate in screen space, -1 corresponds to the left edge of the viewport, 1 to the right.
 		 * @param nY The normalised y coordinate in screen space, -1 corresponds to the top edge of the viewport, 1 to the bottom.
 		 * @param sZ The z coordinate in screen space, representing the distance into the screen.
-		 * @param v The destination Vector3D object
+		 * @param result The destination Vector3D object
 		 * @return The scene position relative to the camera of the given screen coordinates.
 		 */
-		override public function unproject(nX:Number, nY:Number, sZ:Number, v:Vector3D = null):Vector3D
+		override public function unproject(nX:Number, nY:Number, sZ:Number, result:Vector3D = null):Vector3D
 		{
-			if(!v) v = new Vector3D();
-			v.x = nX;
-			v.y = -nY;
-			v.z = sZ;
-			v.w = 1;
-
-			v.x *= sZ;
-			v.y *= sZ;
-			
-			Matrix3DUtils.transformVector(unprojectionMatrix, v, v);
-			
+			result ||= new Vector3D();
+			result.x = nX;
+			result.y = -nY;
+			result.z = sZ;
+			result.w = 1;
+			result.x *= sZ;
+			result.y *= sZ;
+			Matrix3DUtils.transformVector(unprojectionMatrix, result, result);
 			//z is unaffected by transform
-			v.z = sZ;
-			
-			return v;
+			result.z = sZ;
+			return result;
 		}
 		
 		override public function clone():LensBase
@@ -123,7 +112,6 @@ package away3d.cameras.lenses
 				return;
 			
 			_coordinateSystem = value;
-			
 			invalidateMatrix();
 		}
 		

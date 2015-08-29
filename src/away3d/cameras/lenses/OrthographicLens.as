@@ -1,7 +1,6 @@
 package away3d.cameras.lenses
 {
 	import away3d.core.math.Matrix3DUtils;
-	
 	import flash.geom.Vector3D;
 	
 	/**
@@ -45,35 +44,32 @@ package away3d.cameras.lenses
 		 * @param nX The normalised x coordinate in screen space, -1 corresponds to the left edge of the viewport, 1 to the right.
 		 * @param nY The normalised y coordinate in screen space, -1 corresponds to the top edge of the viewport, 1 to the bottom.
 		 * @param sZ The z coordinate in screen space, representing the distance into the screen.
-		 * @param v The destination Vector3D object
+		 * @param result The destination Vector3D object
 		 * @return The scene position relative to the camera of the given screen coordinates.
 		 */
-		override public function unproject(nX:Number, nY:Number, sZ:Number, v:Vector3D = null):Vector3D
+		override public function unproject(nX:Number, nY:Number, sZ:Number, result:Vector3D = null):Vector3D
 		{
-			if(!v) v = new Vector3D();
+			result ||= new Vector3D();
 			var translation:Vector3D = Matrix3DUtils.CALCULATION_VECTOR3D;
 			matrix.copyColumnTo(3, translation);
-			v.x = nX + translation.x;
-			v.y = -nY + translation.y;
-			v.z = sZ;
-			v.w = 1;
-
-			Matrix3DUtils.transformVector(unprojectionMatrix, v, v);
-			
+			result.x = nX + translation.x;
+			result.y = -nY + translation.y;
+			result.z = sZ;
+			result.w = 1;
+			Matrix3DUtils.transformVector(unprojectionMatrix, result, result);
 			//z is unaffected by transform
-			v.z = sZ;
-			
-			return v;
+			result.z = sZ;
+			return result;
 		}
 		
 		override public function clone():LensBase
 		{
-			var clone:OrthographicLens = new OrthographicLens();
-			clone._near = _near;
-			clone._far = _far;
-			clone._aspectRatio = _aspectRatio;
-			clone.projectionHeight = _projectionHeight;
-			return clone;
+			var result:OrthographicLens = new OrthographicLens();
+			result._near = _near;
+			result._far = _far;
+			result._aspectRatio = _aspectRatio;
+			result.projectionHeight = _projectionHeight;
+			return result;
 		}
 		
 		/**
