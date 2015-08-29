@@ -1,5 +1,6 @@
 package away3d.textures
 {
+	import away3d.arcane;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.utils.MipmapGenerator;
 	import away3d.tools.utils.MathUtils;
@@ -9,6 +10,8 @@ package away3d.textures
 	import flash.display3D.Context3DTextureFormat;
 	import flash.display3D.textures.CubeTexture;
 	import flash.display3D.textures.TextureBase;
+	
+	use namespace arcane;
 	
 	public class BitmapCubeTexture extends CubeTextureBase
 	{
@@ -156,9 +159,9 @@ package away3d.textures
 		
 		override public function getTextureForStage3D(stage3DProxy:Stage3DProxy):TextureBase 
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
+			var contextIndex:int = stage3DProxy.arcane::_stage3DIndex;
 			var texture:TextureBase = _textures[contextIndex];
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.arcane::_context3D;
 			
 			if (!texture || _dirty[contextIndex] != context) 
 			{

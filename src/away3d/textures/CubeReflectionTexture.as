@@ -1,5 +1,6 @@
 package away3d.textures
 {
+	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.cameras.lenses.PerspectiveLens;
 	import away3d.containers.Scene3D;
@@ -26,7 +27,7 @@ package away3d.textures
 		private var _entityCollector:EntityCollector;
 		private var _cameras:Vector.<Camera3D>;
 		private var _lenses:Vector.<PerspectiveLens>;
-		private var _nearPlaneDistance:Number = .01;
+		private var _nearPlaneDistance:Number = 0.01;
 		private var _farPlaneDistance:Number = 2000;
 		private var _position:Vector3D;
 		private var _isRendering:Boolean;
@@ -39,7 +40,7 @@ package away3d.textures
 		{
 			super(size);
 			_renderer = new DefaultRenderer();
-			_entityCollector = _renderer.createEntityCollector();
+			_entityCollector = _renderer.arcane::createEntityCollector();
 			_position = new Vector3D();
 			initMockTexture();
 			initCameras();
@@ -103,7 +104,7 @@ package away3d.textures
 			var targetTexture:TextureBase = super.getTextureForStage3D(stage3DProxy);
 			
 			_isRendering = true;
-			_renderer.stage3DProxy = stage3DProxy;
+			_renderer.arcane::stage3DProxy = stage3DProxy;
 			
 			for (var i:int = 0; i < 6; ++i)
 				renderSurface(i, scene, targetTexture);
@@ -121,9 +122,9 @@ package away3d.textures
 		
 		public function set renderer(value:RendererBase):void
 		{
-			_renderer.dispose();
+			_renderer.arcane::dispose();
 			_renderer = value;
-			_entityCollector = _renderer.createEntityCollector();
+			_entityCollector = _renderer.arcane::createEntityCollector();
 		}
 		
 		/**
@@ -151,7 +152,7 @@ package away3d.textures
 			_entityCollector.clear();
 			scene.traversePartitions(_entityCollector);
 			
-			_renderer.render(_entityCollector, targetTexture, null, surfaceIndex);
+			_renderer.arcane::render(_entityCollector, targetTexture, null, surfaceIndex);
 			
 			_entityCollector.cleanUp();
 		}
@@ -185,7 +186,7 @@ package away3d.textures
 			cam.lens.near = 0.01;
 			PerspectiveLens(cam.lens).fieldOfView = 90;
 			_lenses.push(PerspectiveLens(cam.lens));
-			cam.lens.aspectRatio = 1;
+			cam.lens.arcane::aspectRatio = 1;
 			_cameras.push(cam);
 		}
 	}
