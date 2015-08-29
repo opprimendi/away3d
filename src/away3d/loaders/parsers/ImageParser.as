@@ -158,15 +158,14 @@ package away3d.loaders.parsers
 			if (!TextureUtils.isBitmapDataValid(bmp)) {
 				var bmdAsset:BitmapDataAsset = new BitmapDataAsset(bmp);
 				bmdAsset.name = _fileName;
-				
-				dispatchEvent(new AssetEvent(AssetEvent.TEXTURE_SIZE_ERROR, bmdAsset));
+				if(hasEventListener(AssetEvent.TEXTURE_SIZE_ERROR))
+					dispatchEvent(new AssetEvent(AssetEvent.TEXTURE_SIZE_ERROR, bmdAsset));
 				
 				bmp = new BitmapData(8, 8, false, 0x0);
 				
 				//create chekerboard for this texture rather than a new Default Material
-				var i:uint, j:uint;
-				for (i = 0; i < 8; i++) {
-					for (j = 0; j < 8; j++) {
+				for (var i:int = 0; i < 8; i++) {
+					for (var j:int = 0; j < 8; j++) {
 						if ((j & 1) ^ (i & 1))
 							bmp.setPixel(i, j, 0XFFFFFF);
 					}

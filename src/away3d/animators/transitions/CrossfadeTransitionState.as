@@ -12,7 +12,7 @@ package away3d.animators.transitions
 		private var _skeletonAnimationNode:CrossfadeTransitionNode;
 		private var _animationStateTransitionComplete:AnimationStateEvent;
 		
-		function CrossfadeTransitionState(animator:IAnimator, skeletonAnimationNode:CrossfadeTransitionNode)
+		public function CrossfadeTransitionState(animator:IAnimator, skeletonAnimationNode:CrossfadeTransitionNode)
 		{
 			super(animator, skeletonAnimationNode);
 			

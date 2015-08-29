@@ -8,6 +8,10 @@ package away3d.animators
 	import flash.events.EventDispatcher;
 	import flash.geom.Vector3D;
 	
+	[Event(name = 'cycle', type = 'away3d.events.PathEvent')]
+	[Event(name = 'change_segment', type = 'away3d.events.PathEvent')]
+	[Event(name = 'range', type = 'away3d.events.PathEvent')]
+	
 	public class PathAnimator extends EventDispatcher
 	{
 		private var _path:IPath;
@@ -103,7 +107,8 @@ package away3d.animators
 			}
 			
 			if (_bCycle && t <= 0.1 && _lastSegment == _path.numSegments - 1)
-				dispatchEvent(new PathEvent(PathEvent.CYCLE));
+				if(hasEventListener(PathEvent.CYCLE))
+					dispatchEvent(new PathEvent(PathEvent.CYCLE));
 			
 			_lastTime = t;
 			
@@ -164,10 +169,12 @@ package away3d.animators
 			updateObjectPosition(rotate);
 			
 			if (_bSegment && _index > 0 && _lastSegment != _index && t < 1)
-				dispatchEvent(new PathEvent(PathEvent.CHANGE_SEGMENT));
+				if(hasEventListener(PathEvent.CHANGE_SEGMENT))
+					dispatchEvent(new PathEvent(PathEvent.CHANGE_SEGMENT));
 			
 			if (_bRange && (t >= _from && t <= _to))
-				dispatchEvent(new PathEvent(PathEvent.RANGE));
+				if(hasEventListener(PathEvent.RANGE))
+					dispatchEvent(new PathEvent(PathEvent.RANGE));
 			
 			_time = t;
 			_lastSegment = _index;

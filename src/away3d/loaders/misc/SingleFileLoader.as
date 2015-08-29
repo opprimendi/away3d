@@ -423,7 +423,8 @@ package away3d.loaders.misc
 			
 			if (_loadAsRawData) {
 				// No need to parse this data, which should be returned as is
-				dispatchEvent(new LoaderEvent(LoaderEvent.DEPENDENCY_COMPLETE));
+				if(hasEventListener(LoaderEvent.DEPENDENCY_COMPLETE))
+					dispatchEvent(new LoaderEvent(LoaderEvent.DEPENDENCY_COMPLETE));
 			} else
 				parse(_data);
 		}
@@ -465,7 +466,7 @@ package away3d.loaders.misc
 			} else {
 				var msg:String = "No parser defined. To enable all parsers for auto-detection, use Parsers.enableAllBundled()";
 				if (hasEventListener(LoaderEvent.LOAD_ERROR))
-					this.dispatchEvent(new LoaderEvent(LoaderEvent.LOAD_ERROR, "", true, msg));
+					dispatchEvent(new LoaderEvent(LoaderEvent.LOAD_ERROR, "", true, msg));
 				else
 					throw new Error(msg);
 			}
@@ -484,12 +485,12 @@ package away3d.loaders.misc
 		
 		private function onAssetComplete(event:AssetEvent):void
 		{
-			this.dispatchEvent(event.clone());
+			dispatchEvent(event.clone());
 		}
 		
 		private function onTextureSizeError(event:AssetEvent):void
 		{
-			this.dispatchEvent(event.clone());
+			dispatchEvent(event.clone());
 		}
 		
 		/**
@@ -497,7 +498,8 @@ package away3d.loaders.misc
 		 */
 		private function onParseComplete(event:ParserEvent):void
 		{
-			this.dispatchEvent(new LoaderEvent(LoaderEvent.DEPENDENCY_COMPLETE, this.url)); //dispatch in front of removing listeners to allow any remaining asset events to propagate
+			if(hasEventListener(LoaderEvent.DEPENDENCY_COMPLETE))
+				dispatchEvent(new LoaderEvent(LoaderEvent.DEPENDENCY_COMPLETE, this.url)); //dispatch in front of removing listeners to allow any remaining asset events to propagate
 			
 			_parser.removeEventListener(ParserEvent.READY_FOR_DEPENDENCIES, onReadyForDependencies);
 			_parser.removeEventListener(ParserEvent.PARSE_COMPLETE, onParseComplete);

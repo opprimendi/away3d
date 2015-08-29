@@ -3,23 +3,26 @@ package away3d.core.managers
 	import away3d.arcane;
 	import away3d.debug.Debug;
 	import away3d.events.Stage3DEvent;
-	import flash.display3D.Context3DProfile;
-	
 	import flash.display.Shape;
 	import flash.display.Stage3D;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DClearMask;
+	import flash.display3D.Context3DProfile;
 	import flash.display3D.Context3DRenderMode;
 	import flash.display3D.Program3D;
 	import flash.display3D.textures.TextureBase;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.geom.Rectangle;
-
+	
 	use namespace arcane;
 	
-	[Event(name="enterFrame", type="flash.events.Event")]
-	[Event(name="exitFrame", type="flash.events.Event")]
+	[Event(name = "enterFrame", type = "flash.events.Event")]
+	[Event(name = "exitFrame", type = "flash.events.Event")]
+	[Event(name = 'ViewportUpdated', type = 'away3d.events.Stage3DEvent')]
+	[Event(name = 'Context3DCreated', type = 'away3d.events.Stage3DEvent')]
+	[Event(name = 'Context3DDisposed', type = 'away3d.events.Stage3DEvent')]
+	[Event(name = 'Context3DRecreated', type = 'away3d.events.Stage3DEvent')]
 	
 	/**
 	 * Stage3DProxy provides a proxy class to manage a single Stage3D instance as well as handling the creation and
@@ -59,7 +62,6 @@ package away3d.core.managers
 		private var _viewPort:Rectangle;
 		private var _enterFrame:Event;
 		private var _exitFrame:Event;
-		private var _viewportUpdated:Stage3DEvent;
 		private var _viewportDirty:Boolean;
 		private var _bufferClear:Boolean;
 		private var _mouse3DManager:Mouse3DManager;
@@ -69,17 +71,9 @@ package away3d.core.managers
 		{
 			if (_viewportDirty)
 				return;
-			
 			_viewportDirty = true;
-			
-			if (!hasEventListener(Stage3DEvent.VIEWPORT_UPDATED))
-				return;
-			
-			//TODO: investigate bug causing coercion error
-			//if (!_viewportUpdated)
-			_viewportUpdated = new Stage3DEvent(Stage3DEvent.VIEWPORT_UPDATED);
-			
-			dispatchEvent(_viewportUpdated);
+			if (hasEventListener(Stage3DEvent.VIEWPORT_UPDATED))
+				dispatchEvent(new Stage3DEvent(Stage3DEvent.VIEWPORT_UPDATED));
 		}
 		
 		private function notifyEnterFrame():void
@@ -505,7 +499,8 @@ package away3d.core.managers
 		{
 			if (_context3D) {
 				_context3D.dispose();
-				dispatchEvent(new Stage3DEvent(Stage3DEvent.CONTEXT3D_DISPOSED));
+				if(hasEventListener(Stage3DEvent.CONTEXT3D_DISPOSED))
+					dispatchEvent(new Stage3DEvent(Stage3DEvent.CONTEXT3D_DISPOSED));
 			}
 			_context3D = null;
 		}
@@ -531,7 +526,12 @@ package away3d.core.managers
 				
 				// Dispatch the appropriate event depending on whether context was
 				// created for the first time or recreated after a device loss.
-				dispatchEvent(new Stage3DEvent(hadContext? Stage3DEvent.CONTEXT3D_RECREATED : Stage3DEvent.CONTEXT3D_CREATED));
+				if(hadContext) {
+					if(hasEventListener(Stage3DEvent.CONTEXT3D_RECREATED))
+						dispatchEvent(new Stage3DEvent(Stage3DEvent.CONTEXT3D_RECREATED));
+				} else if(hasEventListener(Stage3DEvent.CONTEXT3D_CREATED)) {
+					dispatchEvent(new Stage3DEvent(Stage3DEvent.CONTEXT3D_CREATED));
+				}
 				
 			} else
 				throw new Error("Rendering context lost!");
@@ -592,7 +592,8 @@ package away3d.core.managers
 				return false;
 			if (_context3D.driverInfo == "Disposed") {
 				_context3D = null;
-				dispatchEvent(new Stage3DEvent(Stage3DEvent.CONTEXT3D_DISPOSED));
+				if(hasEventListener(Stage3DEvent.CONTEXT3D_DISPOSED))
+					dispatchEvent(new Stage3DEvent(Stage3DEvent.CONTEXT3D_DISPOSED));
 				return false;
 			}
 			return true;

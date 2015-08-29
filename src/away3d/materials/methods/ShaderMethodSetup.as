@@ -2,11 +2,12 @@ package away3d.materials.methods
 {
 	import away3d.arcane;
 	import away3d.events.ShadingMethodEvent;
-	
 	import flash.events.EventDispatcher;
 	
 	use namespace arcane;
 
+	[Event(name = 'ShaderInvalidated', type = 'away3d.events.ShadingMethodEvent')]
+	
 	/**
 	 * ShaderMethodSetup contains the method configuration for an entire material.
 	 */
@@ -59,7 +60,8 @@ package away3d.materials.methods
 		 */
 		private function invalidateShaderProgram():void
 		{
-			dispatchEvent(new ShadingMethodEvent(ShadingMethodEvent.SHADER_INVALIDATED));
+			if(hasEventListener(ShadingMethodEvent.SHADER_INVALIDATED))
+				dispatchEvent(new ShadingMethodEvent(ShadingMethodEvent.SHADER_INVALIDATED));
 		}
 
 		/**

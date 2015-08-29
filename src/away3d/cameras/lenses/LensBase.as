@@ -11,6 +11,8 @@ package away3d.cameras.lenses
 
 	use namespace arcane;
 	
+	[Event(name = 'matrixChanged', type = 'away3d.events.LensEvent')]
+	
 	/**
 	 * An abstract base class for all lens classes. Lens objects provides a projection matrix that transforms 3D geometry to normalized homogeneous coordinates.
 	 */
@@ -175,7 +177,8 @@ package away3d.cameras.lenses
 			// notify the camera that the lens matrix is changing. this will mark the 
 			// viewProjectionMatrix in the camera as invalid, and force the matrix to
 			// be re-queried from the lens, and therefore rebuilt.
-			dispatchEvent(new LensEvent(LensEvent.MATRIX_CHANGED, this));
+			if(hasEventListener(LensEvent.MATRIX_CHANGED))
+				dispatchEvent(new LensEvent(LensEvent.MATRIX_CHANGED, this));
 		}
 
 		/**

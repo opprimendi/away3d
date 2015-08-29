@@ -50,7 +50,6 @@ package away3d.loaders.parsers
 	 * @eventType away3d.events.AssetEvent
 	 */
 	[Event(name="assetComplete", type="away3d.events.AssetEvent")]
-		
 	
 	/**
 	 * Dispatched when a skybox asset has been costructed from a ressource.
@@ -155,7 +154,6 @@ package away3d.loaders.parsers
 	 */
 	[Event(name="animationNodeComplete", type="away3d.events.AssetEvent")]
 	
-	
 	/**
 	 * Dispatched when an animation state transition has been constructed from a group of animation node resources.
 	 *
@@ -163,14 +161,12 @@ package away3d.loaders.parsers
 	 */
 	[Event(name="stateTransitionComplete", type="away3d.events.AssetEvent")]
 	
-	
 	/**
 	 * Dispatched when an light asset has been constructed from a resources.
 	 *
 	 * @eventType away3d.events.AssetEvent
 	 */
 	[Event(name="lightComplete", type="away3d.events.AssetEvent")]
-	
 	
 	/**
 	 * Dispatched when an light picker asset has been constructed from a resources.
@@ -504,8 +500,8 @@ package away3d.loaders.parsers
 			if (!asset.name)
 				asset.name = type_name;
 			
-			dispatchEvent(new AssetEvent(AssetEvent.ASSET_COMPLETE, asset));
-			dispatchEvent(new AssetEvent(type_event, asset));
+			if(hasEventListener(AssetEvent.ASSET_COMPLETE)) dispatchEvent(new AssetEvent(AssetEvent.ASSET_COMPLETE, asset));
+			if(hasEventListener(type_event)) dispatchEvent(new AssetEvent(type_event, asset));
 		}
 		
 		/**
@@ -531,7 +527,7 @@ package away3d.loaders.parsers
 				_timer.stop();
 				_timer = null;
 			}
-			dispatchEvent(new ParserEvent(ParserEvent.PARSE_ERROR, message));
+			if(hasEventListener(ParserEvent.PARSE_ERROR)) dispatchEvent(new ParserEvent(ParserEvent.PARSE_ERROR, message));
 		}
 		
 		protected function addDependency(id:String, req:URLRequest, retrieveAsRawData:Boolean = false, data:* = null, suppressErrorEvents:Boolean = false):void
@@ -547,7 +543,7 @@ package away3d.loaders.parsers
 			if (_timer)
 				_timer.stop();
 			_parsingPaused = true;
-			dispatchEvent(new ParserEvent(ParserEvent.READY_FOR_DEPENDENCIES));
+			if(hasEventListener(ParserEvent.READY_FOR_DEPENDENCIES)) dispatchEvent(new ParserEvent(ParserEvent.READY_FOR_DEPENDENCIES));
 		}
 		
 		/**
@@ -556,7 +552,7 @@ package away3d.loaders.parsers
 		 */
 		protected function hasTime():Boolean
 		{
-			return ((getTimer() - _lastFrameTime) < _frameLimit);
+			return (getTimer() - _lastFrameTime) < _frameLimit;
 		}
 		
 		/**
@@ -592,7 +588,7 @@ package away3d.loaders.parsers
 			}
 			_timer = null;
 			_parsingComplete = true;
-			dispatchEvent(new ParserEvent(ParserEvent.PARSE_COMPLETE));
+			if(hasEventListener(ParserEvent.PARSE_COMPLETE)) dispatchEvent(new ParserEvent(ParserEvent.PARSE_COMPLETE));
 		}
 	}
 }
