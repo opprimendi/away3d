@@ -3,7 +3,6 @@ package away3d.textures
 	import away3d.materials.utils.IVideoPlayer;
 	import away3d.materials.utils.SimpleVideoPlayer;
 	import away3d.tools.utils.TextureUtils;
-	
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -57,16 +56,13 @@ package away3d.textures
 		 */
 		public function update():void
 		{
-			
 			if (_player.playing && !_player.paused) {
-				
 				bitmapData.lock();
 				bitmapData.fillRect(_clippingRect, 0);
 				bitmapData.draw(_player.container, null, null, null, _clippingRect);
 				bitmapData.unlock();
 				invalidateContent();
 			}
-		
 		}
 		
 		override public function dispose():void
@@ -89,9 +85,9 @@ package away3d.textures
 		 * Indicates whether the video will start playing on initialisation.
 		 * If false, only the first frame is displayed.
 		 */
-		public function set autoPlay(b:Boolean):void
+		public function set autoPlay(value:Boolean):void
 		{
-			_autoPlay = b;
+			_autoPlay = value;
 		}
 		
 		public function get autoPlay():Boolean
@@ -130,7 +126,6 @@ package away3d.textures
 				size = TextureUtils.getBestPowerOf2(size);
 				trace("Warning: " + oldSize + " is not a valid material size. Updating to the closest supported resolution: " + size);
 			}
-			
 			return size;
 		}
 		
@@ -150,7 +145,7 @@ package away3d.textures
 			_autoUpdate = value;
 			
 			if (value)
-				_broadcaster.addEventListener(Event.ENTER_FRAME, autoUpdateHandler, false, 0, true);
+				_broadcaster.addEventListener(Event.ENTER_FRAME, autoUpdateHandler);
 			else
 				_broadcaster.removeEventListener(Event.ENTER_FRAME, autoUpdateHandler);
 		}

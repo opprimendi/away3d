@@ -5,11 +5,10 @@ package away3d.textures
 	import away3d.materials.utils.MipmapGenerator;
 	import away3d.tools.utils.MathUtils;
 	import away3d.tools.utils.TextureUtils;
+	import flash.display.BitmapData;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DTextureFormat;
 	import flash.display3D.textures.CubeTexture;
-	
-	import flash.display.BitmapData;
 	import flash.display3D.textures.TextureBase;
 	
 	use namespace arcane;
@@ -20,19 +19,17 @@ package away3d.textures
 		private var _generateMipmaps:Boolean;
 		
 		//TODO: refactor that upload mechanis should be same to BitmapCubeTexture and BitmapTexture with differend upload strategy(uploadCubeTexture, uploadTexture) probably all bitmap based textures should have same parent class or inject upload mechanism
-		private var maxMipLevel:int = 0;
-		private var currentMipLevel:int = 0;
-		private var isMipMapsUploaded:Boolean = false;
+		private var maxMipLevel:int;
+		private var currentMipLevel:int;
+		private var isMipMapsUploaded:Boolean;
 		
 		//private var _useAlpha : Boolean;
 		
 		public function BitmapCubeTexture(posX:BitmapData, negX:BitmapData, posY:BitmapData, negY:BitmapData, posZ:BitmapData, negZ:BitmapData, generateMipmaps:Boolean = true)
 		{
 			super();
-			
 			_generateMipmaps = generateMipmaps;
 			this._hasMipmaps = generateMipmaps;
-			
 			_bitmapDatas = new Vector.<BitmapData>(6, true);
 			testSize(_bitmapDatas[0] = posX);
 			testSize(_bitmapDatas[1] = negX);
@@ -40,7 +37,6 @@ package away3d.textures
 			testSize(_bitmapDatas[3] = negY);
 			testSize(_bitmapDatas[4] = posZ);
 			testSize(_bitmapDatas[5] = negZ);
-			
 			setSize(posX.width, posX.height);
 		}
 		
@@ -156,18 +152,16 @@ package away3d.textures
 				maxMipLevel = mipLevel;
 				currentMipLevel = maxMipLevel;
 				isMipMapsUploaded = false;
-				
 				return context.createCubeTexture(_size, Context3DTextureFormat.BGRA, false, mipLevel);
 			}
-			else
-				return context.createCubeTexture(_size, Context3DTextureFormat.BGRA, false, 0);
+			return context.createCubeTexture(_size, Context3DTextureFormat.BGRA, false, 0);
 		}
 		
 		override public function getTextureForStage3D(stage3DProxy:Stage3DProxy):TextureBase 
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
+			var contextIndex:int = stage3DProxy.arcane::_stage3DIndex;
 			var texture:TextureBase = _textures[contextIndex];
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.arcane::_context3D;
 			
 			if (!texture || _dirty[contextIndex] != context) 
 			{
@@ -216,10 +210,7 @@ package away3d.textures
 				isMipMapsUploaded = true;
 				return;
 			}
-			else
-			{				
-				MipmapGenerator.generateMipMaps(_bitmapDatas[side], texture, _bitmapDatas[side].transparent, side, currentMipLevel, 1);
-			}
+			MipmapGenerator.generateMipMaps(_bitmapDatas[side], texture, _bitmapDatas[side].transparent, side, currentMipLevel, 1);
 		}
 	}
 }

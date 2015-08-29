@@ -1,12 +1,12 @@
 package away3d.textures
 {
 	import away3d.tools.utils.TextureUtils;
-	
 	import flash.display.BitmapData;
 	import flash.display3D.textures.TextureBase;
 	import flash.geom.Matrix;
 	import flash.media.Camera;
 	import flash.media.Video;
+	
 	
 	public class WebcamTexture extends BitmapTexture
 	{

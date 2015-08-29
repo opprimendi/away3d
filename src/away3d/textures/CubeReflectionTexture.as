@@ -9,12 +9,9 @@ package away3d.textures
 	import away3d.core.render.DefaultRenderer;
 	import away3d.core.render.RendererBase;
 	import away3d.core.traverse.EntityCollector;
-	
 	import flash.display.BitmapData;
 	import flash.display3D.textures.TextureBase;
 	import flash.geom.Vector3D;
-	
-	use namespace arcane;
 	
 	/**
 	 * CubeReflectionTexture provides a cube map texture for real-time reflections, used for any method that uses environment maps,
@@ -30,7 +27,7 @@ package away3d.textures
 		private var _entityCollector:EntityCollector;
 		private var _cameras:Vector.<Camera3D>;
 		private var _lenses:Vector.<PerspectiveLens>;
-		private var _nearPlaneDistance:Number = .01;
+		private var _nearPlaneDistance:Number = 0.01;
 		private var _farPlaneDistance:Number = 2000;
 		private var _position:Vector3D;
 		private var _isRendering:Boolean;
@@ -43,7 +40,7 @@ package away3d.textures
 		{
 			super(size);
 			_renderer = new DefaultRenderer();
-			_entityCollector = _renderer.createEntityCollector();
+			_entityCollector = _renderer.arcane::createEntityCollector();
 			_position = new Vector3D();
 			initMockTexture();
 			initCameras();
@@ -107,9 +104,9 @@ package away3d.textures
 			var targetTexture:TextureBase = super.getTextureForStage3D(stage3DProxy);
 			
 			_isRendering = true;
-			_renderer.stage3DProxy = stage3DProxy;
+			_renderer.arcane::stage3DProxy = stage3DProxy;
 			
-			for (var i:uint = 0; i < 6; ++i)
+			for (var i:int = 0; i < 6; ++i)
 				renderSurface(i, scene, targetTexture);
 			
 			_isRendering = false;
@@ -125,9 +122,9 @@ package away3d.textures
 		
 		public function set renderer(value:RendererBase):void
 		{
-			_renderer.dispose();
+			_renderer.arcane::dispose();
 			_renderer = value;
-			_entityCollector = _renderer.createEntityCollector();
+			_entityCollector = _renderer.arcane::createEntityCollector();
 		}
 		
 		/**
@@ -155,7 +152,7 @@ package away3d.textures
 			_entityCollector.clear();
 			scene.traversePartitions(_entityCollector);
 			
-			_renderer.render(_entityCollector, targetTexture, null, surfaceIndex);
+			_renderer.arcane::render(_entityCollector, targetTexture, null, surfaceIndex);
 			
 			_entityCollector.cleanUp();
 		}
@@ -186,10 +183,10 @@ package away3d.textures
 			cam.rotationX = rotationX;
 			cam.rotationY = rotationY;
 			cam.rotationZ = rotationZ;
-			cam.lens.near = .01;
+			cam.lens.near = 0.01;
 			PerspectiveLens(cam.lens).fieldOfView = 90;
 			_lenses.push(PerspectiveLens(cam.lens));
-			cam.lens.aspectRatio = 1;
+			cam.lens.arcane::aspectRatio = 1;
 			_cameras.push(cam);
 		}
 	}

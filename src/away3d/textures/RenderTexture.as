@@ -1,15 +1,11 @@
 ﻿package away3d.textures
 {
-	import away3d.arcane;
 	import away3d.materials.utils.MipmapGenerator;
 	import away3d.tools.utils.TextureUtils;
-	
 	import flash.display.BitmapData;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DTextureFormat;
 	import flash.display3D.textures.TextureBase;
-	
-	use namespace arcane;
 	
 	public class RenderTexture extends Texture2DBase
 	{

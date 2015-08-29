@@ -16,13 +16,10 @@ package away3d.textures
 	{
 		protected var _format:String = Context3DTextureFormat.BGRA;
 		protected var _hasMipmaps:Boolean = true;
-		
 		protected var _textures:Vector.<TextureBase>;
 		protected var _dirty:Vector.<Context3D>;
-		
 		protected var _width:int;
 		protected var _height:int;
-		
 		protected var _isUseStreamingUpload:Boolean;
 		
 		public function TextureProxyBase()

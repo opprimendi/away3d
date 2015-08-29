@@ -1,20 +1,16 @@
-/**
- *
- */
 package away3d.textures
 {
 	import away3d.textures.BitmapTexture;
-	
 	import flash.display.BitmapData;
 	import flash.utils.Dictionary;
 	
 	/**
 	 * DEPRECRATED along with BitmapMaterial. Will be removed along with BitmapMaterial
+	 * TODO slavara: переделать на статичский доступ снаружи, и приватный внутри
 	 */
 	public class BitmapTextureCache
 	{
 		private static var _instance:BitmapTextureCache;
-		
 		private var _textures:Dictionary;
 		private var _usages:Dictionary;
 		
@@ -22,7 +18,6 @@ package away3d.textures
 		{
 			if (!singletonEnforcer)
 				throw new Error("Cannot instantiate a singleton class. Use static getInstance instead.");
-			
 			_textures = new Dictionary();
 			_usages = new Dictionary();
 		}
@@ -55,6 +50,4 @@ package away3d.textures
 	}
 }
 
-class SingletonEnforcer
-{
-}
+class SingletonEnforcer{}
