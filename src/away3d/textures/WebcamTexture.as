@@ -48,9 +48,9 @@ package away3d.textures
 			return _autoUpdate;
 		}
 		
-		public function set autoUpdate(val:Boolean):void
+		public function set autoUpdate(value:Boolean):void
 		{
-			_autoUpdate = val;
+			_autoUpdate = value;
 			
 			if (_autoUpdate && _playing)
 				invalidateContent();

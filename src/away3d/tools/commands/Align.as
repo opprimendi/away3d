@@ -1,10 +1,7 @@
 package away3d.tools.commands
 {
-	import away3d.arcane;
 	import away3d.entities.Mesh;
 	import away3d.tools.utils.Bounds;
-	
-	use namespace arcane;
 	
 	/**
 	 * Class Aligns an arrays of Object3Ds, Vector3D's or Vertexes compaired to each other.<code>Align</code>
@@ -294,10 +291,9 @@ package away3d.tools.commands
 	}
 }
 
+import away3d.entities.Mesh;
 class MeshBound
 {
-	import away3d.entities.Mesh;
-	
 	public var mesh:Mesh;
 	public var minX:Number;
 	public var minY:Number;

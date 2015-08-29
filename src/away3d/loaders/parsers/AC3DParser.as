@@ -40,8 +40,8 @@ package away3d.loaders.parsers
 		private var _meshList:Vector.<Mesh>;
 		private var _trunk:Array;
 		private var _containersList:Array = [];
-		private var _tmpcontainerpos:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-		private var _tmpos:Vector3D = new Vector3D(0.0, 0.0, 0.0);
+		private var _tmpcontainerpos:Vector3D = new Vector3D();
+		private var _tmpos:Vector3D = new Vector3D();
 		private var _kidsCount:int = 0;
 		private var _activeMesh:Mesh;
 		private var _vertices:Vector.<Vertex>;

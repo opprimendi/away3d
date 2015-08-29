@@ -27,12 +27,9 @@ package away3d.audio.drivers
 			return _src;
 		}
 		
-		public function set sourceSound(val:Sound):void
+		public function set sourceSound(value:Sound):void
 		{
-			if (_src == val)
-				return;
-			
-			_src = val;
+			_src = value;
 		}
 		
 		public function get volume():Number
@@ -40,9 +37,9 @@ package away3d.audio.drivers
 			return _volume;
 		}
 		
-		public function set volume(val:Number):void
+		public function set volume(value:Number):void
 		{
-			_volume = val;
+			_volume = value;
 		}
 		
 		public function get scale():Number
@@ -50,9 +47,9 @@ package away3d.audio.drivers
 			return _scale;
 		}
 		
-		public function set scale(val:Number):void
+		public function set scale(value:Number):void
 		{
-			_scale = val;
+			_scale = value;
 		}
 		
 		public function get mute():Boolean
@@ -60,12 +57,9 @@ package away3d.audio.drivers
 			return _mute;
 		}
 		
-		public function set mute(val:Boolean):void
+		public function set mute(value:Boolean):void
 		{
-			if (_mute == val)
-				return;
-			
-			_mute = val;
+			_mute = value;
 		}
 		
 		public function updateReferenceVector(v:Vector3D):void

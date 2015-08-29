@@ -1,10 +1,10 @@
 package away3d.loaders.parsers
 {
 	import away3d.arcane;
-	import away3d.core.base.Geometry;
-	import away3d.core.base.ISubGeometry;
 	import away3d.core.base.data.UV;
 	import away3d.core.base.data.Vertex;
+	import away3d.core.base.Geometry;
+	import away3d.core.base.ISubGeometry;
 	import away3d.entities.Mesh;
 	import away3d.library.assets.AssetType;
 	import away3d.library.assets.IAsset;
@@ -13,13 +13,12 @@ package away3d.loaders.parsers
 	import away3d.materials.ColorMaterial;
 	import away3d.materials.ColorMultiPassMaterial;
 	import away3d.materials.MaterialBase;
+	import away3d.materials.methods.BasicSpecularMethod;
 	import away3d.materials.TextureMaterial;
 	import away3d.materials.TextureMultiPassMaterial;
-	import away3d.materials.methods.BasicSpecularMethod;
 	import away3d.materials.utils.DefaultMaterialManager;
 	import away3d.textures.Texture2DBase;
 	import away3d.tools.utils.GeomUtil;
-	
 	import flash.net.URLRequest;
 	
 	use namespace arcane;
@@ -853,6 +852,7 @@ package away3d.loaders.parsers
 	}
 }
 
+import away3d.materials.ColorMaterial;
 import away3d.materials.MaterialBase;
 import away3d.materials.methods.BasicSpecularMethod;
 import away3d.textures.Texture2DBase;
@@ -902,7 +902,6 @@ class SpecularData
 
 class LoadedMaterial
 {
-	import away3d.materials.ColorMaterial;
 	
 	public var materialID:String;
 	public var texture:Texture2DBase;

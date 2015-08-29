@@ -68,10 +68,10 @@ package away3d.tools.utils
 		/**
 		 * Defines if the grid unit.
 		 */
-		public function set unit(val:Number):void
+		public function set unit(value:Number):void
 		{
-			_unit = Math.abs(val);
-			_unit = (_unit == 0) ? .001 : _unit;
+			_unit = Math.abs(value);
+			_unit = _unit == 0 ? .001 : _unit;
 		}
 		
 		public function get unit():Number

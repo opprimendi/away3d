@@ -3,7 +3,6 @@ package away3d.audio
 	import away3d.audio.drivers.*;
 	import away3d.containers.ObjectContainer3D;
 	import away3d.events.Object3DEvent;
-	
 	import flash.events.Event;
 	import flash.geom.*;
 	import flash.media.*;
@@ -74,9 +73,9 @@ package away3d.audio
 			return _driver.volume;
 		}
 		
-		public function set volume(val:Number):void
+		public function set volume(value:Number):void
 		{
-			_driver.volume = val;
+			_driver.volume = value;
 		}
 		
 		/**
@@ -92,9 +91,9 @@ package away3d.audio
 			return _driver.scale;
 		}
 		
-		public function set scaleDistance(val:Number):void
+		public function set scaleDistance(value:Number):void
 		{
-			_driver.scale = val;
+			_driver.scale = value;
 		}
 		
 		/**

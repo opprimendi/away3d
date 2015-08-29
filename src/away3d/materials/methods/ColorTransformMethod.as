@@ -14,6 +14,7 @@ package away3d.materials.methods
 	 */
 	public class ColorTransformMethod extends EffectMethodBase
 	{
+		private static const INV:Number = 1 / 0xff;
 		private var _colorTransform:ColorTransform;
 		
 		/**
@@ -55,17 +56,16 @@ package away3d.materials.methods
 		 */
 		override arcane function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
-			var inv:Number = 1/0xff;
 			var index:int = vo.fragmentConstantsIndex;
 			var data:Vector.<Number> = vo.fragmentData;
 			data[index] = _colorTransform.redMultiplier;
 			data[index + 1] = _colorTransform.greenMultiplier;
 			data[index + 2] = _colorTransform.blueMultiplier;
 			data[index + 3] = _colorTransform.alphaMultiplier;
-			data[index + 4] = _colorTransform.redOffset*inv;
-			data[index + 5] = _colorTransform.greenOffset*inv;
-			data[index + 6] = _colorTransform.blueOffset*inv;
-			data[index + 7] = _colorTransform.alphaOffset*inv;
+			data[index + 4] = _colorTransform.redOffset*INV;
+			data[index + 5] = _colorTransform.greenOffset*INV;
+			data[index + 6] = _colorTransform.blueOffset*INV;
+			data[index + 7] = _colorTransform.alphaOffset*INV;
 		}
 	}
 }

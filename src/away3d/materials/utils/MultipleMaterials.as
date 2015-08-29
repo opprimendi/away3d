@@ -41,12 +41,9 @@
 			return _left;
 		}
 		
-		public function set left(val:MaterialBase):void
+		public function set left(value:MaterialBase):void
 		{
-			if (_left == val)
-				return;
-			
-			_left = val;
+			_left = value;
 		}
 		
 		/**
@@ -57,12 +54,9 @@
 			return _right;
 		}
 		
-		public function set right(val:MaterialBase):void
+		public function set right(value:MaterialBase):void
 		{
-			if (_right == val)
-				return;
-			
-			_right = val;
+			_right = value;
 		}
 		
 		/**
@@ -73,12 +67,9 @@
 			return _bottom;
 		}
 		
-		public function set bottom(val:MaterialBase):void
+		public function set bottom(value:MaterialBase):void
 		{
-			if (_bottom == val)
-				return;
-			
-			_bottom = val;
+			_bottom = value;
 		}
 		
 		/**
@@ -89,12 +80,9 @@
 			return _top;
 		}
 		
-		public function set top(val:MaterialBase):void
+		public function set top(value:MaterialBase):void
 		{
-			if (_top == val)
-				return;
-			
-			_top = val;
+			_top = value;
 		}
 		
 		/**
@@ -105,12 +93,9 @@
 			return _front;
 		}
 		
-		public function set front(val:MaterialBase):void
+		public function set front(value:MaterialBase):void
 		{
-			if (_front == val)
-				return;
-			
-			_front = val;
+			_front = value;
 		}
 		
 		/**
@@ -121,12 +106,9 @@
 			return _back;
 		}
 		
-		public function set back(val:MaterialBase):void
+		public function set back(value:MaterialBase):void
 		{
-			if (_back == val)
-				return;
-			
-			_back = val;
+			_back = value;
 		}
 	
 	}

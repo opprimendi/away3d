@@ -13,7 +13,7 @@ package away3d.audio.drivers
 		 */
 		function get sourceSound():Sound;
 		
-		function set sourceSound(val:Sound):void;
+		function set sourceSound(value:Sound):void;
 		
 		/**
 		 * Arbitrary value by which all distances are divided. The default value of
@@ -22,7 +22,7 @@ package away3d.audio.drivers
 		 */
 		function get scale():Number;
 		
-		function set scale(val:Number):void;
+		function set scale(value:Number):void;
 		
 		/**
 		 * Master volume/gain after 3D modifications to pan/volume have been applied.
@@ -31,7 +31,7 @@ package away3d.audio.drivers
 		 */
 		function get volume():Number;
 		
-		function set volume(val:Number):void;
+		function set volume(value:Number):void;
 		
 		/**
 		 * Mutes/unmutes the driver completely, which is typically only done (internally
@@ -40,7 +40,7 @@ package away3d.audio.drivers
 		 */
 		function get mute():Boolean;
 		
-		function set mute(val:Boolean):void;
+		function set mute(value:Boolean):void;
 		
 		/**
 		 * Start playing (or resume if paused) the audio. This is NOT The same thing

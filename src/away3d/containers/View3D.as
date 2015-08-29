@@ -182,9 +182,9 @@
 			return _rightClickMenuEnabled;
 		}
 		
-		public function set rightClickMenuEnabled(val:Boolean):void
+		public function set rightClickMenuEnabled(value:Boolean):void
 		{
-			_rightClickMenuEnabled = val;
+			_rightClickMenuEnabled = value;
 			
 			updateRightClickMenu();
 		}

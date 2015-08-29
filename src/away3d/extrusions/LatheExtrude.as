@@ -1,15 +1,14 @@
 package away3d.extrusions
 {
 	import away3d.bounds.BoundingVolumeBase;
+	import away3d.core.base.data.UV;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.SubGeometry;
 	import away3d.core.base.SubMesh;
-	import away3d.core.base.data.UV;
 	import away3d.entities.Mesh;
 	import away3d.materials.MaterialBase;
 	import away3d.materials.utils.MultipleMaterials;
 	import away3d.tools.helpers.MeshHelper;
-	
 	import flash.geom.Point;
 	import flash.geom.Vector3D;
 	
@@ -122,10 +121,10 @@ package away3d.extrusions
 			return _profile;
 		}
 		
-		public function set profile(val:Vector.<Vector3D>):void
+		public function set profile(value:Vector.<Vector3D>):void
 		{
-			if (val.length > 1) {
-				_profile = val;
+			if (value.length > 1) {
+				_profile = value;
 				invalidateGeometry();
 			} else
 				throw new Error("LatheExtrude error: the profile Vector.<Vector3D> must hold a mimimun of 2 vector3D's");
@@ -139,9 +138,9 @@ package away3d.extrusions
 			return _startRotationOffset;
 		}
 		
-		public function set startRotationOffset(val:Number):void
+		public function set startRotationOffset(value:Number):void
 		{
-			_startRotationOffset = val;
+			_startRotationOffset = value;
 		}
 		
 		/**
@@ -152,12 +151,12 @@ package away3d.extrusions
 			return _axis;
 		}
 		
-		public function set axis(val:String):void
+		public function set axis(value:String):void
 		{
-			if (_axis == val)
+			if (_axis == value)
 				return;
 			
-			_axis = val;
+			_axis = value;
 			invalidateGeometry();
 		}
 		
@@ -169,12 +168,12 @@ package away3d.extrusions
 			return _revolutions;
 		}
 		
-		public function set revolutions(val:Number):void
+		public function set revolutions(value:Number):void
 		{
-			if (_revolutions == val)
+			if (_revolutions == value)
 				return;
-			_revolutions = (_revolutions > .001)? _revolutions : .001;
-			_revolutions = val;
+			_revolutions = _revolutions > .001 ? _revolutions : .001;
+			_revolutions = value;
 			invalidateGeometry();
 		}
 		
@@ -188,12 +187,12 @@ package away3d.extrusions
 			return _subdivision;
 		}
 		
-		public function set subdivision(val:uint):void
+		public function set subdivision(value:uint):void
 		{
-			val = (val < 3)? 3 : val;
-			if (_subdivision == val)
+			value = value < 3 ? 3 : value;
+			if (_subdivision == value)
 				return;
-			_subdivision = val;
+			_subdivision = value;
 			invalidateGeometry();
 		}
 		
@@ -205,11 +204,11 @@ package away3d.extrusions
 			return _offsetRadius;
 		}
 		
-		public function set offsetRadius(val:Number):void
+		public function set offsetRadius(value:Number):void
 		{
-			if (_offsetRadius == val)
+			if (_offsetRadius == value)
 				return;
-			_offsetRadius = val;
+			_offsetRadius = value;
 			invalidateGeometry();
 		}
 		
@@ -221,9 +220,9 @@ package away3d.extrusions
 			return _materials;
 		}
 		
-		public function set materials(val:MultipleMaterials):void
+		public function set materials(value:MultipleMaterials):void
 		{
-			_materials = val;
+			_materials = value;
 			
 			if (_materials.front && this.material != _materials.front)
 				this.material = _materials.front;
@@ -239,12 +238,12 @@ package away3d.extrusions
 			return _coverAll;
 		}
 		
-		public function set coverAll(val:Boolean):void
+		public function set coverAll(value:Boolean):void
 		{
-			if (_coverAll == val)
+			if (_coverAll == value)
 				return;
 			
-			_coverAll = val;
+			_coverAll = value;
 			invalidateGeometry();
 		}
 		
@@ -256,12 +255,12 @@ package away3d.extrusions
 			return _flip;
 		}
 		
-		public function set flip(val:Boolean):void
+		public function set flip(value:Boolean):void
 		{
-			if (_flip == val)
+			if (_flip == value)
 				return;
 			
-			_flip = val;
+			_flip = value;
 			invalidateGeometry();
 		}
 		
@@ -273,12 +272,12 @@ package away3d.extrusions
 			return _smoothSurface;
 		}
 		
-		public function set smoothSurface(val:Boolean):void
+		public function set smoothSurface(value:Boolean):void
 		{
-			if (_smoothSurface == val)
+			if (_smoothSurface == value)
 				return;
 			
-			_smoothSurface = val;
+			_smoothSurface = value;
 			_geomDirty = true;
 		}
 		
@@ -290,12 +289,9 @@ package away3d.extrusions
 			return _keepLastProfile;
 		}
 		
-		public function set keepLastProfile(val:Boolean):void
+		public function set keepLastProfile(value:Boolean):void
 		{
-			if (_keepLastProfile == val)
-				return;
-			
-			_keepLastProfile = val;
+			_keepLastProfile = value;
 		}
 		
 		/**
@@ -317,12 +313,12 @@ package away3d.extrusions
 			return _preciseThickness;
 		}
 		
-		public function set preciseThickness(val:Boolean):void
+		public function set preciseThickness(value:Boolean):void
 		{
-			if (_preciseThickness == val)
+			if (_preciseThickness == value)
 				return;
 			
-			_preciseThickness = val;
+			_preciseThickness = value;
 			invalidateGeometry();
 		}
 		
@@ -334,12 +330,12 @@ package away3d.extrusions
 			return _centerMesh;
 		}
 		
-		public function set centerMesh(val:Boolean):void
+		public function set centerMesh(value:Boolean):void
 		{
-			if (_centerMesh == val)
+			if (_centerMesh == value)
 				return;
 			
-			_centerMesh = val;
+			_centerMesh = value;
 			
 			if (_centerMesh && _subGeometry.vertexData.length > 0)
 				MeshHelper.recenter(this);
@@ -355,12 +351,12 @@ package away3d.extrusions
 			return _thickness;
 		}
 		
-		public function set thickness(val:Number):void
+		public function set thickness(value:Number):void
 		{
-			if (_thickness == val)
+			if (_thickness == value)
 				return;
 			
-			_thickness = (val > 0)? val : _thickness;
+			_thickness = value > 0 ? value : _thickness;
 			invalidateGeometry();
 		}
 		
@@ -372,9 +368,9 @@ package away3d.extrusions
 			return _ignoreSides;
 		}
 		
-		public function set ignoreSides(val:String):void
+		public function set ignoreSides(value:String):void
 		{
-			_ignoreSides = val;
+			_ignoreSides = value;
 			invalidateGeometry();
 		}
 		
@@ -386,9 +382,9 @@ package away3d.extrusions
 			return _tweek;
 		}
 		
-		public function set tweek(val:Object):void
+		public function set tweek(value:Object):void
 		{
-			_tweek = val;
+			_tweek = value;
 			invalidateGeometry();
 		}
 		
@@ -1236,24 +1232,24 @@ package away3d.extrusions
 		private function initHolders():void
 		{
 			_uvarr = new Vector.<UV>();
-			_uva = new UV(0, 0);
-			_uvb = new UV(0, 0);
-			_uvc = new UV(0, 0);
-			_uvd = new UV(0, 0);
-			_va = new Vector3D(0, 0, 0);
-			_vb = new Vector3D(0, 0, 0);
-			_vc = new Vector3D(0, 0, 0);
-			_vd = new Vector3D(0, 0, 0);
+			_uva = new UV();
+			_uvb = new UV();
+			_uvc = new UV();
+			_uvd = new UV();
+			_va = new Vector3D();
+			_vb = new Vector3D();
+			_vc = new Vector3D();
+			_vd = new Vector3D();
 			_uvs = new Vector.<Number>();
 			_vertices = new Vector.<Number>();
 			_indices = new Vector.<uint>();
 			_normals = new Vector.<Number>();
 			
 			if (_smoothSurface) {
-				_normal0 = new Vector3D(0.0, 0.0, 0.0);
-				_normal1 = new Vector3D(0.0, 0.0, 0.0);
-				_normal2 = new Vector3D(0.0, 0.0, 0.0);
-				_normalTmp = new Vector3D(0.0, 0.0, 0.0);
+				_normal0 = new Vector3D();
+				_normal1 = new Vector3D();
+				_normal2 = new Vector3D();
+				_normalTmp = new Vector3D();
 			} else
 				_subGeometry.autoDeriveVertexNormals = true;
 			
@@ -1491,8 +1487,8 @@ package away3d.extrusions
 
 import away3d.core.base.SubGeometry;
 import away3d.materials.MaterialBase;
-
 import flash.geom.Point;
+
 
 class SubGeometryList
 {

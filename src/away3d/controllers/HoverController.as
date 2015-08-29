@@ -2,9 +2,8 @@ package away3d.controllers
 {
 	import away3d.arcane;
 	import away3d.containers.*;
-	import away3d.entities.*;
 	import away3d.core.math.*;
-	
+	import away3d.entities.*;
 	import flash.geom.Vector3D;
 	
 	use namespace arcane;
@@ -28,7 +27,7 @@ package away3d.controllers
 		private var _maxTiltAngle:Number = 90;
 		private var _steps:uint = 8;
 		private var _yFactor:Number = 2;
-		private var _wrapPanAngle:Boolean = false;
+		private var _wrapPanAngle:Boolean;
 		private var _pos:Vector3D = new Vector3D();
 		
 		/**
@@ -44,14 +43,14 @@ package away3d.controllers
 			return _steps;
 		}
 		
-		public function set steps(val:uint):void
+		public function set steps(value:uint):void
 		{
-			val = (val < 1)? 1 : val;
+			value = (value < 1) ? 1 : value;
 			
-			if (_steps == val)
+			if (_steps == value)
 				return;
 			
-			_steps = val;
+			_steps = value;
 			
 			notifyUpdate();
 		}
@@ -64,14 +63,14 @@ package away3d.controllers
 			return _panAngle;
 		}
 		
-		public function set panAngle(val:Number):void
+		public function set panAngle(value:Number):void
 		{
-			val = Math.max(_minPanAngle, Math.min(_maxPanAngle, val));
+			value = Math.max(_minPanAngle, Math.min(_maxPanAngle, value));
 			
-			if (_panAngle == val)
+			if (_panAngle == value)
 				return;
 			
-			_panAngle = val;
+			_panAngle = value;
 			
 			notifyUpdate();
 		}
@@ -84,14 +83,14 @@ package away3d.controllers
 			return _tiltAngle;
 		}
 		
-		public function set tiltAngle(val:Number):void
+		public function set tiltAngle(value:Number):void
 		{
-			val = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, val));
+			value = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, value));
 			
-			if (_tiltAngle == val)
+			if (_tiltAngle == value)
 				return;
 			
-			_tiltAngle = val;
+			_tiltAngle = value;
 			
 			notifyUpdate();
 		}
@@ -104,12 +103,12 @@ package away3d.controllers
 			return _distance;
 		}
 		
-		public function set distance(val:Number):void
+		public function set distance(value:Number):void
 		{
-			if (_distance == val)
+			if (_distance == value)
 				return;
 			
-			_distance = val;
+			_distance = value;
 			
 			notifyUpdate();
 		}
@@ -124,12 +123,12 @@ package away3d.controllers
 			return _minPanAngle;
 		}
 		
-		public function set minPanAngle(val:Number):void
+		public function set minPanAngle(value:Number):void
 		{
-			if (_minPanAngle == val)
+			if (_minPanAngle == value)
 				return;
 			
-			_minPanAngle = val;
+			_minPanAngle = value;
 			
 			panAngle = Math.max(_minPanAngle, Math.min(_maxPanAngle, _panAngle));
 		}
@@ -144,12 +143,12 @@ package away3d.controllers
 			return _maxPanAngle;
 		}
 		
-		public function set maxPanAngle(val:Number):void
+		public function set maxPanAngle(value:Number):void
 		{
-			if (_maxPanAngle == val)
+			if (_maxPanAngle == value)
 				return;
 			
-			_maxPanAngle = val;
+			_maxPanAngle = value;
 			
 			panAngle = Math.max(_minPanAngle, Math.min(_maxPanAngle, _panAngle));
 		}
@@ -164,12 +163,12 @@ package away3d.controllers
 			return _minTiltAngle;
 		}
 		
-		public function set minTiltAngle(val:Number):void
+		public function set minTiltAngle(value:Number):void
 		{
-			if (_minTiltAngle == val)
+			if (_minTiltAngle == value)
 				return;
 			
-			_minTiltAngle = val;
+			_minTiltAngle = value;
 			
 			tiltAngle = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, _tiltAngle));
 		}
@@ -184,12 +183,12 @@ package away3d.controllers
 			return _maxTiltAngle;
 		}
 		
-		public function set maxTiltAngle(val:Number):void
+		public function set maxTiltAngle(value:Number):void
 		{
-			if (_maxTiltAngle == val)
+			if (_maxTiltAngle == value)
 				return;
 			
-			_maxTiltAngle = val;
+			_maxTiltAngle = value;
 			
 			tiltAngle = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, _tiltAngle));
 		}
@@ -204,12 +203,12 @@ package away3d.controllers
 			return _yFactor;
 		}
 		
-		public function set yFactor(val:Number):void
+		public function set yFactor(value:Number):void
 		{
-			if (_yFactor == val)
+			if (_yFactor == value)
 				return;
 			
-			_yFactor = val;
+			_yFactor = value;
 			
 			notifyUpdate();
 		}
@@ -222,12 +221,12 @@ package away3d.controllers
 			return _wrapPanAngle;
 		}
 		
-		public function set wrapPanAngle(val:Boolean):void
+		public function set wrapPanAngle(value:Boolean):void
 		{
-			if (_wrapPanAngle == val)
+			if (_wrapPanAngle == value)
 				return;
 			
-			_wrapPanAngle = val;
+			_wrapPanAngle = value;
 			
 			notifyUpdate();
 		}

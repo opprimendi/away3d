@@ -1,7 +1,6 @@
 package away3d.audio.drivers
 {
 	import away3d.audio.SoundTransform3D;
-	
 	import flash.events.Event;
 	import flash.geom.*;
 	import flash.media.*;
@@ -60,15 +59,15 @@ package away3d.audio.drivers
 			_sound_chan.removeEventListener(Event.SOUND_COMPLETE, onSoundComplete);
 		}
 		
-		public override function set volume(val:Number):void
+		public override function set volume(value:Number):void
 		{
-			_volume = val;
-			_st3D.volume = val;
+			_volume = value;
+			_st3D.volume = value;
 		}
 		
-		public override function set scale(val:Number):void
+		public override function set scale(value:Number):void
 		{
-			_scale = val;
+			_scale = value;
 			_st3D.scale = scale;
 		}
 		
