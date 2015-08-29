@@ -4,7 +4,6 @@
 	import away3d.core.base.SubGeometry;
 	import away3d.entities.Mesh;
 	import away3d.materials.MaterialBase;
-	
 	import flash.display.BitmapData;
 	
 	/**
@@ -65,12 +64,12 @@
 		/**
 		 * Locks elevation factor beneath this color reading level. Default is 0;
 		 */
-		public function set minElevation(val:uint):void
+		public function set minElevation(value:uint):void
 		{
-			if (_minElevation == val)
+			if (_minElevation == value)
 				return;
 			
-			_minElevation = val;
+			_minElevation = value;
 			invalidateGeometry();
 		}
 		
@@ -83,12 +82,12 @@
 		 * Locks elevation factor above this color reading level. Default is 255;
 		 * Allows to build "canyon" like landscapes with no additional work on heightmap source.
 		 */
-		public function set maxElevation(val:uint):void
+		public function set maxElevation(value:uint):void
 		{
-			if (_maxElevation == val)
+			if (_maxElevation == value)
 				return;
 			
-			_maxElevation = val;
+			_maxElevation = value;
 			invalidateGeometry();
 		}
 		

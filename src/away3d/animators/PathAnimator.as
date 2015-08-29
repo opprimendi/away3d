@@ -5,7 +5,6 @@ package away3d.animators
 	import away3d.events.PathEvent;
 	import away3d.paths.IPath;
 	import away3d.paths.IPathSegment;
-	
 	import flash.events.EventDispatcher;
 	import flash.geom.Vector3D;
 	
@@ -13,7 +12,7 @@ package away3d.animators
 	{
 		private var _path:IPath;
 		private var _time:Number;
-		private var _index:uint = 0;
+		private var _index:uint;
 		private var _rotations:Vector.<Vector3D>;
 		private var _alignToPath:Boolean;
 		private var _target:Object3D;
@@ -27,7 +26,7 @@ package away3d.animators
 		private var _bRange:Boolean;
 		private var _bSegment:Boolean;
 		private var _bCycle:Boolean;
-		private var _lastSegment:uint = 0;
+		private var _lastSegment:uint;
 		private var _rot:Vector3D;
 		private var _upAxis:Vector3D = new Vector3D(0, 1, 0);
 		private var _basePosition:Vector3D = new Vector3D(0, 0, 0);
@@ -35,14 +34,14 @@ package away3d.animators
 		/**
 		 * Creates a new <code>PathAnimator</code>
 		 *
-		 * @param                 [optional] path                The QuadraticPath to animate onto.
-		 * @param                 [optional] target              An Object3D, the object to animate along the path. It can be Mesh, Camera, ObjectContainer3D...
-		 * @param                 [optional] offset              A Vector3D to define the target offset to its location on the path.
-		 * @param                 [optional] alignToPath         Defines if the object animated along the path is orientated to the path. Default is true.
-		 * @param                 [optional] lookAtTarget        An Object3D that the target will constantly look at during animation.
-		 * @param                 [optional] rotations           A Vector.&lt;Vector3D&gt; to define rotations per pathsegments. If PathExtrude is used to simulate the "road", use the very same rotations vector.
+		 * @param [optional] path                The QuadraticPath to animate onto.
+		 * @param [optional] target              An Object3D, the object to animate along the path. It can be Mesh, Camera, ObjectContainer3D...
+		 * @param [optional] offset              A Vector3D to define the target offset to its location on the path.
+		 * @param [optional] alignToPath         Defines if the object animated along the path is orientated to the path. Default is true.
+		 * @param [optional] lookAtTarget        An Object3D that the target will constantly look at during animation.
+		 * @param [optional] rotations           A Vector.&lt;Vector3D&gt; to define rotations per pathsegments. If PathExtrude is used to simulate the "road", use the very same rotations vector.
 		 */
-		function PathAnimator(path:IPath = null, target:Object3D = null, offset:Vector3D = null, alignToPath:Boolean = true, lookAtTarget:Object3D = null, rotations:Vector.<Vector3D> = null)
+		public function PathAnimator(path:IPath = null, target:Object3D = null, offset:Vector3D = null, alignToPath:Boolean = true, lookAtTarget:Object3D = null, rotations:Vector.<Vector3D> = null)
 		{
 			_index = 0;
 			_time = _lastTime = 0;
@@ -213,9 +212,9 @@ package away3d.animators
 				throw new Error("No Path object set for this class");
 			
 			var t:Number = Math.abs(ms)/duration;
-			t = (t < 0)? 0 : (t > 1)? 1 : t;
-			var m:Number = _path.numSegments*t;
-			var i:uint = m;
+			t = (t < 0) ? 0 : (t > 1) ? 1 : t;//TODO slavara: clamp(t, 0, 1);
+			var m:Number = _path.numSegments * t;
+			var i:uint = m;//TODO slavara: check this
 			var ps:IPathSegment = _path.segments[i];
 			
 			return ps.getPointOnSegment(m - i, out);
@@ -224,9 +223,9 @@ package away3d.animators
 		/**
 		 * defines if the object animated along the path must be aligned to the path.
 		 */
-		public function set alignToPath(b:Boolean):void
+		public function set alignToPath(value:Boolean):void
 		{
-			_alignToPath = b;
+			_alignToPath = value;
 		}
 		
 		public function get alignToPath():Boolean
@@ -264,12 +263,12 @@ package away3d.animators
 			return _time;
 		}
 		
-		public function set progress(val:Number):void
+		public function set progress(value:Number):void
 		{
-			if (_time == val)
+			if (_time == value)
 				return;
 			
-			updateProgress(val);
+			updateProgress(value);
 		}
 		
 		/**
@@ -293,9 +292,9 @@ package away3d.animators
 		/**
 		 * sets the object to be animated along the path.
 		 */
-		public function set target(object3d:Object3D):void
+		public function set target(value:Object3D):void
 		{
-			_target = object3d;
+			_target = value;
 		}
 		
 		public function get target():Object3D
@@ -306,9 +305,9 @@ package away3d.animators
 		/**
 		 * sets the object that the animated object will be looking at along the path
 		 */
-		public function set lookAtObject(object3d:Object3D):void
+		public function set lookAtObject(value:Object3D):void
 		{
-			_lookAtTarget = object3d;
+			_lookAtTarget = value;
 			if (_alignToPath)
 				_alignToPath = false;
 		}
@@ -334,9 +333,9 @@ package away3d.animators
 		/**
 		 * Set the pointer to a given segment along the path
 		 */
-		public function set index(val:uint):void
+		public function set index(value:uint):void
 		{
-			_index = (val > _path.numSegments - 1)? _path.numSegments - 1 : (val > 0)? val : 0;
+			_index = (value > _path.numSegments - 1) ? _path.numSegments - 1 : (value > 0) ? value : 0;
 		}
 		
 		public function get index():uint

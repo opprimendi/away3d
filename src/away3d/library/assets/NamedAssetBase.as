@@ -41,9 +41,9 @@ package away3d.library.assets
 			return _id;
 		}
 		
-		public function set id(newID:String):void
+		public function set id(value:String):void
 		{
-			_id = newID;
+			_id = value;
 		}
 		
 		public function get name():String
@@ -51,12 +51,12 @@ package away3d.library.assets
 			return _name;
 		}
 		
-		public function set name(val:String):void
+		public function set name(value:String):void
 		{
 			var prev:String;
 			
 			prev = _name;
-			_name = val;
+			_name = value;
 			if (_name == null)
 				_name = 'null';
 			

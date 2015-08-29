@@ -292,12 +292,12 @@ package away3d.library
 			return _strategy;
 		}
 		
-		public function set conflictStrategy(val:ConflictStrategyBase):void
+		public function set conflictStrategy(value:ConflictStrategyBase):void
 		{
-			if (!val)
+			if (!value)
 				throw new Error('namingStrategy must not be null. To ignore naming, use AssetLibrary.IGNORE');
 			
-			_strategy = val.create();
+			_strategy = value.create();
 		}
 		
 		/**
@@ -317,9 +317,9 @@ package away3d.library
 			return _strategyPreference;
 		}
 		
-		public function set conflictPrecedence(val:String):void
+		public function set conflictPrecedence(value:String):void
 		{
-			_strategyPreference = val;
+			_strategyPreference = value;
 		}
 		
 		/**

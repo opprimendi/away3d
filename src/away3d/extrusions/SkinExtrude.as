@@ -1,15 +1,14 @@
 package away3d.extrusions
 {
 	import away3d.bounds.BoundingVolumeBase;
+	import away3d.core.base.data.UV;
+	import away3d.core.base.data.Vertex;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.SubGeometry;
 	import away3d.core.base.SubMesh;
-	import away3d.core.base.data.UV;
-	import away3d.core.base.data.Vertex;
 	import away3d.entities.Mesh;
 	import away3d.materials.MaterialBase;
 	import away3d.tools.helpers.MeshHelper;
-	
 	import flash.geom.Vector3D;
 	
 	public class SkinExtrude extends Mesh
@@ -71,9 +70,9 @@ package away3d.extrusions
 			return _profiles;
 		}
 		
-		public function set profiles(val:Vector.<Vector.<Vector3D>>):void
+		public function set profiles(value:Vector.<Vector.<Vector3D>>):void
 		{
-			_profiles = val;
+			_profiles = value;
 			invalidateGeometry();
 		}
 		
@@ -85,12 +84,12 @@ package away3d.extrusions
 			return _coverAll;
 		}
 		
-		public function set coverAll(val:Boolean):void
+		public function set coverAll(value:Boolean):void
 		{
-			if (_coverAll == val)
+			if (_coverAll == value)
 				return;
 			
-			_coverAll = val;
+			_coverAll = value;
 			invalidateGeometry();
 		}
 		
@@ -102,12 +101,12 @@ package away3d.extrusions
 			return _closeShape;
 		}
 		
-		public function set closeShape(val:Boolean):void
+		public function set closeShape(value:Boolean):void
 		{
-			if (_closeShape == val)
+			if (_closeShape == value)
 				return;
 			
-			_closeShape = val;
+			_closeShape = value;
 			invalidateGeometry();
 		}
 		
@@ -119,12 +118,12 @@ package away3d.extrusions
 			return _flip;
 		}
 		
-		public function set flip(val:Boolean):void
+		public function set flip(value:Boolean):void
 		{
-			if (_flip == val)
+			if (_flip == value)
 				return;
 			
-			_flip = val;
+			_flip = value;
 			invalidateGeometry();
 		}
 		
@@ -136,12 +135,12 @@ package away3d.extrusions
 			return _centerMesh;
 		}
 		
-		public function set centerMesh(val:Boolean):void
+		public function set centerMesh(value:Boolean):void
 		{
-			if (_centerMesh == val)
+			if (_centerMesh == value)
 				return;
 			
-			_centerMesh = val;
+			_centerMesh = value;
 			
 			if (_centerMesh && _subGeometry.vertexData.length > 0)
 				MeshHelper.applyPosition(this, (this.minX + this.maxX)*.5, (this.minY + this.maxY)*.5, (this.minZ + this.maxZ)*.5);
@@ -154,12 +153,12 @@ package away3d.extrusions
 			return _subdivision;
 		}
 		
-		public function set subdivision(val:Number):void
+		public function set subdivision(value:Number):void
 		{
-			if (_subdivision == val)
+			if (_subdivision == value)
 				return;
 			
-			_subdivision = val;
+			_subdivision = value;
 			invalidateGeometry();
 		}
 		

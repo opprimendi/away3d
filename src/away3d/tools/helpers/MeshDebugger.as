@@ -1,7 +1,7 @@
 package away3d.tools.helpers
 {
-	import away3d.containers.Scene3D;
 	import away3d.containers.ObjectContainer3D;
+	import away3d.containers.Scene3D;
 	import away3d.entities.Mesh;
 	import away3d.tools.helpers.data.MeshDebug;
 	
@@ -21,7 +21,7 @@ package away3d.tools.helpers
 		private var _lengthVertexNormals:Number = 50;
 		private var _dirty:Boolean;
 		
-		function MeshDebugger()
+		public function MeshDebugger()
 		{
 		}
 		
@@ -82,9 +82,9 @@ package away3d.tools.helpers
 		/*
 		 * To set a the color of the normals display. Default is 0xFF3399.
 		 */
-		public function set colorNormals(val:uint):void
+		public function set colorNormals(value:uint):void
 		{
-			_colorNormals = val;
+			_colorNormals = value;
 			invalidate();
 		}
 		
@@ -96,9 +96,9 @@ package away3d.tools.helpers
 		/*
 		 * To set a the color of the vertexnormals display. Default is 0x66CCFF.
 		 */
-		public function set colorVertexNormals(val:uint):void
+		public function set colorVertexNormals(value:uint):void
 		{
-			_colorVertexNormals = val;
+			_colorVertexNormals = value;
 			invalidate();
 		}
 		
@@ -110,9 +110,9 @@ package away3d.tools.helpers
 		/*
 		 * To set a the color of the tangent display. Default is 0xFFCC00.
 		 */
-		public function set colorTangents(val:uint):void
+		public function set colorTangents(value:uint):void
 		{
-			_colorTangents = val;
+			_colorTangents = value;
 			invalidate();
 		}
 		
@@ -124,10 +124,10 @@ package away3d.tools.helpers
 		/*
 		 * To set a the length of the vertexnormals segments. Default is 50.
 		 */
-		public function set lengthVertexNormals(val:Number):void
+		public function set lengthVertexNormals(value:Number):void
 		{
-			val = val < 0? 1 : val;
-			_lengthVertexNormals = val;
+			value = value < 0 ? 1 : value;
+			_lengthVertexNormals = value;
 			invalidate();
 		}
 		
@@ -139,10 +139,10 @@ package away3d.tools.helpers
 		/*
 		 * To set a the length of the normals segments. Default is 50.
 		 */
-		public function set lengthNormals(val:Number):void
+		public function set lengthNormals(value:Number):void
 		{
-			val = val < 0? 1 : val;
-			_lengthNormals = val;
+			value = value < 0 ? 1 : value;
+			_lengthNormals = value;
 			invalidate();
 		}
 		
@@ -154,10 +154,10 @@ package away3d.tools.helpers
 		/*
 		 * To set a the length of the tangents segments. Default is 50.
 		 */
-		public function set lengthTangents(val:Number):void
+		public function set lengthTangents(value:Number):void
 		{
-			val = val < 0? 1 : val;
-			_lengthTangents = val;
+			value = value < 0 ? 1 : value;
+			_lengthTangents = value;
 			invalidate();
 		}
 		
@@ -171,7 +171,8 @@ package away3d.tools.helpers
 		 */
 		public function hideDebug(mesh:Mesh):void
 		{
-			for (var i:uint = 0; i < _meshesData.length; ++i) {
+			var length:int = _meshesData.length;
+			for (var i:uint = 0; i < length; ++i) {
 				if (_meshesData[i].mesh == mesh && _meshesData[i].addChilded) {
 					_meshesData[i].addChilded = false;
 					_meshesData[i].scene.removeChild(_meshesData[i].meshDebug);
@@ -185,7 +186,8 @@ package away3d.tools.helpers
 		 */
 		public function showDebug(mesh:Mesh):void
 		{
-			for (var i:uint = 0; i < _meshesData.length; ++i) {
+			var length:int = _meshesData.length;
+			for (var i:uint = 0; i < length; ++i) {
 				if (_meshesData[i].mesh == mesh && !_meshesData[i].addChilded) {
 					_meshesData[i].addChilded = true;
 					_meshesData[i].scene.addChild(_meshesData[i].meshDebug);
@@ -199,9 +201,9 @@ package away3d.tools.helpers
 		 */
 		public function removeDebug(mesh:Mesh):void
 		{
-			var meshDebugData:MeshDebugData;
-			for (var i:uint = 0; i < _meshesData.length; ++i) {
-				meshDebugData = _meshesData[i];
+			var length:int = _meshesData.length;
+			for (var i:uint = 0; i < length; ++i) {
+				var meshDebugData:MeshDebugData = _meshesData[i];
 				if (meshDebugData.mesh == mesh) {
 					
 					if (meshDebugData.addChilded)
@@ -218,7 +220,7 @@ package away3d.tools.helpers
 		
 		public function hasDebug(mesh:Mesh):Boolean
 		{
-			return isMeshDebug(mesh)? true : false;
+			return isMeshDebug(mesh) != null;
 		}
 		
 		/*
@@ -226,10 +228,10 @@ package away3d.tools.helpers
 		 */
 		public function update():void
 		{
-			var meshDebugData:MeshDebugData;
 			var tmpMDD:MeshDebugData;
-			for (var i:uint = 0; i < _meshesData.length; ++i) {
-				meshDebugData = _meshesData[i];
+			var length:int = _meshesData.length;
+			for (var i:uint = 0; i < length; ++i) {
+				var meshDebugData:MeshDebugData = _meshesData[i];
 				if (!meshDebugData.addChilded)
 					continue;
 				if (_dirty) {
@@ -259,13 +261,12 @@ package away3d.tools.helpers
 		
 		private function isMeshDebug(mesh:Mesh):MeshDebugData
 		{
-			var meshDebugData:MeshDebugData;
-			for (var i:uint = 0; i < _meshesData.length; ++i) {
-				meshDebugData = _meshesData[i];
+			var length:int = _meshesData.length;
+			for (var i:uint = 0; i < length; ++i) {
+				var meshDebugData:MeshDebugData = _meshesData[i];
 				if (meshDebugData.mesh == mesh)
 					return meshDebugData;
 			}
-			
 			return null;
 		}
 		
@@ -291,12 +292,11 @@ package away3d.tools.helpers
 	}
 }
 
+import away3d.containers.Scene3D;
+import away3d.entities.Mesh;
+import away3d.tools.helpers.data.MeshDebug;
 class MeshDebugData
 {
-	import away3d.containers.Scene3D;
-	import away3d.entities.Mesh;
-	import away3d.tools.helpers.data.MeshDebug;
-	
 	public var mesh:Mesh;
 	public var meshDebug:MeshDebug;
 	public var scene:Scene3D;

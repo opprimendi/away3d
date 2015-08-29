@@ -13,8 +13,8 @@ package away3d.controllers
 		
 		protected function notifyUpdate():void
 		{
-			if (_targetObject && _targetObject.implicitPartition && _autoUpdate)
-				_targetObject.implicitPartition.markForUpdate(_targetObject);
+			if (_targetObject && _targetObject.arcane::implicitPartition && _autoUpdate)
+				_targetObject.arcane::implicitPartition.markForUpdate(_targetObject);
 		}
 		
 		/**
@@ -25,15 +25,15 @@ package away3d.controllers
 			return _targetObject;
 		}
 		
-		public function set targetObject(val:Entity):void
+		public function set targetObject(value:Entity):void
 		{
-			if (_targetObject == val)
+			if (_targetObject == value)
 				return;
 			
 			if (_targetObject && _autoUpdate)
 				_targetObject._controller = null;
 			
-			_targetObject = val;
+			_targetObject = value;
 			
 			if (_targetObject && _autoUpdate)
 				_targetObject._controller = this;
@@ -49,12 +49,12 @@ package away3d.controllers
 			return _autoUpdate;
 		}
 		
-		public function set autoUpdate(val:Boolean):void
+		public function set autoUpdate(value:Boolean):void
 		{
-			if (_autoUpdate == val)
+			if (_autoUpdate == value)
 				return;
 			
-			_autoUpdate = val;
+			_autoUpdate = value;
 			
 			if (_targetObject) {
 				if (_autoUpdate)
@@ -67,7 +67,7 @@ package away3d.controllers
 		/**
 		 * Base controller class for dynamically adjusting the propeties of a 3D object.
 		 *
-		 * @param    targetObject    The 3D object on which to act.
+		 * @param targetObject The 3D object on which to act.
 		 */
 		public function ControllerBase(targetObject:Entity = null):void
 		{

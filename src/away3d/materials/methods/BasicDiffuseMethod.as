@@ -92,9 +92,9 @@ package away3d.materials.methods
 			return _diffuseColor;
 		}
 		
-		public function set diffuseColor(diffuseColor:uint):void
+		public function set diffuseColor(value:uint):void
 		{
-			_diffuseColor = diffuseColor;
+			_diffuseColor = value;
 			updateDiffuse();
 		}
 		
@@ -129,10 +129,12 @@ package away3d.materials.methods
 		
 		public function set alphaThreshold(value:Number):void
 		{
+			//{TODO slavara: value = clamp(value, 0, 1)
 			if (value < 0)
 				value = 0;
 			else if (value > 1)
 				value = 1;
+			//}
 			if (value == _alphaThreshold)
 				return;
 			

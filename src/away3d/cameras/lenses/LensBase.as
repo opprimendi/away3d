@@ -47,9 +47,9 @@ package away3d.cameras.lenses
 			return _frustumCorners;
 		}
 		
-		public function set frustumCorners(frustumCorners:Vector.<Number>):void
+		public function set value(value:Vector.<Number>):void
 		{
-			_frustumCorners = frustumCorners;
+			_frustumCorners = value;
 		}
 		
 		/**

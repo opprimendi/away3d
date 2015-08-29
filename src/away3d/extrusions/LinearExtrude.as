@@ -1,16 +1,15 @@
 ﻿package away3d.extrusions
 {
 	import away3d.bounds.BoundingVolumeBase;
+	import away3d.core.base.data.UV;
+	import away3d.core.base.data.Vertex;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.SubGeometry;
 	import away3d.core.base.SubMesh;
-	import away3d.core.base.data.UV;
-	import away3d.core.base.data.Vertex;
 	import away3d.entities.Mesh;
 	import away3d.materials.MaterialBase;
 	import away3d.materials.utils.MultipleMaterials;
 	import away3d.tools.helpers.MeshHelper;
-	
 	import flash.geom.Point;
 	import flash.geom.Vector3D;
 	
@@ -158,12 +157,12 @@
 			return _axis;
 		}
 		
-		public function set axis(val:String):void
+		public function set axis(value:String):void
 		{
-			if (_axis == val)
+			if (_axis == value)
 				return;
 			
-			_axis = val;
+			_axis = value;
 			invalidateGeometry();
 		}
 		
@@ -175,9 +174,9 @@
 			return _materials;
 		}
 		
-		public function set materials(val:MultipleMaterials):void
+		public function set materials(value:MultipleMaterials):void
 		{
-			_materials = val;
+			_materials = value;
 			
 			if (_materials.front && this.material != _materials.front)
 				this.material = _materials.front;
@@ -193,12 +192,12 @@
 			return _subdivision;
 		}
 		
-		public function set subdivision(val:uint):void
+		public function set subdivision(value:uint):void
 		{
-			val = (val < 3)? 3 : val;
-			if (_subdivision == val)
+			value = Math.min(value, 3);
+			if (_subdivision == value)
 				return;
-			_subdivision = val;
+			_subdivision = value;
 			invalidateGeometry();
 		}
 		
@@ -210,12 +209,12 @@
 			return _coverAll;
 		}
 		
-		public function set coverAll(val:Boolean):void
+		public function set coverAll(value:Boolean):void
 		{
-			if (_coverAll == val)
+			if (_coverAll == value)
 				return;
 			
-			_coverAll = val;
+			_coverAll = value;
 			invalidateGeometry();
 		}
 		
@@ -227,12 +226,12 @@
 			return _flip;
 		}
 		
-		public function set flip(val:Boolean):void
+		public function set flip(value:Boolean):void
 		{
-			if (_flip == val)
+			if (_flip == value)
 				return;
 			
-			_flip = val;
+			_flip = value;
 			invalidateGeometry();
 		}
 		
@@ -244,12 +243,12 @@
 			return _centerMesh;
 		}
 		
-		public function set centerMesh(val:Boolean):void
+		public function set centerMesh(value:Boolean):void
 		{
-			if (_centerMesh == val)
+			if (_centerMesh == value)
 				return;
 			
-			_centerMesh = val;
+			_centerMesh = value;
 			
 			if (_centerMesh && _subGeometry.vertexData.length > 0)
 				MeshHelper.recenter(this);
@@ -265,13 +264,13 @@
 			return _thickness;
 		}
 		
-		public function set thickness(val:Number):void
+		public function set thickness(value:Number):void
 		{
-			val = Math.abs(val);
-			if (_thickness == val)
+			value = Math.abs(value);
+			if (_thickness == value)
 				return;
 			
-			_thickness = val;
+			_thickness = value;
 			invalidateGeometry();
 		}
 		
@@ -283,13 +282,13 @@
 			return _thicknessSubdivision;
 		}
 		
-		public function set thicknessSubdivision(val:uint):void
+		public function set thicknessSubdivision(value:uint):void
 		{
-			val = (val < 3)? 3 : val;
-			if (_thicknessSubdivision == val)
+			value = Math.min(value, 3);
+			if (_thicknessSubdivision == value)
 				return;
 			
-			_thicknessSubdivision = val;
+			_thicknessSubdivision = value;
 			invalidateGeometry();
 		}
 		
@@ -301,9 +300,9 @@
 			return _ignoreSides;
 		}
 		
-		public function set ignoreSides(val:String):void
+		public function set ignoreSides(value:String):void
 		{
-			_ignoreSides = val;
+			_ignoreSides = value;
 			if (_closePath) {
 				if (_ignoreSides.indexOf("left") == -1)
 					_ignoreSides += "left,";
@@ -1041,8 +1040,8 @@
 
 import away3d.core.base.SubGeometry;
 import away3d.materials.MaterialBase;
-
 import flash.geom.Point;
+
 
 class SubGeometryList
 {

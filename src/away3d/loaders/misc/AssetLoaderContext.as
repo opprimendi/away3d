@@ -41,9 +41,9 @@ package away3d.loaders.misc
 			return _includeDependencies;
 		}
 		
-		public function set includeDependencies(val:Boolean):void
+		public function set includeDependencies(value:Boolean):void
 		{
-			_includeDependencies = val;
+			_includeDependencies = value;
 		}
 		
 		/**
@@ -73,9 +73,9 @@ package away3d.loaders.misc
 			return _dependencyBaseUrl;
 		}
 		
-		public function set dependencyBaseUrl(val:String):void
+		public function set dependencyBaseUrl(value:String):void
 		{
-			_dependencyBaseUrl = val;
+			_dependencyBaseUrl = value;
 		}
 		
 		/**
@@ -88,9 +88,9 @@ package away3d.loaders.misc
 			return _overrideAbsPath;
 		}
 		
-		public function set overrideAbsolutePaths(val:Boolean):void
+		public function set overrideAbsolutePaths(value:Boolean):void
 		{
-			_overrideAbsPath = val;
+			_overrideAbsPath = value;
 		}
 		
 		/**
@@ -103,9 +103,9 @@ package away3d.loaders.misc
 			return _overrideFullUrls;
 		}
 		
-		public function set overrideFullURLs(val:Boolean):void
+		public function set overrideFullURLs(value:Boolean):void
 		{
-			_overrideFullUrls = val;
+			_overrideFullUrls = value;
 		}
 		
 		/**

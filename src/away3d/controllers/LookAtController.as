@@ -4,10 +4,9 @@ package away3d.controllers
 	import away3d.core.math.Matrix3DUtils;
 	import away3d.entities.*;
 	import away3d.events.*;
-
-	import flash.geom.Matrix3D;
-
 	import flash.geom.Vector3D;
+
+
 	
 	/**
 	 * Extended camera used to automatically look at a specified target object.
@@ -57,14 +56,14 @@ package away3d.controllers
 			return _lookAtPosition;
 		}
 		
-		public function set lookAtPosition(val:Vector3D):void
+		public function set lookAtPosition(value:Vector3D):void
 		{
 			if (_lookAtObject) {
 				_lookAtObject.removeEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED, onLookAtObjectChanged);
 				_lookAtObject = null;
 			}
 			
-			_lookAtPosition = val;
+			_lookAtPosition = value;
 			
 			notifyUpdate();
 		}
@@ -77,18 +76,18 @@ package away3d.controllers
 			return _lookAtObject;
 		}
 		
-		public function set lookAtObject(val:ObjectContainer3D):void
+		public function set lookAtObject(value:ObjectContainer3D):void
 		{
 			if (_lookAtPosition)
 				_lookAtPosition = null;
 			
-			if (_lookAtObject == val)
+			if (_lookAtObject == value)
 				return;
 			
 			if (_lookAtObject)
 				_lookAtObject.removeEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED, onLookAtObjectChanged);
 			
-			_lookAtObject = val;
+			_lookAtObject = value;
 			
 			if (_lookAtObject)
 				_lookAtObject.addEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED, onLookAtObjectChanged);

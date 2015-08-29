@@ -46,17 +46,17 @@ package away3d.animators
 			super(uvAnimationSet);
 			
 			_uvTransform = new Matrix();
-			_matrix2d = Vector.<Number>([1, 0, 0, 0, 1, 0, 0, 0]);
-			_translate = Vector.<Number>([0, 0, 0.5, 0.5]);
+			_matrix2d = new <Number>[1, 0, 0, 0, 1, 0, 0, 0];
+			_translate = new <Number>[0, 0, 0.5, 0.5];
 			_uvAnimationSet = uvAnimationSet;
 		}
 		
 		/**
 		 * Defines if a rotation is performed automatically each update. The rotationIncrease value is added each iteration.
 		 */
-		public function set autoRotation(b:Boolean):void
+		public function set autoRotation(value:Boolean):void
 		{
-			_autoRotation = b;
+			_autoRotation = value;
 		}
 		
 		public function get autoRotation():Boolean
@@ -80,11 +80,11 @@ package away3d.animators
 		/**
 		 * Defines if the animation is translated automatically each update. Ideal to scroll maps. Use setTranslateIncrease to define the offsets.
 		 */
-		public function set autoTranslate(b:Boolean):void
+		public function set autoTranslate(value:Boolean):void
 		{
-			_autoTranslate = b;
-			if (b && !_translateIncrease)
-				_translateIncrease = Vector.<Number>([0, 0]);
+			_autoTranslate = value;
+			if (value && !_translateIncrease)
+				_translateIncrease = new <Number>[0, 0];
 		}
 		
 		public function get autoTranslate():Boolean
@@ -99,7 +99,7 @@ package away3d.animators
 		public function setTranslateIncrease(u:Number, v:Number):void
 		{
 			if (!_translateIncrease)
-				_translateIncrease = Vector.<Number>([0, 0]);
+				_translateIncrease = new <Number>[0, 0];
 			_translateIncrease[0] = u;
 			_translateIncrease[1] = v;
 		}

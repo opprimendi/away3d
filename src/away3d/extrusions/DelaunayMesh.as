@@ -5,14 +5,13 @@
 package away3d.extrusions
 {
 	import away3d.bounds.BoundingVolumeBase;
+	import away3d.core.base.data.UV;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.SubGeometry;
 	import away3d.core.base.SubMesh;
-	import away3d.core.base.data.UV;
 	import away3d.entities.Mesh;
 	import away3d.materials.MaterialBase;
 	import away3d.tools.helpers.MeshHelper;
-	
 	import flash.geom.Vector3D;
 	
 	public class DelaunayMesh extends Mesh
@@ -83,12 +82,12 @@ package away3d.extrusions
 			return _vectors;
 		}
 		
-		public function set vectors(val:Vector.<Vector3D>):void
+		public function set vectors(value:Vector.<Vector3D>):void
 		{
 			if (_vectors.length < 3)
 				return;
 			
-			_vectors = val;
+			_vectors = value;
 			invalidateGeometry();
 		}
 		
@@ -100,12 +99,12 @@ package away3d.extrusions
 			return _smoothSurface;
 		}
 		
-		public function set smoothSurface(val:Boolean):void
+		public function set smoothSurface(value:Boolean):void
 		{
-			if (_smoothSurface == val)
+			if (_smoothSurface == value)
 				return;
 			
-			_smoothSurface = val;
+			_smoothSurface = value;
 			invalidateGeometry();
 		}
 		
@@ -117,14 +116,14 @@ package away3d.extrusions
 			return _plane;
 		}
 		
-		public function set plane(val:String):void
+		public function set plane(value:String):void
 		{
-			if (_plane == val)
+			if (_plane == value)
 				return;
-			if (val != PLANE_XZ && val != PLANE_XY && val != PLANE_ZY)
+			if (value != PLANE_XZ && value != PLANE_XY && value != PLANE_ZY)
 				return;
 			
-			_plane = val;
+			_plane = value;
 			invalidateGeometry();
 		}
 		
@@ -136,12 +135,12 @@ package away3d.extrusions
 			return _flip;
 		}
 		
-		public function set flip(val:Boolean):void
+		public function set flip(value:Boolean):void
 		{
-			if (_flip == val)
+			if (_flip == value)
 				return;
 			
-			_flip = val;
+			_flip = value;
 			invalidateGeometry();
 		}
 		
@@ -153,12 +152,12 @@ package away3d.extrusions
 			return _centerMesh;
 		}
 		
-		public function set centerMesh(val:Boolean):void
+		public function set centerMesh(value:Boolean):void
 		{
-			if (_centerMesh == val)
+			if (_centerMesh == value)
 				return;
 			
-			_centerMesh = val;
+			_centerMesh = value;
 			
 			if (_centerMesh && _subGeometry.vertexData.length > 0)
 				MeshHelper.applyPosition(this, (this.minX + this.maxX)*.5, (this.minY + this.maxY)*.5, (this.minZ + this.maxZ)*.5);
@@ -195,12 +194,11 @@ package away3d.extrusions
 			
 			if (_smoothSurface) {
 				_normals = new Vector.<Number>();
-				_normal0 = new Vector3D(0.0, 0.0, 0.0);
-				_normal1 = new Vector3D(0.0, 0.0, 0.0);
-				_normal2 = new Vector3D(0.0, 0.0, 0.0);
-				_tmpNormal = new Vector3D(0.0, 0.0, 0.0);
+				_normal0 = new Vector3D();
+				_normal1 = new Vector3D();
+				_normal2 = new Vector3D();
+				_tmpNormal = new Vector3D();
 				_subGeometry.autoDeriveVertexNormals = false;
-				
 			} else
 				_subGeometry.autoDeriveVertexNormals = true;
 			_subGeometry.autoDeriveVertexTangents = true;

@@ -2,7 +2,6 @@ package away3d.debug
 {
 	import away3d.arcane;
 	import away3d.containers.View3D;
-	
 	import flash.display.BitmapData;
 	import flash.display.CapsStyle;
 	import flash.display.Graphics;
@@ -15,8 +14,8 @@ package away3d.debug
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
-	import flash.utils.Timer;
 	import flash.utils.getTimer;
+	import flash.utils.Timer;
 	
 	use namespace arcane;
 	
@@ -605,8 +604,8 @@ package away3d.debug
 			
 			// Show software (SW) or hardware (HW)
 			if (!_showing_driv_info) {
-				if (_views && _views.length && _views[0].renderer.stage3DProxy && _views[0].renderer.stage3DProxy.context3D) {
-					var di:String = _views[0].renderer.stage3DProxy.context3D.driverInfo;
+				if (_views && _views.length && _views[0].renderer.arcane::stage3DProxy && _views[0].renderer.arcane::stage3DProxy.context3D) {
+					var di:String = _views[0].renderer.arcane::stage3DProxy.context3D.driverInfo;
 					_swhw_tf.text = di.substr(0, di.indexOf(' '));
 					_showing_driv_info = true;
 				} else

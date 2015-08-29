@@ -58,9 +58,9 @@ package away3d.stereo
 			return _stereoEnabled;
 		}
 		
-		public function set stereoEnabled(val:Boolean):void
+		public function set stereoEnabled(value:Boolean):void
 		{
-			_stereoEnabled = val;
+			_stereoEnabled = value;
 		}
 		
 		override public function render():void

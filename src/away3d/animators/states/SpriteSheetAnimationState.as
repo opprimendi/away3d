@@ -1,9 +1,9 @@
 package away3d.animators.states
 {
-	import away3d.arcane;
 	import away3d.animators.*;
 	import away3d.animators.data.*;
 	import away3d.animators.nodes.*;
+	import away3d.arcane;
 	
 	use namespace arcane;
 	
@@ -11,13 +11,13 @@ package away3d.animators.states
 	{
 		private var _frames:Vector.<SpriteSheetAnimationFrame>;
 		private var _clipNode:SpriteSheetClipNode;
-		private var _currentFrameID:uint = 0;
+		private var _currentFrameID:uint;
 		private var _reverse:Boolean;
 		private var _back:Boolean;
 		private var _backAndForth:Boolean;
 		private var _forcedFrame:Boolean;
 		
-		function SpriteSheetAnimationState(animator:IAnimator, clipNode:SpriteSheetClipNode)
+		public function SpriteSheetAnimationState(animator:IAnimator, clipNode:SpriteSheetClipNode)
 		{
 			super(animator, clipNode);
 			
@@ -25,18 +25,18 @@ package away3d.animators.states
 			_frames = _clipNode.frames;
 		}
 		
-		public function set reverse(b:Boolean):void
+		public function set reverse(value:Boolean):void
 		{
 			_back = false;
-			_reverse = b;
+			_reverse = value;
 		}
 		
-		public function set backAndForth(b:Boolean):void
+		public function set backAndForth(value:Boolean):void
 		{
-			if (b)
+			if (value)
 				_reverse = false;
 			_back = false;
-			_backAndForth = b;
+			_backAndForth = value;
 		}
 		
 		/**
@@ -59,9 +59,9 @@ package away3d.animators.states
 			return _currentFrameID;
 		}
 		
-		public function set currentFrameNumber(frameNumber:uint):void
+		public function set currentFrameNumber(value:uint):void
 		{
-			_currentFrameID = (frameNumber > _frames.length - 1 )? _frames.length - 1 : frameNumber;
+			_currentFrameID = (value > _frames.length - 1 )? _frames.length - 1 : value;
 			_forcedFrame = true;
 		}
 		
@@ -70,7 +70,7 @@ package away3d.animators.states
 		 */
 		arcane function get totalFrames():uint
 		{
-			return (!_frames)? 0 : _frames.length;
+			return _frames != null ? _frames.length : 0;
 		}
 		
 		/**
