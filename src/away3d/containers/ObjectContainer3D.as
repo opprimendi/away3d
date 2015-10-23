@@ -525,23 +525,22 @@ package away3d.containers
 		 */
 		public function addChild(child:ObjectContainer3D):ObjectContainer3D
 		{
+			return addChildAt(child, _children.length);
+		}
+		
+		public function addChildAt(child:ObjectContainer3D, index:int):ObjectContainer3D {
 			if (child == null)
 				throw new Error("Parameter child cannot be null.");
-			
 			if (child._parent)
 				child._parent.removeChild(child);
-			
 			if (!child._explicitPartition)
 				child.implicitPartition = _implicitPartition;
-			
 			child.setParent(this);
 			child.scene = _scene;
 			child.notifySceneTransformChange();
 			child.updateMouseChildren();
 			child.updateImplicitVisibility();
-			
-			_children.push(child);
-			
+			_children.splice(index, 0, child);
 			return child;
 		}
 		
@@ -573,6 +572,18 @@ package away3d.containers
 				throw new Error("Parameter is not a child of the caller");
 			
 			removeChildInternal(childIndex, child);
+		}
+		
+		/** 
+		 * Removes a range of children from the container (endIndex included). 
+         * If no arguments are given, all children will be removed.
+		 */
+		public function removeChilden(beginIndex:int = 0, endIndex:int = -1):void {
+			if (endIndex < 0 || endIndex >= numChildren) 
+                endIndex = numChildren - 1;
+            
+            for (var i:int = beginIndex; i <= endIndex; ++i)
+                removeChildAt(beginIndex);
 		}
 		
 		/**
@@ -607,6 +618,10 @@ package away3d.containers
 		public function getChildAt(index:uint):ObjectContainer3D
 		{
 			return _children[index];
+		}
+		
+		public function getChildIndex(child:ObjectContainer3D):int {
+			return _children.indexOf(child);
 		}
 		
 		/**
