@@ -574,6 +574,18 @@ package away3d.containers
 			removeChildInternal(childIndex, child);
 		}
 		
+		/** 
+		 * Removes a range of children from the container (endIndex included). 
+         * If no arguments are given, all children will be removed.
+		 */
+		public function removeChilden(beginIndex:int = 0, endIndex:int = -1):void {
+			if (endIndex < 0 || endIndex >= numChildren) 
+                endIndex = numChildren - 1;
+            
+            for (var i:int = beginIndex; i <= endIndex; ++i)
+                removeChildAt(beginIndex);
+		}
+		
 		/**
 		 * Removes a 3d object from the child array of the container
 		 *

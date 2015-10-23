@@ -2,7 +2,6 @@ package away3d.containers {
 	import away3d.events.Object3DEvent;
 	import away3d.events.Scene3DEvent;
 	import flash.geom.Matrix3D;
-	import flash.sampler.NewObjectSample;
 	import org.flexunit.asserts.assertEquals;
 	import org.flexunit.asserts.assertNull;
 	import org.flexunit.async.Async;
@@ -100,12 +99,37 @@ package away3d.containers {
 			assertEquals(1, _container.getChildIndex(child1));
 		}
 		
-		[Ignore]
 		[Test]
-		public function testRemoveChildren():void {}
+		public function testRemoveChildren_0():void {
+			var child0:ObjectContainer3D = new ObjectContainer3D();
+			var child1:ObjectContainer3D = new ObjectContainer3D();
+			var child2:ObjectContainer3D = new ObjectContainer3D();
+			_container.addChildren(child0, child1, child2);
+			_container.removeChilden();
+			assertEquals(0, _container.numChildren);
+		}
 		
-		[Ignore]
 		[Test]
-		public function testContains():void {}
+		public function testRemoveChildren_1():void {
+			var child0:ObjectContainer3D = new ObjectContainer3D();
+			var child1:ObjectContainer3D = new ObjectContainer3D();
+			var child2:ObjectContainer3D = new ObjectContainer3D();
+			_container.addChildren(child0, child1, child2);
+			_container.removeChilden(1);
+			assertEquals(1, _container.numChildren);
+			assertEquals(child0, _container.getChildAt(0));
+		}
+		
+		[Test]
+		public function testRemoveChildren_2():void {
+			var child0:ObjectContainer3D = new ObjectContainer3D();
+			var child1:ObjectContainer3D = new ObjectContainer3D();
+			var child2:ObjectContainer3D = new ObjectContainer3D();
+			_container.addChildren(child0, child1, child2);
+			_container.removeChilden(0, 1);
+			assertEquals(1, _container.numChildren);
+			assertEquals(child2, _container.getChildAt(0));
+		}
+		
 	}
 }
