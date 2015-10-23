@@ -1,21 +1,20 @@
 package away3d.library.assets
 {
+	import away3d.IDisposable;
 	import flash.events.IEventDispatcher;
 	
-	public interface IAsset extends IEventDispatcher
+	public interface IAsset extends IEventDispatcher, IDisposable
 	{
 		/**
 		 * The name of the asset.
 		 */
 		function get name():String;
-		
 		function set name(value:String):void;
 
 		/**
 		 * The id of the asset.
 		 */
 		function get id():String;
-		
 		function set id(value:String):void;
 
 		/**
@@ -34,12 +33,6 @@ package away3d.library.assets
 		function get assetFullPath():Array;
 		
 		function assetPathEquals(name:String, ns:String):Boolean;
-		
 		function resetAssetPath(name:String, ns:String = null, overrideOriginal:Boolean = true):void;
-		
-		/**
-		 * Cleans up resources used by this asset.
-		 */
-		function dispose():void;
 	}
 }

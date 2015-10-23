@@ -60,5 +60,17 @@ package away3d.animators
 		function clone():IAnimator;
 		
 		function dispose():void;
+		
+		function get isPlaying():Boolean;
+		
+		/**
+		 * Resumes the automatic playback clock controling the active state of the animator.
+		 */
+		function start():void;
+		
+		/**
+		 * Pauses the automatic playback clock of the animator.
+		 */
+		function stop():void;
 	}
 }

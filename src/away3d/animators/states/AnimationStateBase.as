@@ -2,13 +2,10 @@ package away3d.animators.states
 {
 	import away3d.animators.*;
 	import away3d.animators.nodes.*;
-	
+	import away3d.IDisposable;
 	import flash.geom.*;
 	
-	/**
-	 *
-	 */
-	public class AnimationStateBase implements IAnimationState
+	public class AnimationStateBase implements IAnimationState, IDisposable
 	{
 		protected var _animationNode:AnimationNodeBase;
 		protected var _rootDelta:Vector3D = new Vector3D();
@@ -29,15 +26,19 @@ package away3d.animators.states
 			return _rootDelta;
 		}
 		
-		function AnimationStateBase(animator:IAnimator, animationNode:AnimationNodeBase)
+		public function AnimationStateBase(animator:IAnimator, animationNode:AnimationNodeBase)
 		{
 			_animator = animator;
 			_animationNode = animationNode;
 		}
 		
+		public function dispose():void {
+			_animator = null;
+			_animationNode = null;
+		}
+		
 		/**
 		 * Resets the start time of the node to a  new value.
-		 *
 		 * @param startTime The absolute start time (in milliseconds) of the node's starting time.
 		 */
 		public function offset(startTime:int):void
@@ -49,9 +50,7 @@ package away3d.animators.states
 		
 		/**
 		 * Updates the configuration of the node to its current state.
-		 *
 		 * @param time The absolute time (in milliseconds) of the animator's play head position.
-		 *
 		 * @see away3d.animators.AnimatorBase#update()
 		 */
 		public function update(time:int):void

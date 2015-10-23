@@ -97,7 +97,6 @@ package away3d.animators
 		 */
 		override public function addAnimation(node:AnimationNodeBase):void
 		{
-			var i:int;
 			var n:ParticleNodeBase = node as ParticleNodeBase;
 			n.processAnimationSetting(this);
 			if (n.mode == ParticlePropertiesMode.LOCAL_STATIC) {
@@ -107,6 +106,7 @@ package away3d.animators
 			} else if (n.mode == ParticlePropertiesMode.LOCAL_DYNAMIC)
 				_localDynamicNodes.push(n);
 			
+			var i:int;
 			for (i = _particleNodes.length - 1; i >= 0; i--) {
 				if (_particleNodes[i].priority <= n.priority)
 					break;
@@ -164,10 +164,7 @@ package away3d.animators
 			_animationRegisterCache.hasColorMulNode = hasColorMulNode;
 			_animationRegisterCache.reset();
 			
-			var code:String = "";
-			
-			code += _animationRegisterCache.getInitCode();
-			
+			var code:String = _animationRegisterCache.getInitCode();
 			var node:ParticleNodeBase;
 			for each (node in _particleNodes) {
 				if (node.priority < POST_PRIORITY)
@@ -243,17 +240,19 @@ package away3d.animators
 		
 		}
 		
-		override public function dispose():void
+		public override function dispose():void
 		{
-			var subGeometry:AnimationSubGeometry;
-			
-			for each (subGeometry in _animationSubGeometries)
-				subGeometry.dispose();
-			
 			super.dispose();
+			for each(var it:AnimationSubGeometry in _animationSubGeometries)
+				it.dispose();
+			_timeNode.dispose();
+			_timeNode = null;
+			_animationSubGeometries = null;
+			_particleNodes = null;
+			_localDynamicNodes = null;
+			_localStaticNodes = null;
 		}
 		
-		/** @private */
 		arcane function generateAnimationSubGeometries(mesh:Mesh):void
 		{
 			if (initParticleFunc == null)
