@@ -561,29 +561,28 @@ package away3d.containers
 		 * @param    child    The 3d object to be removed
 		 * @throws    Error    ObjectContainer3D.removeChild(null)
 		 */
-		public function removeChild(child:ObjectContainer3D):void
+		public function removeChild(child:ObjectContainer3D, dispose:Boolean = false):void
 		{
 			if (child == null)
 				throw new Error("Parameter child cannot be null");
 			
 			var childIndex:int = _children.indexOf(child);
-			
 			if (childIndex == -1)
 				throw new Error("Parameter is not a child of the caller");
 			
-			removeChildInternal(childIndex, child);
+			removeChildInternal(childIndex, child, dispose);
 		}
 		
 		/** 
 		 * Removes a range of children from the container (endIndex included). 
          * If no arguments are given, all children will be removed.
 		 */
-		public function removeChilden(beginIndex:int = 0, endIndex:int = -1):void {
+		public function removeChilden(beginIndex:int = 0, endIndex:int = -1, dispose:Boolean = false):void {
 			if (endIndex < 0 || endIndex >= numChildren) 
                 endIndex = numChildren - 1;
             
             for (var i:int = beginIndex; i <= endIndex; ++i)
-                removeChildAt(beginIndex);
+                removeChildAt(beginIndex, dispose);
 		}
 		
 		/**
@@ -591,23 +590,20 @@ package away3d.containers
 		 *
 		 * @param    index    Index of 3d object to be removed
 		 */
-		public function removeChildAt(index:uint):void
+		public function removeChildAt(index:uint, dispose:Boolean = false):void
 		{
-			var child:ObjectContainer3D = _children[index];
-			
-			removeChildInternal(index, child);
+			removeChildInternal(index, _children[index], dispose);
 		}
 		
-		private function removeChildInternal(childIndex:uint, child:ObjectContainer3D):void
+		private function removeChildInternal(childIndex:int, child:ObjectContainer3D, dispose:Boolean):void
 		{
 			// index is important because getChildAt needs to be regular.
 			_children.splice(childIndex, 1);
-			
 			// this needs to be nullified before the callbacks!
 			child.setParent(null);
-			
 			if (!child._explicitPartition)
 				child.implicitPartition = null;
+			if(dispose) child.dispose();
 		}
 		
 		/**
@@ -650,23 +646,11 @@ package away3d.containers
 		}
 		
 		/**
-		 * @inheritDoc
-		 */
-		override public function dispose():void
-		{
-			if (parent)
-				parent.removeChild(this);
-		}
-		
-		/**
 		 * Disposes the current ObjectContainer3D including all of its children. This is a merely a convenience method.
 		 */
-		public function disposeWithChildren():void
+		public override function dispose():void
 		{
-			dispose();
-			
-			while (numChildren > 0)
-				getChildAt(0).disposeWithChildren();
+			removeChilden(0, -1, true);
 		}
 		
 		/**

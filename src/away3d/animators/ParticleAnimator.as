@@ -25,17 +25,17 @@ package away3d.animators
 	 */
 	public class ParticleAnimator extends AnimatorBase implements IAnimator
 	{
-		private var animationEnded:Boolean = false;
+		private var animationEnded:Boolean;
 		
 		arcane var _duration:Number = 0;
-		arcane var _isUsesLoop:Boolean = false;
+		arcane var _isUsesLoop:Boolean;
 		arcane var _maxStartTime:Number = 0;
 		arcane var _absoluteAnimationTime:Number = 0;
 		
 		private var _particleAnimationSet:ParticleAnimationSet;
-		private var _animationParticleStates:Vector.<ParticleStateBase> = new Vector.<ParticleStateBase>;
-		private var _animatorParticleStates:Vector.<ParticleStateBase> = new Vector.<ParticleStateBase>;
-		private var _timeParticleStates:Vector.<ParticleStateBase> = new Vector.<ParticleStateBase>;
+		private var _animationParticleStates:Vector.<ParticleStateBase> = new Vector.<ParticleStateBase>();
+		private var _animatorParticleStates:Vector.<ParticleStateBase> = new Vector.<ParticleStateBase>();
+		private var _timeParticleStates:Vector.<ParticleStateBase> = new Vector.<ParticleStateBase>();
 		private var _totalLenOfOneVertex:uint = 0;
 		private var _animatorSubGeometries:Dictionary = new Dictionary(true);
 		
@@ -180,17 +180,24 @@ package away3d.animators
 			update(time);
 		}
 		
-		override public function dispose():void
+		public override function dispose():void
 		{
-			var subGeometry:AnimationSubGeometry;
-			for each (subGeometry in _animatorSubGeometries)
-				subGeometry.dispose();
+			super.dispose();
+			for each(var it:* in _animatorSubGeometries)
+				IDisposable(it).dispose();
+			_particleAnimationSet = null;
+			_animationParticleStates = null;
+			_animatorParticleStates = null;
+			_timeParticleStates = null;
+			_animationParticleStates = null;
 		}
 		
 		private function generateAnimatorSubGeometry(subMesh:SubMesh):void
 		{
 			var subGeometry:ISubGeometry = subMesh.subGeometry;
-			var animatorSubGeometry:AnimationSubGeometry = subMesh.animatorSubGeometry = _animatorSubGeometries[subGeometry] = new AnimationSubGeometry();
+			var animatorSubGeometry:AnimationSubGeometry = new AnimationSubGeometry();
+			subMesh.animatorSubGeometry = animatorSubGeometry;
+			_animatorSubGeometries[subGeometry] = animatorSubGeometry;
 			
 			//create the vertexData vector that will be used for local state data
 			animatorSubGeometry.createVertexData(subGeometry.numVertices, _totalLenOfOneVertex);
@@ -199,5 +206,4 @@ package away3d.animators
 			animatorSubGeometry.animationParticles = subMesh.animationSubGeometry.animationParticles;
 		}
 	}
-
 }

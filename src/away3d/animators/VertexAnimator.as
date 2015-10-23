@@ -49,6 +49,12 @@ package away3d.animators
 			return new VertexAnimator(_vertexAnimationSet);
 		}
 		
+		public override function dispose():void {
+			super.dispose();
+			_vertexAnimationSet = null;
+			_activeVertexState = null;
+		}
+		
 		/**
 		 * Plays a sequence with a given name. If the sequence is not found, it may not be loaded yet, and it will retry every frame.
 		 * @param sequenceName The name of the clip to be played.

@@ -1,5 +1,6 @@
 ﻿package away3d.entities
 {
+	import away3d.animators.AnimatorBase;
 	import away3d.animators.IAnimator;
 	import away3d.arcane;
 	import away3d.containers.*;
@@ -201,26 +202,15 @@
 		}
 		
 		/**
-		 * @inheritDoc
+		 * Disposes mesh including the animator and children. This is a merely a convenience method.
 		 */
-		override public function dispose():void
+		public override function dispose():void
 		{
 			super.dispose();
-			
+			if(animator) animator.stop();
+			animator = null;
 			material = null;
 			geometry = null;
-		}
-		
-		/**
-		 * Disposes mesh including the animator and children. This is a merely a convenience method.
-		 * @return
-		 */
-		public function disposeWithAnimatorAndChildren():void
-		{
-			disposeWithChildren();
-			
-			if (_animator)
-				_animator.dispose();
 		}
 		
 		/**

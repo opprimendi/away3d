@@ -833,14 +833,6 @@ package away3d.core.base
 		}
 		
 		/**
-		 * @inheritDoc
-		 */
-		public function disposeAsset():void
-		{
-			dispose();
-		}
-		
-		/**
 		 * Invalidates the transformation matrix, causing it to be updated upon the next request
 		 */
 		arcane function invalidateTransform():void

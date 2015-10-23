@@ -9,6 +9,7 @@ package away3d.animators
 	import away3d.core.managers.*;
 	import away3d.core.math.*;
 	import away3d.events.*;
+	import away3d.IDisposable;
 	import away3d.materials.passes.*;
 	
 	import flash.display3D.*;
@@ -139,6 +140,17 @@ package away3d.animators
 			/* The cast to SkeletonAnimationSet should never fail, as _animationSet can only be set
 			 through the constructor, which will only accept a SkeletonAnimationSet. */
 			return new SkeletonAnimator(_animationSet as SkeletonAnimationSet, _skeleton, _forceCPU);
+		}
+		
+		public override function dispose():void {
+			super.dispose();
+			for each(var it:* in _animationStates)
+				IDisposable(it).dispose();
+			_skeleton = null;
+			_activeSkeletonState = null;
+			_animationStates = null;
+			_globalPose = null;
+			_globalMatrices = null;
 		}
 		
 		/**
@@ -552,7 +564,6 @@ package away3d.animators
 }
 
 import away3d.core.base.CompactSubGeometry;
-
 class SubGeomAnimationState
 {
 	public var animatedVertexData:Vector.<Number>;

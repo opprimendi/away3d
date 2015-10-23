@@ -418,9 +418,7 @@ package away3d.library
 		}
 		
 		/**
-		 * Removes an asset from the library, and optionally disposes that asset by calling
-		 * it's disposeAsset() method (which for most assets is implemented as a default
-		 * version of that type's dispose() method.
+		 * Removes an asset from the library, and optionally disposes that asset by calling it's dispose() method
 		 *
 		 * @param asset The asset which should be removed from this library.
 		 * @param dispose Defines whether the assets should also be disposed.
@@ -481,7 +479,7 @@ package away3d.library
 		/**
 		 * Removes all assets belonging to a particular namespace (null for default)
 		 * from the asset library, and optionall disposes them by calling their
-		 * disposeAsset() method.
+		 * dispose() method.
 		 *
 		 * @param ns The namespace from which all assets should be removed.
 		 * @param dispose Defines whether the assets should also be disposed.

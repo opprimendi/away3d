@@ -1,20 +1,21 @@
 package away3d.animators
 {
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.geom.Vector3D;
-	import flash.utils.Dictionary;
-	import flash.utils.getTimer;
-	
-	import away3d.arcane;
 	import away3d.animators.nodes.AnimationNodeBase;
 	import away3d.animators.states.AnimationStateBase;
 	import away3d.animators.states.IAnimationState;
+	import away3d.arcane;
 	import away3d.entities.Mesh;
 	import away3d.events.AnimatorEvent;
+	import away3d.IDisposable;
 	import away3d.library.assets.AssetType;
 	import away3d.library.assets.IAsset;
 	import away3d.library.assets.NamedAssetBase;
+	import flash.display.Shape;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.geom.Vector3D;
+	import flash.utils.Dictionary;
+	import flash.utils.getTimer;
 	
 	use namespace arcane;
 	
@@ -46,8 +47,7 @@ package away3d.animators
 	 */
 	public class AnimatorBase extends NamedAssetBase implements IAsset
 	{
-		private var _broadcaster:Sprite = new Sprite();
-		private var _isPlaying:Boolean;
+		private var _broadcaster:EventDispatcher = new Shape();
 		private var _autoUpdate:Boolean = true;
 		private var _time:int;
 		private var _playbackSpeed:Number = 1;
@@ -70,7 +70,6 @@ package away3d.animators
 		public function getAnimationState(node:AnimationNodeBase):AnimationStateBase
 		{
 			var className:Class = node.stateClass;
-			
 			return _animationStates[node] ||= new className(this, node);
 		}
 		
@@ -182,6 +181,11 @@ package away3d.animators
 		public function AnimatorBase(animationSet:IAnimationSet)
 		{
 			_animationSet = animationSet;
+		}
+		
+		private var _isPlaying:Boolean;
+		public function get isPlaying():Boolean {
+			return _isPlaying;
 		}
 		
 		/**
@@ -328,6 +332,15 @@ package away3d.animators
 		 */
 		public function dispose():void
 		{
+			stop();
+			for each(var it:* in _animationStates)
+				IDisposable(it).dispose();
+			_activeState = null;
+			_activeNode = null;
+			_animationSet = null;
+			_broadcaster = null;
+			_animationStates = null;
+			_owners = null;
 		}
 		
 		/**
