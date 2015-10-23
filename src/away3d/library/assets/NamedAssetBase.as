@@ -1,11 +1,7 @@
 package away3d.library.assets
 {
-	import away3d.arcane;
 	import away3d.events.AssetEvent;
-	
 	import flash.events.EventDispatcher;
-	
-	use namespace arcane;
 	
 	[Event(name = 'assetRename', type = 'away3d.events.AssetEvent')]
 	
@@ -19,14 +15,10 @@ package away3d.library.assets
 		
 		public static const DEFAULT_NAMESPACE:String = 'default';
 		
-		public function NamedAssetBase(name:String = null)
+		public function NamedAssetBase(name:String = "")
 		{
-			if (name == null)
-				name = 'null';
-			
 			_name = name;
 			_originalName = name;
-			
 			updateFullPath();
 		}
 		
@@ -45,9 +37,9 @@ package away3d.library.assets
 			return _id;
 		}
 		
-		public function set id(newID:String):void
+		public function set id(value:String):void
 		{
-			_id = newID;
+			_id = value;
 		}
 		
 		public function get name():String
@@ -55,17 +47,11 @@ package away3d.library.assets
 			return _name;
 		}
 		
-		public function set name(val:String):void
+		public function set name(value:String):void
 		{
-			var prev:String;
-			
-			prev = _name;
-			_name = val;
-			if (_name == null)
-				_name = 'null';
-			
+			var prev:String = _name;
+			_name = value;
 			updateFullPath();
-			
 			if (hasEventListener(AssetEvent.ASSET_RENAME))
 				dispatchEvent(new AssetEvent(AssetEvent.ASSET_RENAME, IAsset(this), prev));
 		}
@@ -82,13 +68,13 @@ package away3d.library.assets
 		
 		public function assetPathEquals(name:String, ns:String):Boolean
 		{
-			return (_name == name && (!ns || _namespace == ns));
+			return _name == name && (!ns || _namespace == ns);
 		}
 		
 		public function resetAssetPath(name:String, ns:String = null, overrideOriginal:Boolean = true):void
 		{
-			_name = name? name : 'null';
-			_namespace = ns? ns : DEFAULT_NAMESPACE;
+			_name = name || "";
+			_namespace = ns ? ns : DEFAULT_NAMESPACE;
 			if (overrideOriginal)
 				_originalName = _name;
 			
@@ -97,7 +83,7 @@ package away3d.library.assets
 		
 		private function updateFullPath():void
 		{
-			_full_path = [ _namespace, _name ];
+			_full_path = [_namespace, _name];
 		}
 	}
 }

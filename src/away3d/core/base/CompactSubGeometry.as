@@ -374,15 +374,11 @@ package away3d.core.base
 			return data;
 		}
 		
-		public function fromVectors(verts:Vector.<Number>, uvs:Vector.<Number>, normals:Vector.<Number>, tangents:Vector.<Number>, secondaryUVs:Vector.<Number>=null):void
+		public function fromVectors(verts:Vector.<Number>, uvs:Vector.<Number>, normals:Vector.<Number>, tangents:Vector.<Number>, secondaryUVs:Vector.<Number> = null):void
 		{
-			var vertLen:int = verts.length/3*13;
-			hasSecondaryUVs = (secondaryUVs && secondaryUVs.length);
-			if (!secondaryUVs) 
-				secondaryUVs=uvs;
-			else
-				if (secondaryUVs.length != uvs.length) 
-					secondaryUVs=uvs;
+			hasSecondaryUVs = secondaryUVs && secondaryUVs.length;
+			if (!secondaryUVs || secondaryUVs.length != uvs.length) 
+				secondaryUVs = uvs;
 			
 			var index:int = 0;
 			var v:int = 0;
@@ -390,6 +386,7 @@ package away3d.core.base
 			var t:int = 0;
 			var u:int = 0;
 			
+			var vertLen:int = verts.length / 3 * 13;
 			var data:Vector.<Number> = new Vector.<Number>(vertLen, true);
 			
 			while (index < vertLen) {

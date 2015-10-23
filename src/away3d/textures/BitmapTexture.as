@@ -18,14 +18,13 @@
 		private var _bitmapData:BitmapData;
 		private var _generateMipmaps:Boolean;
 		
-		private var maxMipLevel:int = 0;
-		private var currentMipLevel:int = 0;
-		private var isMipMapsUploaded:Boolean = false;
+		private var maxMipLevel:int;
+		private var currentMipLevel:int;
+		private var isMipMapsUploaded:Boolean;
 		
 		public function BitmapTexture(bitmapData:BitmapData, generateMipmaps:Boolean = true)
 		{
 			super();
-			
 			this.bitmapData = bitmapData;
 			_generateMipmaps = generateMipmaps;
 		}
@@ -45,7 +44,6 @@
 			
 			invalidateContent();
 			setSize(value.width, value.height);
-			
 			_bitmapData = value;
 		}
 		
@@ -53,23 +51,19 @@
 		{
 			if(!_isUseStreamingUpload || !_generateMipmaps)
 				return context.createTexture(_width, _height, Context3DTextureFormat.BGRA, false);
-			else
-			{
-				var largestSide:int = Math.max(_width, _height);
-				var mipLevel:int = MathUtils.log(largestSide);
-				maxMipLevel = mipLevel;
-				currentMipLevel = maxMipLevel;
-				isMipMapsUploaded = false;
-				
-				return context.createTexture(_width, _height, Context3DTextureFormat.BGRA, false, mipLevel);
-			}
+			var largestSide:int = Math.max(_width, _height);
+			var mipLevel:int = MathUtils.log(largestSide);
+			maxMipLevel = mipLevel;
+			currentMipLevel = maxMipLevel;
+			isMipMapsUploaded = false;
+			return context.createTexture(_width, _height, Context3DTextureFormat.BGRA, false, mipLevel);
 		}
 		
 		override public function getTextureForStage3D(stage3DProxy:Stage3DProxy):TextureBase 
 		{
-			var contextIndex:int = stage3DProxy._stage3DIndex;
+			var contextIndex:int = stage3DProxy.arcane::_stage3DIndex;
 			var texture:TextureBase = _textures[contextIndex];
-			var context:Context3D = stage3DProxy._context3D;
+			var context:Context3D = stage3DProxy.arcane::_context3D;
 			
 			if (!texture || _dirty[contextIndex] != context) 
 			{
@@ -112,16 +106,8 @@
 				isMipMapsUploaded = true;
 				return;
 			}
-			else
-			{
-				MipmapGenerator.generateMipMaps(_bitmapData, texture, true, -1, currentMipLevel, 1);
-				currentMipLevel--;
-			}
-		}
-		
-		override public function dispose():void
-		{
-			super.dispose();
+			MipmapGenerator.generateMipMaps(_bitmapData, texture, true, -1, currentMipLevel, 1);
+			currentMipLevel--;
 		}
 	}
 }

@@ -9,14 +9,14 @@ package away3d.library.assets
 		 */
 		function get name():String;
 		
-		function set name(val:String):void;
+		function set name(value:String):void;
 
 		/**
 		 * The id of the asset.
 		 */
 		function get id():String;
 		
-		function set id(val:String):void;
+		function set id(value:String):void;
 
 		/**
 		 * The namespace of the asset. This allows several assets with the same name to coexist in different contexts.

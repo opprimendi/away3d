@@ -5,11 +5,11 @@ package away3d.core.math {
 	 * Matrix3DUtils provides additional Matrix3D math functions.
 	 */
 	public class Matrix3DUtils {
+		
 		/**
 		 * A reference to a Vector to be used as a temporary raw data container, to prevent object creation.
 		 */
 		public static const RAW_DATA_CONTAINER:Vector.<Number> = new Vector.<Number>(16);
-
 		public static const CALCULATION_MATRIX:Matrix3D = new Matrix3D();
 		public static const CALCULATION_VECTOR3D:Vector3D = new Vector3D();
 		public static const CALCULATION_DECOMPOSE:Vector.<Vector3D> = Vector.<Vector3D>([new Vector3D(), new Vector3D(), new Vector3D()]);
@@ -17,10 +17,10 @@ package away3d.core.math {
 		/**
 		 * Fills the 3d matrix object with values representing the transformation made by the given quaternion.
 		 *
-		 * @param    quarternion    The quarterion object to convert.
+		 * @param quarternion The quarterion object to convert.
 		 */
 		
-		public static function quaternion2matrix(quarternion:Quaternion, m:Matrix3D = null):Matrix3D {
+		public static function quaternion2matrix(quarternion:Quaternion, result:Matrix3D = null):Matrix3D {
 			var x:Number = quarternion.x;
 			var y:Number = quarternion.y;
 			var z:Number = quarternion.z;
@@ -51,56 +51,53 @@ package away3d.core.math {
 			raw[3] = raw[7] = raw[11] = raw[12] = raw[13] = raw[14] = 0;
 			raw[15] = 1;
 
-			if (m) {
-				m.copyRawDataFrom(raw);
-				return m;
-			} else
-				return new Matrix3D(raw);
+			if (result) {
+				result.copyRawDataFrom(raw);
+				return result;
+			}
+			return new Matrix3D(raw);
 		}
 
 		/**
 		 * Returns a normalised <code>Vector3D</code> object representing the forward vector of the given matrix.
-		 * @param    m        The Matrix3D object to use to get the forward vector
-		 * @param    v        [optional] A vector holder to prevent make new Vector3D instance if already exists. Default is null.
-		 * @return            The forward vector
+		 * @param m The Matrix3D object to use to get the forward vector
+		 * @param result [optional] A vector holder to prevent make new Vector3D instance if already exists. Default is null.
+		 * @return The forward vector
 		 */
 		
-		public static function getForward(m:Matrix3D, v:Vector3D = null):Vector3D {
-			if(!v) v = new Vector3D();
-			m.copyColumnTo(2, v);
-			v.normalize();
-
-			return v;
+		public static function getForward(m:Matrix3D, result:Vector3D = null):Vector3D {
+			result ||= new Vector3D();
+			m.copyColumnTo(2, result);
+			result.normalize();
+			return result;
 		}
 
 		/**
 		 * Returns a normalised <code>Vector3D</code> object representing the up vector of the given matrix.
-		 * @param    m        The Matrix3D object to use to get the up vector
-		 * @param    v        [optional] A vector holder to prevent make new Vector3D instance if already exists. Default is null.
-		 * @return            The up vector
+		 * @param m The Matrix3D object to use to get the up vector
+		 * @param result [optional] A vector holder to prevent make new Vector3D instance if already exists. Default is null.
+		 * @return The up vector
 		 */
 		
-		public static function getUp(m:Matrix3D, v:Vector3D = null):Vector3D {
-			if(!v) v = new Vector3D();
-			m.copyColumnTo(1, v);
-			v.normalize();
-
-			return v;
+		public static function getUp(m:Matrix3D, result:Vector3D = null):Vector3D {
+			result ||= new Vector3D();
+			m.copyColumnTo(1, result);
+			result.normalize();
+			return result;
 		}
 
 		/**
 		 * Returns a normalised <code>Vector3D</code> object representing the right vector of the given matrix.
-		 * @param    m        The Matrix3D object to use to get the right vector
-		 * @param    v        [optional] A vector holder to prevent make new Vector3D instance if already exists. Default is null.
-		 * @return            The right vector
+		 * @param m The Matrix3D object to use to get the right vector
+		 * @param result [optional] A vector holder to prevent make new Vector3D instance if already exists. Default is null.
+		 * @return The right vector
 		 */
 		
-		public static function getRight(m:Matrix3D, v:Vector3D = null):Vector3D {
-			if(!v) v = new Vector3D();
-			m.copyColumnTo(0, v);
-			v.normalize();
-
-			return v;
+		public static function getRight(m:Matrix3D, result:Vector3D = null):Vector3D {
+			result ||= new Vector3D();
+			m.copyColumnTo(0, result);
+			result.normalize();
+			return result;
 		}
 
 		/**
@@ -159,8 +156,8 @@ package away3d.core.math {
 		}
 
 		
-		public static function reflection(plane:Plane3D, target:Matrix3D = null):Matrix3D {
-			target ||= new Matrix3D();
+		public static function reflection(plane:Plane3D, result:Matrix3D = null):Matrix3D {
+			result ||= new Matrix3D();
 			var a:Number = plane.a, b:Number = plane.b, c:Number = plane.c, d:Number = plane.d;
 			var rawData:Vector.<Number> = Matrix3DUtils.RAW_DATA_CONTAINER;
 			var ab2:Number = -2 * a * b;
@@ -183,9 +180,8 @@ package away3d.core.math {
 			rawData[7] = 0;
 			rawData[11] = 0;
 			rawData[15] = 1;
-			target.copyRawDataFrom(rawData);
-
-			return target;
+			result.copyRawDataFrom(rawData);
+			return result;
 		}
 
 		
@@ -287,7 +283,7 @@ package away3d.core.math {
 		}
 
 		public static function transformVector(matrix:Matrix3D, vector:Vector3D, result:Vector3D = null):Vector3D {
-			if (!result) result = new Vector3D();
+			result ||= new Vector3D();
 			var raw:Vector.<Number> = Matrix3DUtils.RAW_DATA_CONTAINER;
 			matrix.copyRawDataTo(raw);
 			var a:Number = raw[0];
@@ -319,7 +315,7 @@ package away3d.core.math {
 
 		
 		public static function deltaTransformVector(matrix:Matrix3D, vector:Vector3D, result:Vector3D = null):Vector3D {
-			if (!result) result = new Vector3D();
+			result ||= new Vector3D();
 			var raw:Vector.<Number> = Matrix3DUtils.RAW_DATA_CONTAINER;
 			matrix.copyRawDataTo(raw);
 			var a:Number = raw[0];
@@ -346,7 +342,7 @@ package away3d.core.math {
 
 		
 		public static function getTranslation(transform:Matrix3D, result:Vector3D = null):Vector3D {
-			if(!result) result = new Vector3D();
+			result ||= new Vector3D();
 			transform.copyColumnTo(3, result);
 			return result;
 		}
@@ -367,9 +363,9 @@ package away3d.core.math {
 			var g:Number = raw[9];
 			var k:Number = raw[10];
 			var o:Number = raw[11];
-			var outIndex:uint = 0;
-			var length:Number = vin.length;
-			for(var index:uint = 0; index<length; index+=3) {
+			var outIndex:int;
+			var length:int = vin.length;
+			for(var index:int = 0; index<length; index+=3) {
 				var x:Number = vin[index];
 				var y:Number = vin[index+1];
 				var z:Number = vin[index+2];

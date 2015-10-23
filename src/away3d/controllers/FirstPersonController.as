@@ -20,12 +20,12 @@ package away3d.controllers
 		private var _tiltAngle:Number = 90;
 		private var _minTiltAngle:Number = -90;
 		private var _maxTiltAngle:Number = 90;
-		private var _steps:uint = 8;
+		private var _steps:uint;
 		private var _walkIncrement:Number = 0;
 		private var _strafeIncrement:Number = 0;
-		private var _wrapPanAngle:Boolean = false;
+		private var _wrapPanAngle:Boolean;
 		
-		public var fly:Boolean = false;
+		public var fly:Boolean;
 		
 		/**
 		 * Fractional step taken each time the <code>hover()</code> method is called. Defaults to 8.
@@ -40,15 +40,13 @@ package away3d.controllers
 			return _steps;
 		}
 		
-		public function set steps(val:uint):void
+		public function set steps(value:uint):void
 		{
-			val = (val < 1)? 1 : val;
-			
-			if (_steps == val)
+			value = Math.max(value, 1);
+			if (_steps == value)
 				return;
 			
-			_steps = val;
-			
+			_steps = value;
 			notifyUpdate();
 		}
 		
@@ -60,12 +58,12 @@ package away3d.controllers
 			return _panAngle;
 		}
 		
-		public function set panAngle(val:Number):void
+		public function set panAngle(value:Number):void
 		{
-			if (_panAngle == val)
+			if (_panAngle == value)
 				return;
 			
-			_panAngle = val;
+			_panAngle = value;
 			
 			notifyUpdate();
 		}
@@ -78,14 +76,14 @@ package away3d.controllers
 			return _tiltAngle;
 		}
 		
-		public function set tiltAngle(val:Number):void
+		public function set tiltAngle(value:Number):void
 		{
-			val = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, val));
+			value = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, value));
 			
-			if (_tiltAngle == val)
+			if (_tiltAngle == value)
 				return;
 			
-			_tiltAngle = val;
+			_tiltAngle = value;
 			
 			notifyUpdate();
 		}
@@ -100,12 +98,12 @@ package away3d.controllers
 			return _minTiltAngle;
 		}
 		
-		public function set minTiltAngle(val:Number):void
+		public function set minTiltAngle(value:Number):void
 		{
-			if (_minTiltAngle == val)
+			if (_minTiltAngle == value)
 				return;
 			
-			_minTiltAngle = val;
+			_minTiltAngle = value;
 			
 			tiltAngle = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, _tiltAngle));
 		}
@@ -120,12 +118,12 @@ package away3d.controllers
 			return _maxTiltAngle;
 		}
 		
-		public function set maxTiltAngle(val:Number):void
+		public function set maxTiltAngle(value:Number):void
 		{
-			if (_maxTiltAngle == val)
+			if (_maxTiltAngle == value)
 				return;
 			
-			_maxTiltAngle = val;
+			_maxTiltAngle = value;
 			
 			tiltAngle = Math.max(_minTiltAngle, Math.min(_maxTiltAngle, _tiltAngle));
 		}
@@ -139,12 +137,12 @@ package away3d.controllers
 			return _wrapPanAngle;
 		}
 		
-		public function set wrapPanAngle(val:Boolean):void
+		public function set wrapPanAngle(value:Boolean):void
 		{
-			if (_wrapPanAngle == val)
+			if (_wrapPanAngle == value)
 				return;
 			
-			_wrapPanAngle = val;
+			_wrapPanAngle = value;
 			
 			notifyUpdate();
 		}
@@ -236,22 +234,22 @@ package away3d.controllers
 		
 		}
 		
-		public function incrementWalk(val:Number):void
+		public function incrementWalk(value:Number):void
 		{
-			if (val == 0)
+			if (value == 0)
 				return;
 			
-			_walkIncrement += val;
+			_walkIncrement += value;
 			
 			notifyUpdate();
 		}
 		
-		public function incrementStrafe(val:Number):void
+		public function incrementStrafe(value:Number):void
 		{
-			if (val == 0)
+			if (value == 0)
 				return;
 			
-			_strafeIncrement += val;
+			_strafeIncrement += value;
 			
 			notifyUpdate();
 		}

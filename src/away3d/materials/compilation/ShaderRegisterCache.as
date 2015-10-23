@@ -65,7 +65,6 @@ package away3d.materials.compilation
 				getFreeVarying();
 			for (i = 0; i < _fragmentConstantOffset; ++i)
 				getFreeFragmentConstant();
-		
 		}
 
 		/**
@@ -150,7 +149,7 @@ package away3d.materials.compilation
 		 */
 		public function getFreeVarying():ShaderRegisterElement
 		{
-			var result:ShaderRegisterElement = _varyingCache.requestFreeVectorReg()
+			var result:ShaderRegisterElement = _varyingCache.requestFreeVectorReg();
 			++_numUsedVaryings;
 			return result;
 		}

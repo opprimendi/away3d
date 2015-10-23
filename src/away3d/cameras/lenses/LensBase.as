@@ -1,18 +1,17 @@
 package away3d.cameras.lenses
 {
-	import away3d.cameras.Camera3D;
+	import away3d.arcane;
 	import away3d.core.math.Matrix3DUtils;
-
+	import away3d.errors.AbstractMethodError;
+	import away3d.events.LensEvent;
 	import flash.events.EventDispatcher;
 	import flash.geom.Matrix3D;
 	import flash.geom.Rectangle;
 	import flash.geom.Vector3D;
-	
-	import away3d.arcane;
-	import away3d.errors.AbstractMethodError;
-	import away3d.events.LensEvent;
-	
+
 	use namespace arcane;
+	
+	[Event(name = 'matrixChanged', type = 'away3d.events.LensEvent')]
 	
 	/**
 	 * An abstract base class for all lens classes. Lens objects provides a projection matrix that transforms 3D geometry to normalized homogeneous coordinates.
@@ -25,12 +24,11 @@ package away3d.cameras.lenses
 		protected var _near:Number = 20;
 		protected var _far:Number = 3000;
 		protected var _aspectRatio:Number = 1;
-		
 		protected var _matrixInvalid:Boolean = true;
-		protected var _frustumCorners:Vector.<Number> = new Vector.<Number>(8*3, true);
-		
+		protected var _frustumCorners:Vector.<Number> = new Vector.<Number>(24, true);
 		private var _unprojection:Matrix3D;
 		private var _unprojectionInvalid:Boolean = true;
+		
 		/**
 		 * Creates a new LensBase object.
 		 */
@@ -47,9 +45,9 @@ package away3d.cameras.lenses
 			return _frustumCorners;
 		}
 		
-		public function set frustumCorners(frustumCorners:Vector.<Number>):void
+		public function set value(value:Vector.<Number>):void
 		{
-			_frustumCorners = frustumCorners;
+			_frustumCorners = value;
 		}
 		
 		/**
@@ -104,22 +102,19 @@ package away3d.cameras.lenses
 		
 		/**
 		 * Calculates the normalised position in screen space of the given scene position relative to the camera.
-		 *
 		 * @param point3d the position vector of the scene coordinates to be projected.
-		 * @param v The destination Vector3D object
+		 * @param result The destination Vector3D object
 		 * @return The normalised screen position of the given scene coordinates relative to the camera.
 		 */
-		public function project(point3d:Vector3D, v:Vector3D = null):Vector3D
+		public function project(point3d:Vector3D, result:Vector3D = null):Vector3D
 		{
-			if(!v) v = new Vector3D();
-			Matrix3DUtils.transformVector(matrix, point3d, v);
-			v.x = v.x/v.w;
-			v.y = -v.y/v.w;
-			
+			result ||= new Vector3D();
+			Matrix3DUtils.transformVector(matrix, point3d, result);
+			result.x = result.x/result.w;
+			result.y = -result.y/result.w;
 			//z is unaffected by transform
-			v.z = point3d.z;
-			
-			return v;
+			result.z = point3d.z;
+			return result;
 		}
 		
 		public function get unprojectionMatrix():Matrix3D
@@ -130,7 +125,6 @@ package away3d.cameras.lenses
 				_unprojection.invert();
 				_unprojectionInvalid = false;
 			}
-			
 			return _unprojection;
 		}
 		
@@ -140,10 +134,10 @@ package away3d.cameras.lenses
 		 * @param nX The normalised x coordinate in screen space, -1 corresponds to the left edge of the viewport, 1 to the right.
 		 * @param nY The normalised y coordinate in screen space, -1 corresponds to the top edge of the viewport, 1 to the bottom.
 		 * @param sZ The z coordinate in screen space, representing the distance into the screen.
-		 * @param v The destination Vector3D object
+		 * @param result The destination Vector3D object
 		 * @return The scene position relative to the camera of the given screen coordinates.
 		 */
-		public function unproject(nX:Number, nY:Number, sZ:Number, v:Vector3D = null):Vector3D
+		public function unproject(nX:Number, nY:Number, sZ:Number, result:Vector3D = null):Vector3D
 		{
 			throw new AbstractMethodError();
 		}
@@ -183,7 +177,8 @@ package away3d.cameras.lenses
 			// notify the camera that the lens matrix is changing. this will mark the 
 			// viewProjectionMatrix in the camera as invalid, and force the matrix to
 			// be re-queried from the lens, and therefore rebuilt.
-			dispatchEvent(new LensEvent(LensEvent.MATRIX_CHANGED, this));
+			if(hasEventListener(LensEvent.MATRIX_CHANGED))
+				dispatchEvent(new LensEvent(LensEvent.MATRIX_CHANGED, this));
 		}
 
 		/**

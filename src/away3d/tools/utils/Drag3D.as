@@ -8,7 +8,6 @@ package away3d.tools.utils
 	import away3d.entities.Mesh;
 	import away3d.materials.ColorMaterial;
 	import away3d.primitives.PlaneGeometry;
-	
 	import flash.geom.Vector3D;
 	
 	/**
@@ -18,7 +17,6 @@ package away3d.tools.utils
 	 * locks on ObjectContainer3D planes
 	 * locks on ObjectContainer3D rotations planes
 	 */
-	
 	public class Drag3D
 	{
 		public static const PLANE_XZ:String = "xz";
@@ -38,11 +36,11 @@ package away3d.tools.utils
 		private var _blue:ColorMaterial;
 		private var _planesContainer:ObjectContainer3D;
 		
-		private var _np:Vector3D = new Vector3D(0.0, 0.0, 0.0);
-		private var _intersect:Vector3D = new Vector3D(0.0, 0.0, 0.0);
+		private var _np:Vector3D = new Vector3D();
+		private var _intersect:Vector3D = new Vector3D();
 		private var _rotations:Vector3D;
 		private var _baserotations:Vector3D;
-		private var _offsetCenter:Vector3D = new Vector3D(0.0, 0.0, 0.0);
+		private var _offsetCenter:Vector3D = new Vector3D();
 		private var _bSetOffset:Boolean;
 		
 		private var _a:Number = 0;

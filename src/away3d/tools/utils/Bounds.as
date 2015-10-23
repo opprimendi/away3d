@@ -1,6 +1,5 @@
 package away3d.tools.utils
 {
-	import away3d.arcane;
 	import away3d.containers.ObjectContainer3D;
 	import away3d.entities.Entity;
 	import away3d.entities.Mesh;
@@ -8,8 +7,6 @@ package away3d.tools.utils
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 	import flash.utils.Dictionary;
-	
-	use namespace arcane;
 	
 	/**
 	 * Helper Class to retrieve objects bounds <code>Bounds</code>
@@ -53,7 +50,7 @@ package away3d.tools.utils
 			
 			// Transform min/max values to the scene if required
 			if (worldBased) {
-				var b:Vector.<Number> = Vector.<Number>([Infinity, Infinity, Infinity, -Infinity, -Infinity, -Infinity]);
+				var b:Vector.<Number> = new <Number>[Infinity, Infinity, Infinity, -Infinity, -Infinity, -Infinity];
 				var c:Vector.<Number> = getBoundsCorners(_minX, _minY, _minZ, _maxX, _maxY, _maxZ);
 				transformContainer(b, c, container.sceneTransform);
 				_minX = b[0];
@@ -199,7 +196,7 @@ package away3d.tools.utils
 			if (!obj.visible)
 				return;
 			
-			var containerBounds:Vector.<Number> = _containers[obj] ||= Vector.<Number>([Infinity, Infinity, Infinity, -Infinity, -Infinity, -Infinity]);
+			var containerBounds:Vector.<Number> = _containers[obj] ||= new <Number>[Infinity, Infinity, Infinity, -Infinity, -Infinity, -Infinity];
 			
 			var child:ObjectContainer3D;
 			var isEntity:Entity = obj as Entity;
@@ -281,7 +278,7 @@ package away3d.tools.utils
 		
 		private static function getBoundsCorners(minX:Number, minY:Number, minZ:Number, maxX:Number, maxY:Number, maxZ:Number):Vector.<Number>
 		{
-			return Vector.<Number>([
+			return new <Number>[
 				minX, minY, minZ,
 				minX, minY, maxZ,
 				minX, maxY, minZ,
@@ -290,7 +287,7 @@ package away3d.tools.utils
 				maxX, minY, maxZ,
 				maxX, maxY, minZ,
 				maxX, maxY, maxZ
-			]);
+			];
 		}
 		
 		private static function transformContainer(bounds:Vector.<Number>, corners:Vector.<Number>, matrix:Matrix3D):void

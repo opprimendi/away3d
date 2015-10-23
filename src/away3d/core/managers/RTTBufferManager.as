@@ -2,17 +2,15 @@ package away3d.core.managers
 {
 	import away3d.events.Stage3DEvent;
 	import away3d.tools.utils.TextureUtils;
-	
 	import flash.display3D.Context3D;
-	
 	import flash.display3D.IndexBuffer3D;
-	
 	import flash.display3D.VertexBuffer3D;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.geom.Rectangle;
-	
 	import flash.utils.Dictionary;
+	
+	[Event(name = 'resize', type = 'flash.events.Event')]
 	
 	public class RTTBufferManager extends EventDispatcher
 	{
@@ -89,7 +87,7 @@ package away3d.core.managers
 				_renderToTextureRect.width = _textureWidth;
 			}
 			
-			dispatchEvent(new Event(Event.RESIZE));
+			if(hasEventListener(Event.RESIZE)) dispatchEvent(new Event(Event.RESIZE));
 		}
 		
 		public function get viewHeight():int
@@ -115,7 +113,7 @@ package away3d.core.managers
 				_renderToTextureRect.height = _textureHeight;
 			}
 			
-			dispatchEvent(new Event(Event.RESIZE));
+			if(hasEventListener(Event.RESIZE)) dispatchEvent(new Event(Event.RESIZE));
 		}
 		
 		public function get renderToTextureVertexBuffer():VertexBuffer3D

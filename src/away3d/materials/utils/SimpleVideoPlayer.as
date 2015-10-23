@@ -99,10 +99,10 @@ package away3d.materials.utils
 			}
 		}
 		
-		public function seek(val:Number):void
+		public function seek(value:Number):void
 		{
 			pause();
-			_ns.seek(val);
+			_ns.seek(value);
 			_ns.resume();
 		}
 		
@@ -226,9 +226,9 @@ package away3d.materials.utils
 			return _loop;
 		}
 		
-		public function set loop(val:Boolean):void
+		public function set loop(value:Boolean):void
 		{
-			_loop = val;
+			_loop = value;
 		}
 		
 		public function get volume():Number
@@ -236,11 +236,11 @@ package away3d.materials.utils
 			return _ns.soundTransform.volume;
 		}
 		
-		public function set volume(val:Number):void
+		public function set volume(value:Number):void
 		{
-			_soundTransform.volume = val;
+			_soundTransform.volume = value;
 			_ns.soundTransform = _soundTransform;
-			_lastVolume = val;
+			_lastVolume = value;
 		}
 		
 		public function get pan():Number
@@ -248,7 +248,7 @@ package away3d.materials.utils
 			return _ns.soundTransform.pan;
 		}
 		
-		public function set pan(val:Number):void
+		public function set pan(value:Number):void
 		{
 			_soundTransform.pan = pan;
 			_ns.soundTransform = _soundTransform;
@@ -259,9 +259,9 @@ package away3d.materials.utils
 			return _ns.soundTransform.volume == 0;
 		}
 		
-		public function set mute(val:Boolean):void
+		public function set mute(value:Boolean):void
 		{
-			_soundTransform.volume = (val)? 0 : _lastVolume;
+			_soundTransform.volume = value ? 0 : _lastVolume;
 			_ns.soundTransform = _soundTransform;
 		}
 		
@@ -270,9 +270,9 @@ package away3d.materials.utils
 			return _ns.soundTransform;
 		}
 		
-		public function set soundTransform(val:SoundTransform):void
+		public function set soundTransform(value:SoundTransform):void
 		{
-			_ns.soundTransform = val;
+			_ns.soundTransform = value;
 		}
 		
 		public function get width():int
@@ -280,9 +280,9 @@ package away3d.materials.utils
 			return _video.width;
 		}
 		
-		public function set width(val:int):void
+		public function set width(value:int):void
 		{
-			_video.width = val;
+			_video.width = value;
 		}
 		
 		public function get height():int
@@ -290,9 +290,9 @@ package away3d.materials.utils
 			return _video.height;
 		}
 		
-		public function set height(val:int):void
+		public function set height(value:int):void
 		{
-			_video.height = val;
+			_video.height = value;
 		}
 		
 		//////////////////////////////////////////////////////

@@ -9,10 +9,9 @@ package away3d.materials.passes
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.debug.Debug;
 	import away3d.errors.AbstractMethodError;
-	import away3d.materials.MaterialBase;
 	import away3d.materials.lightpickers.LightPickerBase;
+	import away3d.materials.MaterialBase;
 	import away3d.textures.Anisotropy;
-	
 	import flash.display.BlendMode;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DBlendFactor;
@@ -27,6 +26,8 @@ package away3d.materials.passes
 	
 	use namespace arcane;
 	
+	[Event(name = 'change', type = 'flash.events.Event')]
+	
 	/**
 	 * MaterialPassBase provides an abstract base class for material shader passes. A material pass constitutes at least
 	 * a render call per required renderable.
@@ -37,7 +38,7 @@ package away3d.materials.passes
 		protected var _animationSet:IAnimationSet;
 		
 		arcane var _program3Ds:Vector.<Program3D> = new Vector.<Program3D>(8);
-		arcane var _program3Dids:Vector.<int> = Vector.<int>([-1, -1, -1, -1, -1, -1, -1, -1]);
+		arcane var _program3Dids:Vector.<int> = new <int>[-1, -1, -1, -1, -1, -1, -1, -1];
 		private var _context3Ds:Vector.<Context3D> = new Vector.<Context3D>(8);
 		
 		// agal props. these NEED to be set by subclasses!
@@ -49,7 +50,7 @@ package away3d.materials.passes
 		protected var _numUsedVaryings:uint;
 		
 		protected var _smooth:Boolean = true;
-		protected var _repeat:Boolean = false;
+		protected var _repeat:Boolean;
 		protected var _mipmap:Boolean = true;
 		protected var _anisotropy:int = Anisotropy.NONE;
 		protected var _bias:Number = 0;
@@ -63,13 +64,13 @@ package away3d.materials.passes
 		private var _bothSides:Boolean;
 		
 		protected var _lightPicker:LightPickerBase;
-		protected var _animatableAttributes:Vector.<String> = Vector.<String>(["va0"]);
-		protected var _animationTargetRegisters:Vector.<String> = Vector.<String>(["vt0"]);
+		protected var _animatableAttributes:Vector.<String> = new <String>["va0"];
+		protected var _animationTargetRegisters:Vector.<String> = new <String>["vt0"];
 		protected var _shadedTarget:String = "ft0";
 		
 		// keep track of previously rendered usage for faster cleanup of old vertex buffer streams and textures
-		private static var _previousUsedStreams:Vector.<int> = Vector.<int>([0, 0, 0, 0, 0, 0, 0, 0]);
-		private static var _previousUsedTexs:Vector.<int> = Vector.<int>([0, 0, 0, 0, 0, 0, 0, 0]);
+		private static var _previousUsedStreams:Vector.<int> = new <int>[0, 0, 0, 0, 0, 0, 0, 0];
+		private static var _previousUsedTexs:Vector.<int> = new <int>[0, 0, 0, 0, 0, 0, 0, 0];
 		protected var _defaultCulling:String = Context3DTriangleFace.BACK;
 		
 		private var _renderToTexture:Boolean;
@@ -246,7 +247,6 @@ package away3d.materials.passes
 				return;
 			
 			_animationSet = value;
-			
 			invalidateShaderProgram();
 		}
 		
@@ -420,7 +420,7 @@ package away3d.materials.passes
 			if (_context3Ds[contextIndex] != context || !_program3Ds[contextIndex]) {
 				_context3Ds[contextIndex] = context;
 				updateProgram(stage3DProxy);
-				dispatchEvent(new Event(Event.CHANGE));
+				if(hasEventListener(Event.CHANGE)) dispatchEvent(new Event(Event.CHANGE));
 			}
 			
 			var prevUsed:int = _previousUsedStreams[contextIndex];

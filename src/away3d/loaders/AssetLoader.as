@@ -353,7 +353,7 @@ package away3d.loaders
 					prev.resolve();
 				
 				retrieveNext(parser);
-			} else
+			} else if(hasEventListener(LoaderEvent.RESOURCE_COMPLETE))
 				dispatchEvent(new LoaderEvent(LoaderEvent.RESOURCE_COMPLETE, _uri));
 		}
 		
@@ -381,7 +381,8 @@ package away3d.loaders
 				if (_loadingDependency.retrieveAsRawData) {
 					// No need to parse. The parent parser is expecting this
 					// to be raw data so it can be passed directly.
-					dispatchEvent(new LoaderEvent(LoaderEvent.DEPENDENCY_COMPLETE, _loadingDependency.request.url, true));
+					if(hasEventListener(LoaderEvent.DEPENDENCY_COMPLETE))
+						dispatchEvent(new LoaderEvent(LoaderEvent.DEPENDENCY_COMPLETE, _loadingDependency.request.url, true));
 					_loadingDependency.setData(data);
 					_loadingDependency.resolve();
 					
@@ -599,8 +600,8 @@ package away3d.loaders
 			// Resolve this dependency
 			_loadingDependency.setData(loader.data);
 			_loadingDependency.success = true;
-			
-			dispatchEvent(new LoaderEvent(LoaderEvent.DEPENDENCY_COMPLETE, event.url));
+			if(hasEventListener(LoaderEvent.DEPENDENCY_COMPLETE))
+				dispatchEvent(new LoaderEvent(LoaderEvent.DEPENDENCY_COMPLETE, event.url));
 			removeEventListeners(loader);
 			
 			// Retrieve any last dependencies remaining on this loader, or

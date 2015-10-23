@@ -1,12 +1,12 @@
 package away3d.textures
 {
 	import away3d.tools.utils.TextureUtils;
-	
 	import flash.display.BitmapData;
 	import flash.display3D.textures.TextureBase;
 	import flash.geom.Matrix;
 	import flash.media.Camera;
 	import flash.media.Video;
+	
 	
 	public class WebcamTexture extends BitmapTexture
 	{
@@ -48,9 +48,9 @@ package away3d.textures
 			return _autoUpdate;
 		}
 		
-		public function set autoUpdate(val:Boolean):void
+		public function set autoUpdate(value:Boolean):void
 		{
-			_autoUpdate = val;
+			_autoUpdate = value;
 			
 			if (_autoUpdate && _playing)
 				invalidateContent();

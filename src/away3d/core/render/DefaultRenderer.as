@@ -216,7 +216,7 @@ package away3d.core.render
 				do {
 					item2 = item;
 
-					var rttMask:int = _activeMaterial.passRendersToTexture(j)? 1 : 2;
+					var rttMask:int = _activeMaterial.passRendersToTexture(j) ? 1 : 2;
 
 					if ((rttMask & which) != 0) {
 						_activeMaterial.activatePass(j, _stage3DProxy, camera);

@@ -1,18 +1,17 @@
 package away3d.extrusions
 {
 	import away3d.bounds.BoundingVolumeBase;
+	import away3d.core.base.data.UV;
+	import away3d.core.base.data.Vertex;
 	import away3d.core.base.Geometry;
 	import away3d.core.base.SubGeometry;
 	import away3d.core.base.SubMesh;
-	import away3d.core.base.data.UV;
-	import away3d.core.base.data.Vertex;
 	import away3d.core.math.Vector3DUtils;
 	import away3d.entities.Mesh;
 	import away3d.materials.MaterialBase;
 	import away3d.paths.IPath;
 	import away3d.paths.IPathSegment;
 	import away3d.tools.helpers.MeshHelper;
-	
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
 	
@@ -44,7 +43,7 @@ package away3d.extrusions
 		private var _smoothSurface:Boolean;
 		private var _isClosedProfile:Boolean;
 		private var _maxIndProfile:uint;
-		private var _matIndex:uint = 0;
+		private var _matIndex:uint;
 		private var _segv:Number;
 		private var _geomDirty:Boolean = true;
 		private var _subGeometry:SubGeometry;
@@ -170,12 +169,12 @@ package away3d.extrusions
 			return _centerMesh;
 		}
 		
-		public function set centerMesh(val:Boolean):void
+		public function set centerMesh(value:Boolean):void
 		{
-			if (_centerMesh == val)
+			if (_centerMesh == value)
 				return;
 			
-			_centerMesh = val;
+			_centerMesh = value;
 			
 			if (_centerMesh && this.geometry.subGeometries.length > 0)
 				MeshHelper.recenter(this);
@@ -191,16 +190,16 @@ package away3d.extrusions
 			return _distributeU;
 		}
 		
-		public function set distributeU(val:Boolean):void
+		public function set distributeU(value:Boolean):void
 		{
-			if (_distributeU == val)
+			if (_distributeU == value)
 				return;
 			
-			_distributeU = val;
+			_distributeU = value;
 			
-			if (val && _mapFit)
+			if (value && _mapFit)
 				_mapFit = false;
-			if (!val && _distributedU)
+			if (!value && _distributedU)
 				_distributedU = null;
 			
 			invalidateGeometry();
@@ -223,9 +222,9 @@ package away3d.extrusions
 			return _path;
 		}
 		
-		public function set path(val:IPath):void
+		public function set path(value:IPath):void
 		{
-			_path = val;
+			_path = value;
 			_geomDirty = true;
 		}
 		
@@ -237,9 +236,9 @@ package away3d.extrusions
 			return _profile;
 		}
 		
-		public function set profile(val:Vector.<Vector3D>):void
+		public function set profile(value:Vector.<Vector3D>):void
 		{
-			_profile = val;
+			_profile = value;
 			
 			if (_profile != null)
 				_isClosedProfile = (_profile[0].x == _profile[_profile.length - 1].x && _profile[0].y == _profile[_profile.length - 1].y && _profile[0].z == _profile[_profile.length - 1].z);
@@ -255,9 +254,9 @@ package away3d.extrusions
 			return _scales;
 		}
 		
-		public function set scales(val:Vector.<Vector3D>):void
+		public function set scales(value:Vector.<Vector3D>):void
 		{
-			_scales = val;
+			_scales = value;
 			_geomDirty = true;
 		}
 		
@@ -269,9 +268,9 @@ package away3d.extrusions
 			return _rotations;
 		}
 		
-		public function set rotations(val:Vector.<Vector3D>):void
+		public function set rotations(value:Vector.<Vector3D>):void
 		{
-			_rotations = val;
+			_rotations = value;
 			_geomDirty = true;
 		}
 		
@@ -283,11 +282,11 @@ package away3d.extrusions
 			return _materials;
 		}
 		
-		public function set materials(val:Vector.<MaterialBase>):void
+		public function set materials(value:Vector.<MaterialBase>):void
 		{
-			if (val == null)
+			if (value == null)
 				return;
-			_materials = val;
+			_materials = value;
 			_geomDirty = true;
 		}
 		
@@ -299,14 +298,14 @@ package away3d.extrusions
 			return _subdivision;
 		}
 		
-		public function set subdivision(val:int):void
+		public function set subdivision(value:int):void
 		{
-			val = (val < 2)? 2 : val;
+			value = (value < 2)? 2 : value;
 			
-			if (_subdivision == val)
+			if (_subdivision == value)
 				return;
 			
-			_subdivision = val;
+			_subdivision = value;
 			_geomDirty = true;
 		}
 		
@@ -318,12 +317,12 @@ package away3d.extrusions
 			return _coverAll;
 		}
 		
-		public function set coverAll(val:Boolean):void
+		public function set coverAll(value:Boolean):void
 		{
-			if (_coverAll == val)
+			if (_coverAll == value)
 				return;
 			
-			_coverAll = val;
+			_coverAll = value;
 			_geomDirty = true;
 		}
 		
@@ -337,12 +336,12 @@ package away3d.extrusions
 			return _distribute;
 		}
 		
-		public function set distribute(val:Boolean):void
+		public function set distribute(value:Boolean):void
 		{
-			if (_distribute == val)
+			if (_distribute == value)
 				return;
 			
-			_distribute = val;
+			_distribute = value;
 			_geomDirty = true;
 		}
 		
@@ -354,21 +353,21 @@ package away3d.extrusions
 			return _smoothSurface;
 		}
 		
-		public function set smoothSurface(val:Boolean):void
+		public function set smoothSurface(value:Boolean):void
 		{
-			if (_smoothSurface == val)
+			if (_smoothSurface == value)
 				return;
 			
-			_smoothSurface = val;
+			_smoothSurface = value;
 			_geomDirty = true;
 		}
 		
 		/**
 		 * Defines if the texture(s) should applied per segment. Default false.
 		 */
-		public function set coverSegment(b:Boolean):void
+		public function set coverSegment(value:Boolean):void
 		{
-			_coverSegment = b;
+			_coverSegment = value;
 		}
 		
 		public function get coverSegment():Boolean
@@ -386,15 +385,15 @@ package away3d.extrusions
 			return _mapFit;
 		}
 		
-		public function set mapFit(val:Boolean):void
+		public function set mapFit(value:Boolean):void
 		{
-			if (_mapFit == val)
+			if (_mapFit == value)
 				return;
 			
-			if (val && _distributeU)
+			if (value && _distributeU)
 				_distributeU = false;
 			
-			_mapFit = val;
+			_mapFit = value;
 			_geomDirty = true;
 		}
 		
@@ -406,12 +405,12 @@ package away3d.extrusions
 			return _flip;
 		}
 		
-		public function set flip(val:Boolean):void
+		public function set flip(value:Boolean):void
 		{
-			if (_flip == val)
+			if (_flip == value)
 				return;
 			
-			_flip = val;
+			_flip = value;
 			_geomDirty = true;
 		}
 		
@@ -423,12 +422,12 @@ package away3d.extrusions
 			return _closePath;
 		}
 		
-		public function set closePath(val:Boolean):void
+		public function set closePath(value:Boolean):void
 		{
-			if (_closePath == val)
+			if (_closePath == value)
 				return;
 			
-			_closePath = val;
+			_closePath = value;
 			_geomDirty = true;
 		}
 		
@@ -442,12 +441,12 @@ package away3d.extrusions
 			return _alignToPath;
 		}
 		
-		public function set alignToPath(val:Boolean):void
+		public function set alignToPath(value:Boolean):void
 		{
-			if (_alignToPath == val)
+			if (_alignToPath == value)
 				return;
 			
-			_alignToPath = val;
+			_alignToPath = value;
 			_geomDirty = true;
 		}
 		
@@ -459,12 +458,12 @@ package away3d.extrusions
 			return _smoothScale;
 		}
 		
-		public function set smoothScale(val:Boolean):void
+		public function set smoothScale(value:Boolean):void
 		{
-			if (_smoothScale == val)
+			if (_smoothScale == value)
 				return;
 			
-			_smoothScale = val;
+			_smoothScale = value;
 			_geomDirty = true;
 		}
 		
@@ -479,9 +478,9 @@ package away3d.extrusions
 			return _keepExtremes;
 		}
 		
-		public function set keepExtremes(b:Boolean):void
+		public function set keepExtremes(value:Boolean):void
 		{
-			_keepExtremes = b;
+			_keepExtremes = value;
 		}
 		
 		/**
@@ -694,14 +693,14 @@ package away3d.extrusions
 		private function initHolders():void
 		{
 			if (!_uva) {
-				_uva = new UV(0, 0);
-				_uvb = new UV(0, 0);
-				_uvc = new UV(0, 0);
-				_uvd = new UV(0, 0);
-				_normal0 = new Vector3D(0.0, 0.0, 0.0);
-				_normal1 = new Vector3D(0.0, 0.0, 0.0);
-				_normal2 = new Vector3D(0.0, 0.0, 0.0);
-				_normalTmp = new Vector3D(0.0, 0.0, 0.0);
+				_uva = new UV();
+				_uvb = new UV();
+				_uvc = new UV();
+				_uvd = new UV();
+				_normal0 = new Vector3D();
+				_normal1 = new Vector3D();
+				_normal2 = new Vector3D();
+				_normalTmp = new Vector3D();
 			}
 			
 			if (_materials && _materials.length > 0) {
@@ -1082,7 +1081,7 @@ package away3d.extrusions
 			var vPtsList:Vector.<Vector3D> = new Vector.<Vector3D>();
 			var vSegResults:Vector.<Vector.<Vector3D>> = new Vector.<Vector.<Vector3D>>();
 			var atmp:Vector.<Vector3D>;
-			var tmppt:Vector3D = new Vector3D(0, 0, 0);
+			var tmppt:Vector3D = new Vector3D();
 			
 			var i:uint;
 			var j:uint;
@@ -1301,7 +1300,6 @@ package away3d.extrusions
 
 import away3d.core.base.SubGeometry;
 import away3d.materials.MaterialBase;
-
 class SubGeometryList
 {
 	public var uvs:Vector.<Number>;

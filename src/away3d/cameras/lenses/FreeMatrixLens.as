@@ -36,13 +36,13 @@ package away3d.cameras.lenses
 		
 		override public function clone():LensBase
 		{
-			var clone:FreeMatrixLens = new FreeMatrixLens();
-			clone._matrix.copyFrom(_matrix);
-			clone._near = _near;
-			clone._far = _far;
-			clone._aspectRatio = _aspectRatio;
-			clone.invalidateMatrix();
-			return clone;
+			var result:FreeMatrixLens = new FreeMatrixLens();
+			result._matrix.copyFrom(_matrix);
+			result._near = _near;
+			result._far = _far;
+			result._aspectRatio = _aspectRatio;
+			result.invalidateMatrix();
+			return result;
 		}
 		
 		override protected function updateMatrix():void

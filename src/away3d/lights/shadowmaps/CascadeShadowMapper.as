@@ -7,7 +7,7 @@ package away3d.lights.shadowmaps
 	import away3d.containers.Scene3D;
 	import away3d.core.math.Matrix3DUtils;
 	import away3d.core.render.DepthRenderer;
-	
+	import away3d.tools.utils.MathUtils;
 	import flash.display3D.textures.TextureBase;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -16,6 +16,8 @@ package away3d.lights.shadowmaps
 	import flash.geom.Rectangle;
 	
 	use namespace arcane;
+	
+	[Event(name = 'change', type = 'flash.events.Event')]
 	
 	public class CascadeShadowMapper extends DirectionalShadowMapper implements IEventDispatcher
 	{
@@ -50,14 +52,9 @@ package away3d.lights.shadowmaps
 		
 		public function setSplitRatio(index:uint, value:Number):void
 		{
-			if (value < 0)
-				value = 0;
-			else if (value > 1)
-				value = 1;
-			
+			value = MathUtils.clamp(value, 0, 1);
 			if (index >= _numCascades)
 				throw new Error("index must be smaller than the number of cascades!");
-			
 			_splitRatios[index] = value;
 		}
 		
@@ -74,7 +71,7 @@ package away3d.lights.shadowmaps
 			var s:Number = 1;
 			for (var i:int = _numCascades - 1; i >= 0; --i) {
 				_splitRatios[i] = s;
-				s *= .4;
+				s *= 0.4;
 			}
 			
 			_texOffsetsX = new <Number>[-1, 1, -1, 1];
@@ -117,7 +114,7 @@ package away3d.lights.shadowmaps
 			_numCascades = value;
 			invalidateScissorRects();
 			init();
-			dispatchEvent(new Event(Event.CHANGE));
+			if(hasEventListener(Event.CHANGE)) dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 		override protected function drawDepthMap(target:TextureBase, scene:Scene3D, renderer:DepthRenderer):void

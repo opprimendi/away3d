@@ -72,9 +72,9 @@ package away3d.library
 			return getBundle().conflictStrategy;
 		}
 		
-		public static function set conflictStrategy(val:ConflictStrategyBase):void
+		public static function set conflictStrategy(value:ConflictStrategyBase):void
 		{
-			getBundle().conflictStrategy = val;
+			getBundle().conflictStrategy = value;
 		}
 		
 		/**
@@ -87,9 +87,9 @@ package away3d.library
 			return getBundle().conflictPrecedence;
 		}
 		
-		public static function set conflictPrecedence(val:String):void
+		public static function set conflictPrecedence(value:String):void
 		{
-			getBundle().conflictPrecedence = val;
+			getBundle().conflictPrecedence = value;
 		}
 		
 		/**

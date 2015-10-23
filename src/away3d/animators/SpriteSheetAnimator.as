@@ -1,16 +1,15 @@
 package away3d.animators
 {
-	import away3d.arcane;
 	import away3d.animators.data.*;
 	import away3d.animators.states.ISpriteSheetAnimationState;
 	import away3d.animators.states.SpriteSheetAnimationState;
 	import away3d.animators.transitions.IAnimationTransition;
+	import away3d.arcane;
+	import away3d.cameras.Camera3D;
 	import away3d.core.base.*;
 	import away3d.core.managers.*;
 	import away3d.materials.*;
 	import away3d.materials.passes.*;
-	import away3d.cameras.Camera3D;
-	
 	import flash.display3D.Context3DProgramType;
 	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
@@ -48,10 +47,10 @@ package away3d.animators
 		}
 		
 		/* Set the playrate of the animation in frames per second (not depending on player fps)*/
-		public function set fps(val:uint):void
+		public function set fps(value:uint):void
 		{
-			_ms = 1000/val;
-			_fps = val;
+			_ms = 1000 / value;
+			_fps = value;
 		}
 		
 		public function get fps():uint
@@ -60,9 +59,9 @@ package away3d.animators
 		}
 		
 		/* If true, reverse causes the animation to play backwards*/
-		public function set reverse(b:Boolean):void
+		public function set reverse(value:Boolean):void
 		{
-			_reverse = b;
+			_reverse = value;
 			_specsDirty = true;
 		}
 		
@@ -72,9 +71,9 @@ package away3d.animators
 		}
 		
 		/* If true, backAndForth causes the animation to play backwards and forward alternatively. Starting forward.*/
-		public function set backAndForth(b:Boolean):void
+		public function set backAndForth(value:Boolean):void
 		{
-			_backAndForth = b;
+			_backAndForth = value;
 			_specsDirty = true;
 		}
 		
@@ -104,7 +103,7 @@ package away3d.animators
 		/* returns the total amount of frame for the current animation*/
 		public function get totalFrames():uint
 		{
-			return SpriteSheetAnimationState(_activeState).totalFrames;
+			return SpriteSheetAnimationState(_activeState).arcane::totalFrames;
 		}
 		
 		/**

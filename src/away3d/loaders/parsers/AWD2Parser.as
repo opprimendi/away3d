@@ -1,23 +1,7 @@
 package away3d.loaders.parsers
 {
-	import flash.display.BitmapData;
-	import flash.display.BlendMode;
-	import flash.display.Sprite;
-	import flash.geom.ColorTransform;
-	import flash.geom.Matrix;
-	import flash.geom.Matrix3D;
-	import flash.geom.Vector3D;
-	import flash.net.URLRequest;
-	import flash.utils.ByteArray;
-	import flash.utils.Endian;
-	
-	import away3d.arcane;
 	import away3d.animators.AnimationSetBase;
 	import away3d.animators.AnimatorBase;
-	import away3d.animators.SkeletonAnimationSet;
-	import away3d.animators.SkeletonAnimator;
-	import away3d.animators.VertexAnimationSet;
-	import away3d.animators.VertexAnimator;
 	import away3d.animators.data.JointPose;
 	import away3d.animators.data.Skeleton;
 	import away3d.animators.data.SkeletonJoint;
@@ -26,6 +10,11 @@ package away3d.loaders.parsers
 	import away3d.animators.nodes.SkeletonClipNode;
 	import away3d.animators.nodes.UVClipNode;
 	import away3d.animators.nodes.VertexClipNode;
+	import away3d.animators.SkeletonAnimationSet;
+	import away3d.animators.SkeletonAnimator;
+	import away3d.animators.VertexAnimationSet;
+	import away3d.animators.VertexAnimator;
+	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.cameras.lenses.LensBase;
 	import away3d.cameras.lenses.OrthographicLens;
@@ -52,13 +41,9 @@ package away3d.loaders.parsers
 	import away3d.loaders.parsers.utils.ParserUtil;
 	import away3d.materials.ColorMaterial;
 	import away3d.materials.ColorMultiPassMaterial;
-	import away3d.materials.MaterialBase;
-	import away3d.materials.MultiPassMaterialBase;
-	import away3d.materials.SinglePassMaterialBase;
-	import away3d.materials.TextureMaterial;
-	import away3d.materials.TextureMultiPassMaterial;
 	import away3d.materials.lightpickers.LightPickerBase;
 	import away3d.materials.lightpickers.StaticLightPicker;
+	import away3d.materials.MaterialBase;
 	import away3d.materials.methods.AlphaMaskMethod;
 	import away3d.materials.methods.AnisotropicSpecularMethod;
 	import away3d.materials.methods.CascadeShadowMapMethod;
@@ -90,6 +75,11 @@ package away3d.loaders.parsers
 	import away3d.materials.methods.SoftShadowMapMethod;
 	import away3d.materials.methods.SubsurfaceScatteringDiffuseMethod;
 	import away3d.materials.methods.WrapDiffuseMethod;
+	import away3d.materials.MultiPassMaterialBase;
+	import away3d.materials.SinglePassMaterialBase;
+	import away3d.materials.SkyBoxMaterial;
+	import away3d.materials.TextureMaterial;
+	import away3d.materials.TextureMultiPassMaterial;
 	import away3d.materials.utils.DefaultMaterialManager;
 	import away3d.primitives.CapsuleGeometry;
 	import away3d.primitives.ConeGeometry;
@@ -107,6 +97,17 @@ package away3d.loaders.parsers
 	import away3d.textures.Texture2DBase;
 	import away3d.textures.TextureProxyBase;
 	import away3d.tools.utils.GeomUtil;
+	import flash.display.BitmapData;
+	import flash.display.BlendMode;
+	import flash.display.Sprite;
+	import flash.geom.ColorTransform;
+	import flash.geom.Matrix;
+	import flash.geom.Matrix3D;
+	import flash.geom.Vector3D;
+	import flash.net.URLRequest;
+	import flash.utils.ByteArray;
+	import flash.utils.Endian;
+	
 	
 	use namespace arcane;
 	
@@ -937,7 +938,9 @@ package away3d.loaders.parsers
 			var returnedArrayCubeTex:Array = getAssetByID(cubeTexAddr, [AssetType.TEXTURE], "CubeTexture");
 			if ((!returnedArrayCubeTex[0]) && (cubeTexAddr != 0))
 				_blocks[blockID].addError("Could not find the Cubetexture (ID = " + cubeTexAddr + " ) for this SkyBox");
-			var asset:SkyBox = new SkyBox(returnedArrayCubeTex[1] as BitmapCubeTexture);
+				
+			var material:SkyBoxMaterial = new SkyBoxMaterial(returnedArrayCubeTex[1] as BitmapCubeTexture);
+			var asset:SkyBox = new SkyBox(material);
 			
 			parseProperties(null)
 			asset.extra = parseUserAttributes();
@@ -2477,20 +2480,16 @@ package away3d.loaders.parsers
 				}
 				
 				return list;
-			} else {
-				var val:*;
-				
-				val = read_func();
-				return val;
 			}
+			var val:*;
+			val = read_func();
+			return val;
 		}
 		
 		private function parseMatrix2D():Matrix
 		{
-			var mtx:Matrix;
 			var mtx_raw:Vector.<Number> = parseMatrix32RawData();
-			
-			mtx = new Matrix(mtx_raw[0], mtx_raw[1], mtx_raw[2], mtx_raw[3], mtx_raw[4], mtx_raw[5]);
+			var mtx:Matrix = new Matrix(mtx_raw[0], mtx_raw[1], mtx_raw[2], mtx_raw[3], mtx_raw[4], mtx_raw[5]);
 			return mtx;
 		}
 		
@@ -2501,11 +2500,9 @@ package away3d.loaders.parsers
 		
 		private function parseMatrix32RawData():Vector.<Number>
 		{
-			var i:uint;
 			var mtx_raw:Vector.<Number> = new Vector.<Number>(6, true);
-			for (i = 0; i < 6; i++)
+			for (var i:uint = 0; i < 6; i++)
 				mtx_raw[i] = _newBlockBytes.readFloat();
-			
 			return mtx_raw;
 		}
 		
@@ -2561,7 +2558,7 @@ package away3d.loaders.parsers
 
 import flash.utils.ByteArray;
 
-internal class AWDBlock
+class AWDBlock
 {
 	public var id:uint;
 	public var name:String;
@@ -2585,7 +2582,7 @@ internal class AWDBlock
 	}
 }
 
-internal class bitFlags
+class bitFlags
 {
 	public static const FLAG1:uint = 1;
 	public static const FLAG2:uint = 2;
@@ -2610,7 +2607,7 @@ internal class bitFlags
 	}
 }
 
-internal dynamic class AWDProperties
+dynamic class AWDProperties
 {
 	public function set(key:uint, value:*):void
 	{
@@ -2624,4 +2621,3 @@ internal dynamic class AWDProperties
 		return fallback;
 	}
 }
-

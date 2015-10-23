@@ -18,49 +18,49 @@ package away3d.materials.utils
 		 */
 		function get loop():Boolean;
 		
-		function set loop(val:Boolean):void;
+		function set loop(value:Boolean):void;
 		
 		/**
 		 * Master volume/gain
 		 */
 		function get volume():Number;
 		
-		function set volume(val:Number):void;
+		function set volume(value:Number):void;
 		
 		/**
 		 * Panning
 		 */
 		function get pan():Number;
 		
-		function set pan(val:Number):void;
+		function set pan(value:Number):void;
 		
 		/**
 		 * Mutes/unmutes the video's audio.
 		 */
 		function get mute():Boolean;
 		
-		function set mute(val:Boolean):void;
+		function set mute(value:Boolean):void;
 		
 		/**
 		 * Provides access to the SoundTransform of the video stream
 		 */
 		function get soundTransform():SoundTransform;
 		
-		function set soundTransform(val:SoundTransform):void;
+		function set soundTransform(value:SoundTransform):void;
 		
 		/**
 		 * Get/Set access to the with of the video object
 		 */
 		function get width():int;
 		
-		function set width(val:int):void;
+		function set width(value:int):void;
 		
 		/**
 		 * Get/Set access to the height of the video object
 		 */
 		function get height():int;
 		
-		function set height(val:int):void;
+		function set height(value:int):void;
 		
 		/**
 		 * Provides access to the Video Object
@@ -95,7 +95,7 @@ package away3d.materials.utils
 		/**
 		 *  Seeks to a given time in the video, specified in seconds, with a precision of three decimal places (milliseconds).
 		 */
-		function seek(val:Number):void;
+		function seek(value:Number):void;
 		
 		/**
 		 * Stop playback and reset playhead.

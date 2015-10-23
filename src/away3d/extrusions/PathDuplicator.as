@@ -81,9 +81,9 @@ package away3d.extrusions
 		/**
 		 * Defines the resolution between each PathSegments. Default 1, is also minimum.
 		 */
-		public function set repeat(val:uint):void
+		public function set repeat(value:uint):void
 		{
-			_repeat = (val < 1)? 1 : val;
+			_repeat = Math.min(value, 1);
 		}
 		
 		public function get repeat():uint

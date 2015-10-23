@@ -6,13 +6,11 @@ package away3d.materials.compilation
 	 */
 	public class ShaderRegisterElement
 	{
+		private static const COMPONENTS:Vector.<String> = new <String>["x", "y", "z", "w"];
+		internal var _component:int;
 		private var _regName:String;
 		private var _index:int;
 		private var _toStr:String;
-		
-		private static const COMPONENTS:Array = ["x", "y", "z", "w"];
-		
-		internal var _component:int;
 		
 		/**
 		 * Creates a new ShaderRegisterElement object.

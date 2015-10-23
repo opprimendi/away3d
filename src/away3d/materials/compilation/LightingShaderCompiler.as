@@ -1,6 +1,7 @@
 package away3d.materials.compilation
 {
 	import away3d.arcane;
+	import flash.display3D.Context3DProfile;
 
 	/**
 	 * LightingShaderCompiler is a ShaderCompiler that generates code for passes performing shading only (no effect passes)
@@ -388,7 +389,7 @@ package away3d.materials.compilation
 				} else
 					_vertexCode += "sub " + lightVarying + ", " + lightPosReg + ", " + _sharedRegisters.globalPositionVertex + "\n";
 				
-				if (_enableLightFallOff && _profile != "baselineConstrained") {
+				if (_enableLightFallOff && _profile != Context3DProfile.BASELINE_CONSTRAINED) {
 					// calculate attenuation
 					_fragmentCode +=
 						// attenuate

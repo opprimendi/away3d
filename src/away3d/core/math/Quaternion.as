@@ -217,9 +217,9 @@ package away3d.core.math
 		/**
 		 * Normalises the quaternion object.
 		 */
-		public function normalize(val:Number = 1):void
+		public function normalize(value:Number = 1):void
 		{
-			var mag:Number = val/Math.sqrt(x*x + y*y + z*z + w*w);
+			var mag:Number = value/Math.sqrt(x*x + y*y + z*z + w*w);
 			
 			x *= mag;
 			y *= mag;

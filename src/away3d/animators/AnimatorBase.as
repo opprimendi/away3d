@@ -305,10 +305,9 @@ package away3d.animators
 		{
 			var delta:Vector3D = _activeState.positionDelta;
 			var dist:Number = delta.length;
-			var len:uint;
 			if (dist > 0) {
-				len = _owners.length;
-				for (var i:uint = 0; i < len; ++i)
+				var length:int = _owners.length;
+				for (var i:uint = 0; i < length; ++i)
 					_owners[i].translateLocal(delta, dist);
 			}
 		}

@@ -10,8 +10,8 @@ package away3d.textures
 	import away3d.core.render.DefaultRenderer;
 	import away3d.core.render.RendererBase;
 	import away3d.core.traverse.EntityCollector;
+	import away3d.tools.utils.MathUtils;
 	import away3d.tools.utils.TextureUtils;
-	
 	import flash.display.BitmapData;
 	import flash.display3D.textures.TextureBase;
 	import flash.geom.Matrix3D;
@@ -124,9 +124,7 @@ package away3d.textures
 		
 		public function set scale(value:Number):void
 		{
-			_scale = value > 1? 1 :
-				value < 0? 0 :
-				value;
+			_scale = MathUtils.clamp(value, 0, 1);
 		}
 		
 		/**
@@ -210,10 +208,8 @@ package away3d.textures
 		
 		private function updateSize(width:Number, height:Number):void
 		{
-			if (width > 2048)
-				width = 2048;
-			if (height > 2048)
-				height = 2048;
+			width = Math.min(width, 2048);
+			height = Math.min(height, 2048);
 			_viewWidth = width*_scale;
 			_viewHeight = height*_scale;
 			var textureWidth:Number = TextureUtils.getBestPowerOf2(_viewWidth);

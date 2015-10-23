@@ -157,7 +157,7 @@ package away3d.tools.utils
 		 var v1:Vector3D = new Vector3D(200, 100, 60);
 		 var v2:Vector3D = new Vector3D(0, -200, 60);
 		
-		 var dest: Vector3D = new Vector3D(0, 0, 0);
+		 var dest: Vector3D = new Vector3D();
 		
 		 var intersect:Vector3D = _ray.getRayToTriangleIntersection(_view.camera.position, dest, v0, v1, v2 );
 		 trace("intersect ray: "+intersect);

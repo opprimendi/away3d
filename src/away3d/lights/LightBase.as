@@ -9,10 +9,11 @@ package away3d.lights
 	import away3d.events.LightEvent;
 	import away3d.library.assets.AssetType;
 	import away3d.lights.shadowmaps.ShadowMapperBase;
-	
 	import flash.geom.Matrix3D;
 	
 	use namespace arcane;
+	
+	[Event(name = 'castsShadowChange', type = 'away3d.events.LightEvent')]
 	
 	/**
 	 * LightBase provides an abstract base class for subtypes representing lights.
@@ -72,8 +73,8 @@ package away3d.lights
 				_shadowMapper.dispose();
 				_shadowMapper = null;
 			}
-			
-			dispatchEvent(new LightEvent(LightEvent.CASTS_SHADOW_CHANGE));
+			if(hasEventListener(LightEvent.CASTS_SHADOW_CHANGE))
+				dispatchEvent(new LightEvent(LightEvent.CASTS_SHADOW_CHANGE));
 		}
 		
 		protected function createShadowMapper():ShadowMapperBase
