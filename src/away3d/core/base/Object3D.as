@@ -909,7 +909,11 @@ package away3d.core.base
 				_parent = null;
 			}
 		}
-		
+
+		/**
+		 * @inheritDoc
+		 * Bubbling works only for away3d.events.Object3DEvent
+		 */
 		public override function dispatchEvent(event:Event):Boolean {
 			if(event.bubbles) {
 				return dispatchEventFunction(Object3DEvent(event));
