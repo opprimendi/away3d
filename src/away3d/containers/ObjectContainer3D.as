@@ -664,25 +664,6 @@ package away3d.containers
 			notifySceneTransformChange();
 		}
 		
-		/**
-		 * @inheritDoc
-		 */
-		//override public function dispatchEvent(event:Event):Boolean
-		//{
-			//// maybe not the best way to fake bubbling?
-			//var ret:Boolean = super.dispatchEvent(event);
-			//
-			//if (event.bubbles) {
-				//if (_parent)
-					//_parent.dispatchEvent(event);
-				//// if it's scene root
-				//else if (_scene)
-					//_scene.dispatchEvent(event);
-			//}
-			//
-			//return ret;
-		//}
-		
 		public function updateImplicitVisibility():void
 		{
 			_implicitVisibility = _parent._explicitVisibility && _parent._implicitVisibility;
