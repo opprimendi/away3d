@@ -77,7 +77,6 @@ package away3d.containers
 		arcane var _isRoot:Boolean;
 		
 		protected var _scene:Scene3D;
-		protected var _parent:ObjectContainer3D;
 		protected var _sceneTransform:Matrix3D = new Matrix3D();
 		protected var _sceneTransformDirty:Boolean = true;
 		// these vars allow not having to traverse the scene graph to figure out what partition is set
@@ -152,17 +151,14 @@ package away3d.containers
 		}
 		
 		/** @private */
-		arcane function setParent(value:ObjectContainer3D):void
+		arcane override function setParent(value:ObjectContainer3D):void
 		{
-			_parent = value;
-			
+			super.setParent(value)
 			updateMouseChildren();
-			
 			if (value == null) {
 				scene = null;
 				return;
 			}
-			
 			notifySceneTransformChange();
 			notifySceneChange();
 		}
@@ -183,7 +179,7 @@ package away3d.containers
 			
 			//trigger event if listener exists
 			if (hasEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED)) {
-				dispatchEvent(new Object3DEvent(Object3DEvent.SCENE_TRANSFORM_CHANGED, this));
+				dispatchEvent(new Object3DEvent(Object3DEvent.SCENE_TRANSFORM_CHANGED));
 			}
 		}
 		
@@ -198,7 +194,7 @@ package away3d.containers
 				_children[i++].notifySceneChange();
 			
 			if (hasEventListener(Object3DEvent.SCENE_CHANGED))
-				dispatchEvent(new Object3DEvent(Object3DEvent.SCENE_CHANGED, this));
+				dispatchEvent(new Object3DEvent(Object3DEvent.SCENE_CHANGED));
 		}
 		
 		protected function updateMouseChildren():void
@@ -497,14 +493,6 @@ package away3d.containers
 		}
 		
 		/**
-		 * The parent ObjectContainer3D to which this object's transformation is relative.
-		 */
-		public function get parent():ObjectContainer3D
-		{
-			return _parent;
-		}
-		
-		/**
 		 * Creates a new ObjectContainer3D object.
 		 */
 		public function ObjectContainer3D()
@@ -679,21 +667,21 @@ package away3d.containers
 		/**
 		 * @inheritDoc
 		 */
-		override public function dispatchEvent(event:Event):Boolean
-		{
-			// maybe not the best way to fake bubbling?
-			var ret:Boolean = super.dispatchEvent(event);
-			
-			if (event.bubbles) {
-				if (_parent)
-					_parent.dispatchEvent(event);
-				// if it's scene root
-				else if (_scene)
-					_scene.dispatchEvent(event);
-			}
-			
-			return ret;
-		}
+		//override public function dispatchEvent(event:Event):Boolean
+		//{
+			//// maybe not the best way to fake bubbling?
+			//var ret:Boolean = super.dispatchEvent(event);
+			//
+			//if (event.bubbles) {
+				//if (_parent)
+					//_parent.dispatchEvent(event);
+				//// if it's scene root
+				//else if (_scene)
+					//_scene.dispatchEvent(event);
+			//}
+			//
+			//return ret;
+		//}
 		
 		public function updateImplicitVisibility():void
 		{
