@@ -3,6 +3,7 @@ package away3d.core.base {
 	import away3d.events.Object3DEvent;
 	import flash.events.Event;
 	import flash.geom.Vector3D;
+	import org.flexunit.asserts.assertFalse;
 	import org.flexunit.asserts.assertTrue;
 	import org.flexunit.async.Async;
 	
@@ -124,6 +125,7 @@ package away3d.core.base {
 		public function willTrigger():void {
 			var child:ObjectContainer3D = new ObjectContainer3D();
 			var container:ObjectContainer3D = new ObjectContainer3D();
+			assertFalse(child.willTrigger(Event.CHANGE));
 			container.addChild(child);
 			container.addEventListener(Event.CHANGE, function(e:Event):void{});
 			assertTrue(child.willTrigger(Event.CHANGE));
