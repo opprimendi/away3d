@@ -11,7 +11,9 @@
 	<target name="build">
 
 		<mkdir dir="lib" />
-
+		<echo message="${basedir}"/>
+		<echo message="${src}"/>
+		<echo message="${agal.src}"/>
 		<!-- compile SWC -->
 		<compc output="${OUTPUT}">
 			<!-- <load-config filename="${FLEX_HOME}/frameworks/air-config.xml" /> --> <!-- uncomment for AIR -->
