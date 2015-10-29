@@ -4,7 +4,8 @@
 	<property environment="env" />
 	<fail unless="env.FLEX_HOME" message="FLEX_HOME needs to be defined as an environment variable or in the Ant build." />
 	<property name="FLEX_HOME" location="${env.FLEX_HOME}" />
-	<property name="OUTPUT" location="lib/opprimendi-away3d.swc"/>
+	<property name="build.number" value="0"/>
+	<property name="OUTPUT" location="lib/opprimendi-away3d-4.1.6.${build.number}.swc"/>
 	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar"/>
 	<target name="build">
 		<mkdir dir="lib" />
