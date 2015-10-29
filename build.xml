@@ -4,7 +4,7 @@
 	<property environment="env" />
 	<fail unless="env.FLEX_HOME" message="FLEX_HOME needs to be defined as an environment variable or in the Ant build." />
 	<property name="FLEX_HOME" location="${env.FLEX_HOME}" />
-	<property name="OUTPUT" location="lib/opprimendi-away3d-swc.swc"/>
+	<property name="OUTPUT" location="lib/opprimendi-away3d.swc"/>
 
 	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar"/>
 
@@ -20,7 +20,7 @@
 		</compc>
 
 		<!-- generate documentation -->
-		<asdoc output="lib/tempDoc" lenient="true" failonerror="true" keep-xml="true" skip-xsl="true" fork="true">
+		<asdoc output="lib/tempDoc" lenient="true" failonerror="false" keep-xml="true" skip-xsl="true" fork="true">
 			<!-- <load-config filename="${FLEX_HOME}/frameworks/air-config.xml" /> --> <!-- uncomment for AIR -->
 			<sp path-element="src"/>
 			<doc-sources path-element="src" />
