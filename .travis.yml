@@ -43,6 +43,8 @@ before_script:
     # permissions
     - chmod +x flex_sdk/bin/mxmlc
     - cp build.properties.sample build.properties
+    - echo
+    - pwd
     - ls ./graphicscorelib
 script:
     - ant
