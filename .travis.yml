@@ -43,4 +43,4 @@ before_script:
     - chmod +x flex_sdk/bin/mxmlc
 
 script:
-    - pwd && cd opprimendi/away3d && ant
+    - ant
