@@ -1,12 +1,14 @@
 package away3d.core.base
 {
 	import away3d.*;
+	import away3d.containers.ObjectContainer3D;
 	import away3d.controllers.*;
 	import away3d.core.math.*;
 	import away3d.events.*;
 	import away3d.library.assets.*;
+	import flash.events.Event;
+	import flash.events.EventPhase;
 	import flash.geom.*;
-	
 	
 	use namespace arcane;
 	
@@ -73,7 +75,6 @@ package away3d.core.base
 	 *         additional translate *before* the current transform. x/y/z will be reset based on these operations. </li>
 	 * </ul>
 	 */
-	
 	public class Object3D extends NamedAssetBase
 	{
 		/** @private */
@@ -86,11 +87,6 @@ package away3d.core.base
 		private var _rotationDirty:Boolean;
 		private var _scaleDirty:Boolean;
 		
-		// TODO: not used
-		// private var _positionValuesDirty:Boolean;
-		// private var _rotationValuesDirty:Boolean;
-		// private var _scaleValuesDirty:Boolean;
-		
 		private var _rotationX:Number = 0;
 		private var _rotationY:Number = 0;
 		private var _rotationZ:Number = 0;
@@ -98,7 +94,7 @@ package away3d.core.base
 		
 		private var _flipY:Matrix3D = new Matrix3D();
 		
-		protected var _zOffset:int = 0;
+		protected var _zOffset:int;
 		
 		private function invalidatePivot():void
 		{
@@ -117,7 +113,7 @@ package away3d.core.base
 			invalidateTransform();
 			
 			if (hasEventListener(Object3DEvent.POSITION_CHANGED))
-				dispatchEvent(new Object3DEvent(Object3DEvent.POSITION_CHANGED, this));
+				dispatchEvent(new Object3DEvent(Object3DEvent.POSITION_CHANGED));
 		}
 		
 		private function invalidateRotation():void
@@ -126,11 +122,9 @@ package away3d.core.base
 				return;
 			
 			_rotationDirty = true;
-			
 			invalidateTransform();
-			
 			if (hasEventListener(Object3DEvent.ROTATION_CHANGED))
-				dispatchEvent(new Object3DEvent(Object3DEvent.ROTATION_CHANGED, this));
+				dispatchEvent(new Object3DEvent(Object3DEvent.ROTATION_CHANGED));
 		}
 		
 		private function invalidateScale():void
@@ -139,11 +133,9 @@ package away3d.core.base
 				return;
 			
 			_scaleDirty = true;
-			
 			invalidateTransform();
-			
 			if (hasEventListener(Object3DEvent.SCALE_CHANGED))
-				dispatchEvent(new Object3DEvent(Object3DEvent.SCALE_CHANGED, this));
+				dispatchEvent(new Object3DEvent(Object3DEvent.SCALE_CHANGED));
 		}
 		
 		protected var _transform:Matrix3D = new Matrix3D();
@@ -713,7 +705,6 @@ package away3d.core.base
 		
 		/**
 		 * Rotates the 3d object directly to a euler angle
-		 *
 		 * @param    ax        The angle in degrees of the rotation around the x axis.
 		 * @param    ay        The angle in degrees of the rotation around the y axis.
 		 * @param    az        The angle in degrees of the rotation around the z axis.
@@ -729,7 +720,6 @@ package away3d.core.base
 		
 		/**
 		 * Rotates the 3d object around an axis by a defined angle
-		 *
 		 * @param    axis        The vector defining the axis of rotation
 		 * @param    angle        The amount of rotation in degrees
 		 */
@@ -750,6 +740,7 @@ package away3d.core.base
 		private static var tempAxeX:Vector3D;
 		private static var tempAxeY:Vector3D;
 		private static var tempAxeZ:Vector3D;
+		
 		/**
 		 * Rotates the 3d object around to face a point defined relative to the local coordinates of the parent <code>ObjectContainer3D</code>.
 		 *
@@ -886,5 +877,111 @@ package away3d.core.base
 		{
 			_zOffset = value;
 		}
+		
+		private var _bubble_parent:ObjectContainer3D;
+		arcane var _parent:ObjectContainer3D;
+		
+		/**
+		 * The parent ObjectContainer3D to which this object's transformation is relative.
+		 */
+		public function get parent():ObjectContainer3D {
+			return _parent;
+		}
+		
+		/** @private */
+		arcane function setParent(value:ObjectContainer3D):void {
+			if(value == _parent) {
+				return;
+			}
+			_parent = value;
+			if(_parent) {
+				_bubble_parent = _parent;
+				//dispatchEventFunction(new Object3DEvent(Object3DEvent.REMOVED, true));
+			}
+			if(value) {
+				if (_parent != value) {
+					_parent = value;
+					_bubble_parent = value;
+					//dispatchEventFunction(new Object3DEvent(Object3DEvent.ADDED, true));
+				}
+			} else {
+				_bubble_parent = null;
+				_parent = null;
+			}
+		}
+
+		/**
+		 * @inheritDoc
+		 * Bubbling works only for away3d.events.Object3DEvent
+		 */
+		public override function dispatchEvent(event:Event):Boolean {
+			if(event.bubbles) {
+				return dispatchEventFunction(Object3DEvent(event));
+			} 
+			return super.dispatchEvent(event);
+		}
+
+		private function $dispatchEvent(event:Event):Boolean {
+			return super.dispatchEvent(event);
+		}
+
+		private function dispatchEventFunction(event:Object3DEvent):Boolean {
+			var canceled:Boolean;
+			if (hasEventListener(event.type)) {
+				canceled = !super.dispatchEvent(event);
+			}
+			if (!event.$stopped) {
+				var target:Object3D = _bubble_parent;
+				while (target) {
+					if (target.hasEventListener(event.type)) {
+						event = event.clone() as Object3DEvent;
+						event.$eventPhase = EventPhase.BUBBLING_PHASE;
+						event.$target = this;
+						event.$canceled = canceled;
+						CONTAINER.$event = event;
+						target.$dispatchEvent(CONTAINER);
+						canceled = event.$canceled;
+						if (event.$stopped) break;
+					}
+					target = target._bubble_parent;
+				}
+			}
+			return !canceled;
+		}
+
+		public override function willTrigger(type:String):Boolean {
+			if (hasEventListener(type)) {
+				return true;
+			}
+			var target:Object3D = _bubble_parent;
+			while (target) {
+				if (target.hasEventListener(type)) {
+					return true;
+				}
+				target = target._bubble_parent;
+			}
+			return false;
+		}
 	}
 }
+
+import flash.events.Event;
+class EventContainer extends Event {
+	private static const TARGET:Object = {};
+
+	public function EventContainer() {
+		super('', true);
+	}
+
+	internal var $event:Event;
+
+	public override function get target():Object {
+		return TARGET;
+	}
+
+	public override function clone():Event {
+		return this.$event;
+	}
+}
+
+const CONTAINER:EventContainer = new EventContainer();

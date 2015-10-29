@@ -6,7 +6,6 @@ package away3d.events
 	import away3d.core.base.IRenderable;
 	import away3d.core.math.Matrix3DUtils;
 	import away3d.materials.MaterialBase;
-	
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.geom.Vector3D;
@@ -17,9 +16,8 @@ package away3d.events
 	 * A MouseEvent3D is dispatched when a mouse event occurs over a mouseEnabled object in View3D.
 	 * todo: we don't have screenZ data, tho this should be easy to implement
 	 */
-	public class MouseEvent3D extends Event
+	public class MouseEvent3D extends Object3DEvent
 	{
-		// Private.
 		arcane var _allowedToPropagate:Boolean = true;
 		arcane var _parentEvent:MouseEvent3D;
 		
@@ -152,42 +150,9 @@ package away3d.events
 		 * Create a new MouseEvent3D object.
 		 * @param type The type of the MouseEvent3D.
 		 */
-		public function MouseEvent3D(type:String)
+		public function MouseEvent3D(type:String, bubbles:Boolean = true, cancelable:Boolean = true)
 		{
-			super(type, true, true);
-		}
-		
-		/**
-		 * @inheritDoc
-		 */
-		public override function get bubbles():Boolean
-		{
-			var doesBubble:Boolean = super.bubbles && _allowedToPropagate;
-			_allowedToPropagate = true;
-			// Don't bubble if propagation has been stopped.
-			return doesBubble;
-		}
-		
-		/**
-		 * @inheritDoc
-		 */
-		public override function stopPropagation():void
-		{
-			super.stopPropagation();
-			_allowedToPropagate = false;
-			if (_parentEvent)
-				_parentEvent.stopPropagation();
-		}
-		
-		/**
-		 * @inheritDoc
-		 */
-		public override function stopImmediatePropagation():void
-		{
-			super.stopImmediatePropagation();
-			_allowedToPropagate = false;
-			if (_parentEvent)
-				_parentEvent.stopImmediatePropagation();
+			super(type, bubbles, cancelable);
 		}
 		
 		/**
@@ -195,14 +160,9 @@ package away3d.events
 		 */
 		public override function clone():Event
 		{
-			var result:MouseEvent3D = new MouseEvent3D(type);
-			
-			if (isDefaultPrevented())
-				result.preventDefault();
-			
+			var result:MouseEvent3D = MouseEvent3D(super.clone());
 			result.screenX = screenX;
 			result.screenY = screenY;
-			
 			result.view = view;
 			result.object = object;
 			result.renderable = renderable;
@@ -213,13 +173,10 @@ package away3d.events
 			result.index = index;
 			result.subGeometryIndex = subGeometryIndex;
 			result.delta = delta;
-			
 			result.ctrlKey = ctrlKey;
 			result.shiftKey = shiftKey;
-			
 			result._parentEvent = this;
 			result._allowedToPropagate = _allowedToPropagate;
-			
 			return result;
 		}
 		
@@ -230,8 +187,7 @@ package away3d.events
 		{
 			if (object is ObjectContainer3D)
 				return Matrix3DUtils.transformVector(ObjectContainer3D(object).sceneTransform,localPosition);
-			else
-				return localPosition;
+			return localPosition;
 		}
 
 		/**
@@ -240,10 +196,10 @@ package away3d.events
 		 * @return
 		 */
 		public function getScenePosition(v:Vector3D = null):Vector3D {
-			if(!v) v = new Vector3D();
+			v ||= new Vector3D();
 			if (object is ObjectContainer3D) {
 				Matrix3DUtils.transformVector(ObjectContainer3D(object).sceneTransform,localPosition,v);
-			}else{
+			} else {
 				v.x = localPosition.x;
 				v.y = localPosition.y;
 				v.z = localPosition.z;
@@ -260,8 +216,8 @@ package away3d.events
 				var sceneNormal:Vector3D = Matrix3DUtils.deltaTransformVector(ObjectContainer3D(object).sceneTransform,localNormal);
 				sceneNormal.normalize();
 				return sceneNormal;
-			} else
-				return localNormal;
+			}
+			return localNormal;
 		}
 
 		/**
@@ -270,7 +226,7 @@ package away3d.events
 		 * @return
 		 */
 		public function getSceneNormal(v:Vector3D = null):Vector3D {
-			if(!v) v = new Vector3D();
+			v ||= new Vector3D();
 			if (object is ObjectContainer3D) {
 				Matrix3DUtils.deltaTransformVector(ObjectContainer3D(object).sceneTransform,localNormal, v);
 				v.normalize();

@@ -1,4 +1,7 @@
-Copyright 2011 The Away3D Team
+Away3D: The Cross Platform Game Engine [![Build Status](https://travis-ci.org/opprimendi/away3d.svg)](https://travis-ci.orgopprimendi/away3d)
+==================================================
+
+Copyright 2011-2015 The Away3D Team
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

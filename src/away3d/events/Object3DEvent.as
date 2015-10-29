@@ -1,8 +1,11 @@
 package away3d.events
 {
+	import away3d.arcane;
 	import away3d.core.base.*;
 	
 	import flash.events.Event;
+	
+	use namespace arcane;
 	
 	/**
 	 * Passed as a parameter when a 3d object event occurs
@@ -40,28 +43,52 @@ package away3d.events
 		public static const SCALE_CHANGED:String = "scaleChanged";
 		
 		/**
-		 * A reference to the 3d object that is relevant to the event.
-		 */
-		public var object:Object3D;
-		
-		/**
 		 * Creates a new <code>MaterialEvent</code> object.
 		 *
 		 * @param    type        The type of the event. Possible values are: <code>Object3DEvent.TRANSFORM_CHANGED</code>, <code>Object3DEvent.SCENETRANSFORM_CHANGED</code>, <code>Object3DEvent.SCENE_CHANGED</code>, <code>Object3DEvent.RADIUS_CHANGED</code> and <code>Object3DEvent.DIMENSIONS_CHANGED</code>.
 		 * @param    object        A reference to the 3d object that is relevant to the event.
 		 */
-		public function Object3DEvent(type:String, object:Object3D)
-		{
-			super(type);
-			this.object = object;
+		public function Object3DEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false) {
+			super(type, bubbles, cancelable);
 		}
 		
-		/**
-		 * Creates a copy of the Object3DEvent object and sets the value of each property to match that of the original.
-		 */
-		public override function clone():Event
-		{
-			return new Object3DEvent(type, object);
+		arcane var $stopped:Boolean;
+		arcane var $canceled:Boolean;
+		
+		arcane var $target:Object;
+		public override function get target():Object {
+			return this.$target || super.target;
+		}
+		
+		arcane var $eventPhase:uint;
+		public override function get eventPhase():uint {
+			return this.$eventPhase || super.eventPhase;
+		}
+		
+		public override function stopImmediatePropagation():void {
+			super.stopImmediatePropagation();
+			this.$stopped = true;
+		}
+
+		public override function stopPropagation():void {
+			super.stopPropagation();
+			this.$stopped = true;
+		}
+
+		public override function preventDefault():void {
+			if (super.cancelable) {
+				super.preventDefault();
+				this.$canceled = true;
+			}
+		}
+
+		public override function isDefaultPrevented():Boolean {
+			return this.$canceled;
+		}
+
+		public override function clone():Event {
+			var type:Class = Object(this)["constructor"] as Class;
+			return new type(super.type, super.bubbles, super.cancelable);
 		}
 	}
 }
