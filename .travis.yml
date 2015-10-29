@@ -45,3 +45,10 @@ before_script:
     - cp build.properties.sample build.properties
 script:
     - ant
+deploy:
+  provider: releases
+  api_key: Vaj8cUwK6TLGr1sS4Gqo
+  file: lib/opprimendi-away3d.swc
+  skip_cleanup: true
+  on:
+    tags: true
