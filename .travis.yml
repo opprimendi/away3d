@@ -1,55 +1,45 @@
-git: 
-    depth: 10
+git:
+  depth: 10
 branches:
   only:
-    - master
-    - develop
+  - master
+  - develop
 language: objective-c
 env:
-    - TERM=dumb
+- TERM=dumb
 before_script:
-    - git clone https://github.com/opprimendi/graphicscorelib.git ../graphicscorelib
-    # Update Brew silently
-    - brew update >brew-update.log
-    # Install Brew Packages silently
-    - brew install ant gradle >brew-install.log
-    # Adobe Flash Player for CLI
-    - brew install caskroom/cask/brew-cask
-    - brew cask install flash-player-debugger
-    # Set env. variable used by FlexUnit
-    - export FLASHPLAYER_DEBUGGER="$HOME/Applications/Flash Player Debugger.app/Contents/MacOS/Flash Player Debugger"
-    # Set env. variable used by Gradle
-    - export FLASH_PLAYER_EXE="$HOME/Applications/Flash Player Debugger.app/Contents/MacOS/Flash Player Debugger"
-    # Adobe AIR SDK
-    - mkdir -p air_sdk
-    - wget -O AIRSDK_Compiler.tbz2 http://airdownload.adobe.com/air/mac/download/19.0/AIRSDK_Compiler.tbz2
-    - tar -xjf AIRSDK_Compiler.tbz2 -C air_sdk
-    # Apache Flex SDK
-    - wget -O flex_sdk.zip http://mirrors.gigenet.com/apache/flex/4.14.1/binaries/apache-flex-sdk-4.14.1-bin.zip
-    - unzip -q flex_sdk.zip -d flex_sdk
-    # Init PlayerGlobals
-    - echo env.PLAYERGLOBAL_HOME=libs/player > flex_sdk/env.properties
-    # Init Apache Flex SDK
-    - mkdir -p flex_sdk/frameworks/libs/player/11.1/
-    - mkdir -p flex_sdk/frameworks/libs/player/19.0/
-    - cp -f air_sdk/frameworks/libs/player/19.0/playerglobal.swc flex_sdk/frameworks/libs/player/11.1/
-    - cp -f air_sdk/frameworks/libs/player/19.0/playerglobal.swc flex_sdk/frameworks/libs/player/19.0/
-    # Set env. variable used by Ant and Gradle
-    - export FLEX_HOME="$TRAVIS_BUILD_DIR/flex_sdk"
-    # Init Adobe AIR SDK
-    - mkdir -p air_sdk/frameworks/libs/player/11.1/
-    - cp -f air_sdk/frameworks/libs/player/19.0/playerglobal.swc air_sdk/frameworks/libs/player/11.1/
-    # Set env. variable used by Ant and Gradle
-    - export AIR_HOME="$TRAVIS_BUILD_DIR/air_sdk"
-    # permissions
-    - chmod +x flex_sdk/bin/mxmlc
-    - cp build.properties.sample build.properties
+- git clone https://github.com/opprimendi/graphicscorelib.git ../graphicscorelib
+- brew update >brew-update.log
+- brew install ant gradle >brew-install.log
+- brew install caskroom/cask/brew-cask
+- brew cask install flash-player-debugger
+- export FLASHPLAYER_DEBUGGER="$HOME/Applications/Flash Player Debugger.app/Contents/MacOS/Flash
+  Player Debugger"
+- export FLASH_PLAYER_EXE="$HOME/Applications/Flash Player Debugger.app/Contents/MacOS/Flash
+  Player Debugger"
+- mkdir -p air_sdk
+- wget -O AIRSDK_Compiler.tbz2 http://airdownload.adobe.com/air/mac/download/19.0/AIRSDK_Compiler.tbz2
+- tar -xjf AIRSDK_Compiler.tbz2 -C air_sdk
+- wget -O flex_sdk.zip http://mirrors.gigenet.com/apache/flex/4.14.1/binaries/apache-flex-sdk-4.14.1-bin.zip
+- unzip -q flex_sdk.zip -d flex_sdk
+- echo env.PLAYERGLOBAL_HOME=libs/player > flex_sdk/env.properties
+- mkdir -p flex_sdk/frameworks/libs/player/11.1/
+- mkdir -p flex_sdk/frameworks/libs/player/19.0/
+- cp -f air_sdk/frameworks/libs/player/19.0/playerglobal.swc flex_sdk/frameworks/libs/player/11.1/
+- cp -f air_sdk/frameworks/libs/player/19.0/playerglobal.swc flex_sdk/frameworks/libs/player/19.0/
+- export FLEX_HOME="$TRAVIS_BUILD_DIR/flex_sdk"
+- mkdir -p air_sdk/frameworks/libs/player/11.1/
+- cp -f air_sdk/frameworks/libs/player/19.0/playerglobal.swc air_sdk/frameworks/libs/player/11.1/
+- export AIR_HOME="$TRAVIS_BUILD_DIR/air_sdk"
+- chmod +x flex_sdk/bin/mxmlc
+- cp build.properties.sample build.properties
 script:
-    - ant
+- ant -Dbuild.number=$TRAVIS_BUILD_NUMBER
 deploy:
   provider: releases
-  api_key: e3:30:aa:b6:b4:86:39:52:23:f0:bc:29:70:56:24:d6
-  file: lib/opprimendi-away3d.swc
+  api_key:
+    secure: gu69jbRY5pPaFfHcrst9MJkEMWhQhNZLGX4sjs7UgpBNKcpQnw3HqUjyKxvUI3GgGHLr9jIIeDzqTViY4guN99F63LsbbLJ8SE4jcmtDGzH7+E0kHZf6zeBlWiaApVRrseeaTBzsFVNdH08IgNUeiM6lT4+UJsYaMK43IRDVHw6nUf8keI4cy/Y6hs3u8DZ7jhkyols4LewbzVYi4EX/iplKtLyNAOtRp/882ZC2/tT6JIsAAidHymCo/aEwMEESvc1y8sdc0PbkS9DCfhEBqu4CNorL7iVJSudi25jNF6jucWqhru958L4zW0Mf4uaf53zaebR1jyCo7NotQZKUnhFeS7aaTkO8LL9PdG0NGS5WHtMOA/midJLVdUjHEl+Jbqn0eAU+hbdS7VDeBreF2NQYDGJGK6+5VAAsB2nT+obg7Bw5z1qaiIjYN6bkKtMYUE0JFl2txUEEC7d4cWa7gEM2PPYWu3Ho546eGwbpKp6JNAu4X34QKstaYYmd1tFMbHfcKHs90yzN4atLE36l8nQvABjZROGgU7BDEQQqlkLjBG9K+ypMx4FOoFN7xtnfrFEKiUx9N7EaEOcqWlOX7TKCJf3fj8C9AMp4WQYrTRovvtWe2S8xCMGC7NOx11lV1I4xmxpb6SXCCp+87TkfqqxT/aX0bqwjhcC6ryiJlvY=
+  file: $TRAVIS_BUILD_DIR/lib/opprimendi-away3d-4.1.6.$TRAVIS_BUILD_NUMBER.swc
   skip_cleanup: true
   on:
-    tags: false
+    repo: opprimendi/away3d
