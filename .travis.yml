@@ -52,4 +52,4 @@ deploy:
   file: lib/opprimendi-away3d.swc
   skip_cleanup: true
   on:
-    tags: true
+    tags: false
