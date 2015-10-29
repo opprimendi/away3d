@@ -5,11 +5,8 @@
 	<fail unless="env.FLEX_HOME" message="FLEX_HOME needs to be defined as an environment variable or in the Ant build." />
 	<property name="FLEX_HOME" location="${env.FLEX_HOME}" />
 	<property name="OUTPUT" location="lib/opprimendi-away3d.swc"/>
-
 	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar"/>
-
 	<target name="build">
-
 		<mkdir dir="lib" />
 		<!-- compile SWC -->
 		<compc output="${OUTPUT}">
@@ -18,7 +15,6 @@
 			<include-sources dir="src" includes="*"  />
 			<include-sources dir="${agal.src}" includes="*"  />
 		</compc>
-
 		<!-- generate documentation -->
 		<asdoc output="lib/tempDoc" lenient="true" failonerror="false" keep-xml="true" skip-xsl="true" fork="true">
 			<!-- <load-config filename="${FLEX_HOME}/frameworks/air-config.xml" /> --> <!-- uncomment for AIR -->
@@ -26,7 +22,6 @@
 			<doc-sources path-element="src" />
 			<doc-sources path-element="${agal.src}" />
 		</asdoc>
-
 		<!-- inject documentation inside SWC -->
 		<zip destfile="${OUTPUT}" update="true">
 			<zipfileset dir="lib/tempDoc/tempdita" prefix="docs">
@@ -35,7 +30,6 @@
 				<exclude name="overviews.xml"/>
 			</zipfileset>
 		</zip>
-
 		<!-- cleanup -->
 		<delete dir="lib/tempDoc" />
 	</target>
