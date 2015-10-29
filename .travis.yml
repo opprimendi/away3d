@@ -48,7 +48,7 @@ script:
     - ant
 deploy:
   provider: releases
-  api_key: Vaj8cUwK6TLGr1sS4Gqo
+  api_key: e3:30:aa:b6:b4:86:39:52:23:f0:bc:29:70:56:24:d6
   file: lib/opprimendi-away3d.swc
   skip_cleanup: true
   on:
