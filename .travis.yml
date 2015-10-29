@@ -43,5 +43,4 @@ before_script:
     - chmod +x flex_sdk/bin/mxmlc
 
 script:
-    - cd starling/build/ant && ant
-    - cd ../gradle && gradle
+    - cd away3d && ant
