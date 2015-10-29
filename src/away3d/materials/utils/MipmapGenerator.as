@@ -51,6 +51,13 @@ package away3d.materials.utils
 				h = sourceHeight >> i;
 				
 				//for rectangle textures
+				if (w == 0)
+					w = 1;
+					
+				if (h == 0)
+					h = 1;
+				
+				//for rectangle textures
 				_rect.width = w > sourceWidth? sourceWidth:w;
 				_rect.height = h > sourceHeight? sourceHeight:h;
 				
