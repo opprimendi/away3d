@@ -1,4 +1,4 @@
-agal.src = ../adobe-flash/graphicscorelib/src
+agal.src = ../graphicscorelib/src
 flex.sdk = 
 air.sdk = 
 flexunit.lib = 
