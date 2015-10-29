@@ -1,11 +1,12 @@
 git: 
     depth: 10
-
 language: objective-c
-
 env:
     - TERM=dumb
-
+branches:
+  only:
+    - master
+    - develop
 before_script:
     - git clone https://github.com/opprimendi/graphicscorelib.git ../graphicscorelib
     # Update Brew silently
