@@ -1,4 +1,4 @@
-Away3D: The Cross Platform Game Engine [![Build Status](https://travis-ci.org/opprimendi/away3d.svg)](https://travis-ci.org/opprimendi/away3d)
+Away3D-4: The ActionScript3 3D Render Engine [![Build Status](https://travis-ci.org/opprimendi/away3d.svg)](https://travis-ci.org/opprimendi/away3d)
 ==================================================
 
 Copyright 2011-2015 The Away3D Team
