@@ -19,21 +19,19 @@ package away3d.core.managers
 		
 		private var _stage3DProxy:Stage3DProxy;
 		
-		private var _program3Ds:Array;
-		private var _ids:Array;
+		private var _programNameToProgram3D:Object;
+		private var _programNameToProgramIndex:Object;
 		private var _usages:Array;
 		private var _keys:Array;
 		
 		private static var _currentId:int;
 		
-		public function AGALProgram3DCache(stage3DProxy:Stage3DProxy, AGALProgram3DCacheSingletonEnforcer:AGALProgram3DCacheSingletonEnforcer)
+		public function AGALProgram3DCache(stage3DProxy:Stage3DProxy, enforcer:AGALProgram3DCacheSingletonEnforcer)
 		{
-			if (!AGALProgram3DCacheSingletonEnforcer)
-				throw new Error("This class is a multiton and cannot be instantiated manually. Use Stage3DManager.getInstance instead.");
+			if (!enforcer) throw new Error("This class is a multiton and cannot be instantiated manually. Use Stage3DManager.getInstance instead.");
 			_stage3DProxy = stage3DProxy;
-			
-			_program3Ds = [];
-			_ids = [];
+			_programNameToProgram3D = {};
+			_programNameToProgramIndex = {};
 			_usages = [];
 			_keys = [];
 		}
@@ -74,11 +72,12 @@ package away3d.core.managers
 		
 		public function dispose():void
 		{
-			for (var key:String in _program3Ds)
+			for (var key:String in _programNameToProgram3D)
 				destroyProgram(key);
 			
+			_programNameToProgram3D = null;
+			_programNameToProgramIndex = null;
 			_keys = null;
-			_program3Ds = null;
 			_usages = null;
 		}
 		
@@ -88,10 +87,10 @@ package away3d.core.managers
 			var program:Program3D;
 			var key:String = getKey(vertexCode, fragmentCode);
 			
-			if (_program3Ds[key] == null) {
+			if (_programNameToProgram3D[key] == null) {
 				_keys[_currentId] = key;
 				_usages[_currentId] = 0;
-				_ids[key] = _currentId;
+				_programNameToProgramIndex[key] = _currentId;
 				++_currentId;
 				program = _stage3DProxy._context3D.createProgram();
 				
@@ -100,11 +99,11 @@ package away3d.core.managers
 				
 				program.upload(vertexByteCode, fragmentByteCode);
 				
-				_program3Ds[key] = program;
+				_programNameToProgram3D[key] = program;
 			}
 			
 			var oldId:int = pass._program3Dids[stageIndex];
-			var newId:int = _ids[key];
+			var newId:int = _programNameToProgramIndex[key];
 			
 			if (oldId != newId) {
 				if (oldId >= 0)
@@ -113,7 +112,7 @@ package away3d.core.managers
 			}
 			
 			pass._program3Dids[stageIndex] = newId;
-			pass._program3Ds[stageIndex] = _program3Ds[key];
+			pass._program3Ds[stageIndex] = _programNameToProgram3D[key];
 		}
 		
 		public function freeProgram3D(programId:int):void
@@ -125,10 +124,9 @@ package away3d.core.managers
 		
 		private function destroyProgram(key:String):void
 		{
-			_program3Ds[key].dispose();
-			_program3Ds[key] = null;
-			delete _program3Ds[key];
-			_ids[key] = -1;
+			_programNameToProgram3D[key].dispose();
+			delete _programNameToProgram3D[key];
+			_programNameToProgramIndex[key] = -1;
 		}
 		
 		private function getKey(vertexCode:String, fragmentCode:String):String

@@ -8,7 +8,7 @@ language: objective-c
 env:
 - TERM=dumb
 before_script:
-- git clone https://github.com/opprimendi/graphicscorelib.git ../graphicscorelib
+- wget -O /lib/adobe-graphicscorelib.swc https://github.com/opprimendi/graphicscorelib/releases/download/3.0.5/adobe-graphicscorelib-3.0.26.swc
 - brew update >brew-update.log
 - brew install ant gradle >brew-install.log
 - brew install caskroom/cask/brew-cask
@@ -39,7 +39,7 @@ deploy:
   provider: releases
   api_key:
     secure: gu69jbRY5pPaFfHcrst9MJkEMWhQhNZLGX4sjs7UgpBNKcpQnw3HqUjyKxvUI3GgGHLr9jIIeDzqTViY4guN99F63LsbbLJ8SE4jcmtDGzH7+E0kHZf6zeBlWiaApVRrseeaTBzsFVNdH08IgNUeiM6lT4+UJsYaMK43IRDVHw6nUf8keI4cy/Y6hs3u8DZ7jhkyols4LewbzVYi4EX/iplKtLyNAOtRp/882ZC2/tT6JIsAAidHymCo/aEwMEESvc1y8sdc0PbkS9DCfhEBqu4CNorL7iVJSudi25jNF6jucWqhru958L4zW0Mf4uaf53zaebR1jyCo7NotQZKUnhFeS7aaTkO8LL9PdG0NGS5WHtMOA/midJLVdUjHEl+Jbqn0eAU+hbdS7VDeBreF2NQYDGJGK6+5VAAsB2nT+obg7Bw5z1qaiIjYN6bkKtMYUE0JFl2txUEEC7d4cWa7gEM2PPYWu3Ho546eGwbpKp6JNAu4X34QKstaYYmd1tFMbHfcKHs90yzN4atLE36l8nQvABjZROGgU7BDEQQqlkLjBG9K+ypMx4FOoFN7xtnfrFEKiUx9N7EaEOcqWlOX7TKCJf3fj8C9AMp4WQYrTRovvtWe2S8xCMGC7NOx11lV1I4xmxpb6SXCCp+87TkfqqxT/aX0bqwjhcC6ryiJlvY=
-  file: $TRAVIS_BUILD_DIR/lib/opprimendi-away3d-4.1.6.$TRAVIS_BUILD_NUMBER.swc
+  file: $TRAVIS_BUILD_DIR/lib/opprimendi-away3d4-1.6.$TRAVIS_BUILD_NUMBER.swc
   skip_cleanup: true
   on:
     repo: opprimendi/away3d
