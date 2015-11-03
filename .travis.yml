@@ -8,8 +8,9 @@ language: objective-c
 env:
 - TERM=dumb
 before_script:
+- wget -O adobe-graphicscorelib-3.0.26.swc https://github.com/opprimendi/graphicscorelib/releases/download/3.0.5/adobe-graphicscorelib-3.0.26.swc
 - mkdir lib
-- wget -O /lib/adobe-graphicscorelib.swc https://github.com/opprimendi/graphicscorelib/releases/download/3.0.5/adobe-graphicscorelib-3.0.26.swc
+- mv adobe-graphicscorelib-3.0.26.swc lib/adobe-graphicscorelib.swc
 - brew update >brew-update.log
 - brew install ant gradle >brew-install.log
 - brew install caskroom/cask/brew-cask
