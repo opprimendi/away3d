@@ -5,7 +5,7 @@
 	<fail unless="env.FLEX_HOME" message="FLEX_HOME needs to be defined as an environment variable or in the Ant build." />
 	<property name="FLEX_HOME" location="${env.FLEX_HOME}" />
 	<property name="build.number" value="0"/>
-	<property name="OUTPUT" location="lib/opprimendi-away3d-4.1.6.${build.number}.swc"/>
+	<property name="OUTPUT" location="lib/opprimendi-away3d4-1.6.${build.number}.swc"/>
 	<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar"/>
 	<target name="build">
 		<mkdir dir="lib" />
@@ -14,14 +14,14 @@
 			<!-- <load-config filename="${FLEX_HOME}/frameworks/air-config.xml" /> --> <!-- uncomment for AIR -->
 			<sp path-element="src" />
 			<include-sources dir="src" includes="*"  />
-			<include-sources dir="${agal.src}" includes="*"  />
+			<external-library-path file="${agal.swc}" append="true"/>
 		</compc>
 		<!-- generate documentation -->
 		<asdoc output="lib/tempDoc" lenient="true" failonerror="false" keep-xml="true" skip-xsl="true" fork="true">
 			<!-- <load-config filename="${FLEX_HOME}/frameworks/air-config.xml" /> --> <!-- uncomment for AIR -->
 			<sp path-element="src"/>
 			<doc-sources path-element="src" />
-			<doc-sources path-element="${agal.src}" />
+			<external-library-path file="${agal.swc}" append="true"/>
 		</asdoc>
 		<!-- inject documentation inside SWC -->
 		<zip destfile="${OUTPUT}" update="true">
