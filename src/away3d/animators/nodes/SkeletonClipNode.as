@@ -43,8 +43,8 @@ package away3d.animators.nodes
 		 */
 		public function addFrame(skeletonPose:SkeletonPose, duration:uint):void
 		{
-			_frames.push(skeletonPose);
-			_durations.push(duration);
+			_frames[_frames.length] = skeletonPose;
+			_durations[_durations.length] = duration;
 			
 			_numFrames = _durations.length;
 			
