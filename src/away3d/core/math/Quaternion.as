@@ -238,13 +238,18 @@ package away3d.core.math
 		}
 		
 		/**
+		 * A reference to a Vector to be used as a temporary raw data container, to prevent object creation.
+		 */
+		private static const RAW_DATA_CONTAINER:Vector.<Number> = new Vector.<Number>(16);
+		
+		/**
 		 * Converts the quaternion to a Matrix3D object representing an equivalent rotation.
 		 * @param target An optional Matrix3D container to store the transformation in. If not provided, a new object is created.
 		 * @return A Matrix3D object representing an equivalent rotation.
 		 */
 		public function toMatrix3D(target:Matrix3D = null):Matrix3D
 		{
-			var rawData:Vector.<Number> = Matrix3DUtils.RAW_DATA_CONTAINER;
+			var rawData:Vector.<Number> = RAW_DATA_CONTAINER;
 			var xy2:Number = 2.0*x*y, xz2:Number = 2.0*x*z, xw2:Number = 2.0*x*w;
 			var yz2:Number = 2.0*y*z, yw2:Number = 2.0*y*w, zw2:Number = 2.0*z*w;
 			var xx:Number = x*x, yy:Number = y*y, zz:Number = z*z, ww:Number = w*w;

@@ -6,16 +6,14 @@ package away3d.events
 	import away3d.containers.View3D;
 	import away3d.core.base.IRenderable;
 	import away3d.materials.MaterialBase;
-	
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.geom.Vector3D;
 	
 	use namespace arcane;
 	
-	public class TouchEvent3D extends Event
+	public class TouchEvent3D extends Object3DEvent
 	{
-		// Private.
 		arcane var _allowedToPropagate:Boolean = true;
 		arcane var _parentEvent:TouchEvent3D;
 		
@@ -149,7 +147,6 @@ package away3d.events
 			
 			result.screenX = screenX;
 			result.screenY = screenY;
-			
 			result.view = view;
 			result.object = object;
 			result.renderable = renderable;
@@ -159,12 +156,9 @@ package away3d.events
 			result.localNormal = localNormal;
 			result.index = index;
 			result.subGeometryIndex = subGeometryIndex;
-			
 			result.ctrlKey = ctrlKey;
 			result.shiftKey = shiftKey;
-			
 			result._parentEvent = this;
-			
 			return result;
 		}
 		
@@ -175,8 +169,7 @@ package away3d.events
 		{
 			if (object is ObjectContainer3D)
 				return ObjectContainer3D(object).sceneTransform.transformVector(localPosition);
-			else
-				return localPosition;
+			return localPosition;
 		}
 		
 		/**
@@ -188,8 +181,8 @@ package away3d.events
 				var sceneNormal:Vector3D = ObjectContainer3D(object).sceneTransform.deltaTransformVector(localNormal);
 				sceneNormal.normalize();
 				return sceneNormal;
-			} else
-				return localNormal;
+			}
+			return localNormal;
 		}
 	}
 }
