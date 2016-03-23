@@ -11,27 +11,27 @@ before_script:
 - wget -O adobe-graphicscorelib-3.0.26.swc https://github.com/opprimendi/graphicscorelib/releases/download/3.0.5/adobe-graphicscorelib-3.0.26.swc
 - mkdir lib
 - mv adobe-graphicscorelib-3.0.26.swc lib/adobe-graphicscorelib.swc
-- brew update >brew-update.log
-- brew install ant gradle >brew-install.log
-- brew install caskroom/cask/brew-cask
-- brew cask install flash-player-debugger
+- sudo brew update >brew-update.log
+- sudo brew install ant gradle >brew-install.log
+- sudo brew install caskroom/cask/brew-cask
+- sudo brew cask install flash-player-debugger
 - export FLASHPLAYER_DEBUGGER="$HOME/Applications/Flash Player Debugger.app/Contents/MacOS/Flash
   Player Debugger"
 - export FLASH_PLAYER_EXE="$HOME/Applications/Flash Player Debugger.app/Contents/MacOS/Flash
   Player Debugger"
 - mkdir -p air_sdk
-- wget -O AIRSDK_Compiler.tbz2 http://airdownload.adobe.com/air/mac/download/19.0/AIRSDK_Compiler.tbz2
+- wget -O AIRSDK_Compiler.tbz2 http://airdownload.adobe.com/air/mac/download/21.0/AIRSDK_Compiler.tbz2
 - tar -xjf AIRSDK_Compiler.tbz2 -C air_sdk
-- wget -O flex_sdk.zip http://mirrors.gigenet.com/apache/flex/4.14.1/binaries/apache-flex-sdk-4.14.1-bin.zip
+- wget -O flex_sdk.zip http://mirrors.gigenet.com/apache/flex/4.15.0/binaries/apache-flex-sdk-4.15.0-bin.zip
 - unzip -q flex_sdk.zip -d flex_sdk
 - echo env.PLAYERGLOBAL_HOME=libs/player > flex_sdk/env.properties
 - mkdir -p flex_sdk/frameworks/libs/player/11.1/
-- mkdir -p flex_sdk/frameworks/libs/player/19.0/
-- cp -f air_sdk/frameworks/libs/player/19.0/playerglobal.swc flex_sdk/frameworks/libs/player/11.1/
-- cp -f air_sdk/frameworks/libs/player/19.0/playerglobal.swc flex_sdk/frameworks/libs/player/19.0/
+- mkdir -p flex_sdk/frameworks/libs/player/21.0/
+- cp -f air_sdk/frameworks/libs/player/21.0/playerglobal.swc flex_sdk/frameworks/libs/player/11.1/
+- cp -f air_sdk/frameworks/libs/player/21.0/playerglobal.swc flex_sdk/frameworks/libs/player/21.0/
 - export FLEX_HOME="$TRAVIS_BUILD_DIR/flex_sdk"
 - mkdir -p air_sdk/frameworks/libs/player/11.1/
-- cp -f air_sdk/frameworks/libs/player/19.0/playerglobal.swc air_sdk/frameworks/libs/player/11.1/
+- cp -f air_sdk/frameworks/libs/player/21.0/playerglobal.swc air_sdk/frameworks/libs/player/11.1/
 - export AIR_HOME="$TRAVIS_BUILD_DIR/air_sdk"
 - chmod +x flex_sdk/bin/mxmlc
 - cp build.properties.sample build.properties
