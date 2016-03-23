@@ -7,19 +7,18 @@ package away3d.library.assets
 	
 	public class NamedAssetBase extends EventDispatcher
 	{
+		public static const DEFAULT_NAMESPACE:String = 'default';
+		
 		private var _originalName:String;
 		private var _namespace:String;
 		private var _name:String;
 		private var _id:String;
 		private var _full_path:Array;
 		
-		public static const DEFAULT_NAMESPACE:String = 'default';
-		
 		public function NamedAssetBase(name:String = "")
 		{
 			_name = name;
 			_originalName = name;
-			updateFullPath();
 		}
 		
 		/**
@@ -63,6 +62,7 @@ package away3d.library.assets
 		
 		public function get assetFullPath():Array
 		{
+			if(_full_path == null) _full_path = [_namespace, _name];
 			return _full_path;
 		}
 		
@@ -83,7 +83,9 @@ package away3d.library.assets
 		
 		private function updateFullPath():void
 		{
-			_full_path = [_namespace, _name];
+			var parts:Array = assetFullPath;
+			parts[0] = _namespace;
+			parts[1] = _name;
 		}
 	}
 }
