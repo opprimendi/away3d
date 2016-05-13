@@ -255,6 +255,16 @@
 		{
 			return _screenPass.getMethodAt(index);
 		}
+		
+		/**
+		 * Returns the method added at the given index.
+		 * @param index The index of the method to retrieve.
+		 * @return The method at the given index.
+		 */
+		public function getMethod(clazz:Class):EffectMethodBase
+		{
+			return _screenPass.getMethod(clazz);
+		}
 
 		/**
 		 * Adds an effect method at the specified index amongst the methods already added to the material. Effect

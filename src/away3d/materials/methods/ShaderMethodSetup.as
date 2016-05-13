@@ -284,6 +284,17 @@ package away3d.materials.methods
 			
 			return _methods[index].method;
 		}
+		
+		public function getMethod(clazz:Class):EffectMethodBase
+		{
+			for (var i:int = 0; i < numMethods; i++)
+			{
+				if (_methods[i].method is clazz)
+					return _methods[i].method;
+			}
+			
+			return null;
+		}
 
 		/**
 		 * The number of "effect" methods added to the material.

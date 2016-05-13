@@ -138,6 +138,11 @@ package away3d.materials.passes
 		{
 			return _methodSetup.getMethodAt(index);
 		}
+		
+		public function getMethod(clazz:Class):EffectMethodBase
+		{
+			return _methodSetup.getMethod(clazz);
+		}
 
 		/**
 		 * Adds an effect method at the specified index amongst the methods already added to the material. Effect
