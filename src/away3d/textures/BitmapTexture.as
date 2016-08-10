@@ -18,9 +18,8 @@
 		private var _bitmapData:BitmapData;
 		private var _generateMipmaps:Boolean;
 		
-		private var maxMipLevel:int;
 		private var currentMipLevel:int;
-		private var isMipMapsUploaded:Boolean;
+		private var isTextureUploaded:Boolean;
 		
 		public function BitmapTexture(bitmapData:BitmapData, generateMipmaps:Boolean = true)
 		{
@@ -42,21 +41,37 @@
 			if (!TextureUtils.isBitmapDataValid(value))
 				throw new Error("Invalid bitmapData: Width and height must be power of 2 and cannot exceed 2048");
 			
-			invalidateContent();
-			setSize(value.width, value.height);
 			_bitmapData = value;
+			invalidateContent();
+		}
+		
+		override public function invalidateContent():void 
+		{
+			super.invalidateContent();
+			
+			setSize(_bitmapData.width, _bitmapData.height);
+			
+			if (_generateMipmaps)
+				resetMipMapData();
+				
+			isTextureUploaded = false;
+		}
+		
+		private function resetMipMapData():void
+		{
+			var largestSide:int = Math.max(_width, _height);
+			currentMipLevel = MathUtils.log(largestSide);
 		}
 		
 		override protected function createTexture(context:Context3D):TextureBase
 		{
 			if(!_isUseStreamingUpload || !_generateMipmaps)
 				return context.createTexture(_width, _height, Context3DTextureFormat.BGRA, false);
-			var largestSide:int = Math.max(_width, _height);
-			var mipLevel:int = MathUtils.log(largestSide);
-			maxMipLevel = mipLevel;
-			currentMipLevel = maxMipLevel;
-			isMipMapsUploaded = false;
-			return context.createTexture(_width, _height, Context3DTextureFormat.BGRA, false, mipLevel);
+			
+			resetMipMapData();
+			isTextureUploaded = false;
+			
+			return context.createTexture(_width, _height, Context3DTextureFormat.BGRA, false, currentMipLevel);
 		}
 		
 		override public function getTextureForStage3D(stage3DProxy:Stage3DProxy):TextureBase 
@@ -70,12 +85,9 @@
 				texture = createTexture(context);
 				_textures[contextIndex] = texture;
 				_dirty[contextIndex] = context;
-				
-				if (!_generateMipmaps)
-					uploadContent(texture);
 			}
 			
-			if(_generateMipmaps && !isMipMapsUploaded)
+			if(!isTextureUploaded)
 				uploadContent(texture);
 				
 			return texture;
@@ -91,21 +103,25 @@
 				}
 				else
 				{
-					isMipMapsUploaded = true;
+					isTextureUploaded = true;
 					MipmapGenerator.generateMipMaps(_bitmapData, texture, true);
 				}
 			}
 			else
-				Texture(texture).uploadFromBitmapData(_bitmapData, 0);
+			{
+				isTextureUploaded = true;
+				(texture as Texture).uploadFromBitmapData(_bitmapData, 0);
+			}
 		}
 		
 		private function uploadCurrentMipLevel(texture:TextureBase):void 
 		{
 			if (currentMipLevel == -1)
 			{
-				isMipMapsUploaded = true;
+				isTextureUploaded = true;
 				return;
 			}
+			
 			MipmapGenerator.generateMipMaps(_bitmapData, texture, true, -1, currentMipLevel, 1);
 			currentMipLevel--;
 		}
