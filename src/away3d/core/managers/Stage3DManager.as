@@ -1,6 +1,8 @@
 package away3d.core.managers
 {
 	import away3d.arcane;
+	import away3d.tools.utils.Context3DProfiles;
+	import flash.display3D.Context3DProfile;
 	
 	import flash.display.Stage;
 	import flash.utils.Dictionary;
@@ -46,6 +48,16 @@ package away3d.core.managers
 			return (_instances ||= new Dictionary())[stage] ||= new Stage3DManager(stage, new Stage3DManagerSingletonEnforcer());
 		}
 		
+		public function getStage3DProxyMatcingProfiles(index:uint, forceSoftware:Boolean = false, profiles:Vector.<String> = null):Stage3DProxy
+		{
+			if (!_stageProxies[index]) {
+				_numStageProxies++;
+				_stageProxies[index] = new Stage3DProxy(index, _stage.stage3Ds[index], this, forceSoftware, profiles);
+			}
+			
+			return _stageProxies[index];
+		}
+		
 		/**
 		 * Requests the Stage3DProxy for the given index.
 		 * @param index The index of the requested Stage3D.
@@ -53,14 +65,9 @@ package away3d.core.managers
 		 * @param profile The compatibility profile, an enumeration of Context3DProfile
 		 * @return The Stage3DProxy for the given index.
 		 */
-		public function getStage3DProxy(index:uint, forceSoftware:Boolean = false, profile:String = "baseline"):Stage3DProxy
+		public function getStage3DProxy(index:uint, forceSoftware:Boolean = false, profile:String = Context3DProfile.BASELINE):Stage3DProxy
 		{
-			if (!_stageProxies[index]) {
-				_numStageProxies++;
-				_stageProxies[index] = new Stage3DProxy(index, _stage.stage3Ds[index], this, forceSoftware, profile);
-			}
-			
-			return _stageProxies[index];
+			return getStage3DProxyMatcingProfiles(index, forceSoftware, new <String>[profile]);
 		}
 		
 		/**
@@ -74,20 +81,14 @@ package away3d.core.managers
 			_stageProxies[stage3DProxy.stage3DIndex] = null;
 		}
 		
-		/**
-		 * Get the next available stage3DProxy. An error is thrown if there are no Stage3DProxies available
-		 * @param forceSoftware Whether to force software mode even if hardware acceleration is available.
-		 * @param profile The compatibility profile, an enumeration of Context3DProfile
-		 * @return The allocated stage3DProxy
-		 */
-		public function getFreeStage3DProxy(forceSoftware:Boolean = false, profile:String = "baseline"):Stage3DProxy
+		public function getFreeStage3DProxyMatcingProfiles(forceSoftware:Boolean = false, profiles:Vector.<String> = null):Stage3DProxy
 		{
 			var i:int;
 			var len:int = _stageProxies.length;
 			
 			while (i < len) {
 				if (!_stageProxies[i]) {
-					getStage3DProxy(i, forceSoftware, profile);
+					getStage3DProxyMatcingProfiles(i, forceSoftware, profiles);
 					_stageProxies[i].width = _stage.stageWidth;
 					_stageProxies[i].height = _stage.stageHeight;
 					return _stageProxies[i];
@@ -97,6 +98,17 @@ package away3d.core.managers
 			
 			throw new Error("Too many Stage3D instances used!");
 			return null;
+		}
+		
+		/**
+		 * Get the next available stage3DProxy. An error is thrown if there are no Stage3DProxies available
+		 * @param forceSoftware Whether to force software mode even if hardware acceleration is available.
+		 * @param profile The compatibility profile, an enumeration of Context3DProfile
+		 * @return The allocated stage3DProxy
+		 */
+		public function getFreeStage3DProxy(forceSoftware:Boolean = false, profile:String = Context3DProfile.BASELINE):Stage3DProxy
+		{
+			return getFreeStage3DProxyMatcingProfiles(forceSoftware, new <String>[profile]);
 		}
 		
 		/**
