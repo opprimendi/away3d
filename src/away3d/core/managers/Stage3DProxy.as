@@ -3,11 +3,11 @@ package away3d.core.managers
 	import away3d.arcane;
 	import away3d.debug.Debug;
 	import away3d.events.Stage3DEvent;
+	import away3d.tools.utils.Context3DProfiles;
 	import flash.display.Shape;
 	import flash.display.Stage3D;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DClearMask;
-	import flash.display3D.Context3DProfile;
 	import flash.display3D.Context3DRenderMode;
 	import flash.display3D.Program3D;
 	import flash.display3D.textures.TextureBase;
@@ -106,7 +106,7 @@ package away3d.core.managers
 		 * @param stage3DManager
 		 * @param forceSoftware Whether to force software mode even if hardware acceleration is available.
 		 */
-		public function Stage3DProxy(stage3DIndex:int, stage3D:Stage3D, stage3DManager:Stage3DManager, forceSoftware:Boolean = false, profile:String = "baseline")
+		public function Stage3DProxy(stage3DIndex:int, stage3D:Stage3D, stage3DManager:Stage3DManager, forceSoftware:Boolean = false, profiles:Vector.<String> = null)
 		{
 			_stage3DIndex = stage3DIndex;
 			_stage3D = stage3D;
@@ -119,7 +119,7 @@ package away3d.core.managers
 
 			// whatever happens, be sure this has highest priority
 			_stage3D.addEventListener(Event.CONTEXT3D_CREATE, onContext3DUpdate, false, 1000, false);
-			requestContext(forceSoftware, profile);
+			requestContext(forceSoftware, profiles);
 		}
 		
 		public function get profile():String
@@ -540,7 +540,7 @@ package away3d.core.managers
 		/**
 		 * Requests a Context3D object to attach to the managed Stage3D.
 		 */
-		private function requestContext(forceSoftware:Boolean = false, profile:String = "baseline"):void
+		private function requestContext(forceSoftware:Boolean = false, profiles:Vector.<String> = null):void
 		{
 			// If forcing software, we can be certain that the
 			// returned Context3D will be running software mode.
@@ -549,16 +549,27 @@ package away3d.core.managers
 			_usesSoftwareRendering ||= forceSoftware;
 			_profile = profile;
 			
+			var hasRequestMatcingProfiles:Boolean = _stage3D.hasOwnProperty("requestContext3DMatchingProfiles");
+			
+			var numberOfArguments:int = _stage3D.requestContext3D.length;
+			
+			if (profiles == null)
+				profiles = new <String>[Context3DProfiles.BASELINE.value];
+			
 			// ugly stuff for backward compatibility
 			var renderMode:String = forceSoftware? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
-			if (profile == Context3DProfile.BASELINE)
-				_stage3D.requestContext3D(renderMode);
-			else {
-				try {
-					_stage3D["requestContext3D"](renderMode, profile);
-				} catch (error:Error) {
-					throw "An error occurred creating a context using the given profile. Profiles are not supported for the SDK this was compiled with.";
-				}
+			
+			if (hasRequestMatcingProfiles)
+			{
+				_stage3D["requestContext3DMatchingProfiles"](profiles);
+			}
+			else if (numberOfArguments > 1)
+			{
+				_stage3D["requestContext3D"](profiles[0], renderMode);
+			}
+			else
+			{
+				_stage3D.requestContext3D(profiles[0]);
 			}
 			
 			_contextRequested = true;

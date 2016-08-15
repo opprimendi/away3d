@@ -1,6 +1,5 @@
 package away3d.tools.utils 
 {
-	import flash.display3D.Context3DProfile;
 	import flash.system.Capabilities;
 	
 	public class Context3DProfiles 
