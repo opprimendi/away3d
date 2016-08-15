@@ -1,32 +1,16 @@
 package away3d.audio
 {
 	import away3d.containers.ObjectContainer3D;
-	
-	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
-	import flash.media.SoundTransform;
 	
 	/**
 	 * SoundTransform3D is a convinience class that helps adjust a Soundtransform's volume and pan according
 	 * position and distance of a listener and emitter object. See SimplePanVolumeDriver for the limitations
 	 * of this method.
 	 */
-	public class SoundTransform3D
+	public class SoundTransform3D extends AbstractSoundTransform3D implements ISoundTransform3D
 	{
-		
-		private var _scale:Number;
-		private var _volume:Number;
-		private var _soundTransform:SoundTransform;
-		
-		private var _emitter:ObjectContainer3D;
-		private var _listener:ObjectContainer3D;
-		
-		private var _refv:Vector3D;
-		private var _inv_ref_mtx:Matrix3D;
-		private var _r:Number;
-		private var _r2:Number;
-		private var _azimuth:Number;
-		
+
 		/**
 		 * Creates a new SoundTransform3D.
 		 * @param emitter the ObjectContainer3D from which the sound originates.
@@ -37,46 +21,10 @@ package away3d.audio
 		 */
 		public function SoundTransform3D(emitter:ObjectContainer3D = null, listener:ObjectContainer3D = null, volume:Number = 1, scale:Number = 1000)
 		{
-			
-			_emitter = emitter;
-			_listener = listener;
-			_volume = volume;
-			_scale = scale;
-			
-			_inv_ref_mtx = new Matrix3D();
-			_refv = new Vector3D();
-			_soundTransform = new SoundTransform(volume);
-			
-			_r = 0;
-			_r2 = 0;
-			_azimuth = 0;
-		
+			super(emitter, listener, volume, scale);
 		}
 		
-		/**
-		 * updates the SoundTransform based on the emitter and listener.
-		 */
-		public function update():void
-		{
-			
-			if (_emitter && _listener) {
-				_inv_ref_mtx.rawData = _listener.sceneTransform.rawData;
-				_inv_ref_mtx.invert();
-				_refv = _inv_ref_mtx.deltaTransformVector(_listener.position);
-				_refv = _emitter.scenePosition.subtract(_refv);
-			}
-			
-			updateFromVector3D(_refv);
-		}
-		
-		/**
-		 * udpates the SoundTransform based on the vector representing the distance and
-		 * angle between the emitter and listener.
-		 *
-		 * @param v Vector3D
-		 *
-		 */
-		public function updateFromVector3D(v:Vector3D):void
+		override public function updateFromVector3D(v:Vector3D):void
 		{
 			
 			_azimuth = Math.atan2(v.x, v.z);
@@ -109,61 +57,5 @@ package away3d.audio
 		
 		}
 		
-		public function get soundTransform():SoundTransform
-		{
-			
-			return _soundTransform;
-		}
-		
-		public function set soundTransform(value:SoundTransform):void
-		{
-			_soundTransform = value;
-			update();
-		}
-		
-		public function get scale():Number
-		{
-			return _scale;
-		}
-		
-		public function set scale(value:Number):void
-		{
-			_scale = value;
-			update();
-		}
-		
-		public function get volume():Number
-		{
-			return _volume;
-		}
-		
-		public function set volume(value:Number):void
-		{
-			_volume = value;
-			update();
-		}
-		
-		public function get emitter():ObjectContainer3D
-		{
-			return _emitter;
-		}
-		
-		public function set emitter(value:ObjectContainer3D):void
-		{
-			_emitter = value;
-			update();
-		}
-		
-		public function get listener():ObjectContainer3D
-		{
-			return _listener;
-		}
-		
-		public function set listener(value:ObjectContainer3D):void
-		{
-			_listener = value;
-			update();
-		}
-	
 	}
 }

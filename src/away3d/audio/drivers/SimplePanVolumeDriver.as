@@ -1,5 +1,6 @@
 package away3d.audio.drivers
 {
+	import away3d.audio.ISoundTransform3D;
 	import away3d.audio.SoundTransform3D;
 	import flash.events.Event;
 	import flash.geom.*;
@@ -15,7 +16,7 @@ package away3d.audio.drivers
 	{
 		private var _sound_chan:SoundChannel;
 		private var _pause_position:Number;
-		private var _st3D:SoundTransform3D;
+		private var _st3D:ISoundTransform3D;
 		
 		public function SimplePanVolumeDriver()
 		{
