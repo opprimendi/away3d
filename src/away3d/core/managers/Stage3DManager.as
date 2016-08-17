@@ -1,8 +1,8 @@
 package away3d.core.managers
 {
 	import away3d.arcane;
+	import away3d.tools.utils.Context3DProfile;
 	import away3d.tools.utils.Context3DProfiles;
-	import flash.display3D.Context3DProfile;
 	
 	import flash.display.Stage;
 	import flash.utils.Dictionary;
