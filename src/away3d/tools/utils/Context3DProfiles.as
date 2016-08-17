@@ -73,7 +73,7 @@ package away3d.tools.utils
 				return 0;
 		}
 		
-		static private function getVersion():Number 
+		static public function getVersion():Number 
 		{
 			if (playerVersion == -1)
 			{

@@ -3,6 +3,7 @@ package away3d.core.managers
 	import away3d.arcane;
 	import away3d.debug.Debug;
 	import away3d.events.Stage3DEvent;
+	import away3d.tools.utils.Context3DProfile;
 	import away3d.tools.utils.Context3DProfiles;
 	import flash.display.Shape;
 	import flash.display.Stage3D;
@@ -511,11 +512,17 @@ package away3d.core.managers
 		 */
 		private function onContext3DUpdate(event:Event):void
 		{
-			if (_stage3D.context3D) {
+			if (_stage3D.context3D) 
+			{
 				var hadContext:Boolean = (_context3D != null);
 				_context3D = _stage3D.context3D;
 				_context3D.enableErrorChecking = Debug.active;
 				
+				if(Context3DProfiles.BASELINE.isAvalible())
+					_profile = _context3D.profile;
+				else
+					_profile = Context3DProfile.BASELINE;
+					
 				_usesSoftwareRendering = (_context3D.driverInfo.indexOf('Software') == 0);
 
 				// Only configure back buffer if width and height have been set,
@@ -547,29 +554,31 @@ package away3d.core.managers
 			// If not, we can't be sure and should stick to the
 			// old value (will likely be same if re-requesting.)
 			_usesSoftwareRendering ||= forceSoftware;
-			_profile = profile;
 			
 			var hasRequestMatcingProfiles:Boolean = _stage3D.hasOwnProperty("requestContext3DMatchingProfiles");
 			
 			var numberOfArguments:int = _stage3D.requestContext3D.length;
 			
 			if (profiles == null)
-				profiles = new <String>[Context3DProfiles.BASELINE.value];
+				profiles = new <String>[Context3DProfile.BASELINE];
 			
 			// ugly stuff for backward compatibility
 			var renderMode:String = forceSoftware? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
 			
 			if (hasRequestMatcingProfiles)
 			{
+				//automatic detect best profile is supported
 				_stage3D["requestContext3DMatchingProfiles"](profiles);
 			}
 			else if (numberOfArguments > 1)
 			{
-				_stage3D["requestContext3D"](profiles[0], renderMode);
+				//multiple profiles supported
+				_stage3D["requestContext3D"](renderMode, profiles[0]);
 			}
 			else
 			{
-				_stage3D.requestContext3D(profiles[0]);
+				//old player version like 11.0 only one profile supported
+				_stage3D.requestContext3D(renderMode);
 			}
 			
 			_contextRequested = true;

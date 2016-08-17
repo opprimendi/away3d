@@ -7,7 +7,7 @@ package away3d.materials.compilation
 	import away3d.materials.methods.MethodVOSet;
 	import away3d.materials.methods.ShaderMethodSetup;
 	import away3d.materials.methods.ShadingMethodBase;
-	import flash.display3D.Context3DProfile;
+	import away3d.tools.utils.Context3DProfile;
 
 	/**
 	 * ShaderCompiler is an abstract base class for shader compilers that use modular shader methods to assemble a
