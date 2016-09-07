@@ -3,6 +3,7 @@ package away3d.materials.passes
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.base.IRenderable;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.lights.DirectionalLight;
 	import away3d.lights.LightProbe;
@@ -403,7 +404,8 @@ package away3d.materials.passes
 		 */
 		override protected function updateProbes(stage3DProxy:Stage3DProxy):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			
 			var probe:LightProbe;
 			var lightProbes:Vector.<LightProbe> = _lightPicker.lightProbes;
 			var weights:Vector.<Number> = _lightPicker.lightProbeWeights;
@@ -421,9 +423,9 @@ package away3d.materials.passes
 				probe = lightProbes[_lightProbesOffset + i];
 				
 				if (addDiff)
-					context.setTextureAt(_lightProbeDiffuseIndices[i], probe.diffuseMap.getTextureForStage3D(stage3DProxy));
+					context3DProxy.setTextureAt(_lightProbeDiffuseIndices[i], probe.diffuseMap.getTextureForStage3D(stage3DProxy));
 				if (addSpec)
-					context.setTextureAt(_lightProbeSpecularIndices[i], probe.specularMap.getTextureForStage3D(stage3DProxy));
+					context3DProxy.setTextureAt(_lightProbeSpecularIndices[i], probe.specularMap.getTextureForStage3D(stage3DProxy));
 			}
 			
 			for (i = 0; i < len; ++i)

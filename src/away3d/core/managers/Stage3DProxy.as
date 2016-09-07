@@ -1,6 +1,7 @@
 package away3d.core.managers
 {
 	import away3d.arcane;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.debug.Debug;
 	import away3d.events.Stage3DEvent;
 	import away3d.tools.utils.Context3DProfile;
@@ -40,6 +41,7 @@ package away3d.core.managers
 		private static var _frameEventDriver:Shape = new Shape();
 
 		arcane var _context3D:Context3D;
+		arcane var _context3DProxy:Context3DProxy = new Context3DProxy();
 		arcane var _stage3DIndex:int = -1;
 		
 		private var _usesSoftwareRendering:Boolean;
@@ -218,7 +220,7 @@ package away3d.core.managers
 				_backBufferDirty = false;
 			}
 			
-			_context3D.clear(
+			_context3DProxy.clear(
 				((_color >> 16) & 0xff)/255.0,
 				((_color >> 8) & 0xff)/255.0,
 				(_color & 0xff)/255.0,
@@ -286,7 +288,17 @@ package away3d.core.managers
 		public function set scissorRect(value:Rectangle):void
 		{
 			_scissorRect = value;
-			_context3D.setScissorRectangle(_scissorRect);
+			
+			if (value == null)
+				_context3DProxy.clearScissorRectangle();
+			else
+				_context3DProxy.setScissorRectangle(_scissorRect);
+		}
+		
+		public function clearScissorRectangle():void
+		{
+			_scissorRect = null;
+			_context3DProxy.clearScissorRectangle();
 		}
 		
 		/**
@@ -518,6 +530,8 @@ package away3d.core.managers
 				_context3D = _stage3D.context3D;
 				_context3D.enableErrorChecking = Debug.active;
 				
+				_context3DProxy.setContext3D(_context3D);
+				
 				if(Context3DProfiles.BASELINE.isAvalible())
 					_profile = _context3D.profile;
 				else
@@ -623,7 +637,8 @@ package away3d.core.managers
 		{
 			if (!_context3D)
 				return;
-			_context3D.clear(0, 0, 0, 1, 1, 0, Context3DClearMask.DEPTH);
+				
+			_context3DProxy.clearDepthBuffer(1);
 		}
 
 		public function get backBufferEnableDepthAndStencil():Boolean {

@@ -47,9 +47,9 @@
 			bmp.dispose();
 		}
 		
-		override protected function createTexture(context:Context3D):TextureBase
+		override protected function createTexture(context3D:Context3D):TextureBase
 		{
-			return context.createTexture(width, height, Context3DTextureFormat.BGRA, true);
+			return context3D.createTexture(width, height, Context3DTextureFormat.BGRA, true);
 		}
 	}
 }

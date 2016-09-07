@@ -23,9 +23,9 @@ package away3d.textures
 			return _size;
 		}
 		
-		override protected function createTexture(context:Context3D):TextureBase
+		override protected function createTexture(context3D:Context3D):TextureBase
 		{
-			return context.createCubeTexture(_width, Context3DTextureFormat.BGRA, false);
+			return context3D.createCubeTexture(_width, Context3DTextureFormat.BGRA, false);
 		}
 	}
 }

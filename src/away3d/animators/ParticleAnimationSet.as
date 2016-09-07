@@ -1,5 +1,6 @@
 package away3d.animators
 {
+	import away3d.core.context3DProxy.Context3DProxy;
 	import flash.display3D.*;
 	import flash.utils.*;
 	
@@ -132,11 +133,11 @@ package away3d.animators
 		{
 			if (_animationRegisterCache)
 			{
-				var context:Context3D = stage3DProxy.context3D;
+				var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 				var offset:int = _animationRegisterCache.vertexAttributesOffset;
 				var used:int = _animationRegisterCache.numUsedStreams;
 				for (var i:int = offset; i < used; i++)
-					context.setVertexBufferAt(i, null);
+					context3DProxy.clearVertexBufferAt(i);
 			}
 		}
 		

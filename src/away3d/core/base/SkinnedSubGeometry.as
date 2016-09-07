@@ -1,6 +1,7 @@
 package away3d.core.base
 {
 	import away3d.arcane;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	
 	import flash.display3D.Context3D;
@@ -81,17 +82,21 @@ package away3d.core.base
 		public function activateJointWeightsBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
-			if (_jointWeightContext[contextIndex] != context || !_jointWeightsBuffer[contextIndex]) {
-				_jointWeightsBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _jointsPerVertex);
-				_jointWeightContext[contextIndex] = context;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			var context3D:Context3D = stage3DProxy._context3D;
+			
+			if (_jointWeightContext[contextIndex] != context3D || !_jointWeightsBuffer[contextIndex]) {
+				_jointWeightsBuffer[contextIndex] = context3D.createVertexBuffer(_numVertices, _jointsPerVertex);
+				_jointWeightContext[contextIndex] = context3D;
 				_jointWeightsInvalid[contextIndex] = true;
 			}
+			
 			if (_jointWeightsInvalid[contextIndex]) {
 				_jointWeightsBuffer[contextIndex].uploadFromVector(_jointWeightsData, 0, _jointWeightsData.length/_jointsPerVertex);
 				_jointWeightsInvalid[contextIndex] = false;
 			}
-			context.setVertexBufferAt(index, _jointWeightsBuffer[contextIndex], 0, _bufferFormat);
+			
+			context3DProxy.setVertexBufferAt(index, _jointWeightsBuffer[contextIndex], 0, _bufferFormat);
 		}
 		
 		/**
@@ -102,18 +107,21 @@ package away3d.core.base
 		public function activateJointIndexBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			var context3D:Context3D = stage3DProxy._context3D;
 			
-			if (_jointIndexContext[contextIndex] != context || !_jointIndexBuffer[contextIndex]) {
-				_jointIndexBuffer[contextIndex] = context.createVertexBuffer(_numVertices, _jointsPerVertex);
-				_jointIndexContext[contextIndex] = context;
+			if (_jointIndexContext[contextIndex] != context3D || !_jointIndexBuffer[contextIndex]) {
+				_jointIndexBuffer[contextIndex] = context3D.createVertexBuffer(_numVertices, _jointsPerVertex);
+				_jointIndexContext[contextIndex] = context3D;
 				_jointIndicesInvalid[contextIndex] = true;
 			}
+			
 			if (_jointIndicesInvalid[contextIndex]) {
 				_jointIndexBuffer[contextIndex].uploadFromVector(_numCondensedJoints > 0? _condensedJointIndexData : _jointIndexData, 0, _jointIndexData.length/_jointsPerVertex);
 				_jointIndicesInvalid[contextIndex] = false;
 			}
-			context.setVertexBufferAt(index, _jointIndexBuffer[contextIndex], 0, _bufferFormat);
+			
+			context3DProxy.setVertexBufferAt(index, _jointIndexBuffer[contextIndex], 0, _bufferFormat);
 		}
 		
 		override protected function uploadData(contextIndex:int):void

@@ -3,6 +3,7 @@ package away3d.materials.passes
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.base.IRenderable;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.lights.LightBase;
 	
@@ -150,7 +151,9 @@ package away3d.materials.passes
 		{
 			var matrix:Matrix3D;
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			var context3D:Context3D = stage3DProxy._context3D;
+			
 			var len:uint;
 			var light:LightBase;
 			var lights:Vector.<LightBase> = _lightPicker.allPickedLights;
@@ -167,15 +170,15 @@ package away3d.materials.passes
 			matrix = light.getObjectProjectionMatrix(renderable, _projections[renderable]);
 			
 			// todo: use texture proxy?
-			var target:Texture = _textures[contextIndex][renderable] ||= context.createTexture(_textureSize, _textureSize, Context3DTextureFormat.BGRA, true);
+			var target:Texture = _textures[contextIndex][renderable] ||= context3D.createTexture(_textureSize, _textureSize, Context3DTextureFormat.BGRA, true);
 			
 			stage3DProxy.setRenderTarget(target, true);
-			context.clear(1.0, 1.0, 1.0);
-			context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
-			context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _enc, 2);
+			context3DProxy.clear(1.0, 1.0, 1.0);
+			context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
+			context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _enc, 2);
 			renderable.activateVertexBuffer(0, stage3DProxy);
 			renderable.activateVertexNormalBuffer(1, stage3DProxy);
-			context.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+			context3D.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
 		}
 		
 		/**

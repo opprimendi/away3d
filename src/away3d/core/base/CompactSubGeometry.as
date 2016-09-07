@@ -1,5 +1,6 @@
 package away3d.core.base
 {
+	import away3d.core.context3DProxy.Context3DProxy;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DVertexBufferFormat;
 	import flash.display3D.VertexBuffer3D;
@@ -19,7 +20,7 @@ package away3d.core.base
 		protected var _numVertices:uint;
 		protected var _contextIndex:int;
 		protected var _activeBuffer:VertexBuffer3D;
-		protected var _activeContext:Context3D;
+		protected var _activeContext3D:Context3D;
 		protected var _activeDataInvalid:Boolean;
 		private var _isolatedVertexPositionData:Vector.<Number>;
 		private var _isolatedVertexPositionDataDirty:Boolean;
@@ -71,23 +72,25 @@ package away3d.core.base
 		public function activateVertexBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			var context3D:Context3D = stage3DProxy._context3D;
 			
 			if (contextIndex != _contextIndex)
 				updateActiveBuffer(contextIndex);
 			
-			if (!_activeBuffer || _activeContext != context)
-				createBuffer(contextIndex, context);
+			if (!_activeBuffer || _activeContext3D != context3D)
+				createBuffer(contextIndex, context3D);
 			if (_activeDataInvalid)
 				uploadData(contextIndex);
 			
-			context.setVertexBufferAt(index, _activeBuffer, 0, Context3DVertexBufferFormat.FLOAT_3);
+			context3DProxy.setVertexBufferAt(index, _activeBuffer, 0, Context3DVertexBufferFormat.FLOAT_3);
 		}
 		
 		public function activateUVBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			var context3D:Context3D = stage3DProxy._context3D;
 			
 			if (_uvsDirty && _autoGenerateUVs) {
 				_vertexData = updateDummyUVs(_vertexData);
@@ -97,28 +100,29 @@ package away3d.core.base
 			if (contextIndex != _contextIndex)
 				updateActiveBuffer(contextIndex);
 			
-			if (!_activeBuffer || _activeContext != context)
-				createBuffer(contextIndex, context);
+			if (!_activeBuffer || _activeContext3D != context3D)
+				createBuffer(contextIndex, context3D);
 			if (_activeDataInvalid)
 				uploadData(contextIndex);
 			
-			context.setVertexBufferAt(index, _activeBuffer, 9, Context3DVertexBufferFormat.FLOAT_2);
+			context3DProxy.setVertexBufferAt(index, _activeBuffer, 9, Context3DVertexBufferFormat.FLOAT_2);
 		}
 		
 		public function activateSecondaryUVBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			var context3D:Context3D = stage3DProxy._context3D;
 			
 			if (contextIndex != _contextIndex)
 				updateActiveBuffer(contextIndex);
 			
-			if (!_activeBuffer || _activeContext != context)
-				createBuffer(contextIndex, context);
+			if (!_activeBuffer || _activeContext3D != context3D)
+				createBuffer(contextIndex, context3D);
 			if (_activeDataInvalid)
 				uploadData(contextIndex);
 			
-			context.setVertexBufferAt(index, _activeBuffer, 11, Context3DVertexBufferFormat.FLOAT_2);
+			context3DProxy.setVertexBufferAt(index, _activeBuffer, 11, Context3DVertexBufferFormat.FLOAT_2);
 		}
 		
 		protected function uploadData(contextIndex:int):void
@@ -130,39 +134,41 @@ package away3d.core.base
 		public function activateVertexNormalBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			var context3D:Context3D = stage3DProxy._context3D;
 			
 			if (contextIndex != _contextIndex)
 				updateActiveBuffer(contextIndex);
 			
-			if (!_activeBuffer || _activeContext != context)
-				createBuffer(contextIndex, context);
+			if (!_activeBuffer || _activeContext3D != context3D)
+				createBuffer(contextIndex, context3D);
 			if (_activeDataInvalid)
 				uploadData(contextIndex);
 			
-			context.setVertexBufferAt(index, _activeBuffer, 3, Context3DVertexBufferFormat.FLOAT_3);
+			context3DProxy.setVertexBufferAt(index, _activeBuffer, 3, Context3DVertexBufferFormat.FLOAT_3);
 		}
 		
 		public function activateVertexTangentBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			var context3D:Context3D = stage3DProxy._context3D;
 			
 			if (contextIndex != _contextIndex)
 				updateActiveBuffer(contextIndex);
 			
-			if (!_activeBuffer || _activeContext != context)
-				createBuffer(contextIndex, context);
+			if (!_activeBuffer || _activeContext3D != context3D)
+				createBuffer(contextIndex, context3D);
 			if (_activeDataInvalid)
 				uploadData(contextIndex);
 			
-			context.setVertexBufferAt(index, _activeBuffer, 6, Context3DVertexBufferFormat.FLOAT_3);
+			context3DProxy.setVertexBufferAt(index, _activeBuffer, 6, Context3DVertexBufferFormat.FLOAT_3);
 		}
 		
-		protected function createBuffer(contextIndex:int, context:Context3D):void
+		protected function createBuffer(contextIndex:int, context3D:Context3D):void
 		{
-			_vertexBuffer[contextIndex] = _activeBuffer = context.createVertexBuffer(_numVertices, 13);
-			_bufferContext[contextIndex] = _activeContext = context;
+			_vertexBuffer[contextIndex] = _activeBuffer = context3D.createVertexBuffer(_numVertices, 13);
+			_bufferContext[contextIndex] = _activeContext3D = context3D;
 			_vertexDataInvalid[contextIndex] = _activeDataInvalid = true;
 		}
 		
@@ -171,7 +177,7 @@ package away3d.core.base
 			_contextIndex = contextIndex;
 			_activeDataInvalid = _vertexDataInvalid[contextIndex];
 			_activeBuffer = _vertexBuffer[contextIndex];
-			_activeContext = _bufferContext[contextIndex];
+			_activeContext3D = _bufferContext[contextIndex];
 		}
 		
 		override public function get vertexData():Vector.<Number>

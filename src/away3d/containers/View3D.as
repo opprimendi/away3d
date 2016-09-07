@@ -800,14 +800,14 @@
 			_depthRenderer.render(entityCollector, _depthRender);
 		}
 		
-		private function initDepthTexture(context:Context3D):void
+		private function initDepthTexture(context3D:Context3D):void
 		{
 			_depthTextureInvalid = false;
 			
 			if (_depthRender)
 				_depthRender.dispose();
 			
-			_depthRender = context.createTexture(_rttBufferManager.textureWidth, _rttBufferManager.textureHeight, Context3DTextureFormat.BGRA, true);
+			_depthRender = context3D.createTexture(_rttBufferManager.textureWidth, _rttBufferManager.textureHeight, Context3DTextureFormat.BGRA, true);
 		}
 		
 		/**

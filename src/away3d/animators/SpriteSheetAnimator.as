@@ -133,7 +133,7 @@ package away3d.animators
 			}
 			
 			//vc[vertexConstantOffset]
-			stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _vectorFrame);
+			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _vectorFrame);
 		}
 		
 		/**

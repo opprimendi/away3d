@@ -1,6 +1,7 @@
 package away3d.animators
 {
 	import away3d.arcane;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.passes.MaterialPassBase;
 	
@@ -93,9 +94,9 @@ package away3d.animators
 		public function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):void
 		{
 			var streamOffset:uint = pass.numUsedStreams;
-			var context:Context3D = stage3DProxy._context3D;
-			context.setVertexBufferAt(streamOffset, null);
-			context.setVertexBufferAt(streamOffset + 1, null);
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			context3DProxy.clearVertexBufferAt(streamOffset);
+			context3DProxy.clearVertexBufferAt(streamOffset + 1);
 		}
 		
 		/**

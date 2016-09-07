@@ -67,13 +67,13 @@ package away3d.textures
 		{
 			var contextIndex:int = stage3DProxy.arcane::_stage3DIndex;
 			var texture:TextureBase = _textures[contextIndex];
-			var context:Context3D = stage3DProxy.arcane::_context3D;
+			var context3D:Context3D = stage3DProxy.arcane::_context3D;
 			
-			if (!texture || _dirty[contextIndex] != context) 
+			if (!texture || _dirty[contextIndex] != context3D) 
 			{
-				texture = createTexture(context);
+				texture = createTexture(context3D);
 				_textures[contextIndex] = texture;
-				_dirty[contextIndex] = context;
+				_dirty[contextIndex] = context3D;
 				uploadContent(texture);
 			}
 			

@@ -592,13 +592,17 @@ package away3d.materials.passes
 		arcane override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
 			var i:uint;
-			var context:Context3D = stage3DProxy._context3D;
+			var context3D:Context3D = stage3DProxy._context3D;
+			
 			if (_uvBufferIndex >= 0)
 				renderable.activateUVBuffer(_uvBufferIndex, stage3DProxy);
+				
 			if (_secondaryUVBufferIndex >= 0)
 				renderable.activateSecondaryUVBuffer(_secondaryUVBufferIndex, stage3DProxy);
+				
 			if (_normalBufferIndex >= 0)
 				renderable.activateVertexNormalBuffer(_normalBufferIndex, stage3DProxy);
+				
 			if (_tangentBufferIndex >= 0)
 				renderable.activateVertexTangentBuffer(_tangentBufferIndex, stage3DProxy);
 			
@@ -666,11 +670,11 @@ package away3d.materials.passes
 				set.method.setRenderState(set.data, renderable, stage3DProxy, camera);
 			}
 			
-			context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 0, _vertexConstantData, _numUsedVertexConstants);
-			context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _fragmentConstantData, _numUsedFragmentConstants);
+			context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 0, _vertexConstantData, _numUsedVertexConstants);
+			context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _fragmentConstantData, _numUsedFragmentConstants);
 			
 			renderable.activateVertexBuffer(0, stage3DProxy);
-			context.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+			context3D.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
 		}
 
 		/**

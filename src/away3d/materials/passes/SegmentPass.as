@@ -3,6 +3,7 @@
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.base.IRenderable;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.RTTBufferManager;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.entities.SegmentSet;
@@ -120,7 +121,7 @@
 		 */
 		arcane override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context3D:Context3D = stage3DProxy._context3D;
 			_calcMatrix.copyFrom(renderable.sourceEntity.sceneTransform);
 			_calcMatrix.append(camera.inverseSceneTransform);
 			
@@ -129,8 +130,8 @@
 			if (SegmentSet(renderable).hasData) {
 				for (var i:uint = 0; i < subSetCount; ++i) {
 					renderable.activateVertexBuffer(i, stage3DProxy);
-					context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 8, _calcMatrix, true);
-					context.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+					context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 8, _calcMatrix, true);
+					context3D.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
 				}
 			}
 		}
@@ -140,7 +141,7 @@
 		 */
 		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context3D:Context3D = stage3DProxy._context3D;
 			super.activate(stage3DProxy, camera);
 			
 			if (stage3DProxy.scissorRect)
@@ -151,20 +152,20 @@
 			// value to convert distance from camera to model length per pixel width
 			_constants[2] = camera.lens.near;
 			
-			context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 5, ONE_VECTOR);
-			context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 6, FRONT_VECTOR);
-			context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 7, _constants);
+			context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 5, ONE_VECTOR);
+			context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 6, FRONT_VECTOR);
+			context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 7, _constants);
 			
 			// projection matrix
 			if (!stage3DProxy.renderTarget)
-				context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, camera.lens.matrix, true);
+				context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, camera.lens.matrix, true);
 			else
 			{
 				//TODO: to find a better way
 				_calcMatrix.copyFrom(camera.lens.matrix);
 				var rttBufferManager:RTTBufferManager = RTTBufferManager.getInstance(stage3DProxy);
 				_calcMatrix.appendScale(rttBufferManager.textureRatioX, rttBufferManager.textureRatioY, 1);
-				context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, _calcMatrix, true);
+				context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, _calcMatrix, true);
 			}
 		}
 		
@@ -173,11 +174,12 @@
 		 */
 		arcane override function deactivate(stage3DProxy:Stage3DProxy):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
-			context.setVertexBufferAt(0, null);
-			context.setVertexBufferAt(1, null);
-			context.setVertexBufferAt(2, null);
-			context.setVertexBufferAt(3, null);
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			
+			context3DProxy.clearVertexBufferAt(0);
+			context3DProxy.clearVertexBufferAt(1);
+			context3DProxy.clearVertexBufferAt(2);
+			context3DProxy.clearVertexBufferAt(3);
 		}
 	}
 }

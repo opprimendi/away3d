@@ -7,6 +7,7 @@ package away3d.materials.passes
 	import away3d.core.base.ISubGeometry;
 	import away3d.core.base.SubGeometry;
 	import away3d.core.base.SubMesh;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.core.math.Matrix3DUtils;
 	import away3d.entities.Mesh;
@@ -172,15 +173,17 @@ package away3d.materials.passes
 		 */
 		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
 			super.activate(stage3DProxy, camera);
+			
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			
 			// do not write depth if not drawing inner lines (will cause the overdraw to hide inner lines)
 			if (!_showInnerLines)
-				context.setDepthTest(false, Context3DCompareMode.LESS);
-			context.setCulling(_defaultCulling);
-			context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _colorData, 1);
-			context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 5, _offsetData, 1);
+				context3DProxy.setDepthTest(false, Context3DCompareMode.LESS);
+				
+			context3DProxy.setCulling(_defaultCulling);
+			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _colorData, 1);
+			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 5, _offsetData, 1);
 		}
 
 		/**
@@ -190,7 +193,7 @@ package away3d.materials.passes
 		{
 			super.deactivate(stage3DProxy);
 			if (!_showInnerLines)
-				stage3DProxy._context3D.setDepthTest(true, Context3DCompareMode.LESS);
+				stage3DProxy._context3DProxy.setDepthTest(true, Context3DCompareMode.LESS);
 		}
 
 		/**
@@ -200,7 +203,7 @@ package away3d.materials.passes
 		{
 			var mesh:Mesh, dedicatedRenderable:IRenderable;
 			
-			var context:Context3D = stage3DProxy._context3D;
+			var context3D:Context3D = stage3DProxy._context3D;
 			var matrix3D:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
 			matrix3D.copyFrom(renderable.getRenderSceneTransform(camera));
 			matrix3D.append(viewProjection);
@@ -209,16 +212,16 @@ package away3d.materials.passes
 				mesh = _outlineMeshes[renderable] ||= createDedicatedMesh(SubMesh(renderable).subGeometry);
 				dedicatedRenderable = mesh.subMeshes[0];
 				
-				context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix3D, true);
+				context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix3D, true);
 				dedicatedRenderable.activateVertexBuffer(0, stage3DProxy);
 				dedicatedRenderable.activateVertexNormalBuffer(1, stage3DProxy);
-				context.drawTriangles(dedicatedRenderable.getIndexBuffer(stage3DProxy), 0, dedicatedRenderable.numTriangles);
+				context3D.drawTriangles(dedicatedRenderable.getIndexBuffer(stage3DProxy), 0, dedicatedRenderable.numTriangles);
 			} else {
 				renderable.activateVertexNormalBuffer(1, stage3DProxy);
 				
-				context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix3D, true);
+				context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix3D, true);
 				renderable.activateVertexBuffer(0, stage3DProxy);
-				context.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+				context3D.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
 			}
 		}
 

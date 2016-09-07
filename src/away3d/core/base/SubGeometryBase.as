@@ -127,11 +127,11 @@ package away3d.core.base
 		public function getIndexBuffer(stage3DProxy:Stage3DProxy):IndexBuffer3D
 		{
 			var contextIndex:int = stage3DProxy.arcane::_stage3DIndex;
-			var context:Context3D = stage3DProxy.arcane::_context3D;
+			var context3D:Context3D = stage3DProxy.arcane::_context3D;
 			
-			if (!_indexBuffer[contextIndex] || _indexBufferContext[contextIndex] != context) {
-				_indexBuffer[contextIndex] = context.createIndexBuffer(_numIndices);
-				_indexBufferContext[contextIndex] = context;
+			if (!_indexBuffer[contextIndex] || _indexBufferContext[contextIndex] != context3D) {
+				_indexBuffer[contextIndex] = context3D.createIndexBuffer(_numIndices);
+				_indexBufferContext[contextIndex] = context3D;
 				_indicesInvalid[contextIndex] = true;
 			}
 			if (_indicesInvalid[contextIndex]) {

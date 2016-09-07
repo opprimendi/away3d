@@ -1,5 +1,6 @@
 package away3d.stereo
 {
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.RTTBufferManager;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.debug.Debug;
@@ -80,35 +81,35 @@ package away3d.stereo
 		{
 			var vertexBuffer:VertexBuffer3D;
 			var indexBuffer:IndexBuffer3D;
-			var context:Context3D;
+			var context3DProxy:Context3DProxy;
 			
 			if (!_rttManager)
 				setupRTTManager(stage3DProxy);
 			
-			stage3DProxy.scissorRect = null;
+			stage3DProxy.clearScissorRectangle();
 			stage3DProxy.setRenderTarget(null);
 			
-			context = stage3DProxy.context3D;
+			context3DProxy = stage3DProxy.context3DProxy;
 			vertexBuffer = _rttManager.renderToScreenVertexBuffer;
 			indexBuffer = _rttManager.indexBuffer;
 			
 			_method.activate(stage3DProxy);
 			
-			context.setVertexBufferAt(0, vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_2);
-			context.setVertexBufferAt(1, vertexBuffer, 2, Context3DVertexBufferFormat.FLOAT_2);
+			context3DProxy.setVertexBufferAt(0, vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_2);
+			context3DProxy.setVertexBufferAt(1, vertexBuffer, 2, Context3DVertexBufferFormat.FLOAT_2);
 			
-			context.setTextureAt(0, _leftTexture);
-			context.setTextureAt(1, _rightTexture);
-			context.setProgram(getProgram3D(stage3DProxy));
-			context.clear(0.0, 0.0, 0.0, 1.0);
-			context.drawTriangles(indexBuffer, 0, 2);
+			context3DProxy.setTextureAt(0, _leftTexture);
+			context3DProxy.setTextureAt(1, _rightTexture);
+			context3DProxy.setProgram(getProgram3D(stage3DProxy));
+			context3DProxy.clear(0.0, 0.0, 0.0, 1.0);
+			context3DProxy._context3D.drawTriangles(indexBuffer, 0, 2);
 			
 			// Clean up
 			_method.deactivate(stage3DProxy);
-			context.setTextureAt(0, null);
-			context.setTextureAt(1, null);
-			context.setVertexBufferAt(0, null, 0, null);
-			context.setVertexBufferAt(1, null, 2, null);
+			context3DProxy.setTextureAt(0, null);
+			context3DProxy.setTextureAt(1, null);
+			context3DProxy.clearVertexBufferAt(0);
+			context3DProxy.clearVertexBufferAt(0);
 		}
 		
 		private function setupRTTManager(stage3DProxy:Stage3DProxy):void

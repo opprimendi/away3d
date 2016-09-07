@@ -1,6 +1,7 @@
 ﻿package away3d.core.base
 {
 	import away3d.arcane;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	
 	import flash.display3D.Context3D;
@@ -70,18 +71,21 @@
 		public function activateVertexBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
-			if (!_vertexBuffer[contextIndex] || _vertexBufferContext[contextIndex] != context) {
-				_vertexBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 3);
-				_vertexBufferContext[contextIndex] = context;
+			var context3D:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			
+			if (!_vertexBuffer[contextIndex] || _vertexBufferContext[contextIndex] != context3D) {
+				_vertexBuffer[contextIndex] = context3D.createVertexBuffer(_numVertices, 3);
+				_vertexBufferContext[contextIndex] = context3D;
 				_verticesInvalid[contextIndex] = true;
 			}
+			
 			if (_verticesInvalid[contextIndex]) {
 				_vertexBuffer[contextIndex].uploadFromVector(_vertexData, 0, _numVertices);
 				_verticesInvalid[contextIndex] = false;
 			}
 			
-			context.setVertexBufferAt(index, _vertexBuffer[contextIndex], 0, Context3DVertexBufferFormat.FLOAT_3);
+			context3DProxy.setVertexBufferAt(index, _vertexBuffer[contextIndex], 0, Context3DVertexBufferFormat.FLOAT_3);
 		}
 		
 		/**
@@ -90,14 +94,15 @@
 		public function activateUVBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var context3D:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			
 			if (_autoGenerateUVs && _uvsDirty)
 				_uvs = updateDummyUVs(_uvs);
 			
-			if (!_uvBuffer[contextIndex] || _uvBufferContext[contextIndex] != context) {
-				_uvBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 2);
-				_uvBufferContext[contextIndex] = context;
+			if (!_uvBuffer[contextIndex] || _uvBufferContext[contextIndex] != context3D) {
+				_uvBuffer[contextIndex] = context3D.createVertexBuffer(_numVertices, 2);
+				_uvBufferContext[contextIndex] = context3D;
 				_uvsInvalid[contextIndex] = true;
 			}
 			if (_uvsInvalid[contextIndex]) {
@@ -105,7 +110,7 @@
 				_uvsInvalid[contextIndex] = false;
 			}
 			
-			context.setVertexBufferAt(index, _uvBuffer[contextIndex], 0, Context3DVertexBufferFormat.FLOAT_2);
+			context3DProxy.setVertexBufferAt(index, _uvBuffer[contextIndex], 0, Context3DVertexBufferFormat.FLOAT_2);
 		}
 		
 		/**
@@ -114,11 +119,12 @@
 		public function activateSecondaryUVBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var context3D:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			
-			if (!_secondaryUvBuffer[contextIndex] || _secondaryUvBufferContext[contextIndex] != context) {
-				_secondaryUvBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 2);
-				_secondaryUvBufferContext[contextIndex] = context;
+			if (!_secondaryUvBuffer[contextIndex] || _secondaryUvBufferContext[contextIndex] != context3D) {
+				_secondaryUvBuffer[contextIndex] = context3D.createVertexBuffer(_numVertices, 2);
+				_secondaryUvBufferContext[contextIndex] = context3D;
 				_secondaryUvsInvalid[contextIndex] = true;
 			}
 			if (_secondaryUvsInvalid[contextIndex]) {
@@ -126,7 +132,7 @@
 				_secondaryUvsInvalid[contextIndex] = false;
 			}
 			
-			context.setVertexBufferAt(index, _secondaryUvBuffer[contextIndex], 0, Context3DVertexBufferFormat.FLOAT_2);
+			context3DProxy.setVertexBufferAt(index, _secondaryUvBuffer[contextIndex], 0, Context3DVertexBufferFormat.FLOAT_2);
 		}
 		
 		/**
@@ -137,14 +143,15 @@
 		public function activateVertexNormalBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var context3D:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			
 			if (_autoDeriveVertexNormals && _vertexNormalsDirty)
 				_vertexNormals = updateVertexNormals(_vertexNormals);
 			
-			if (!_vertexNormalBuffer[contextIndex] || _vertexNormalBufferContext[contextIndex] != context) {
-				_vertexNormalBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 3);
-				_vertexNormalBufferContext[contextIndex] = context;
+			if (!_vertexNormalBuffer[contextIndex] || _vertexNormalBufferContext[contextIndex] != context3D) {
+				_vertexNormalBuffer[contextIndex] = context3D.createVertexBuffer(_numVertices, 3);
+				_vertexNormalBufferContext[contextIndex] = context3D;
 				_normalsInvalid[contextIndex] = true;
 			}
 			if (_normalsInvalid[contextIndex]) {
@@ -152,7 +159,7 @@
 				_normalsInvalid[contextIndex] = false;
 			}
 			
-			context.setVertexBufferAt(index, _vertexNormalBuffer[contextIndex], 0, Context3DVertexBufferFormat.FLOAT_3);
+			context3DProxy.setVertexBufferAt(index, _vertexNormalBuffer[contextIndex], 0, Context3DVertexBufferFormat.FLOAT_3);
 		}
 		
 		/**
@@ -163,21 +170,24 @@
 		public function activateVertexTangentBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var context3D:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			
 			if (_vertexTangentsDirty)
 				_vertexTangents = updateVertexTangents(_vertexTangents);
 			
-			if (!_vertexTangentBuffer[contextIndex] || _vertexTangentBufferContext[contextIndex] != context) {
-				_vertexTangentBuffer[contextIndex] = context.createVertexBuffer(_numVertices, 3);
-				_vertexTangentBufferContext[contextIndex] = context;
+			if (!_vertexTangentBuffer[contextIndex] || _vertexTangentBufferContext[contextIndex] != context3D) {
+				_vertexTangentBuffer[contextIndex] = context3D.createVertexBuffer(_numVertices, 3);
+				_vertexTangentBufferContext[contextIndex] = context3D;
 				_tangentsInvalid[contextIndex] = true;
 			}
+			
 			if (_tangentsInvalid[contextIndex]) {
 				_vertexTangentBuffer[contextIndex].uploadFromVector(_vertexTangents, 0, _numVertices);
 				_tangentsInvalid[contextIndex] = false;
 			}
-			context.setVertexBufferAt(index, _vertexTangentBuffer[contextIndex], 0, Context3DVertexBufferFormat.FLOAT_3);
+			
+			context3DProxy.setVertexBufferAt(index, _vertexTangentBuffer[contextIndex], 0, Context3DVertexBufferFormat.FLOAT_3);
 		}
 		
 		override public function applyTransformation(transform:Matrix3D):void

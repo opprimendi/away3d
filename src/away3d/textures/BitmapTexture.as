@@ -63,28 +63,28 @@
 			currentMipLevel = MathUtils.log(largestSide);
 		}
 		
-		override protected function createTexture(context:Context3D):TextureBase
+		override protected function createTexture(context3D:Context3D):TextureBase
 		{
 			if(!_isUseStreamingUpload || !_generateMipmaps)
-				return context.createTexture(_width, _height, Context3DTextureFormat.BGRA, false);
+				return context3D.createTexture(_width, _height, Context3DTextureFormat.BGRA, false);
 			
 			resetMipMapData();
 			isTextureUploaded = false;
 			
-			return context.createTexture(_width, _height, Context3DTextureFormat.BGRA, false, currentMipLevel);
+			return context3D.createTexture(_width, _height, Context3DTextureFormat.BGRA, false, currentMipLevel);
 		}
 		
 		override public function getTextureForStage3D(stage3DProxy:Stage3DProxy):TextureBase 
 		{
 			var contextIndex:int = stage3DProxy.arcane::_stage3DIndex;
 			var texture:TextureBase = _textures[contextIndex];
-			var context:Context3D = stage3DProxy.arcane::_context3D;
+			var context3D:Context3D = stage3DProxy.arcane::_context3D;
 			
-			if (!texture || _dirty[contextIndex] != context) 
+			if (!texture || _dirty[contextIndex] != context3D) 
 			{
-				texture = createTexture(context);
+				texture = createTexture(context3D);
 				_textures[contextIndex] = texture;
-				_dirty[contextIndex] = context;
+				_dirty[contextIndex] = context3D;
 			}
 			
 			if(!isTextureUploaded)

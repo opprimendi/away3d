@@ -1,6 +1,7 @@
 package away3d.core.render
 {
 	import away3d.arcane;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.core.sort.IEntitySorter;
 	import away3d.core.sort.RenderableMergeSort;
@@ -26,7 +27,8 @@ package away3d.core.render
 	 */
 	public class RendererBase
 	{
-		protected var _context:Context3D;
+		protected var _context3D:Context3D;
+		protected var _context3DProxy:Context3DProxy;
 		protected var _stage3DProxy:Stage3DProxy;
 		
 		protected var _backgroundR:Number = 0;
@@ -182,7 +184,8 @@ package away3d.core.render
 					_stage3DProxy.removeEventListener(Stage3DEvent.CONTEXT3D_RECREATED, onContextUpdate);
 				}
 				_stage3DProxy = null;
-				_context = null;
+				_context3D = null;
+				_context3DProxy = null;
 				return;
 			}
 			//else if (_stage3DProxy) throw new Error("A Stage3D instance was already assigned!");
@@ -194,7 +197,10 @@ package away3d.core.render
 				_backgroundImageRenderer.stage3DProxy = value;
 			
 			if (value.context3D)
-				_context = value.context3D;
+			{
+				_context3D = value.context3D;
+				_context3DProxy = value._context3DProxy;
+			}
 		}
 		
 		/**
@@ -236,7 +242,7 @@ package away3d.core.render
 		 */
 		arcane function render(entityCollector:EntityCollector, target:TextureBase = null, scissorRect:Rectangle = null, surfaceSelector:int = 0):void
 		{
-			if (!_stage3DProxy || !_context)
+			if (!_stage3DProxy || !_context3D)
 				return;
 			
 			_rttViewProjectionMatrix.copyFrom(entityCollector.camera.viewProjection);
@@ -245,10 +251,8 @@ package away3d.core.render
 			executeRender(entityCollector, target, scissorRect, surfaceSelector);
 			
 			// clear buffers
-			for (var i:uint = 0; i < 8; ++i) {
-				_context.setVertexBufferAt(i, null);
-				_context.setTextureAt(i, null);
-			}
+			_context3DProxy.clearUsedVertexBuffers();
+			_context3DProxy.clearUsedTextures();
 		}
 		
 		/**
@@ -272,24 +276,26 @@ package away3d.core.render
 			_stage3DProxy.setRenderTarget(target, true, surfaceSelector);
 			
 			if ((target || !_shareContext) && _clearOnRender)
-				_context.clear(_backgroundR, _backgroundG, _backgroundB, _backgroundAlpha, 1, 0);
-			_context.setDepthTest(false, Context3DCompareMode.ALWAYS);
+				_context3DProxy.clear(_backgroundR, _backgroundG, _backgroundB, _backgroundAlpha, 1, 0);
+				
+			_context3DProxy.setDepthTest(false, Context3DCompareMode.ALWAYS);
 			_stage3DProxy.scissorRect = scissorRect;
+			
 			if (_backgroundImageRenderer)
 				_backgroundImageRenderer.render();
 			
 			draw(entityCollector, target);
 			
 			//line required for correct rendering when using away3d with starling. DO NOT REMOVE UNLESS STARLING INTEGRATION IS RETESTED!
-			_context.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);
+			_context3DProxy.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);
 			
 			if (!_shareContext) {
 				if (_snapshotRequired && _snapshotBitmapData) {
-					_context.drawToBitmapData(_snapshotBitmapData);
+					_context3D.drawToBitmapData(_snapshotBitmapData);
 					_snapshotRequired = false;
 				}
 			}
-			_stage3DProxy.scissorRect = null;
+			_stage3DProxy.clearScissorRectangle();
 		}
 		
 		/*
@@ -326,7 +332,8 @@ package away3d.core.render
 		 */
 		private function onContextUpdate(event:Event):void
 		{
-			_context = _stage3DProxy.context3D;
+			_context3D = _stage3DProxy.context3D;
+			_context3DProxy = _stage3DProxy._context3DProxy;
 		}
 		
 		arcane function get backgroundAlpha():Number
@@ -397,7 +404,7 @@ package away3d.core.render
 		
 		public function get context():Context3D 
 		{
-			return _context;
+			return _context3D;
 		}
 	}
 }

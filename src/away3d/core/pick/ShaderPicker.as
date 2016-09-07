@@ -9,6 +9,7 @@ package away3d.core.pick
 	import away3d.core.math.*;
 	import away3d.core.traverse.*;
 	import away3d.entities.*;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.tools.utils.GeomUtil;
 	
 	import flash.display.*;
@@ -32,7 +33,8 @@ package away3d.core.pick
 	public class ShaderPicker implements IPicker
 	{
 		private var _stage3DProxy:Stage3DProxy;
-		private var _context:Context3D;
+		private var _context3D:Context3D;
+		private var _context3DProxy:Context3DProxy;
 		private var _onlyMouseEnabled:Boolean = true;
 		
 		private var _objectProgram3D:Program3D;
@@ -99,7 +101,8 @@ package away3d.core.pick
 			if (!_stage3DProxy)
 				return null;
 			
-			_context = _stage3DProxy._context3D;
+			_context3D = _stage3DProxy._context3D;
+			_context3DProxy = _stage3DProxy._context3DProxy;
 			
 			_viewportData[0] = view.width;
 			_viewportData[1] = view.height;
@@ -112,19 +115,19 @@ package away3d.core.pick
 			draw(collector, null);
 			
 			// clear buffers
-			_context.setVertexBufferAt(0, null);
+			_context3DProxy.clearVertexBufferAt(0);
 			
-			if (!_context || !_potentialFound)
+			if (!_context3D || !_potentialFound)
 				return null;
 			
 			if (!_bitmapData)
 				_bitmapData = new BitmapData(1, 1, false, 0);
 			
-			_context.drawToBitmapData(_bitmapData);
+			_context3D.drawToBitmapData(_bitmapData);
 			_hitColor = _bitmapData.getPixel(0, 0);
 			
 			if (!_hitColor) {
-				_context.present();
+				_context3D.present();
 				return null;
 			}
 			
@@ -168,17 +171,18 @@ package away3d.core.pick
 		{
 			var camera:Camera3D = entityCollector.camera;
 			
-			_context.clear(0, 0, 0, 1);
+			_context3DProxy.clear(0, 0, 0, 1);
 			_stage3DProxy.scissorRect = MOUSE_SCISSOR_RECT;
 			
 			_interactives.length = _interactiveId = 0;
 			
 			if (!_objectProgram3D)
 				initObjectProgram3D();
-			_context.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
-			_context.setDepthTest(true, Context3DCompareMode.LESS);
-			_context.setProgram(_objectProgram3D);
-			_context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, _viewportData, 1);
+				
+			_context3DProxy.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+			_context3DProxy.setDepthTest(true, Context3DCompareMode.LESS);
+			_context3DProxy.setProgram(_objectProgram3D);
+			_context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, _viewportData, 1);
 			drawRenderables(entityCollector.opaqueRenderableHead, camera);
 			drawRenderables(entityCollector.blendedRenderableHead, camera);
 		}
@@ -205,7 +209,7 @@ package away3d.core.pick
 				
 				_potentialFound = true;
 				
-				_context.setCulling((renderable.material && renderable.material.bothSides)? Context3DTriangleFace.NONE : Context3DTriangleFace.BACK);
+				_context3DProxy.setCulling((renderable.material && renderable.material.bothSides)? Context3DTriangleFace.NONE : Context3DTriangleFace.BACK);
 				
 				_interactives[_interactiveId++] = renderable;
 				// color code so that reading from bitmapdata will contain the correct value
@@ -214,10 +218,10 @@ package away3d.core.pick
 				
 				matrix.copyFrom(renderable.getRenderSceneTransform(camera));
 				matrix.append(viewProjection);
-				_context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
-				_context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _id, 1);
+				_context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
+				_context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _id, 1);
 				renderable.activateVertexBuffer(0, _stage3DProxy);
-				_context.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
+				_context3D.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
 				
 				item = item.next;
 			}
@@ -238,7 +242,7 @@ package away3d.core.pick
 			var vertexCode:String;
 			var fragmentCode:String;
 			
-			_objectProgram3D = _context.createProgram();
+			_objectProgram3D = _context3D.createProgram();
 			
 			vertexCode = "m44 vt0, va0, vc0			\n" +
 				"mul vt1.xy, vt0.w, vc4.zw	\n" +
@@ -259,7 +263,7 @@ package away3d.core.pick
 			var vertexCode:String;
 			var fragmentCode:String;
 			
-			_triangleProgram3D = _context.createProgram();
+			_triangleProgram3D = _context3D.createProgram();
 			
 			// todo: add animation code
 			vertexCode = "add vt0, va0, vc5 			\n" +
@@ -309,14 +313,14 @@ package away3d.core.pick
 			_boundOffsetScale[1] = offsY = -entity.minY;
 			_boundOffsetScale[2] = offsZ = -entity.minZ;
 			
-			_context.setProgram(_triangleProgram3D);
-			_context.clear(0, 0, 0, 0, 1, 0, Context3DClearMask.DEPTH);
-			_context.setScissorRectangle(MOUSE_SCISSOR_RECT);
-			_context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, localViewProjection, true);
-			_context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 5, _boundOffsetScale, 2);
+			_context3DProxy.setProgram(_triangleProgram3D);
+			_context3DProxy.clear(0, 0, 0, 0, 1, 0, Context3DClearMask.DEPTH);
+			_context3DProxy.setScissorRectangle(MOUSE_SCISSOR_RECT);
+			_context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, localViewProjection, true);
+			_context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 5, _boundOffsetScale, 2);
 			_hitRenderable.activateVertexBuffer(0, _stage3DProxy);
-			_context.drawTriangles(_hitRenderable.getIndexBuffer(_stage3DProxy), 0, _hitRenderable.numTriangles);
-			_context.drawToBitmapData(_bitmapData);
+			_context3D.drawTriangles(_hitRenderable.getIndexBuffer(_stage3DProxy), 0, _hitRenderable.numTriangles);
+			_context3D.drawToBitmapData(_bitmapData);
 			
 			col = _bitmapData.getPixel(0, 0);
 			

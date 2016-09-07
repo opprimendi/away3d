@@ -34,9 +34,9 @@
 			Texture(texture).uploadCompressedTextureFromByteArray(_atfData.data, 0, false);
 		}
 		
-		override protected function createTexture(context:Context3D):TextureBase
+		override protected function createTexture(context3D:Context3D):TextureBase
 		{
-			return context.createTexture(_width, _height, atfData.format, false);
+			return context3D.createTexture(_width, _height, atfData.format, false);
 		}
 	}
 }

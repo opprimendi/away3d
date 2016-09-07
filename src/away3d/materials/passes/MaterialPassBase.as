@@ -5,6 +5,7 @@ package away3d.materials.passes
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.base.IRenderable;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.AGALProgram3DCache;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.debug.Debug;
@@ -411,14 +412,15 @@ package away3d.materials.passes
 		arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			var context3D:Context3D = stage3DProxy._context3D;
 			
-			context.setDepthTest(_writeDepth && !_enableBlending, _depthCompareMode);
+			context3DProxy.setDepthTest(_writeDepth && !_enableBlending, _depthCompareMode);
 			if (_enableBlending)
-				context.setBlendFactors(_blendFactorSource, _blendFactorDest);
+				context3DProxy.setBlendFactors(_blendFactorSource, _blendFactorDest);
 			
-			if (_context3Ds[contextIndex] != context || !_program3Ds[contextIndex]) {
-				_context3Ds[contextIndex] = context;
+			if (_context3Ds[contextIndex] != context3D || !_program3Ds[contextIndex]) {
+				_context3Ds[contextIndex] = context3D;
 				updateProgram(stage3DProxy);
 				if(hasEventListener(Event.CHANGE)) dispatchEvent(new Event(Event.CHANGE));
 			}
@@ -426,19 +428,19 @@ package away3d.materials.passes
 			var prevUsed:int = _previousUsedStreams[contextIndex];
 			var i:uint;
 			for (i = _numUsedStreams; i < prevUsed; ++i)
-				context.setVertexBufferAt(i, null);
+				context3DProxy.clearVertexBufferAt(i);
 			
 			prevUsed = _previousUsedTexs[contextIndex];
 			
 			for (i = _numUsedTextures; i < prevUsed; ++i)
-				context.setTextureAt(i, null);
+				context3DProxy.setTextureAt(i, null);
 			
 			if (_animationSet && !_animationSet.usesCPU)
 				_animationSet.activate(stage3DProxy, this);
 			
-			context.setProgram(_program3Ds[contextIndex]);
+			context3DProxy.setProgram(_program3Ds[contextIndex]);
 			
-			context.setCulling(_bothSides? Context3DTriangleFace.NONE : _defaultCulling);
+			context3DProxy.setCulling(_bothSides? Context3DTriangleFace.NONE : _defaultCulling);
 			
 			if (_renderToTexture) {
 				_oldTarget = stage3DProxy.renderTarget;
@@ -470,10 +472,10 @@ package away3d.materials.passes
 			}
 
 			if(_enableBlending) {
-				stage3DProxy._context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+				stage3DProxy._context3DProxy.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 			}
 
-			stage3DProxy._context3D.setDepthTest(true, Context3DCompareMode.LESS_EQUAL);
+			stage3DProxy._context3DProxy.setDepthTest(true, Context3DCompareMode.LESS_EQUAL);
 		}
 		
 		/**

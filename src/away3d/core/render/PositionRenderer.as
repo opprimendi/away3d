@@ -47,12 +47,12 @@ package away3d.core.render
 			var matrix:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
 			var viewProjection:Matrix3D = entityCollector.camera.viewProjection;
 			
-			_context.setDepthTest(true, Context3DCompareMode.LESS);
-			_context.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+			_context3DProxy.setDepthTest(true, Context3DCompareMode.LESS);
+			_context3DProxy.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 			
 			if (!_program3D)
-				initProgram3D(_context);
-			_context.setProgram(_program3D);
+				initProgram3D(_context3D);
+			_context3DProxy.setProgram(_program3D);
 			
 			item = entityCollector.opaqueRenderableHead;
 			while (item) {
@@ -60,8 +60,8 @@ package away3d.core.render
 				renderable.activateVertexBuffer(0, _stage3DProxy);
 				matrix.copyFrom(item.renderSceneTransform);
 				matrix.append(viewProjection);
-				_context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, viewProjection, true);
-				_context.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
+				_context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, viewProjection, true);
+				_context3D.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
 				item = item.next;
 			}
 			
@@ -74,8 +74,8 @@ package away3d.core.render
 				renderable.activateVertexBuffer(0, _stage3DProxy);
 				matrix.copyFrom(item.renderSceneTransform);
 				matrix.append(viewProjection);
-				_context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
-				_context.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
+				_context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
+				_context3D.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
 				item = item.next;
 			}
 		}
@@ -89,7 +89,7 @@ package away3d.core.render
 			var vertexCode:String;
 			var fragmentCode:String;
 			
-			_program3D = context.createProgram();
+			_program3D = context3D.createProgram();
 			
 			vertexCode = "m44 vt0, va0, vc0	\n" +
 				"mov op, vt0		\n" +

@@ -176,8 +176,8 @@ package away3d.filters.tasks
 		override public function activate(stage3DProxy:Stage3DProxy, camera3D:Camera3D, depthTexture:Texture):void
 		{
 			var context:Context3D = stage3DProxy._context3D;
-			context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 0, _data, 3);
-			context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 3);
+			context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 0, _data, 3);
+			context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 3);
 		}
 	}
 }
