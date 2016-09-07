@@ -22,7 +22,7 @@ package away3d.core.context3DProxy
 		private var _currentProgram3D:Program3D;
 		
 		private var _texturesRegisterCache:Vector.<TextureBase> = new Vector.<TextureBase>(8, true);
-		private var _vertexBufferRegisters:Vector.<Boolean> = new Vector.<Boolean>(8, true);
+		private var _vertexBufferRegisters:Vector.<VertexBuffer3D> = new Vector.<VertexBuffer3D>(8, true);
 		
 		private var _scissorRectangle:Rectangle = new Rectangle();
 		private var _isScissorRectangleClear:Boolean = true;
@@ -79,9 +79,7 @@ package away3d.core.context3DProxy
 		[Inline]
 		public final function setTextureAt(samplerId:int, texture:TextureBase):void
 		{
-			var textureAtSampler:TextureBase = _texturesRegisterCache[samplerId];
-			
-			if (textureAtSampler == null || textureAtSampler != texture)
+			if (_texturesRegisterCache[samplerId] != texture)
 			{
 				_texturesRegisterCache[samplerId] = texture
 				_context3D.setTextureAt(samplerId, texture);
@@ -112,16 +110,19 @@ package away3d.core.context3DProxy
 			if (vertexBuffer == null)
 				throw Error("Vertex buffer cant be NULL for clear vertex buffer register use <code>clearVertexBufferAt</code>");
 			
-			_vertexBufferRegisters[index] = true;
+			if (vertexBuffer == _vertexBufferRegisters[index])
+				return;
+				
+			_vertexBufferRegisters[index] = vertexBuffer;
 			_context3D.setVertexBufferAt(index, vertexBuffer, bufferOffset, format);
 		}
 		
 		[Inline]
 		public final function clearVertexBufferAt(index:int):void
 		{
-			if (_vertexBufferRegisters[index] == true)
+			if (_vertexBufferRegisters[index] != null)
 			{
-				_vertexBufferRegisters[index] = false;
+				_vertexBufferRegisters[index] = null;
 				_context3D.setVertexBufferAt(index, null);
 			}
 		}
@@ -204,8 +205,11 @@ package away3d.core.context3DProxy
 			
 			_context3D.drawToBitmapData(destination);
 			
-			vertexConstantBuffer.clear(_context3D);
-			fragmentConstantBuffer.clear(_context3D);
+			//vertexConstantBuffer.clear(_context3D);
+			//fragmentConstantBuffer.clear(_context3D);
+			
+			vertexConstantBuffer.clearConstants();
+			fragmentConstantBuffer.clearConstants();
 		}
 		
 		[Inline]
@@ -216,8 +220,11 @@ package away3d.core.context3DProxy
 			
 			_context3D.drawTriangles(indexBuffer, firstIndex, numTriangles);
 			
-			vertexConstantBuffer.clear(_context3D);
-			fragmentConstantBuffer.clear(_context3D);
+			//vertexConstantBuffer.clear(_context3D);
+			//fragmentConstantBuffer.clear(_context3D);
+			
+			vertexConstantBuffer.clearConstants();
+			fragmentConstantBuffer.clearConstants();
 		}
 		
 		[Inline]
@@ -245,7 +252,7 @@ package away3d.core.context3DProxy
 		{
 			for (var i:int = 0; i < 8; i++)
 			{
-				if (_vertexBufferRegisters[i] == true)
+				if (_vertexBufferRegisters[i] != null)
 					clearVertexBufferAt(i);
 			}
 		}

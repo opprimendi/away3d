@@ -1,5 +1,6 @@
 package away3d.core.context3DProxy 
 {
+	import away3d.tools.utils.MathUtils;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DProgramType;
 	import flash.geom.Matrix3D;
@@ -29,14 +30,14 @@ package away3d.core.context3DProxy
 		{
 			var registerAsPosition:int = firstRegister * 4;
 			data.copyRawDataTo(constantsValue, firstRegister * 4, transposed);
-			size = Math.max(size, registerAsPosition + 16);
+			size = MathUtils.maxi(size, registerAsPosition + 16);
 		}
 		
 		[Inline]
 		public final function setValue(position:int, value:Number):void
 		{
 			constantsValue[position] = value;
-			size = Math.max(size, position);
+			size = MathUtils.maxi(size, position);
 		}
 		
 		[Inline]
@@ -47,8 +48,10 @@ package away3d.core.context3DProxy
 			length += startFrom;
 			for (var i:int = startFrom; i < length; i++)
 			{
-				setValue(startPosition++, vector[i]);
+				constantsValue[startPosition++] = vector[i];
 			}
+			
+			size = MathUtils.maxi(size, startPosition + length);
 		}
 		
 		[Inline]
@@ -59,6 +62,9 @@ package away3d.core.context3DProxy
 			
 			this.registerOffset = registerOffset;
 			this.registersUploaded = Math.ceil(size / 4);
+			
+			//if (registersUploaded == 124)
+			//	trace("BLAH");
 			
 			context3D.setProgramConstantsFromVector(type, registerOffset, constantsValue, registersUploaded);
 		}

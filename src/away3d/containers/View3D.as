@@ -27,6 +27,7 @@
 	{
 		private var _width:Number = 0;
 		private var _height:Number = 0;
+		private var _tempPoint:Point = new Point();
 		private var _localPos:Point = new Point();
 		private var _globalPos:Point = new Point();
 		private var _globalPosDirty:Boolean;
@@ -507,7 +508,11 @@
 			
 			_localPos.x = super.x = value;
 			
-			_globalPos.x = parent? parent.localToGlobal(_localPos).x : value;
+			if (parent != null)
+				__localToGlobalX(_localPos, _globalPos);
+			else
+				_globalPos.x = value;
+			
 			_globalPosDirty = true;
 		}
 		
@@ -518,7 +523,11 @@
 			
 			_localPos.y = super.y = value;
 			
-			_globalPos.y = parent? parent.localToGlobal(_localPos).y : value;
+			if (parent != null)
+				__localToGlobalY(_localPos, _globalPos);
+			else
+				_globalPos.y = value;
+				
 			_globalPosDirty = true;
 		}
 		
@@ -649,9 +658,9 @@
 				stage3DProxy.clearDepthBuffer();
 			
 			if (!_parentIsStage) {
-				var globalPos:Point = parent.localToGlobal(_localPos);
-				if (_globalPos.x != globalPos.x || _globalPos.y != globalPos.y) {
-					_globalPos = globalPos;
+				__localToGlobal(_localPos, _tempPoint);
+				if (_globalPos.x != _tempPoint.x || _globalPos.y != _tempPoint.y) {
+					_globalPos.setTo(_tempPoint.x, _tempPoint.y)
 					_globalPosDirty = true;
 				}
 			}
@@ -967,8 +976,48 @@
 		{
 			_parentIsStage = (parent == stage);
 			
-			_globalPos = parent.localToGlobal(_localPos);
+			__localToGlobal(_localPos, _globalPos);
 			_globalPosDirty = true;
+		}
+		
+		private function __localToGlobalX(localPos:Point, output:Point):void
+		{
+			var _parent:Object = parent;
+			output.x = localPos.x;
+			
+			while (_parent != null)
+			{
+				output.x += _parent.x;
+				
+				_parent = _parent.parent;
+			}
+		}
+		
+		private function __localToGlobalY(localPos:Point, output:Point):void
+		{
+			var _parent:Object = parent;
+			output.y = localPos.y;
+			
+			while (_parent != null)
+			{
+				output.y += _parent.y;
+				
+				_parent = _parent.parent;
+			}
+		}
+		
+		private function __localToGlobal(localPos:Point, output:Point):void
+		{
+			var _parent:Object = parent;
+			output.setTo(localPos.x, localPos.y);
+			
+			while (_parent != null)
+			{
+				output.x += _parent.x;
+				output.y += _parent.y;
+				
+				_parent = _parent.parent;
+			}
 		}
 		
 		private function onViewportUpdated(event:Stage3DEvent):void

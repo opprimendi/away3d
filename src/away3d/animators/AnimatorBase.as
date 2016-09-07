@@ -213,7 +213,7 @@ package away3d.animators
 			
 			_isPlaying = true;
 			
-			if (!_broadcaster.hasEventListener(Event.ENTER_FRAME))
+			if (_autoUpdate && !_broadcaster.hasEventListener(Event.ENTER_FRAME))
 				_broadcaster.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			
 			if (hasEventListener(AnimatorEvent.START))

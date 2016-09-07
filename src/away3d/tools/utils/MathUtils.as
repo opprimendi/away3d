@@ -25,6 +25,15 @@ package away3d.tools.utils
 			return 180 * angle / Math.PI;
 		}	
 		
+		[Inline]
+		public static function maxi(value1:int, value2:int):int
+		{
+			if (value1 > value2)
+				return value1;
+			else
+				return value2;
+		}
+		
 		/**
 		 * Moves 'value' into the range between 'min' and 'max'.
 		 */
