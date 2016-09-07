@@ -422,7 +422,9 @@ package away3d.materials.passes
 			if (_context3Ds[contextIndex] != context3D || !_program3Ds[contextIndex]) {
 				_context3Ds[contextIndex] = context3D;
 				updateProgram(stage3DProxy);
-				if(hasEventListener(Event.CHANGE)) dispatchEvent(new Event(Event.CHANGE));
+				
+				if (hasEventListener(Event.CHANGE)) 
+					dispatchEvent(new Event(Event.CHANGE));
 			}
 			
 			var prevUsed:int = _previousUsedStreams[contextIndex];
