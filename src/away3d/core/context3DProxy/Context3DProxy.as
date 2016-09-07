@@ -19,7 +19,7 @@ package away3d.core.context3DProxy
 	{
 		arcane var _context3D:Context3D;
 		
-		private var _currentProgram3D:Program3D;
+		public var _currentProgram3D:Program3D;
 		
 		private var _texturesRegisterCache:Vector.<TextureBase> = new Vector.<TextureBase>(8, true);
 		private var _vertexBufferRegisters:Vector.<VertexBuffer3D> = new Vector.<VertexBuffer3D>(8, true);
@@ -66,14 +66,11 @@ package away3d.core.context3DProxy
 		[Inline]
 		public final function setProgram(program3D:Program3D):void 
 		{
-			if (program3D == null)
-				throw new Error("PROGRAM NULL");
-				
-			if (_currentProgram3D == program3D)
-				return;
-				
-			_currentProgram3D = program3D;
-			_context3D.setProgram(program3D);
+			if (_currentProgram3D != program3D)
+			{	
+				_currentProgram3D = program3D;
+				_context3D.setProgram(program3D);
+			}
 		}
 		
 		[Inline]
@@ -87,7 +84,7 @@ package away3d.core.context3DProxy
 		}
 		
 		[Inline]
-		public final function setProgramConstantsFromVector(programType:String, firstRegister:int, data:Vector.<Number>, numRegisters:int=-1):void 
+		public final function setProgramConstantsFromVector(programType:String, firstRegister:int, data:Vector.<Number>, numRegisters:int):void 
 		{
 			var size:int = 0;
 			
@@ -103,7 +100,7 @@ package away3d.core.context3DProxy
 		}
 		
 		[Inline]
-		public final function setProgramConstantsFromMatrix(programType:String, firstRegister:int, data:Matrix3D, transposed:Boolean = false):void 
+		public final function setProgramConstantsFromMatrix(programType:String, firstRegister:int, data:Matrix3D, transposed:Boolean):void 
 		{
 			if(programType == Context3DProgramType.VERTEX)
 				vertexConstantBuffer.setMatrix(data, firstRegister, 0, transposed);
@@ -112,16 +109,13 @@ package away3d.core.context3DProxy
 		}
 		
 		[Inline]
-		public final function setVertexBufferAt(index:int, vertexBuffer:VertexBuffer3D, bufferOffset:int = 0, format:String = "float4"):void
+		public final function setVertexBufferAt(index:int, vertexBuffer:VertexBuffer3D, bufferOffset:int, format:String):void
 		{
-			if (vertexBuffer == null)
-				throw Error("Vertex buffer cant be NULL for clear vertex buffer register use <code>clearVertexBufferAt</code>");
-			
-			if (vertexBuffer == _vertexBufferRegisters[index])
-				return;
-				
-			_vertexBufferRegisters[index] = vertexBuffer;
-			_context3D.setVertexBufferAt(index, vertexBuffer, bufferOffset, format);
+			if (vertexBuffer != _vertexBufferRegisters[index])
+			{
+				_vertexBufferRegisters[index] = vertexBuffer;
+				_context3D.setVertexBufferAt(index, vertexBuffer, bufferOffset, format);
+			}
 		}
 		
 		[Inline]
@@ -137,71 +131,68 @@ package away3d.core.context3DProxy
 		[Inline]
 		public final function setScissorRectangle(rectangle:Rectangle):void
 		{
-			if (rectangle == null)
-				throw Error("ScissorRectnagle cant be NULL for clear ScissorRectangle use <code>clearScissorRectangle</code>");
-				
-			if (_scissorRectangle.equals(rectangle))
-				return;
-				
-			_isScissorRectangleClear = false;
-			_scissorRectangle.setTo(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
-			_context3D.setScissorRectangle(_scissorRectangle);
+			if (!_scissorRectangle.equals(rectangle))
+			{
+				_isScissorRectangleClear = false;
+				_scissorRectangle.setTo(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+				_context3D.setScissorRectangle(_scissorRectangle);
+			}
 		}
 		
 		[Inline]
 		public final function clearScissorRectangle():void
 		{
-			if (_isScissorRectangleClear == true)
-				return;
-				
-			_isScissorRectangleClear = true;
-			_scissorRectangle.setTo(0, 0, 0, 0);
-			_context3D.setScissorRectangle(null);
+			if (_isScissorRectangleClear != true)
+			{
+				_isScissorRectangleClear = true;
+				_scissorRectangle.setTo(0, 0, 0, 0);
+				_context3D.setScissorRectangle(null);
+			}
 		}
 		
 		[Inline]
 		public final function setCulling(culling:String):void
 		{
-			if (culling == _currentCulling)
-				return;
-				
-			_currentCulling = culling;
-			_context3D.setCulling(_currentCulling);
+			if (culling != _currentCulling)
+			{
+				_currentCulling = culling;
+				_context3D.setCulling(_currentCulling);
+			}
 		}
 		
 		[Inline]
 		public final function setDepthTest(depthMask:Boolean, passCompareMode:String):void
 		{
-			if (_depthTestData.depthMask == depthMask && _depthTestData.passCompareMode == passCompareMode)
-				return;
+			if (_depthTestData.depthMask != depthMask || _depthTestData.passCompareMode != passCompareMode)
+			{
+				_depthTestData.depthMask = depthMask;
+				_depthTestData.passCompareMode = passCompareMode;
 				
-			_depthTestData.depthMask = depthMask;
-			_depthTestData.passCompareMode = passCompareMode;
-			
-			_context3D.setDepthTest(depthMask, passCompareMode);
+				_context3D.setDepthTest(depthMask, passCompareMode);
+			}
 		}
 		
 		[Inline]
 		public final function setBlendFactors(sourceFactor:String, destinationFactor:String):void
 		{
-			if (_blendFactors.sourceFactor == sourceFactor && _blendFactors.destinationFactor == destinationFactor)
-				return;
-			
-			_blendFactors.sourceFactor = sourceFactor;
-			_blendFactors.destinationFactor = destinationFactor;
-				
-			_context3D.setBlendFactors(sourceFactor, destinationFactor);
+			if (_blendFactors.sourceFactor != sourceFactor || _blendFactors.destinationFactor != destinationFactor)
+			{
+				_blendFactors.sourceFactor = sourceFactor;
+				_blendFactors.destinationFactor = destinationFactor;
+					
+				_context3D.setBlendFactors(sourceFactor, destinationFactor);
+			}
 		}
 		
 		[Inline]
-		public final function clearDepthBuffer(depthValue:Number = 1):void
+		public final function clearDepthBuffer(depthValue:Number):void
 		{
-			if (_depthClear)
-				return;
+			if (!_depthClear)
+			{
+				_depthClear = true;
 				
-			_depthClear = true;
-			
-			_context3D.clear(0, 0, 0, 1, depthValue, 0, Context3DClearMask.DEPTH);
+				_context3D.clear(0, 0, 0, 1, depthValue, 0, Context3DClearMask.DEPTH);
+			}
 		}
 		
 		[Inline]
@@ -235,7 +226,7 @@ package away3d.core.context3DProxy
 		}
 		
 		[Inline]
-		public final function clear(red:Number=0, green:Number=0, blue:Number=0, alpha:Number=1, depth:Number=1, stencil:uint=0, mask:uint=4294967295):void 
+		public final function clear(red:Number, green:Number, blue:Number, alpha:Number, depth:Number, stencil:uint, mask:uint):void 
 		{
 			if (mask == Context3DClearMask.ALL || mask == Context3DClearMask.DEPTH)
 				_depthClear = true;

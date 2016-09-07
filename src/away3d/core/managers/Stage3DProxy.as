@@ -224,7 +224,7 @@ package away3d.core.managers
 				((_color >> 16) & 0xff)/255.0,
 				((_color >> 8) & 0xff)/255.0,
 				(_color & 0xff)/255.0,
-				((_color >> 24) & 0xff)/255.0);
+				((_color >> 24) & 0xff)/255.0, 1, 0, Context3DClearMask.ALL);
 			
 			_bufferClear = true;
 		}

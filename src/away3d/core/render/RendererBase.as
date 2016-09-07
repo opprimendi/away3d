@@ -9,6 +9,7 @@ package away3d.core.render
 	import away3d.errors.AbstractMethodError;
 	import away3d.events.Stage3DEvent;
 	import away3d.textures.Texture2DBase;
+	import flash.display3D.Context3DClearMask;
 	
 	import flash.display.BitmapData;
 	
@@ -276,7 +277,7 @@ package away3d.core.render
 			_stage3DProxy.setRenderTarget(target, true, surfaceSelector);
 			
 			if ((target || !_shareContext) && _clearOnRender)
-				_context3DProxy.clear(_backgroundR, _backgroundG, _backgroundB, _backgroundAlpha, 1, 0);
+				_context3DProxy.clear(_backgroundR, _backgroundG, _backgroundB, _backgroundAlpha, 1, 0, Context3DClearMask.ALL);
 				
 			_context3DProxy.setDepthTest(false, Context3DCompareMode.ALWAYS);
 			_stage3DProxy.scissorRect = scissorRect;

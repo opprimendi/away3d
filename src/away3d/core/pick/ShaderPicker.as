@@ -171,7 +171,7 @@ package away3d.core.pick
 		{
 			var camera:Camera3D = entityCollector.camera;
 			
-			_context3DProxy.clear(0, 0, 0, 1);
+			_context3DProxy.clear(0, 0, 0, 1, 1, 0, Context3DClearMask.ALL);
 			_stage3DProxy.scissorRect = MOUSE_SCISSOR_RECT;
 			
 			_interactives.length = _interactiveId = 0;

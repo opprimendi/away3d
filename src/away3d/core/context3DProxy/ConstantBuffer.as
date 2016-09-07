@@ -55,27 +55,27 @@ package away3d.core.context3DProxy
 		}
 		
 		[Inline]
-		public final function upload(context3D:Context3D, registerOffset:int = 0):void
+		public final function upload(context3D:Context3D, registerOffset:int):void
 		{
-			if (size == 0)
-				return;
-			
-			this.registerOffset = registerOffset;
-			this.registersUploaded = Math.ceil(size / 4);
-			
-			context3D.setProgramConstantsFromVector(type, registerOffset, constantsValue, registersUploaded);
+			if (size != 0)
+			{
+				this.registerOffset = registerOffset;
+				this.registersUploaded = Math.ceil(size / 4);
+				
+				context3D.setProgramConstantsFromVector(type, registerOffset, constantsValue, registersUploaded);
+			}
 		}
 		
 		[Inline]
 		public final function clear(context3D:Context3D):void
 		{
-			if (registersUploaded == 0)
-				return;
-				
-			registerOffset = 0;
-			context3D.setProgramConstantsFromVector(type, registerOffset, identityVector, registersUploaded);
-			//TODO: possible to clear at upload only register > then we upload next time
-			registersUploaded = 0;
+			if (registersUploaded != 0)
+			{
+				registerOffset = 0;
+				context3D.setProgramConstantsFromVector(type, registerOffset, identityVector, registersUploaded);
+				//TODO: possible to clear at upload only register > then we upload next time
+				registersUploaded = 0;
+			}
 		}
 		
 		[Inline]

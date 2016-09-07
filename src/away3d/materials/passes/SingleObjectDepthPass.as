@@ -6,6 +6,7 @@ package away3d.materials.passes
 	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.lights.LightBase;
+	import flash.display3D.Context3DClearMask;
 	
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DProgramType;
@@ -173,7 +174,7 @@ package away3d.materials.passes
 			var target:Texture = _textures[contextIndex][renderable] ||= context3D.createTexture(_textureSize, _textureSize, Context3DTextureFormat.BGRA, true);
 			
 			stage3DProxy.setRenderTarget(target, true);
-			context3DProxy.clear(1.0, 1.0, 1.0);
+			context3DProxy.clear(1.0, 1.0, 1.0, 1, 1, 0, Context3DClearMask.ALL);
 			context3DProxy.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
 			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _enc, 2);
 			renderable.activateVertexBuffer(0, stage3DProxy);

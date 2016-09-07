@@ -8,6 +8,7 @@ package away3d.core.render
 	import away3d.core.traverse.EntityCollector;
 	import away3d.entities.Entity;
 	import away3d.materials.MaterialBase;
+	import flash.display3D.Context3DClearMask;
 	
 	import flash.display3D.Context3DBlendFactor;
 	import flash.display3D.Context3DCompareMode;
@@ -69,7 +70,7 @@ package away3d.core.render
 			_renderTargetSurface = 0;
 			_renderableSorter.sort(entityCollector);
 			_stage3DProxy.setRenderTarget(target, true, 0);
-			_context3DProxy.clear(1, 1, 1, 1, 1, 0);
+			_context3DProxy.clear(1, 1, 1, 1, 1, 0, Context3DClearMask.ALL);
 			_context3DProxy.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 			_context3DProxy.setDepthTest(true, Context3DCompareMode.LESS);
 			

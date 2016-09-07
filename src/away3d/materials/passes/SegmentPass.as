@@ -152,9 +152,9 @@
 			// value to convert distance from camera to model length per pixel width
 			_constants[2] = camera.lens.near;
 			
-			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 5, ONE_VECTOR);
-			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 6, FRONT_VECTOR);
-			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 7, _constants);
+			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 5, ONE_VECTOR, 1);
+			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 6, FRONT_VECTOR, 1);
+			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 7, _constants, 1);
 			
 			// projection matrix
 			if (!stage3DProxy.renderTarget)

@@ -143,7 +143,7 @@ package away3d.core.render
 				if (!task.target && shareContext) {
 					context3DProxy.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
 				} else {
-					context3DProxy.clear(0.0, 0.0, 0.0, 0.0);
+					context3DProxy.clear(0.0, 0.0, 0.0, 0.0, 1, 0, Context3DClearMask.ALL);
 					context3DProxy.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 				}
 				
@@ -153,8 +153,8 @@ package away3d.core.render
 			}
 			
 			context3DProxy.setTextureAt(0, null);
-			context3DProxy.setVertexBufferAt(0, null);
-			context3DProxy.setVertexBufferAt(1, null);
+			context3DProxy.setVertexBufferAt(0, null, 0, Context3DVertexBufferFormat.FLOAT_4);
+			context3DProxy.setVertexBufferAt(1, null, 0, Context3DVertexBufferFormat.FLOAT_4);
 		}
 		
 		private function updateFilterSizes():void
