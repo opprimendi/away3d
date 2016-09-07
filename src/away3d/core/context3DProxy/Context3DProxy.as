@@ -1,12 +1,16 @@
 package away3d.core.context3DProxy 
 {
 	import away3d.arcane;
+	import flash.display.BitmapData;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DClearMask;
+	import flash.display3D.Context3DProgramType;
 	import flash.display3D.Context3DTriangleFace;
+	import flash.display3D.IndexBuffer3D;
 	import flash.display3D.Program3D;
 	import flash.display3D.VertexBuffer3D;
 	import flash.display3D.textures.TextureBase;
+	import flash.geom.Matrix3D;
 	import flash.geom.Rectangle;
 	
 	use namespace arcane;
@@ -31,6 +35,9 @@ package away3d.core.context3DProxy
 		private var _blendFactors:BlendFactors = new BlendFactors();
 		
 		private var _isReset:Boolean = true;
+		
+		private var vertexConstantBuffer:ConstantBuffer = new ConstantBuffer(128 * 4, Context3DProgramType.VERTEX);
+		private var fragmentConstantBuffer:ConstantBuffer = new ConstantBuffer(64 * 4, Context3DProgramType.FRAGMENT);
 		
 		public function Context3DProxy() 
 		{	
@@ -79,6 +86,24 @@ package away3d.core.context3DProxy
 				_texturesRegisterCache[samplerId] = texture
 				_context3D.setTextureAt(samplerId, texture);
 			}
+		}
+		
+		[Inline]
+		public final function setProgramConstantsFromVector(programType:String, firstRegister:int, data:Vector.<Number>, numRegisters:int=-1):void 
+		{
+			if(programType == Context3DProgramType.VERTEX)
+				vertexConstantBuffer.setVector(data, firstRegister, 0, data.length);
+			else
+				fragmentConstantBuffer.setVector(data, firstRegister, 0, data.length);
+		}
+		
+		[Inline]
+		public final function setProgramConstantsFromMatrix(programType:String, firstRegister:int, data:Matrix3D, transposed:Boolean = false):void 
+		{
+			if(programType == Context3DProgramType.VERTEX)
+				vertexConstantBuffer.setMatrix(data, firstRegister, 0, transposed);
+			else
+				fragmentConstantBuffer.setMatrix(data, firstRegister, 0, transposed);
 		}
 		
 		[Inline]
@@ -172,6 +197,30 @@ package away3d.core.context3DProxy
 		}
 		
 		[Inline]
+		public final function drawToBitmapData(destination:BitmapData):void 
+		{
+			vertexConstantBuffer.upload(_context3D, 0);
+			fragmentConstantBuffer.upload(_context3D, 0);
+			
+			_context3D.drawToBitmapData(destination);
+			
+			vertexConstantBuffer.clear(_context3D);
+			fragmentConstantBuffer.clear(_context3D);
+		}
+		
+		[Inline]
+		public final function drawTriangles(indexBuffer:IndexBuffer3D, firstIndex:Number, numTriangles:uint):void 
+		{
+			vertexConstantBuffer.upload(_context3D, 0);
+			fragmentConstantBuffer.upload(_context3D, 0);
+			
+			_context3D.drawTriangles(indexBuffer, firstIndex, numTriangles);
+			
+			vertexConstantBuffer.clear(_context3D);
+			fragmentConstantBuffer.clear(_context3D);
+		}
+		
+		[Inline]
 		public final function clear(red:Number=0, green:Number=0, blue:Number=0, alpha:Number=1, depth:Number=1, stencil:uint=0, mask:uint=4294967295):void 
 		{
 			if (mask == Context3DClearMask.ALL || mask == Context3DClearMask.DEPTH)
@@ -185,13 +234,10 @@ package away3d.core.context3DProxy
 				_texturesRegisterCache[i] = null;
 			}
 			
+			vertexConstantBuffer.clearConstants();
+			fragmentConstantBuffer.clearConstants();
+			
 			_currentProgram3D = null;
-		}
-		
-		[Inline]
-		public final function setProgramConstantsFromVector(programType:String, firstRegister:int, data:Vector.<Number>, numRegisters:int=-1):void 
-		{
-			_context3D.setProgramConstantsFromVector(programType, firstRegister, data, numRegisters);
 		}
 		
 		[Inline]

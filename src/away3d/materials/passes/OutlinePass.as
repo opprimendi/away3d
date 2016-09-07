@@ -203,7 +203,7 @@ package away3d.materials.passes
 		{
 			var mesh:Mesh, dedicatedRenderable:IRenderable;
 			
-			var context3D:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			var matrix3D:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
 			matrix3D.copyFrom(renderable.getRenderSceneTransform(camera));
 			matrix3D.append(viewProjection);
@@ -212,16 +212,16 @@ package away3d.materials.passes
 				mesh = _outlineMeshes[renderable] ||= createDedicatedMesh(SubMesh(renderable).subGeometry);
 				dedicatedRenderable = mesh.subMeshes[0];
 				
-				context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix3D, true);
+				context3DProxy.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix3D, true);
 				dedicatedRenderable.activateVertexBuffer(0, stage3DProxy);
 				dedicatedRenderable.activateVertexNormalBuffer(1, stage3DProxy);
-				context3D.drawTriangles(dedicatedRenderable.getIndexBuffer(stage3DProxy), 0, dedicatedRenderable.numTriangles);
+				context3DProxy.drawTriangles(dedicatedRenderable.getIndexBuffer(stage3DProxy), 0, dedicatedRenderable.numTriangles);
 			} else {
 				renderable.activateVertexNormalBuffer(1, stage3DProxy);
 				
-				context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix3D, true);
+				context3DProxy.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix3D, true);
 				renderable.activateVertexBuffer(0, stage3DProxy);
-				context3D.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+				context3DProxy.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
 			}
 		}
 

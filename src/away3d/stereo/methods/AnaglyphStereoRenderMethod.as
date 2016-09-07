@@ -1,8 +1,11 @@
 package away3d.stereo.methods
 {
+	import away3d.arcane;
 	import away3d.core.managers.Stage3DProxy;
 	
 	import flash.display3D.Context3DProgramType;
+	
+	use namespace arcane;
 	
 	public class AnaglyphStereoRenderMethod extends StereoRenderMethodBase
 	{
@@ -20,7 +23,7 @@ package away3d.stereo.methods
 		
 		override public function activate(stage3DProxy:Stage3DProxy):void
 		{
-			stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _filterData, 3);
+			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _filterData, 3);
 		}
 		
 		override public function getFragmentCode():String

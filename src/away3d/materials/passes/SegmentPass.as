@@ -121,7 +121,7 @@
 		 */
 		arcane override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
-			var context3D:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			_calcMatrix.copyFrom(renderable.sourceEntity.sceneTransform);
 			_calcMatrix.append(camera.inverseSceneTransform);
 			
@@ -130,8 +130,8 @@
 			if (SegmentSet(renderable).hasData) {
 				for (var i:uint = 0; i < subSetCount; ++i) {
 					renderable.activateVertexBuffer(i, stage3DProxy);
-					context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 8, _calcMatrix, true);
-					context3D.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+					context3DProxy.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 8, _calcMatrix, true);
+					context3DProxy.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
 				}
 			}
 		}
@@ -141,7 +141,7 @@
 		 */
 		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
-			var context3D:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			super.activate(stage3DProxy, camera);
 			
 			if (stage3DProxy.scissorRect)
@@ -152,20 +152,20 @@
 			// value to convert distance from camera to model length per pixel width
 			_constants[2] = camera.lens.near;
 			
-			context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 5, ONE_VECTOR);
-			context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 6, FRONT_VECTOR);
-			context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 7, _constants);
+			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 5, ONE_VECTOR);
+			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 6, FRONT_VECTOR);
+			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 7, _constants);
 			
 			// projection matrix
 			if (!stage3DProxy.renderTarget)
-				context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, camera.lens.matrix, true);
+				context3DProxy.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, camera.lens.matrix, true);
 			else
 			{
 				//TODO: to find a better way
 				_calcMatrix.copyFrom(camera.lens.matrix);
 				var rttBufferManager:RTTBufferManager = RTTBufferManager.getInstance(stage3DProxy);
 				_calcMatrix.appendScale(rttBufferManager.textureRatioX, rttBufferManager.textureRatioY, 1);
-				context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, _calcMatrix, true);
+				context3DProxy.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, _calcMatrix, true);
 			}
 		}
 		

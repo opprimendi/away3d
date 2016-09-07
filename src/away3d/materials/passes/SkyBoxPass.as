@@ -128,16 +128,16 @@ package away3d.materials.passes
 		 */
 		override arcane function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
-			var context3D:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			var pos:Vector3D = camera.scenePosition;
 			_vertexData[0] = pos.x;
 			_vertexData[1] = pos.y;
 			_vertexData[2] = pos.z;
 			_vertexData[4] = _vertexData[5] = _vertexData[6] = camera.lens.far/Math.sqrt(3);
-			context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, viewProjection, true);
-			context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, _vertexData, 2);
+			context3DProxy.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, viewProjection, true);
+			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, _vertexData, 2);
 			renderable.activateVertexBuffer(0, stage3DProxy);
-			context3D.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+			context3DProxy.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
 		}
 		
 		/**

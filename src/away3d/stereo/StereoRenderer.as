@@ -102,7 +102,7 @@ package away3d.stereo
 			context3DProxy.setTextureAt(1, _rightTexture);
 			context3DProxy.setProgram(getProgram3D(stage3DProxy));
 			context3DProxy.clear(0.0, 0.0, 0.0, 1.0);
-			context3DProxy._context3D.drawTriangles(indexBuffer, 0, 2);
+			context3DProxy.drawTriangles(indexBuffer, 0, 2);
 			
 			// Clean up
 			_method.deactivate(stage3DProxy);

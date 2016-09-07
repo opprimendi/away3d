@@ -151,7 +151,7 @@
 		 */
 		arcane override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
-			var context3D:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			var pos:Vector3D = camera.scenePosition;
 			
 			_vertexData[0] = pos.x;
@@ -161,8 +161,8 @@
 			
 			var sceneTransform:Matrix3D = renderable.getRenderSceneTransform(camera);
 			
-			context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 5, sceneTransform, true);
-			context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 9, _vertexData, 1);
+			context3DProxy.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 5, sceneTransform, true);
+			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 9, _vertexData, 1);
 			
 			if (_alphaThreshold > 0)
 				renderable.activateUVBuffer(1, stage3DProxy);
@@ -170,9 +170,9 @@
 			var matrix:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
 			matrix.copyFrom(sceneTransform);
 			matrix.append(viewProjection);
-			context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
+			context3DProxy.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
 			renderable.activateVertexBuffer(0, stage3DProxy);
-			context3D.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+			context3DProxy.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
 		}
 		
 		/**
@@ -180,7 +180,6 @@
 		 */
 		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
-			var context3D:Context3D = stage3DProxy._context3D;
 			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			
 			super.activate(stage3DProxy, camera);
@@ -196,9 +195,9 @@
 			
 			if (_alphaThreshold > 0) {
 				context3DProxy.setTextureAt(0, _alphaMask.getTextureForStage3D(stage3DProxy));
-				context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _fragmentData, 3);
+				context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _fragmentData, 3);
 			} else
-				context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _fragmentData, 2);
+				context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _fragmentData, 2);
 		}
 	}
 }

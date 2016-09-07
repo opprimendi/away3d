@@ -1,11 +1,14 @@
 package away3d.filters.tasks
 {
+	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.managers.Stage3DProxy;
 	
 	import flash.display3D.Context3DProgramType;
 	
 	import flash.display3D.textures.Texture;
+	
+	use namespace arcane;
 	
 	public class Filter3DBrightPassTask extends Filter3DTaskBase
 	{
@@ -45,7 +48,7 @@ package away3d.filters.tasks
 		
 		override public function activate(stage3DProxy:Stage3DProxy, camera3D:Camera3D, depthTexture:Texture):void
 		{
-			stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _brightPassData, 1);
+			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _brightPassData, 1);
 		}
 	}
 }

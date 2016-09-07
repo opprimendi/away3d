@@ -148,7 +148,7 @@ package away3d.core.render
 				}
 				
 				task.activate(stage3DProxy, camera3D, depthTexture);
-				context3DProxy._context3D.drawTriangles(indexBuffer, 0, 2);
+				context3DProxy.drawTriangles(indexBuffer, 0, 2);
 				task.deactivate(stage3DProxy);
 			}
 			

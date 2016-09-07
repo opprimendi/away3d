@@ -109,7 +109,7 @@ package away3d.core.render
 			context3DProxy.setVertexBufferAt(0, _vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_2);
 			context3DProxy.setVertexBufferAt(1, _vertexBuffer, 2, Context3DVertexBufferFormat.FLOAT_2);
 			
-			_context3D.drawTriangles(_indexBuffer, 0, 2);
+			context3DProxy.drawTriangles(_indexBuffer, 0, 2);
 			
 			context3DProxy.clearVertexBufferAt(0);
 			context3DProxy.clearVertexBufferAt(1);

@@ -60,8 +60,8 @@ package away3d.core.render
 				renderable.activateVertexBuffer(0, _stage3DProxy);
 				matrix.copyFrom(item.renderSceneTransform);
 				matrix.append(viewProjection);
-				_context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, viewProjection, true);
-				_context3D.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
+				_context3DProxy.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, viewProjection, true);
+				_context3DProxy.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
 				item = item.next;
 			}
 			
@@ -74,8 +74,8 @@ package away3d.core.render
 				renderable.activateVertexBuffer(0, _stage3DProxy);
 				matrix.copyFrom(item.renderSceneTransform);
 				matrix.append(viewProjection);
-				_context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
-				_context3D.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
+				_context3DProxy.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
+				_context3DProxy.drawTriangles(renderable.getIndexBuffer(_stage3DProxy), 0, renderable.numTriangles);
 				item = item.next;
 			}
 		}

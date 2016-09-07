@@ -150,13 +150,13 @@
 			if (_alphaThreshold > 0)
 				renderable.activateUVBuffer(1, stage3DProxy);
 			
-			var context3D:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			var matrix:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
 			matrix.copyFrom(renderable.getRenderSceneTransform(camera));
 			matrix.append(viewProjection);
-			context3D.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
+			context3DProxy.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
 			renderable.activateVertexBuffer(0, stage3DProxy);
-			context3D.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+			context3DProxy.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
 		}
 		
 		/**
