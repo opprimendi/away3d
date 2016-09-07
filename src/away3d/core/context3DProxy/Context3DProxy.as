@@ -89,10 +89,17 @@ package away3d.core.context3DProxy
 		[Inline]
 		public final function setProgramConstantsFromVector(programType:String, firstRegister:int, data:Vector.<Number>, numRegisters:int=-1):void 
 		{
-			if(programType == Context3DProgramType.VERTEX)
-				vertexConstantBuffer.setVector(data, firstRegister, 0, data.length);
+			var size:int = 0;
+			
+			if (numRegisters == -1)
+				size = data.length;
 			else
-				fragmentConstantBuffer.setVector(data, firstRegister, 0, data.length);
+				size = numRegisters * 4;
+				
+			if(programType == Context3DProgramType.VERTEX)
+				vertexConstantBuffer.setVector(data, firstRegister, 0, size);
+			else
+				fragmentConstantBuffer.setVector(data, firstRegister, 0, size);
 		}
 		
 		[Inline]

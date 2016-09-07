@@ -10,11 +10,11 @@ package away3d.core.context3DProxy
 		private var registerOffset:int;
 		
 		private var identityVector:Vector.<Number>;
-		public var constantsValue:Vector.<Number>;
+		private var constantsValue:Vector.<Number>;
 		
-		public var size:int = 0;
+		private var size:int = 0;
 		
-		public var type:String;
+		private var type:String;
 		
 		private var registersUploaded:int = 0;
 		
@@ -26,11 +26,12 @@ package away3d.core.context3DProxy
 			identityVector = new Vector.<Number>(size, true);
 		}
 		
-		public function setMatrix(data:Matrix3D, firstRegister:int, startFrom:Number, transposed:Boolean):void 
+		[Inline]
+		public final function setMatrix(data:Matrix3D, firstRegister:int, startFrom:Number, transposed:Boolean):void 
 		{
-			var registerAsPosition:int = firstRegister * 4;
-			data.copyRawDataTo(constantsValue, firstRegister * 4, transposed);
-			size = MathUtils.maxi(size, registerAsPosition + 16);
+			var setProgramConstantsFromVector:int = firstRegister * 4;
+			data.copyRawDataTo(constantsValue, setProgramConstantsFromVector, transposed);
+			size = MathUtils.maxi(size, setProgramConstantsFromVector + 16);
 		}
 		
 		[Inline]
@@ -42,16 +43,15 @@ package away3d.core.context3DProxy
 		
 		[Inline]
 		public final function setVector(vector:Vector.<Number>, registerIndex:int, startFrom:int, length:int):void
-		{
+		{	
 			var startPosition:int = registerIndex * 4;
+			size = Math.max(size, startPosition + length);
 			
 			length += startFrom;
 			for (var i:int = startFrom; i < length; i++)
 			{
 				constantsValue[startPosition++] = vector[i];
 			}
-			
-			size = MathUtils.maxi(size, startPosition + length);
 		}
 		
 		[Inline]
@@ -62,9 +62,6 @@ package away3d.core.context3DProxy
 			
 			this.registerOffset = registerOffset;
 			this.registersUploaded = Math.ceil(size / 4);
-			
-			//if (registersUploaded == 124)
-			//	trace("BLAH");
 			
 			context3D.setProgramConstantsFromVector(type, registerOffset, constantsValue, registersUploaded);
 		}
