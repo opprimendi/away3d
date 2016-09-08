@@ -84,7 +84,7 @@ package away3d.core.render
 		 * Creates the depth rendering Program3D.
 		 * @param context The Context3D object for which the Program3D needs to be created.
 		 */
-		private function initProgram3D(context:Context3D):void
+		private function initProgram3D(context3D:Context3D):void
 		{
 			var vertexCode:String;
 			var fragmentCode:String;

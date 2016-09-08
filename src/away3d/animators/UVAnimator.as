@@ -147,7 +147,7 @@ package away3d.animators
 			_matrix2d[5] = _uvTransform.d;
 			_matrix2d[7] = _uvTransform.ty;
 			
-			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset + 4, _matrix2d);
+			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset + 4, _matrix2d, 2);
 		
 		}
 		
