@@ -1,12 +1,12 @@
 package away3d.animators
 {
-	import away3d.animators.IAnimationSet;
+	import away3d.arcane;
 	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.materials.passes.MaterialPassBase;
 	import away3d.core.managers.Stage3DProxy;
 	
-	import flash.display3D.Context3D;
-	
+	use namespace arcane;
+
 	/**
 	 * The animation data set used by uv-based animators, containing uv animation state data.
 	 *

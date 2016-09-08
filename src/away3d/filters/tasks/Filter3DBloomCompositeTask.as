@@ -1,5 +1,6 @@
 package away3d.filters.tasks
 {
+	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;

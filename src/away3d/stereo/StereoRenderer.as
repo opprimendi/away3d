@@ -1,5 +1,6 @@
 package away3d.stereo
 {
+	import away3d.arcane;
 	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.RTTBufferManager;
 	import away3d.core.managers.Stage3DProxy;
@@ -10,7 +11,6 @@ package away3d.stereo
 	
 	import com.adobe.utils.AGALMiniAssembler;
 	
-	import flash.display3D.Context3D;
 	import flash.display3D.Context3DProgramType;
 	import flash.display3D.Context3DTextureFormat;
 	import flash.display3D.Context3DVertexBufferFormat;
@@ -19,7 +19,9 @@ package away3d.stereo
 	import flash.display3D.VertexBuffer3D;
 	import flash.display3D.textures.Texture;
 	import flash.events.Event;
-	
+
+	use namespace arcane;
+
 	public class StereoRenderer
 	{
 		private var _leftTexture:Texture;
@@ -90,7 +92,7 @@ package away3d.stereo
 			stage3DProxy.clearScissorRectangle();
 			stage3DProxy.setRenderTarget(null);
 			
-			context3DProxy = stage3DProxy.context3DProxy;
+			context3DProxy = stage3DProxy._context3DProxy;
 			vertexBuffer = _rttManager.renderToScreenVertexBuffer;
 			indexBuffer = _rttManager.indexBuffer;
 			
