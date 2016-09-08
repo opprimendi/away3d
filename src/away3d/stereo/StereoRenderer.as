@@ -6,6 +6,7 @@ package away3d.stereo
 	import away3d.debug.Debug;
 	import away3d.stereo.methods.InterleavedStereoRenderMethod;
 	import away3d.stereo.methods.StereoRenderMethodBase;
+	import flash.display3D.Context3DClearMask;
 	
 	import com.adobe.utils.AGALMiniAssembler;
 	
@@ -101,7 +102,7 @@ package away3d.stereo
 			context3DProxy.setTextureAt(0, _leftTexture);
 			context3DProxy.setTextureAt(1, _rightTexture);
 			context3DProxy.setProgram(getProgram3D(stage3DProxy));
-			context3DProxy.clear(0.0, 0.0, 0.0, 1.0);
+			context3DProxy.clear(0.0, 0.0, 0.0, 1.0, 1, 0, Context3DClearMask.ALL);
 			context3DProxy.drawTriangles(indexBuffer, 0, 2);
 			
 			// Clean up

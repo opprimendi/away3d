@@ -128,7 +128,7 @@ package away3d.animators
 			_translate[0] = _deltaFrame.offsetU;
 			_translate[1] = _deltaFrame.offsetV;
 			
-			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _translate);
+			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _translate, 1);
 			
 			_uvTransform.identity();
 			
