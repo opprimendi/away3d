@@ -36,7 +36,7 @@ package away3d.stereo.methods
 				_shaderData[3] = .5;
 			}
 			
-			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _shaderData);
+			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _shaderData, 1);
 		}
 		
 		override public function deactivate(stage3DProxy:Stage3DProxy):void
