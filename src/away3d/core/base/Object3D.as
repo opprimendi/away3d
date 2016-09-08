@@ -411,6 +411,13 @@ package away3d.core.base
 			invalidatePivot();
 		}
 		
+		public function get positionVector():Vector3D
+		{
+			transform.copyColumnTo(3, _pos);
+			
+			return _pos;
+		}
+		
 		/**
 		 * Defines the position of the 3d object, relative to the local coordinates of the parent <code>ObjectContainer3D</code>.
 		 */

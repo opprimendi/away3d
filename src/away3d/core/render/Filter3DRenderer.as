@@ -153,8 +153,8 @@ package away3d.core.render
 			}
 			
 			context3DProxy.setTextureAt(0, null);
-			context3DProxy.setVertexBufferAt(0, null, 0, Context3DVertexBufferFormat.FLOAT_4);
-			context3DProxy.setVertexBufferAt(1, null, 0, Context3DVertexBufferFormat.FLOAT_4);
+			context3DProxy.clearVertexBufferAt(0);
+			context3DProxy.clearVertexBufferAt(1);
 		}
 		
 		private function updateFilterSizes():void
