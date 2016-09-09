@@ -216,7 +216,7 @@ package away3d.loaders.parsers
 	{
 		arcane var _fileName:String;
 		protected var _dataFormat:String;
-		protected var _data:*;
+		protected var _data:Object;
 		protected var _frameLimit:Number;
 		protected var _lastFrameTime:Number;
 		
@@ -334,7 +334,7 @@ package away3d.loaders.parsers
 		 * actual time spent on a frame can exceed this number since time-checks can
 		 * only be performed between logical sections of the parsing procedure.
 		 */
-		public function parseAsync(data:*, frameLimit:Number = 30):void
+		public function parseAsync(data:Object, frameLimit:Number = 30):void
 		{
 			_data = data;
 			startParsing(frameLimit);
@@ -530,7 +530,7 @@ package away3d.loaders.parsers
 			if(hasEventListener(ParserEvent.PARSE_ERROR)) dispatchEvent(new ParserEvent(ParserEvent.PARSE_ERROR, message));
 		}
 		
-		protected function addDependency(id:String, req:URLRequest, retrieveAsRawData:Boolean = false, data:* = null, suppressErrorEvents:Boolean = false):void
+		protected function addDependency(id:String, req:URLRequest, retrieveAsRawData:Boolean = false, data:Object = null, suppressErrorEvents:Boolean = false):void
 		{
 			_dependencies.push(new ResourceDependency(id, req, data, this, retrieveAsRawData, suppressErrorEvents));
 		}

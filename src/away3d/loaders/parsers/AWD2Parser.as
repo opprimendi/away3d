@@ -230,7 +230,7 @@ package away3d.loaders.parsers
 		 * @param data The data block to potentially be parsed.
 		 * @return Whether or not the given data is supported.
 		 */
-		public static function supportsData(data:*):Boolean
+		public static function supportsData(data:Object):Boolean
 		{
 			return (ParserUtil.toString(data, 3) == 'AWD');
 		}
@@ -2265,7 +2265,7 @@ package away3d.loaders.parsers
 					var attr_key:String;
 					var attr_type:uint;
 					var attr_len:uint;
-					var attr_val:*;
+					var attr_val:Object;
 					
 					// TODO: Properly tend to namespaces in attributes
 					ns_id = _newBlockBytes.readUnsignedByte();
@@ -2416,7 +2416,7 @@ package away3d.loaders.parsers
 			return returnArray;
 		}
 		
-		private function parseAttrValue(type:uint, len:uint):*
+		private function parseAttrValue(type:uint, len:uint):Object
 		{
 			var elem_len:uint;
 			var read_func:Function;
@@ -2487,7 +2487,7 @@ package away3d.loaders.parsers
 				
 				return list;
 			}
-			var val:*;
+			var val:Object;
 			val = read_func();
 			return val;
 		}
@@ -2568,8 +2568,8 @@ class AWDBlock
 {
 	public var id:uint;
 	public var name:String;
-	public var data:*;
-	public var len:*;
+	public var data:Object;
+	public var len:Object;
 	public var geoID:uint;
 	public var extras:Object;
 	public var bytes:ByteArray;
@@ -2615,12 +2615,12 @@ class bitFlags
 
 dynamic class AWDProperties
 {
-	public function set(key:uint, value:*):void
+	public function set(key:uint, value:Object):void
 	{
 		this[String(key)] = value;
 	}
 	
-	public function get(key:uint, fallback:*):*
+	public function get(key:uint, fallback:Object):*
 	{
 		if (this.hasOwnProperty(String(key)))
 			return this[String(key)];

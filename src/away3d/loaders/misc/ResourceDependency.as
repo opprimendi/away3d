@@ -19,7 +19,7 @@
 		private var _req:URLRequest;
 		private var _assets:Vector.<IAsset>;
 		private var _parentParser:ParserBase;
-		private var _data:*;
+		private var _data:Object;
 		private var _retrieveAsRawData:Boolean;
 		private var _suppressAssetEvents:Boolean;
 		private var _dependencies:Vector.<ResourceDependency>;
@@ -27,7 +27,7 @@
 		arcane var loader:SingleFileLoader;
 		arcane var success:Boolean;
 		
-		public function ResourceDependency(id:String, req:URLRequest, data:*, parentParser:ParserBase, retrieveAsRawData:Boolean = false, suppressAssetEvents:Boolean = false)
+		public function ResourceDependency(id:String, req:URLRequest, data:Object, parentParser:ParserBase, retrieveAsRawData:Boolean = false, suppressAssetEvents:Boolean = false)
 		{
 			_id = id;
 			_req = req;
@@ -73,7 +73,7 @@
 		/**
 		 * The data containing the dependency to be parsed, if the resource was already loaded.
 		 */
-		public function get data():*
+		public function get data():Object
 		{
 			return _data;
 		}
@@ -82,7 +82,7 @@
 		 * @private
 		 * Method to set data after having already created the dependency object, e.g. after load.
 		 */
-		arcane function setData(data:*):void
+		arcane function setData(data:Object):void
 		{
 			_data = data;
 		}

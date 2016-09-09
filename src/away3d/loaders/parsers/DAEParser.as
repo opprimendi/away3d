@@ -117,7 +117,7 @@ package away3d.loaders.parsers
 		 * @param data The data block to potentially be parsed.
 		 * @return Whether or not the given data is supported.
 		 */
-		public static function supportsData(data:*):Boolean
+		public static function supportsData(data:Object):Boolean
 		{
 			if (String(data).indexOf("COLLADA") != -1 || String(data).indexOf("collada") != -1)
 				return true;
@@ -354,7 +354,7 @@ package away3d.loaders.parsers
 		{
 			var library:Object = {};
 			for(var i:int = 0; i < list.length(); i++) {
-				var obj:* = new clas(list[i]);
+				var obj:Object = new clas(list[i]);
 				library[ obj.id ] = obj;
 			}
 			
@@ -511,7 +511,7 @@ package away3d.loaders.parsers
 				if (effects.length > 0) {
 					for (j = 0; j < mesh.subMeshes.length; j++) {
 						if (effects[j].material) {
-							mesh.subMeshes[j].material = effects[j].material;
+							mesh.subMeshes[j].material = effects[j].material as MaterialBase;
 							hasMaterial = true;
 						}
 					}
@@ -651,7 +651,7 @@ package away3d.loaders.parsers
 						
 						if (effects.length == geometry.subGeometries.length) {
 							for (j = 0; j < mesh.subMeshes.length; j++)
-								mesh.subMeshes[j].material = effects[j].material;
+								mesh.subMeshes[j].material = effects[j].material as MaterialBase;
 						}
 						mesh.transform = node.matrix;
 						
@@ -958,7 +958,7 @@ class DAEElement
 	public var id:String;
 	public var name:String;
 	public var sid:String;
-	public var userData:*;
+	public var userData:Object;
 	protected var ns:Namespace;
 	
 	public function DAEElement(element:XML = null)
@@ -1068,7 +1068,7 @@ class DAEElement
 class DAEImage extends DAEElement
 {
 	public var init_from:String;
-	public var resource:*;
+	public var resource:Object;
 	
 	public function DAEImage(element:XML = null):void
 	{
@@ -1834,7 +1834,7 @@ class DAEEffect extends DAEElement
 	public var shader:DAEShader;
 	public var surface:DAESurface;
 	public var sampler:DAESampler2D;
-	public var material:*;
+	public var material:Object;
 	
 	public function DAEEffect(element:XML = null)
 	{
@@ -2029,7 +2029,7 @@ class DAENode extends DAEElement
 			
 			case "instance_controller":
 				instance = new DAEInstanceController(child);
-				this.instance_controllers[instance_controllers.length] = instance;
+				this.instance_controllers[instance_controllers.length] = instance as DAEInstanceController;
 				break;
 			
 			case "instance_geometry":

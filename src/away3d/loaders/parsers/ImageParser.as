@@ -59,7 +59,7 @@ package away3d.loaders.parsers
 		 * @param data The data block to potentially be parsed.
 		 * @return Whether or not the given data is supported.
 		 */
-		public static function supportsData(data:*):Boolean
+		public static function supportsData(data:Object):Boolean
 		{
 			//shortcut if asset is IFlexAsset
 			if (data is Bitmap)

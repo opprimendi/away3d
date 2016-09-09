@@ -142,7 +142,7 @@ package away3d.core.base
 				if (subGeom is SubGeometry)
 					continue;
 				
-				_removableCompactSubGeometries[_removableCompactSubGeometries.length] = subGeom;
+				_removableCompactSubGeometries[_removableCompactSubGeometries.length] = subGeom as CompactSubGeometry;
 				addSubGeometry(subGeom.cloneWithSeperateBuffers());
 			}
 			

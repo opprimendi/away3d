@@ -311,7 +311,7 @@ package away3d.loaders
 		 * @param ns An optional namespace string under which the file is to be loaded, allowing the differentiation of two resources with identical assets
 		 * @param parser An optional parser object for translating the loaded data into a usable resource. If not provided, AssetLoader will attempt to auto-detect the file type.
 		 */
-		public function loadData(data:*, id:String, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
+		public function loadData(data:Object, id:String, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
 		{
 			if (!_token) {
 				_token = new AssetLoaderToken(this);
@@ -364,7 +364,7 @@ package away3d.loaders
 		 */
 		private function retrieveDependency(dependency:ResourceDependency, parser:ParserBase = null):void
 		{
-			var data:*;
+			var data:Object;
 			
 			var matMode:uint = 0;
 			if (_context && _context.materialMode != 0)

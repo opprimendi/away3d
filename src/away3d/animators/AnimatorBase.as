@@ -333,7 +333,7 @@ package away3d.animators
 		public function dispose():void
 		{
 			stop();
-			for each(var it:* in _animationStates)
+			for each(var it:Object in _animationStates)
 				(it as IDisposable).dispose();
 			_activeState = null;
 			_activeNode = null;

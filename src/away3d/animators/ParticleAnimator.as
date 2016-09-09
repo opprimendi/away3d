@@ -183,7 +183,7 @@ package away3d.animators
 		public override function dispose():void
 		{
 			super.dispose();
-			for each(var it:* in _animatorSubGeometries)
+			for each(var it:Object in _animatorSubGeometries)
 				(it as IDisposable).dispose();
 			_particleAnimationSet = null;
 			_animationParticleStates = null;

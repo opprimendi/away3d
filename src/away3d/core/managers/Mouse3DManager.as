@@ -242,7 +242,7 @@ package away3d.core.managers
 			if (!_activeView || (_activeView && !_activeView.shareContext))
 				return;
 			
-			for (var v:* in _view3Ds) {
+			for (var v:Object in _view3Ds) {
 				if (v != _activeView && _view3Ds[v] < _view3Ds[_activeView])
 					v.dispatchEvent(event);
 			}
@@ -250,7 +250,7 @@ package away3d.core.managers
 		
 		private function hasKey(view:View3D):Boolean
 		{
-			for (var v:* in _view3Ds) {
+			for (var v:Object in _view3Ds) {
 				if (v === view)
 					return true;
 			}
@@ -264,10 +264,10 @@ package away3d.core.managers
 			var child:DisplayObject;
 			for (c = 0; c < childCount; c++) {
 				child = container.getChildAt(c);
-				for (var v:* in _view3Ds) {
+				for (var v:Object in _view3Ds) {
 					if (child == v) {
 						_view3Ds[child] = _childDepth;
-						_view3DLookup[_childDepth] = v;
+						_view3DLookup[_childDepth] = v as View3D;
 						_childDepth++;
 					}
 				}

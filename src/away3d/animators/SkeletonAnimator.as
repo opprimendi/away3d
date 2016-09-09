@@ -144,7 +144,7 @@ package away3d.animators
 		
 		public override function dispose():void {
 			super.dispose();
-			for each(var it:* in _animationStates)
+			for each(var it:Object in _animationStates)
 				(it as IDisposable).dispose();
 			_skeleton = null;
 			_activeSkeletonState = null;

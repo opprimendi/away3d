@@ -213,7 +213,7 @@ package away3d.loaders.misc
 		private var _fileName:String;
 		private var _loadAsRawData:Boolean;
 		private var _materialMode:uint;
-		private var _data:*;
+		private var _data:Object;
 		
 		// Image parser only parser that is added by default, to save file size.
 		private static var _parsers:Vector.<Class> = Vector.<Class>([ ImageParser ]);
@@ -232,7 +232,7 @@ package away3d.loaders.misc
 			return _req? _req.url : '';
 		}
 		
-		public function get data():*
+		public function get data():Object
 		{
 			return _data;
 		}
@@ -311,7 +311,7 @@ package away3d.loaders.misc
 		 * @param uri The identifier (url or id) of the object to be loaded, mainly used for resource management.
 		 * @param parser An optional parser object that will translate the data into a usable resource. If not provided, AssetLoader will attempt to auto-detect the file type.
 		 */
-		public function parseData(data:*, parser:ParserBase = null, req:URLRequest = null):void
+		public function parseData(data:Object, parser:ParserBase = null, req:URLRequest = null):void
 		{
 			if (data is Class)
 				data = new data();
@@ -377,7 +377,7 @@ package away3d.loaders.misc
 		 * @param uri The url or id of the object to be parsed.
 		 * @return An instance of the guessed parser.
 		 */
-		private function getParserFromData(data:*):ParserBase
+		private function getParserFromData(data:Object):ParserBase
 		{
 			var len:uint = _parsers.length;
 			
@@ -433,7 +433,7 @@ package away3d.loaders.misc
 		 * Initiates parsing of the loaded data.
 		 * @param data The data to be parsed.
 		 */
-		private function parse(data:*):void
+		private function parse(data:Object):void
 		{
 			// If no parser has been defined, try to find one by letting
 			// all plugged in parsers inspect the actual data.

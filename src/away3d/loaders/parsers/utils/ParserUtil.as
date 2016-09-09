@@ -13,13 +13,13 @@ package away3d.loaders.parsers.utils
 		 * @return The ByteArray or null
 		 *
 		 */
-		public static function toByteArray(data:*):ByteArray
+		public static function toByteArray(data:Object):ByteArray
 		{
 			if (data is Class)
 				data = new data();
 			
 			if (data is ByteArray)
-				return data;
+				return data as ByteArray;
 			else
 				return null;
 		}
@@ -33,7 +33,7 @@ package away3d.loaders.parsers.utils
 		 * @return The String or null
 		 *
 		 */
-		public static function toString(data:*, length:uint = 0):String
+		public static function toString(data:Object, length:uint = 0):String
 		{
 			var ba:ByteArray;
 			

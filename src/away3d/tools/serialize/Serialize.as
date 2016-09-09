@@ -160,7 +160,7 @@ package away3d.tools.serialize
 				serializeObjectContainer(parent.getChildAt(i), serializer);
 		}
 		
-		private static function classNameFromInstance(instance:*):String
+		private static function classNameFromInstance(instance:Object):String
 		{
 			return getQualifiedClassName(instance).split("::").pop();
 		}
