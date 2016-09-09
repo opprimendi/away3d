@@ -29,12 +29,12 @@
 		override protected function uploadContent(texture:TextureBase):void
 		{
 			for (var i:int = 0; i < 6; ++i)
-				MipmapGenerator.generateMipMaps(MipmapGenerator.getMipMapHolder(_width, _height, false), texture, false, i);
+				MipmapGenerator.generateMipMaps(MipmapGenerator.getMipMapHolder(_size, _size, false), texture, false, i);
 		}
 		
 		override protected function createTexture(context3D:Context3D):TextureBase
 		{
-			return context3D.createCubeTexture(_width, Context3DTextureFormat.BGRA, true);
+			return context3D.createCubeTexture(_size, Context3DTextureFormat.BGRA, true);
 		}
 	}
 }
