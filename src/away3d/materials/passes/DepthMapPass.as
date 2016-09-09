@@ -169,9 +169,9 @@
 			
 			if (_alphaThreshold > 0) {
 				context3DProxy.setTextureAt(0, _alphaMask.getTextureForStage3D(stage3DProxy));
-				context3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 3);
+				context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 3);
 			} else
-				context3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 2);
+				context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 2);
 		}
 	}
 }

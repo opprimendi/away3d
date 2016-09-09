@@ -502,7 +502,7 @@ package away3d.containers
 		
 		public function contains(child:ObjectContainer3D):Boolean
 		{
-			return _children.indexOf(child) >= 0;
+			return _children.indexOf(child) != -1;
 		}
 		
 		/**

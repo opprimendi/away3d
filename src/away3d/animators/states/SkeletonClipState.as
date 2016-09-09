@@ -103,7 +103,7 @@ package away3d.animators.states
 			
 			var currentPose:Vector.<JointPose> = _currentPose.jointPoses;
 			var nextPose:Vector.<JointPose> = _nextPose.jointPoses;
-			var numJoints:uint = skeleton.numJoints;
+			var numJoints:int = skeleton.numJoints;
 			var p1:Vector3D, p2:Vector3D;
 			var pose1:JointPose, pose2:JointPose;
 			var endPoses:Vector.<JointPose> = _skeletonPose.jointPoses;
@@ -116,24 +116,53 @@ package away3d.animators.states
 			
 			if ((numJoints != currentPose.length) || (numJoints != nextPose.length))
 				throw new Error("joint counts don't match!");
-			
-			for (var i:uint = 0; i < numJoints; ++i) {
-				endPose = endPoses[i] ||= new JointPose();
-				pose1 = currentPose[i];
-				pose2 = nextPose[i];
-				p1 = pose1.translation;
-				p2 = pose2.translation;
 				
-				if (_skeletonClipNode.highQuality)
+			var i:int = 0;
+				
+			if (_skeletonClipNode.highQuality)
+			{
+				for (; i < numJoints; ++i) 
+				{
+					if (endPoses[i] == null)
+						endPoses[i] = new JointPose();
+						
+					endPose = endPoses[i];
+					pose1 = currentPose[i];
+					pose2 = nextPose[i];
+					p1 = pose1.translation;
+					p2 = pose2.translation;
+					
 					endPose.orientation.slerp(pose1.orientation, pose2.orientation, _blendWeight);
-				else
+					
+					if (i > 0) {
+						tr = endPose.translation;
+						tr.x = p1.x + _blendWeight * (p2.x - p1.x);
+						tr.y = p1.y + _blendWeight * (p2.y - p1.y);
+						tr.z = p1.z + _blendWeight * (p2.z - p1.z);
+					}
+				}
+			}
+			else
+			{
+				for (; i < numJoints; ++i) 
+				{
+					if (endPoses[i] == null)
+						endPoses[i] = new JointPose();
+						
+					endPose = endPoses[i];
+					pose1 = currentPose[i];
+					pose2 = nextPose[i];
+					p1 = pose1.translation;
+					p2 = pose2.translation;
+					
 					endPose.orientation.lerp(pose1.orientation, pose2.orientation, _blendWeight);
-				
-				if (i > 0) {
-					tr = endPose.translation;
-					tr.x = p1.x + _blendWeight*(p2.x - p1.x);
-					tr.y = p1.y + _blendWeight*(p2.y - p1.y);
-					tr.z = p1.z + _blendWeight*(p2.z - p1.z);
+					
+					if (i > 0) {
+						tr = endPose.translation;
+						tr.x = p1.x + _blendWeight * (p2.x - p1.x);
+						tr.y = p1.y + _blendWeight * (p2.y - p1.y);
+						tr.z = p1.z + _blendWeight * (p2.z - p1.z);
+					}
 				}
 			}
 		}

@@ -509,8 +509,8 @@
 			}
 			
 			var uvBase:int = target.UVOffset;
-			for (i = _vSegments; i >= 0; i--) {
-				for (j = _uSegments; j >= 0; j--) {
+			for (i = _vSegments; i > -1; i--) {
+				for (j = _uSegments; j > -1; j--) {
 					data[uvBase] = j/_uSegments;
 					data[uvBase + 1] = i/_vSegments;
 					uvBase += stride;

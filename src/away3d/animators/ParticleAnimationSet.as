@@ -108,7 +108,7 @@ package away3d.animators
 				_localDynamicNodes.push(n);
 			
 			var i:int;
-			for (i = _particleNodes.length - 1; i >= 0; i--) {
+			for (i = _particleNodes.length - 1; i > -1; i--) {
 				if (_particleNodes[i].priority <= n.priority)
 					break;
 			}

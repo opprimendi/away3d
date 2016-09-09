@@ -182,7 +182,7 @@ package away3d.materials.methods
 			// assume lowest partition is selected, will be overwritten later otherwise
 			code = "mov " + uvCoord + ", " + _depthMapCoordVaryings[numCascades - 1] + "\n";
 			
-			for (var i:int = numCascades - 2; i >= 0; --i) {
+			for (var i:int = numCascades - 2; i > -1; --i) {
 				var uvProjection:ShaderRegisterElement = _depthMapCoordVaryings[i];
 				
 				// calculate if in texturemap (result == 0 or 1, only 1 for a single partition)

@@ -292,7 +292,7 @@ package away3d.core.render
 			
 			if (!_shareContext) {
 				if (_snapshotRequired && _snapshotBitmapData) {
-					_context3D.drawToBitmapData(_snapshotBitmapData);
+					_context3DProxy.drawToBitmapData(_snapshotBitmapData);
 					_snapshotRequired = false;
 				}
 			}

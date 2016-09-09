@@ -264,7 +264,7 @@ package away3d.debug
 		{
 			if (view3d) {
 				var idx:int = _views.indexOf(view3d);
-				if (idx >= 0)
+				if (idx != -1)
 					_views.splice(idx, 1);
 			}
 		}
@@ -648,7 +648,7 @@ package away3d.debug
 			g.clear();
 			g.lineStyle(.5, _MEM_COL, 1, true, LineScaleMode.NONE);
 			g.moveTo(5*(_mem_points.length - 1), -_mem_points[_mem_points.length - 1]);
-			for (var i:int = _mem_points.length - 1; i >= 0; --i) {
+			for (var i:int = _mem_points.length - 1; i > -1; --i) {
 				if (_mem_points[i + 1] == 0 || _mem_points[i] == 0) {
 					g.moveTo(i*5, -_mem_points[i]);
 					continue;

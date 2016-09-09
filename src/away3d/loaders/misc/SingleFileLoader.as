@@ -363,7 +363,7 @@ package away3d.loaders.misc
 			var len:uint = _parsers.length;
 			
 			// go in reverse order to allow application override of default parser added in Away3D proper
-			for (var i:int = len - 1; i >= 0; i--) {
+			for (var i:int = len - 1; i > -1; i--) {
 				if (_parsers[i].supportsType(_fileExtension))
 					return new _parsers[i]();
 			}
@@ -382,7 +382,7 @@ package away3d.loaders.misc
 			var len:uint = _parsers.length;
 			
 			// go in reverse order to allow application override of default parser added in Away3D proper
-			for (var i:int = len - 1; i >= 0; i--) {
+			for (var i:int = len - 1; i > -1; i--) {
 				if (_parsers[i].supportsData(data))
 					return new _parsers[i]();
 			}

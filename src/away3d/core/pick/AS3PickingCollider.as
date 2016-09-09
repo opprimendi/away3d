@@ -131,7 +131,7 @@ package away3d.core.pick
 				}
 			}
 			
-			if (collisionTriangleIndex >= 0)
+			if (collisionTriangleIndex != -1)
 				return true;
 			
 			return false;

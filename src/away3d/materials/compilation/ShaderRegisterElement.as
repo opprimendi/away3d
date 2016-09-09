@@ -26,7 +26,7 @@ package away3d.materials.compilation
 			
 			_toStr = _regName;
 			
-			if (_index >= 0)
+			if (_index != -1)
 				_toStr += _index;
 			
 			if (component > -1)

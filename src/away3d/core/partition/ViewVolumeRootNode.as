@@ -54,7 +54,7 @@ package away3d.core.partition
 		public function removeViewVolume(viewVolume:ViewVolume):void
 		{
 			var index:int = _viewVolumes.indexOf(viewVolume);
-			if (index >= 0)
+			if (index != -1)
 				_viewVolumes.splice(index, 1);
 		}
 		

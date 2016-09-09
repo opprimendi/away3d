@@ -49,7 +49,7 @@ package away3d.filters.tasks
 		{
 			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			
-			context3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 1);
+			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 1);
 			context3DProxy.setTextureAt(1, _overlayTexture);
 		}
 		

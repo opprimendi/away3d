@@ -104,7 +104,7 @@ package away3d.core.managers
 				// Get the top-most view colliding object
 				var distance:Number = Infinity;
 				var view:View3D;
-				for (var v:int = _viewCount - 1; v >= 0; v--) {
+				for (var v:int = _viewCount - 1; v > -1; v--) {
 					view = _view3DLookup[v];
 					if (_collidingViewObjects[v] && (view.layeredView || _collidingViewObjects[v].rayEntryDistance < distance)) {
 						distance = _collidingViewObjects[v].rayEntryDistance;

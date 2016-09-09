@@ -182,7 +182,8 @@ package away3d.core.base
 		/**
 		 * @inheritDoc
 		 */
-		public function activateVertexBuffer(index:int, stage3DProxy:Stage3DProxy):void
+		[Inline]
+		public final function activateVertexBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			_subGeometry.activateVertexBuffer(index, stage3DProxy);
 		}
@@ -206,7 +207,8 @@ package away3d.core.base
 		/**
 		 * @inheritDoc
 		 */
-		public function activateUVBuffer(index:int, stage3DProxy:Stage3DProxy):void
+		[Inline]
+		public final function activateUVBuffer(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			_subGeometry.activateUVBuffer(index, stage3DProxy);
 		}
@@ -222,7 +224,8 @@ package away3d.core.base
 		/**
 		 * @inheritDoc
 		 */
-		public function getIndexBuffer(stage3DProxy:Stage3DProxy):IndexBuffer3D
+		[Inline]
+		public final function getIndexBuffer(stage3DProxy:Stage3DProxy):IndexBuffer3D
 		{
 			return _subGeometry.getIndexBuffer(stage3DProxy);
 		}
@@ -230,7 +233,8 @@ package away3d.core.base
 		/**
 		 * The amount of triangles that make up this SubMesh.
 		 */
-		public function get numTriangles():uint
+		[Inline]
+		public final function get numTriangles():uint
 		{
 			return _subGeometry.numTriangles;
 		}
@@ -365,7 +369,8 @@ package away3d.core.base
 			return _subGeometry.vertexTangentOffset;
 		}
 		
-		public function getRenderSceneTransform(camera:Camera3D):Matrix3D
+		[Inline]
+		public final function getRenderSceneTransform(camera:Camera3D):Matrix3D
 		{
 			return _parentMesh.sceneTransform;
 		}

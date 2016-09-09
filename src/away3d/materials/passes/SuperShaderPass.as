@@ -200,7 +200,7 @@ package away3d.materials.passes
 				vo.method.activate(vo.data, stage3DProxy);
 			}
 			
-			if (_cameraPositionIndex >= 0) {
+			if (_cameraPositionIndex != -1) {
 				var pos:Vector3D = camera.scenePosition;
 				_vertexConstantData[_cameraPositionIndex] = pos.x;
 				_vertexConstantData[_cameraPositionIndex + 1] = pos.y;

@@ -426,7 +426,7 @@
 			getBarycentricCoords(point, _calcPoint ||= new Point());
 			var s:Number = _calcPoint.x;
 			var t:Number = _calcPoint.y;
-			return s >= 0.0 && t >= 0.0 && (s + t) <= 1.0;
+			return s > -1.0 && t > -1.0 && (s + t) <= 1.0;
 		}
 		
 		private function planeContains(point:Vector3D, epsilon:Number = .007):Boolean
@@ -470,7 +470,7 @@
 			var s:Number = _calcPoint.x;
 			var t:Number = _calcPoint.y;
 			
-			if (s >= 0.0 && t >= 0.0 && (s + t) <= 1.0) {
+			if (s > -1.0 && t > -1.0 && (s + t) <= 1.0) {
 				var u0:Number = _uvs[0];
 				var v0:Number = _uvs[1];
 				target ||= new UV();

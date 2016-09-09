@@ -190,9 +190,9 @@ package away3d.materials.passes
 			_fragmentConstantData.length = _numUsedFragmentConstants*4;
 			
 			initCommonsData();
-			if (_uvTransformIndex >= 0)
+			if (_uvTransformIndex != -1)
 				initUVTransformData();
-			if (_cameraPositionIndex >= 0)
+			if (_cameraPositionIndex != -1)
 				_vertexConstantData[_cameraPositionIndex + 3] = 1;
 			
 			updateMethodConstants();
@@ -595,16 +595,16 @@ package away3d.materials.passes
 			var i:uint;
 			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			
-			if (_uvBufferIndex >= 0)
+			if (_uvBufferIndex != -1)
 				renderable.activateUVBuffer(_uvBufferIndex, stage3DProxy);
 				
-			if (_secondaryUVBufferIndex >= 0)
+			if (_secondaryUVBufferIndex != -1)
 				renderable.activateSecondaryUVBuffer(_secondaryUVBufferIndex, stage3DProxy);
 				
-			if (_normalBufferIndex >= 0)
+			if (_normalBufferIndex != -1)
 				renderable.activateVertexNormalBuffer(_normalBufferIndex, stage3DProxy);
 				
-			if (_tangentBufferIndex >= 0)
+			if (_tangentBufferIndex != -1)
 				renderable.activateVertexTangentBuffer(_tangentBufferIndex, stage3DProxy);
 			
 			if (_animateUVs) {
@@ -634,7 +634,7 @@ package away3d.materials.passes
 			if (usesProbes())
 				updateProbes(stage3DProxy);
 			
-			if (_sceneMatrixIndex >= 0) {
+			if (_sceneMatrixIndex != -1) {
 				renderable.getRenderSceneTransform(camera).copyRawDataTo(_vertexConstantData, _sceneMatrixIndex, true);
 				viewProjection.copyRawDataTo(_vertexConstantData, 0, true);
 			} else {
@@ -644,7 +644,7 @@ package away3d.materials.passes
 				matrix3D.copyRawDataTo(_vertexConstantData, 0, true);
 			}
 			
-			if (_sceneNormalMatrixIndex >= 0)
+			if (_sceneNormalMatrixIndex != -1)
 				renderable.inverseSceneTransform.copyRawDataTo(_vertexConstantData, _sceneNormalMatrixIndex, false);
 			
 			if (_usesNormals)

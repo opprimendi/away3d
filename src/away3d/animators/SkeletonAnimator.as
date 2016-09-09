@@ -28,14 +28,14 @@ package away3d.animators
 		private var _globalMatrices:Vector.<Number>;
 		private var _globalPose:SkeletonPose = new SkeletonPose();
 		private var _globalPropertiesDirty:Boolean;
-		private var _numJoints:uint;
+		private var _numJoints:int;
 		private var _animationStates:Dictionary = new Dictionary();
 		private var _condensedMatrices:Vector.<Number>;
 		
 		private var _skeleton:Skeleton;
 		private var _forceCPU:Boolean;
 		private var _useCondensedIndices:Boolean;
-		private var _jointsPerVertex:uint;
+		private var _jointsPerVertex:int;
 		private var _activeSkeletonState:ISkeletonAnimationState;
 		
 		/**
@@ -116,7 +116,7 @@ package away3d.animators
 			_globalMatrices = new Vector.<Number>(_numJoints*12, true);
 			
 			var j:int;
-			for (var i:uint = 0; i < _numJoints; ++i) {
+			for (var i:int = 0; i < _numJoints; ++i) {
 				_globalMatrices[j++] = 1;
 				_globalMatrices[j++] = 0;
 				_globalMatrices[j++] = 0;
@@ -202,19 +202,14 @@ package away3d.animators
 			if (_globalPropertiesDirty)
 				updateGlobalProperties();
 			
-			var skinnedGeom:SkinnedSubGeometry = SkinnedSubGeometry(SubMesh(renderable).subGeometry);
+			var skinnedGeom:SkinnedSubGeometry = (renderable as SubMesh).subGeometry as SkinnedSubGeometry;
 			
 			// using condensed data
-			var numCondensedJoints:uint = skinnedGeom.numCondensedJoints;
-			if (_useCondensedIndices) {
-				if (skinnedGeom.numCondensedJoints == 0) {
-					skinnedGeom.condenseIndexData();
-					numCondensedJoints = skinnedGeom.numCondensedJoints;
-				}
-				updateCondensedMatrices(skinnedGeom.condensedIndexLookUp, numCondensedJoints);
-				stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _condensedMatrices, numCondensedJoints*3);
-			} else {
-				if (_animationSet.usesCPU) {
+			var numCondensedJoints:int = skinnedGeom.numCondensedJoints;
+			if (_useCondensedIndices == false) 
+			{
+				if (_animationSet.usesCPU) 
+				{
 					var subGeomAnimState:SubGeomAnimationState = _animationStates[skinnedGeom] ||= new SubGeomAnimationState(skinnedGeom);
 					
 					if (subGeomAnimState.dirty) {
@@ -224,7 +219,19 @@ package away3d.animators
 					skinnedGeom.updateAnimatedData(subGeomAnimState.animatedVertexData);
 					return;
 				}
-				stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _globalMatrices, _numJoints*3);
+				
+				stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _globalMatrices, _numJoints * 3);
+			} 
+			else 
+			{
+				if (skinnedGeom.numCondensedJoints == 0) 
+				{
+					skinnedGeom.condenseIndexData();
+					numCondensedJoints = skinnedGeom.numCondensedJoints;
+				}
+				
+				updateCondensedMatrices(skinnedGeom.condensedIndexLookUp, numCondensedJoints);
+				stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _condensedMatrices, numCondensedJoints*3);
 			}
 			
 			skinnedGeom.activateJointIndexBuffer(vertexStreamOffset, stage3DProxy);
@@ -254,11 +261,11 @@ package away3d.animators
 				SubGeomAnimationState(_animationStates[key]).dirty = true;
 		}
 		
-		private function updateCondensedMatrices(condensedIndexLookUp:Vector.<uint>, numJoints:uint):void
+		private function updateCondensedMatrices(condensedIndexLookUp:Vector.<uint>, numJoints:int):void
 		{
-			var i:uint = 0, j:uint = 0;
-			var len:uint;
-			var srcIndex:uint;
+			var i:int = 0, j:int = 0;
+			var len:int;
+			var srcIndex:int;
 			
 			_condensedMatrices = new Vector.<Number>();
 			
@@ -271,7 +278,8 @@ package away3d.animators
 			} while (++i < numJoints);
 		}
 		
-		private function updateGlobalProperties():void
+		[Inline]
+		private final function updateGlobalProperties():void
 		{
 			_globalPropertiesDirty = false;
 			
@@ -279,7 +287,7 @@ package away3d.animators
 			localToGlobalPose(_activeSkeletonState.getSkeletonPose(_skeleton), _globalPose, _skeleton);
 			
 			// convert pose to matrix
-			var mtxOffset:uint;
+			var mtxOffset:int = 0;
 			var globalPoses:Vector.<JointPose> = _globalPose.jointPoses;
 			var raw:Vector.<Number>;
 			var ox:Number, oy:Number, oz:Number, ow:Number;
@@ -297,7 +305,8 @@ package away3d.animators
 			var vec:Vector3D;
 			var t:Number;
 			
-			for (var i:uint = 0; i < _numJoints; ++i) {
+			for (var i:int = 0; i < _numJoints; ++i)
+			{
 				pose = globalPoses[i];
 				quat = pose.orientation;
 				vec = pose.translation;
@@ -374,8 +383,8 @@ package away3d.animators
 			var targetData:Vector.<Number> = state.animatedVertexData;
 			var jointIndices:Vector.<Number> = subGeom.jointIndexData;
 			var jointWeights:Vector.<Number> = subGeom.jointWeightsData;
-			var index:uint;
-			var j:uint, k:uint;
+			var index:int;
+			var j:int, k:int;
 			var vx:Number, vy:Number, vz:Number;
 			var nx:Number, ny:Number, nz:Number;
 			var tx:Number, ty:Number, tz:Number;
@@ -412,7 +421,7 @@ package away3d.animators
 					weight = jointWeights[j];
 					if (weight > 0) {
 						// implicit /3*12 (/3 because indices are multiplied by 3 for gpu matrix access, *12 because it's the matrix size)
-						var mtxOffset:uint = uint(jointIndices[j++]) << 2;
+						var mtxOffset:int = jointIndices[j++] << 2;
 						m11 = _globalMatrices[mtxOffset];
 						m12 = _globalMatrices[mtxOffset + 1];
 						m13 = _globalMatrices[mtxOffset + 2];
@@ -460,12 +469,13 @@ package away3d.animators
 		 * @param targetPose The SkeletonPose object that will contain the global pose.
 		 * @param skeleton The skeleton containing the joints, and as such, the hierarchical data to transform to global poses.
 		 */
-		private function localToGlobalPose(sourcePose:SkeletonPose, targetPose:SkeletonPose, skeleton:Skeleton):void
+		[Inline]
+		public final function localToGlobalPose(sourcePose:SkeletonPose, targetPose:SkeletonPose, skeleton:Skeleton):void
 		{
 			var globalPoses:Vector.<JointPose> = targetPose.jointPoses;
 			var globalJointPose:JointPose;
 			var joints:Vector.<SkeletonJoint> = skeleton.joints;
-			var len:uint = sourcePose.numJointPoses;
+			var len:int = sourcePose.numJointPoses;
 			var jointPoses:Vector.<JointPose> = sourcePose.jointPoses;
 			var parentIndex:int;
 			var joint:SkeletonJoint;
@@ -476,16 +486,29 @@ package away3d.animators
 			var t:Vector3D;
 			var q:Quaternion;
 			
-			var x1:Number, y1:Number, z1:Number, w1:Number;
-			var x2:Number, y2:Number, z2:Number, w2:Number;
-			var x3:Number, y3:Number, z3:Number;
+			var x1:Number;
+			var y1:Number;
+			var z1:Number;
+			var w1:Number;
+			var x2:Number;
+			var y2:Number;
+			var z2:Number; 
+			var w2:Number;
+			var x3:Number;
+			var y3:Number;
+			var z3:Number;
 			
 			// :s
 			if (globalPoses.length != len)
 				globalPoses.length = len;
 			
-			for (var i:uint = 0; i < len; ++i) {
-				globalJointPose = globalPoses[i] ||= new JointPose();
+			for (var i:int = 0; i < len; ++i) 
+			{
+				if(globalPoses[i] == null)
+					globalPoses[i] = new JointPose();
+					
+				globalJointPose = globalPoses[i];
+				
 				joint = joints[i];
 				parentIndex = joint.parentIndex;
 				pose = jointPoses[i];
@@ -493,7 +516,8 @@ package away3d.animators
 				q = globalJointPose.orientation;
 				t = globalJointPose.translation;
 				
-				if (parentIndex < 0) {
+				if (parentIndex < 0) 
+				{
 					tr = pose.translation;
 					or = pose.orientation;
 					q.x = or.x;
@@ -503,7 +527,9 @@ package away3d.animators
 					t.x = tr.x;
 					t.y = tr.y;
 					t.z = tr.z;
-				} else {
+				}
+				else 
+				{
 					// append parent pose
 					parentPose = globalPoses[parentIndex];
 					

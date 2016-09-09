@@ -191,7 +191,7 @@ package away3d.materials.passes
 				updateProjectionTextures();
 			// never scale
 			super.activate(stage3DProxy, camera);
-			stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, _polyOffset, 1);
+			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, _polyOffset, 1);
 		}
 	}
 }

@@ -119,7 +119,7 @@ package away3d.core.partition
 			if (!statics)
 				return;
 			index = statics.indexOf(entity.getEntityPartitionNode());
-			if (index >= 0)
+			if (index != -1)
 				statics.splice(index, 1);
 			updateNumEntities(_numEntities - 1);
 		}
@@ -131,7 +131,7 @@ package away3d.core.partition
 			if (!dynamics)
 				return;
 			index = dynamics.indexOf(cell);
-			if (index >= 0)
+			if (index != -1)
 				dynamics.splice(index, 1);
 			updateNumEntities(_numEntities - 1);
 		}

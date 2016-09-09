@@ -395,7 +395,7 @@ package away3d.library
 			var old:IAsset;
 			
 			// Bail if asset has already been added.
-			if (_assets.indexOf(asset) >= 0)
+			if (_assets.indexOf(asset) != -1)
 				return;
 			
 			old = getAsset(asset.name, asset.assetNamespace);
@@ -433,7 +433,7 @@ package away3d.library
 			asset.removeEventListener(AssetEvent.ASSET_CONFLICT_RESOLVED, onAssetConflictResolved);
 			
 			idx = _assets.indexOf(asset);
-			if (idx >= 0)
+			if (idx != -1)
 				_assets.splice(idx, 1);
 			
 			if (dispose)

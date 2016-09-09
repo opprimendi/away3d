@@ -123,7 +123,7 @@ package away3d.core.pick
 			if (!_bitmapData)
 				_bitmapData = new BitmapData(1, 1, false, 0);
 			
-			_context3D.drawToBitmapData(_bitmapData);
+			_context3DProxy.drawToBitmapData(_bitmapData);
 			_hitColor = _bitmapData.getPixel(0, 0);
 			
 			if (!_hitColor) {
@@ -182,7 +182,7 @@ package away3d.core.pick
 			_context3DProxy.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 			_context3DProxy.setDepthTest(true, Context3DCompareMode.LESS);
 			_context3DProxy.setProgram(_objectProgram3D);
-			_context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, _viewportData, 1);
+			_context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, _viewportData, 1);
 			drawRenderables(entityCollector.opaqueRenderableHead, camera);
 			drawRenderables(entityCollector.blendedRenderableHead, camera);
 		}
@@ -406,7 +406,7 @@ package away3d.core.pick
 					t = (dot00*dot12 - dot01*dot02)*invDenom;
 					
 					// if inside the current triangle, fetch details hit information
-					if (s >= 0 && t >= 0 && (s + t) <= 1) {
+					if (s > -1 && t > -1 && (s + t) < 2) {
 						
 						// this is def the triangle, now calculate precise coords
 						getPrecisePosition(_hitRenderable.inverseSceneTransform, normals[i], normals[i + 1], normals[i + 2], x1, y1, z1);

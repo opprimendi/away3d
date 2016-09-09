@@ -117,7 +117,7 @@ package away3d.core.render
 			drawRenderables(entityCollector.opaqueRenderableHead, entityCollector, which);
 			drawRenderables(entityCollector.blendedRenderableHead, entityCollector, which);
 
-			//_context3DProxy.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);
+			_context3DProxy.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);
 
 			if (_activeMaterial)
 				_activeMaterial.deactivate(_stage3DProxy);
@@ -173,8 +173,8 @@ package away3d.core.render
 			}
 
 			var cw:Number = -(cx*camPos.x + cy*camPos.y + cz*camPos.z + length);
-			var signX:Number = cx >= 0? 1 : -1;
-			var signY:Number = cy >= 0? 1 : -1;
+			var signX:Number = cx > -1? 1 : -1;
+			var signY:Number = cy > -1? 1 : -1;
 
 			var p:Vector3D = _skyboxTempVector;
 			p.x = signX;

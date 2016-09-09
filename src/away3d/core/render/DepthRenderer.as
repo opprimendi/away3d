@@ -88,7 +88,7 @@ package away3d.core.render
 			_activeMaterial = null;
 			
 			//line required for correct rendering when using away3d with starling. DO NOT REMOVE UNLESS STARLING INTEGRATION IS RETESTED!
-			_context3D.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);
+			_context3DProxy.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);
 			
 			_stage3DProxy.clearScissorRectangle();
 		}
@@ -130,8 +130,8 @@ package away3d.core.render
 		 */
 		override protected function draw(entityCollector:EntityCollector, target:TextureBase):void
 		{
-			_context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
-			_context3D.setDepthTest(true, Context3DCompareMode.LESS);
+			_context3DProxy.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+			_context3DProxy.setDepthTest(true, Context3DCompareMode.LESS);
 			drawRenderables(entityCollector.opaqueRenderableHead, entityCollector);
 			
 			if (_disableColor)

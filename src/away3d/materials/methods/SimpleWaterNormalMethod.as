@@ -163,7 +163,7 @@ package away3d.materials.methods
 			data[index + 6] = _water2OffsetX;
 			data[index + 7] = _water2OffsetY;
 			
-			if (_useSecondNormalMap >= 0)
+			if (_useSecondNormalMap > -1)
 				stage3DProxy._context3DProxy.setTextureAt(vo.texturesIndex + 1, _texture2.getTextureForStage3D(stage3DProxy));
 		}
 

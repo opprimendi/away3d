@@ -89,7 +89,7 @@ package away3d.tools.utils
 						
 						originalIndex = indices[i + j];
 						
-						if (mappings[originalIndex] >= 0)
+						if (mappings[originalIndex] != -1)
 							splitIndex = mappings[originalIndex];
 						
 						else {

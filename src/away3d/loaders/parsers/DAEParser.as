@@ -718,7 +718,7 @@ package away3d.loaders.parsers
 			
 			var jointIndex:int = skin.jointSourceType == "IDREF_array"? skin.getJointIndex(node.id) : skin.getJointIndex(node.sid);
 			
-			if (jointIndex >= 0) {
+			if (jointIndex != -1) {
 				var joint:SkeletonJoint = new SkeletonJoint();
 				joint.parentIndex = parent;
 				
@@ -2682,7 +2682,7 @@ class DAEChannel extends DAEElement
 		this.arrayAccess = this.dotAccess = false;
 		var tmp:String = parts.shift();
 		
-		if (tmp.indexOf("(") >= 0) {
+		if (tmp.indexOf("(") != -1) {
 			parts = tmp.split("(");
 			this.arrayAccess = true;
 			this.arrayIndices = new Array();
@@ -2690,7 +2690,7 @@ class DAEChannel extends DAEElement
 			for (var i:uint = 0; i < parts.length; i++)
 				this.arrayIndices.push(parseInt(parts[i].replace(")", ""), 10));
 			
-		} else if (tmp.indexOf(".") >= 0) {
+		} else if (tmp.indexOf(".") != -1) {
 			parts = tmp.split(".");
 			this.dotAccess = true;
 			this.targetSid = parts[0];
