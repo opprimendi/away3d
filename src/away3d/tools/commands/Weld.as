@@ -252,7 +252,8 @@ package away3d.tools.commands
 									// if the angle is smaller than the threshold and uv is the same, the vertex can be merged, stop the while loop by setting searchforNormal to false
 									searchforNormal = false;
 								}
-								sharedPointNormals[outIndex][.length] = targetNormal; //add the normal to the sharedPointNormals-list (to calculate the shared normal later)
+								
+								sharedPointNormals[outIndex].push(targetNormal); //add the normal to the sharedPointNormals-list (to calculate the shared normal later)
 								
 									// if the angle is bigger than our treshold, the verticles will not be merged, and the normals for both verticles should have their own unique values too.
 									// we do nothing, but keep searching for another allready parsed point, thats on the same position (increment "foundNormalsCnt", add it to the searchstring, and check if this exists)  
