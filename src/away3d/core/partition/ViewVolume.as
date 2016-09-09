@@ -99,16 +99,25 @@ package away3d.core.partition
 				throw new Error("Entity being added as a visible static object must have static set to true");
 			
 			var index:int = getCellIndex(indexX, indexY, indexZ);
-			_cells[index].visibleStatics ||= new Vector.<EntityNode>();
-			_cells[index].visibleStatics[visibleStatics.length] = entity.getEntityPartitionNode();
+			
+			if (_cells[index].visibleStatics == null)
+				_cells[index].visibleStatics = new Vector.<EntityNode>();
+				
+			var visibleStatics:Vector.<EntityNode> = _cells[index].visibleStatics;
+			visibleStatics[visibleStatics.length] = entity.getEntityPartitionNode();
 			updateNumEntities(_numEntities + 1);
 		}
 		
 		public function addVisibleDynamicCell(cell:InvertedOctreeNode, indexX:uint = 0, indexY:uint = 0, indexZ:uint = 0):void
 		{
 			var index:int = getCellIndex(indexX, indexY, indexZ);
-			_cells[index].visibleDynamics ||= new Vector.<InvertedOctreeNode>();
-			_cells[index].visibleDynamics[visibleDynamics.length] = cell;
+			
+			if (_cells[index].visibleDynamics == null)
+				_cells[index].visibleDynamics = new Vector.<InvertedOctreeNode>();
+				
+			var visibleDynamics:Vector.<EntityNode> = _cells[index].visibleStatics;
+			visibleDynamics[visibleDynamics.length] = cell;
+			
 			updateNumEntities(_numEntities + 1);
 		}
 		
