@@ -700,7 +700,7 @@
 					
 					scene.partition.updateEntities();
 					_container.transform = _camera.transform;
-					for (var i:uint = 0; i < 6; ++i)
+					for(var i:int = 0; i < 6; ++i)
 						renderSurface(i, scene, targetTexture);
 					
 					_filter3DRenderer.render(_stage3DProxy, camera, _depthRender, _shareContext);

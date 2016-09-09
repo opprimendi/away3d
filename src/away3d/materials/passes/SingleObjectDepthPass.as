@@ -58,9 +58,9 @@ package away3d.materials.passes
 		override public function dispose():void
 		{
 			if (_textures) {
-				for (var i:uint = 0; i < _textures.length; ++i) {
+				for(var i:int = 0; i < _textures.length; ++i) {
 					for each (var vec:Vector.<Texture> in _textures[i]) {
-						for (var j:uint = 0; j < vec.length; ++j)
+						for(var j:int = 0; j < vec.length; ++j)
 							vec[j].dispose();
 					}
 				}
@@ -74,9 +74,9 @@ package away3d.materials.passes
 		private function updateProjectionTextures():void
 		{
 			if (_textures) {
-				for (var i:uint = 0; i < _textures.length; ++i) {
+				for(var i:int = 0; i < _textures.length; ++i) {
 					for each (var vec:Vector.<Texture> in _textures[i]) {
-						for (var j:uint = 0; j < vec.length; ++j)
+						for(var j:int = 0; j < vec.length; ++j)
 							vec[j].dispose();
 					}
 				}

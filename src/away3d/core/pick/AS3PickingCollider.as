@@ -54,7 +54,7 @@ package away3d.core.pick
 			var uvOffset:uint = subMesh.UVOffset;
 			var numIndices:int = indexData.length;
 			
-			for (var index:uint = 0; index < numIndices; index += 3) { // sweep all triangles
+			for(var index:int = 0; index < numIndices; index += 3) { // sweep all triangles
 				// evaluate triangle indices
 				i0 = vertexOffset + indexData[index]*vertexStride;
 				i1 = vertexOffset + indexData[index + 1]*vertexStride;

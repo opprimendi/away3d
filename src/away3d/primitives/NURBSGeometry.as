@@ -535,7 +535,7 @@
 			var uvStride:int = subGeom.UVStride;
 			
 			var length:int = data.length;
-			for (var vBase:uint = subGeom.vertexOffset; vBase < length; vBase += vertexStride) {
+			for(var vBase:int = subGeom.vertexOffset; vBase < length; vBase += vertexStride) {
 				nurbPoint(data[uvIndex], data[uvIndex + 1], nV);
 				data[vBase] = nV.x;
 				data[vBase + 1] = nV.y;

@@ -68,7 +68,7 @@ package away3d.lights.shadowmaps
 			var pos:Vector3D = _light.scenePosition;
 			
 			// todo: faces outside frustum which are pointing away from camera need not be rendered!
-			for (var i:uint = 0; i < 6; ++i) {
+			for(var i:int = 0; i < 6; ++i) {
 				_lenses[i].far = maxDistance;
 				_depthCameras[i].position = pos;
 				_needsRender[i] = true;
@@ -77,7 +77,7 @@ package away3d.lights.shadowmaps
 		
 		override protected function drawDepthMap(target:TextureBase, scene:Scene3D, renderer:DepthRenderer):void
 		{
-			for (var i:uint = 0; i < 6; ++i) {
+			for(var i:int = 0; i < 6; ++i) {
 				if (_needsRender[i]) {
 					_casterCollector.camera = _depthCameras[i];
 					_casterCollector.clear();

@@ -144,7 +144,7 @@ package away3d.animators.states
 			if (endPoses.length != numJoints)
 				endPoses.length = numJoints;
 			
-			for (var i:uint = 0; i < numJoints; ++i) {
+			for(var i:int = 0; i < numJoints; ++i) {
 				endPose = endPoses[i] ||= new JointPose();
 				pose1 = poses1[i];
 				pose2 = poses2[i];

@@ -389,7 +389,7 @@ package away3d.loaders.parsers
 				//indices were set in the vertex tags so we expect 4 indices per face (we forced push a negative index to make sure there are 4)
 				if (_polyLinesIndices.length%4 == 0) {
 					
-					for (var i:uint = 0; i < _polyLinesIndices.length; i += 4) {
+					for(var i:int = 0; i < _polyLinesIndices.length; i += 4) {
 						_v0 = _polyLines[_polyLinesIndices[i]];
 						_v1 = _polyLines[_polyLinesIndices[i + 1]];
 						_v2 = _polyLines[_polyLinesIndices[i + 2]];

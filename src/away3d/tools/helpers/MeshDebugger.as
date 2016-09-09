@@ -172,7 +172,7 @@ package away3d.tools.helpers
 		public function hideDebug(mesh:Mesh):void
 		{
 			var length:int = _meshesData.length;
-			for (var i:uint = 0; i < length; ++i) {
+			for(var i:int = 0; i < length; ++i) {
 				if (_meshesData[i].mesh == mesh && _meshesData[i].addChilded) {
 					_meshesData[i].addChilded = false;
 					_meshesData[i].scene.removeChild(_meshesData[i].meshDebug);
@@ -187,7 +187,7 @@ package away3d.tools.helpers
 		public function showDebug(mesh:Mesh):void
 		{
 			var length:int = _meshesData.length;
-			for (var i:uint = 0; i < length; ++i) {
+			for(var i:int = 0; i < length; ++i) {
 				if (_meshesData[i].mesh == mesh && !_meshesData[i].addChilded) {
 					_meshesData[i].addChilded = true;
 					_meshesData[i].scene.addChild(_meshesData[i].meshDebug);
@@ -202,7 +202,7 @@ package away3d.tools.helpers
 		public function removeDebug(mesh:Mesh):void
 		{
 			var length:int = _meshesData.length;
-			for (var i:uint = 0; i < length; ++i) {
+			for(var i:int = 0; i < length; ++i) {
 				var meshDebugData:MeshDebugData = _meshesData[i];
 				if (meshDebugData.mesh == mesh) {
 					
@@ -230,7 +230,7 @@ package away3d.tools.helpers
 		{
 			var tmpMDD:MeshDebugData;
 			var length:int = _meshesData.length;
-			for (var i:uint = 0; i < length; ++i) {
+			for(var i:int = 0; i < length; ++i) {
 				var meshDebugData:MeshDebugData = _meshesData[i];
 				if (!meshDebugData.addChilded)
 					continue;
@@ -262,7 +262,7 @@ package away3d.tools.helpers
 		private function isMeshDebug(mesh:Mesh):MeshDebugData
 		{
 			var length:int = _meshesData.length;
-			for (var i:uint = 0; i < length; ++i) {
+			for(var i:int = 0; i < length; ++i) {
 				var meshDebugData:MeshDebugData = _meshesData[i];
 				if (meshDebugData.mesh == mesh)
 					return meshDebugData;
@@ -283,7 +283,7 @@ package away3d.tools.helpers
 			if (object is Mesh && object.numChildren == 0)
 				debug(Mesh(object), scene, displayNormals, displayVertexNormals, displayTangents);
 			
-			for (var i:uint = 0; i < object.numChildren; ++i) {
+			for(var i:int = 0; i < object.numChildren; ++i) {
 				child = object.getChildAt(i);
 				parse(child, scene, displayNormals, displayVertexNormals, displayTangents);
 			}

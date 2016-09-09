@@ -109,7 +109,7 @@ package away3d.core.math {
 			var r2:Vector.<Number> = m2.rawData;
 			m1.copyRawDataTo(r1);
 
-			for (var i:uint = 0; i < 16; ++i) {
+			for(var i:int = 0; i < 16; ++i) {
 				if (r1[i] != r2[i])
 					return false;
 			}

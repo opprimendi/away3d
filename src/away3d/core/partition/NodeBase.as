@@ -55,7 +55,7 @@ package away3d.core.partition
 				_debugPrimitive = null;
 			}
 			
-			for (var i:uint = 0; i < _numChildNodes; ++i)
+			for(var i:int = 0; i < _numChildNodes; ++i)
 				_childNodes[i].showDebugBounds = value;
 		}
 		

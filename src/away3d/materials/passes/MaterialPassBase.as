@@ -268,7 +268,7 @@ package away3d.materials.passes
 			if (_lightPicker)
 				_lightPicker.removeEventListener(Event.CHANGE, onLightsChange);
 			
-			for (var i:uint = 0; i < 8; ++i) {
+			for(var i:int = 0; i < 8; ++i) {
 				if (_program3Ds[i]) {
 					AGALProgram3DCache.getInstanceFromIndex(i).freeProgram3D(_program3Dids[i]);
 					_program3Ds[i] = null;
@@ -487,7 +487,7 @@ package away3d.materials.passes
 		 */
 		arcane function invalidateShaderProgram(updateMaterial:Boolean = true):void
 		{
-			for (var i:uint = 0; i < 8; ++i)
+			for(var i:int = 0; i < 8; ++i)
 				_program3Ds[i] = null;
 			
 			if (_material && updateMaterial)
@@ -517,7 +517,7 @@ package away3d.materials.passes
 				
 				// simply write attributes to targets, do not animate them
 				// projection will pick up on targets[0] to do the projection
-				for (var i:uint = 0; i < len; ++i)
+				for(var i:int = 0; i < len; ++i)
 					animatorCode += "mov " + _animationTargetRegisters[i] + ", " + _animatableAttributes[i] + "\n";
 				if (_needUVAnimation)
 					UVAnimatorCode = "mov " + _UVTarget + "," + _UVSource + "\n";

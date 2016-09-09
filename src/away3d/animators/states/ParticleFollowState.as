@@ -133,7 +133,7 @@ package away3d.animators.states
 				posVelocity.scaleBy(1/deltaTime);
 			} else
 				interpolatedPos = _targetPos;
-			for (var i:uint = 0; i < len; i++) {
+			for(var i:int = 0; i < len; i++) {
 				var k:Number = (currentTime - data[i].startTime)/data[i].totalTime;
 				var t:Number = (k - Math.floor(k))*data[i].totalTime;
 				if (t - deltaTime <= 0) {
@@ -147,7 +147,7 @@ package away3d.animators.states
 					
 					if (vertexData[inc] != interpolatedPos.x || vertexData[inc + 1] != interpolatedPos.y || vertexData[inc + 2] != interpolatedPos.z) {
 						changed = true;
-						for (var j:uint = 0; j < data[i].numVertices; j++) {
+						for(var j:int = 0; j < data[i].numVertices; j++) {
 							vertexData[inc++] = interpolatedPos.x;
 							vertexData[inc++] = interpolatedPos.y;
 							vertexData[inc++] = interpolatedPos.z;
@@ -177,7 +177,7 @@ package away3d.animators.states
 			} else
 				interpolatedRotation = _targetEuler;
 			
-			for (var i:uint = 0; i < len; i++) {
+			for(var i:int = 0; i < len; i++) {
 				var k:Number = (currentTime - data[i].startTime)/data[i].totalTime;
 				var t:Number = (k - Math.floor(k))*data[i].totalTime;
 				if (t - deltaTime <= 0) {
@@ -191,7 +191,7 @@ package away3d.animators.states
 					
 					if (vertexData[inc] != interpolatedRotation.x || vertexData[inc + 1] != interpolatedRotation.y || vertexData[inc + 2] != interpolatedRotation.z) {
 						changed = true;
-						for (var j:uint = 0; j < data[i].numVertices; j++) {
+						for(var j:int = 0; j < data[i].numVertices; j++) {
 							vertexData[inc++] = interpolatedRotation.x;
 							vertexData[inc++] = interpolatedRotation.y;
 							vertexData[inc++] = interpolatedRotation.z;
@@ -227,7 +227,7 @@ package away3d.animators.states
 				interpolatedRotation = _targetEuler;
 			}
 			
-			for (var i:uint = 0; i < len; i++) {
+			for(var i:int = 0; i < len; i++) {
 				var k:Number = (currentTime - data[i].startTime)/data[i].totalTime;
 				var t:Number = (k - Math.floor(k))*data[i].totalTime;
 				if (t - deltaTime <= 0) {
@@ -244,7 +244,7 @@ package away3d.animators.states
 					
 					if (vertexData[inc] != interpolatedPos.x || vertexData[inc + 1] != interpolatedPos.y || vertexData[inc + 2] != interpolatedPos.z || vertexData[inc + 3] != interpolatedRotation.x || vertexData[inc + 4] != interpolatedRotation.y || vertexData[inc + 5] != interpolatedRotation.z) {
 						changed = true;
-						for (var j:uint = 0; j < data[i].numVertices; j++) {
+						for(var j:int = 0; j < data[i].numVertices; j++) {
 							vertexData[inc++] = interpolatedPos.x;
 							vertexData[inc++] = interpolatedPos.y;
 							vertexData[inc++] = interpolatedPos.z;

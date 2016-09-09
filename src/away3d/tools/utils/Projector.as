@@ -59,7 +59,7 @@ package away3d.tools.utils
 			if (obj is Mesh && obj.numChildren == 0)
 				remapMesh(Mesh(obj));
 			
-			for (var i:uint = 0; i < obj.numChildren; ++i) {
+			for(var i:int = 0; i < obj.numChildren; ++i) {
 				child = obj.getChildAt(i);
 				parse(child);
 			}

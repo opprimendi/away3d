@@ -348,7 +348,7 @@ package away3d.loaders.parsers
 		private function parseLibrary(list:XMLList, clas:Class):Object
 		{
 			var library:Object = {};
-			for (var i:uint = 0; i < list.length(); i++) {
+			for(var i:int = 0; i < list.length(); i++) {
 				var obj:* = new clas(list[i]);
 				library[ obj.id ] = obj;
 			}
@@ -384,7 +384,7 @@ package away3d.loaders.parsers
 				
 				parent = container;
 			}
-			for (var i:uint = 0; i < node.nodes.length; i++)
+			for(var i:int = 0; i < node.nodes.length; i++)
 				parseSceneGraph(node.nodes[i], parent, _tab);
 		}
 		
@@ -605,7 +605,7 @@ package away3d.loaders.parsers
 		{
 			var node:DAENode;
 			
-			for (var i:uint = 0; i < skeleton.joints.length; i++) {
+			for(var i:int = 0; i < skeleton.joints.length; i++) {
 				try {
 					node = _root.findNodeById(skeleton.joints[i].name) || _root.findNodeBySid(skeleton.joints[i].name);
 				} catch (e:Error) {
@@ -738,7 +738,7 @@ package away3d.loaders.parsers
 			} else
 				Debug.trace(_tab + "no jointIndex!");
 			
-			for (var i:uint = 0; i < node.nodes.length; i++) {
+			for(var i:int = 0; i < node.nodes.length; i++) {
 				try {
 					parseSkeletonHierarchy(node.nodes[i], skin, skeleton, jointIndex);
 				} catch (e:Error) {
@@ -848,7 +848,7 @@ package away3d.loaders.parsers
 		private function translateGeometry(mesh:DAEMesh):Geometry
 		{
 			var geometry:Geometry = new Geometry();
-			for (var i:uint = 0; i < mesh.primitives.length; i++) {
+			for(var i:int = 0; i < mesh.primitives.length; i++) {
 				var sub:CompactSubGeometry = translatePrimitive(mesh, mesh.primitives[i]);
 				if (sub)
 					geometry.addSubGeometry(sub);
@@ -982,7 +982,7 @@ class DAEElement
 		var children:XMLList = name? element.ns::[name] : element.children();
 		var count:int = children.length();
 		
-		for (var i:uint = 0; i < count; i++)
+		for(var i:int = 0; i < count; i++)
 			traverseChildHandler(children[i], children[i].name().localName);
 	}
 	
@@ -990,7 +990,7 @@ class DAEElement
 	{
 		var indices:Vector.<int> = Vector.<int>([2, 6, 8, 9, 11, 14]);
 		var raw:Vector.<Number> = matrix.rawData;
-		for (var i:uint = 0; i < indices.length; i++)
+		for(var i:int = 0; i < indices.length; i++)
 			raw[indices[i]] *= -1.0;
 		
 		matrix.rawData = raw;
@@ -1011,7 +1011,7 @@ class DAEElement
 		var parts:Array = raw.split(/\s+/);
 		var floats:Vector.<Number> = new Vector.<Number>();
 		
-		for (var i:uint = 0; i < parts.length; i++)
+		for(var i:int = 0; i < parts.length; i++)
 			floats.push(parseFloat(parts[i]));
 		
 		return floats;
@@ -1023,7 +1023,7 @@ class DAEElement
 		var parts:Array = raw.split(/\s+/);
 		var ints:Vector.<int> = new Vector.<int>();
 		
-		for (var i:uint = 0; i < parts.length; i++)
+		for(var i:int = 0; i < parts.length; i++)
 			ints.push(parseInt(parts[i], 10));
 		
 		return ints;
@@ -1035,7 +1035,7 @@ class DAEElement
 		var parts:Array = raw.split(/\s+/);
 		var strings:Vector.<String> = new Vector.<String>();
 		
-		for (var i:uint = 0; i < parts.length; i++)
+		for(var i:int = 0; i < parts.length; i++)
 			strings.push(parts[i]);
 		
 		return strings;
@@ -1272,7 +1272,7 @@ class DAEPrimitive extends DAEElement
 		
 		var list:XMLList = element.ns::input;
 		
-		for (var i:uint = 0; i < list.length(); i++)
+		for(var i:int = 0; i < list.length(); i++)
 			_inputs.push(new DAEInput(list[i]));
 		
 		if (element.ns::p && element.ns::p.length())
@@ -1369,7 +1369,7 @@ class DAEPrimitive extends DAEElement
 			if (face.vertices.length > 3) {
 				// triangulate
 				var v0:DAEVertex = face.vertices[0];
-				for (var k:uint = 1; k < face.vertices.length - 1; k++) {
+				for(var k:int = 1; k < face.vertices.length - 1; k++) {
 					var f:DAEFace = new DAEFace();
 					f.vertices.push(v0);
 					f.vertices.push(face.vertices[k]);
@@ -1523,7 +1523,7 @@ class DAEBindMaterial extends DAEElement
 	protected override function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		if (nodeName == "technique_common") {
-			for (var i:uint = 0; i < child.children().length(); i++)
+			for(var i:int = 0; i < child.children().length(); i++)
 				this.instance_material.push(new DAEInstanceMaterial(child.children()[i]));
 		}
 	}
@@ -1854,7 +1854,7 @@ class DAEEffect extends DAEElement
 	{
 		var children:XMLList = element.children();
 		
-		for (var i:uint = 0; i < children.length(); i++) {
+		for(var i:int = 0; i < children.length(); i++) {
 			var child:XML = children[i];
 			var name:String = child.name().localName;
 			
@@ -1872,7 +1872,7 @@ class DAEEffect extends DAEElement
 	{
 		var children:XMLList = element.children();
 		
-		for (var i:uint = 0; i < children.length(); i++) {
+		for(var i:int = 0; i < children.length(); i++) {
 			var child:XML = children[i];
 			var name:String = child.name().localName;
 			
@@ -1896,7 +1896,7 @@ class DAEEffect extends DAEElement
 		var children:XMLList = technique.children();
 		this.shader = null;
 		
-		for (var i:uint = 0; i < children.length(); i++) {
+		for(var i:int = 0; i < children.length(); i++) {
 			var child:XML = children[i];
 			var name:String = child.name().localName;
 			
@@ -2208,7 +2208,7 @@ class DAENode extends DAEElement
 	public function get matrix():Matrix3D
 	{
 		var matrix:Matrix3D = new Matrix3D();
-		for (var i:uint = 0; i < this.transforms.length; i++)
+		for(var i:int = 0; i < this.transforms.length; i++)
 			matrix.prepend(this.transforms[i].matrix);
 		
 		if (DAEElement.USE_LEFT_HANDED)
@@ -2236,7 +2236,7 @@ class DAEVisualScene extends DAENode
 		if (node.id == id)
 			return node;
 		
-		for (var i:uint = 0; i < node.nodes.length; i++) {
+		for(var i:int = 0; i < node.nodes.length; i++) {
 			var result:DAENode = findNodeById(id, node.nodes[i]);
 			if (result)
 				return result;
@@ -2251,7 +2251,7 @@ class DAEVisualScene extends DAENode
 		if (node.sid == sid)
 			return node;
 		
-		for (var i:uint = 0; i < node.nodes.length; i++) {
+		for(var i:int = 0; i < node.nodes.length; i++) {
 			var result:DAENode = findNodeBySid(sid, node.nodes[i]);
 			if (result)
 				return result;
@@ -2266,7 +2266,7 @@ class DAEVisualScene extends DAENode
 		if (parent && parent.world)
 			node.world.append(parent.world);
 		
-		for (var i:uint = 0; i < node.nodes.length; i++)
+		for(var i:int = 0; i < node.nodes.length; i++)
 			updateTransforms(node.nodes[i], node);
 	}
 }
@@ -2321,7 +2321,7 @@ class DAEMorph extends DAEEffect
 		var list:XMLList = element.ns::source;
 		
 		if (element.ns::targets && element.ns::targets.length() > 0) {
-			for (var i:uint = 0; i < list.length(); i++) {
+			for(var i:int = 0; i < list.length(); i++) {
 				source = new DAESource(list[i]);
 				sources[source.id] = source;
 			}
@@ -2410,7 +2410,7 @@ class DAESkin extends DAEElement
 	
 	public function getJointIndex(joint:String):int
 	{
-		for (var i:uint = 0; i < this.joints.length; i++) {
+		for(var i:int = 0; i < this.joints.length; i++) {
 			if (this.joints[i] == joint)
 				return i;
 		}
@@ -2687,7 +2687,7 @@ class DAEChannel extends DAEElement
 			this.arrayAccess = true;
 			this.arrayIndices = new Array();
 			this.targetSid = parts.shift();
-			for (var i:uint = 0; i < parts.length; i++)
+			for(var i:int = 0; i < parts.length; i++)
 				this.arrayIndices.push(parseInt(parts[i].replace(")", ""), 10));
 			
 		} else if (tmp.indexOf(".") != -1) {

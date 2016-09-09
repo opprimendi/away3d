@@ -15,7 +15,7 @@ package away3d.animators.utils
 			var diff:SkeletonClipNode = new SkeletonClipNode();
 			var numFrames:uint = source.frames.length;
 			
-			for (var i:uint = 0; i < numFrames; ++i)
+			for(var i:int = 0; i < numFrames; ++i)
 				diff.addFrame(generateDifferencePose(source.frames[i], referencePose), source.durations[i]);
 			
 			return diff;

@@ -311,7 +311,7 @@ package away3d.animators
 			var dist:Number = delta.length;
 			if (dist > 0) {
 				var length:int = _owners.length;
-				for (var i:uint = 0; i < length; ++i)
+				for(var i:int = 0; i < length; ++i)
 					_owners[i].translateLocal(delta, dist);
 			}
 		}

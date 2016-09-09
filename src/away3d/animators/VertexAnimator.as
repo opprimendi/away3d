@@ -149,7 +149,7 @@ package away3d.animators
 			
 			if (_blendMode == VertexAnimationMode.ABSOLUTE) {
 				var len:uint = _numPoses;
-				for (var i:uint = 1; i < len; ++i) {
+				for(var i:int = 1; i < len; ++i) {
 					renderable.activateVertexBuffer(vertexStreamOffset++, stage3DProxy);
 					
 					if (_vertexAnimationSet.useNormals)

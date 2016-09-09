@@ -128,7 +128,7 @@
 			var subSetCount:uint = SegmentSet(renderable).subSetCount;
 			
 			if (SegmentSet(renderable).hasData) {
-				for (var i:uint = 0; i < subSetCount; ++i) {
+				for(var i:int = 0; i < subSetCount; ++i) {
 					renderable.activateVertexBuffer(i, stage3DProxy);
 					context3DProxy.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 8, _calcMatrix, true);
 					context3DProxy.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);

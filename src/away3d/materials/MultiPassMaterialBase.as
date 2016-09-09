@@ -504,7 +504,7 @@
 			
 			if (pass._passes) {
 				var len:uint = pass._passes.length;
-				for (var i:uint = 0; i < len; ++i)
+				for(var i:int = 0; i < len; ++i)
 					addPass(pass._passes[i]);
 			}
 		}

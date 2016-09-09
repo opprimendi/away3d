@@ -129,7 +129,7 @@
 			if (_MaterialsSubGeometries && _MaterialsSubGeometries.length > 0) {
 				var sglist:SubGeometryList;
 				var sg:SubGeometry;
-				for (var i:uint = 1; i < _MaterialsSubGeometries.length; ++i) {
+				for(var i:int = 1; i < _MaterialsSubGeometries.length; ++i) {
 					sglist = _MaterialsSubGeometries[i];
 					sg = sglist.subGeometry;
 					if (sg && sglist.vertices.length > 0) {
@@ -800,7 +800,7 @@
 		
 		private function elevate(v0:Object, v1:Object, increase:Number):void
 		{
-			for (var i:uint = 0; i < _subdivision; ++i) {
+			for(var i:int = 0; i < _subdivision; ++i) {
 				v0[_axis] += increase;
 				v1[_axis] += increase;
 				_varr.push(new Vertex(v0[X_AXIS], v0[Y_AXIS], v0[Z_AXIS]));
@@ -813,7 +813,7 @@
 			var anchors:Array = [];
 			var lines:Array = [];
 			
-			for (var i:uint = 0; i < _aVectors.length - 1; ++i) {
+			for(var i:int = 0; i < _aVectors.length - 1; ++i) {
 				
 				if (_aVectors[i][prop1] == 0 && _aVectors[i][prop2] == 0)
 					_aVectors[i][prop1] = EPS;
@@ -1004,7 +1004,7 @@
 		{
 			var sglist:SubGeometryList;
 			
-			for (var i:uint = 0; i < _MaterialsSubGeometries.length; ++i) {
+			for(var i:int = 0; i < _MaterialsSubGeometries.length; ++i) {
 				if (_MaterialsSubGeometries[i].material == mat) {
 					sglist = _MaterialsSubGeometries[i];
 					break;

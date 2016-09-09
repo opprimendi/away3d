@@ -469,7 +469,7 @@ package away3d.materials.passes
 			
 			var len:uint = passes.length;
 			
-			for (var i:uint = 0; i < len; ++i) {
+			for(var i:int = 0; i < len; ++i) {
 				passes[i].material = material;
 				passes[i].lightPicker = _lightPicker;
 				_passes.push(passes[i]);

@@ -109,7 +109,7 @@ package away3d.tools.commands
 				return;
 			
 			//collect meshes in vector
-			for (var i:uint = 0; i < meshes.length; i++)
+			for(var i:int = 0; i < meshes.length; i++)
 				if (meshes[i] != receiver)
 					collect(meshes[i], _disposeSources);
 			

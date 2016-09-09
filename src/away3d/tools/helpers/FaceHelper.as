@@ -211,7 +211,7 @@ package away3d.tools.helpers
 		 */
 		public static function removeFaces(mesh:Mesh, indices:Vector.<uint>, subGeomIndices:Vector.<uint>):void
 		{
-			for (var i:uint = 0; i < indices.length; ++i)
+			for(var i:int = 0; i < indices.length; ++i)
 				removeFace(mesh, indices[i], subGeomIndices[i]);
 		}
 		
@@ -227,7 +227,7 @@ package away3d.tools.helpers
 		 */
 		public static function addFaces(mesh:Mesh, v0s:Vector.<Vertex>, v1s:Vector.<Vertex>, v2s:Vector.<Vertex>, uv0s:Vector.<UV>, uv1s:Vector.<UV>, uv2s:Vector.<UV>, subGeomIndices:Vector.<uint>):void
 		{
-			for (var i:uint = 0; i < v0s.length; ++i)
+			for(var i:int = 0; i < v0s.length; ++i)
 				addFace(mesh, v0s[i], v1s[i], v2s[i], uv0s[i], uv1s[i], uv2s[i], subGeomIndices[i]);
 		}
 		
@@ -590,7 +590,7 @@ package away3d.tools.helpers
 			var indices:Vector.<uint>;
 			var faceIndex:uint;
 			var j:uint;
-			for (var i:uint = 0; i < subGeoms.length; ++i) {
+			for(var i:int = 0; i < subGeoms.length; ++i) {
 				indices = subGeoms[i].indexData;
 				faceIndex = 0;
 				for (j = 0; j < indices.length; j += 3) {
@@ -640,7 +640,7 @@ package away3d.tools.helpers
 		
 		private static function getUsedIndice(vertices:Vector.<Number>, x:Number, y:Number, z:Number):int
 		{
-			for (var i:uint = 0; i < vertices.length; i += 3) {
+			for(var i:int = 0; i < vertices.length; i += 3) {
 				if (vertices[i] == x && vertices[i + 1] == y && vertices[i + 1] == z)
 					return i/3;
 			}

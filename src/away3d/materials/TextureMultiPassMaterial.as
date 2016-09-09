@@ -81,7 +81,7 @@ package away3d.materials
 			}
 			if(_nonCasterLightPasses) {
 				var length:uint = _nonCasterLightPasses.length;
-				for(var i:uint = 0; i<length; i++) {
+				for(var i:int = 0; i<length; i++) {
 					_nonCasterLightPasses[i].animateUVs = _animateUVs;
 				}
 			}

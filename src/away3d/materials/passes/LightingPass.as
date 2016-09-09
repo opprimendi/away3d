@@ -419,7 +419,7 @@ package away3d.materials.passes
 			if (len > _numLightProbes)
 				len = _numLightProbes;
 			
-			for (var i:uint = 0; i < len; ++i) {
+			for(var i:int = 0; i < len; ++i) {
 				probe = lightProbes[_lightProbesOffset + i];
 				
 				if (addDiff)

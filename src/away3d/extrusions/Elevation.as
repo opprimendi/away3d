@@ -287,8 +287,8 @@
 			numVerts = 0;
 			var col:uint;
 			
-			for (var zi:uint = 0; zi <= _segmentsH; ++zi) {
-				for (var xi:uint = 0; xi <= _segmentsW; ++xi) {
+			for(var zi:int = 0; zi <= _segmentsH; ++zi) {
+				for(var xi:int = 0; xi <= _segmentsW; ++xi) {
 					x = (xi/_segmentsW - .5)*_width;
 					z = (zi/_segmentsH - .5)*_depth;
 					u = xi*uDiv;
@@ -333,8 +333,8 @@
 				uvs = new Vector.<Number>(numUvs, true);
 			
 			numUvs = 0;
-			for (var yi:uint = 0; yi <= _segmentsH; ++yi) {
-				for (var xi:uint = 0; xi <= _segmentsW; ++xi) {
+			for(var yi:int = 0; yi <= _segmentsH; ++yi) {
+				for(var xi:int = 0; xi <= _segmentsW; ++xi) {
 					uvs[numUvs++] = xi/_segmentsW;
 					uvs[numUvs++] = 1 - yi/_segmentsH;
 				}

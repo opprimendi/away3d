@@ -56,7 +56,7 @@ package away3d.materials.lightpickers
 			_lightProbes = new Vector.<LightProbe>();
 			
 			var len:uint = value.length;
-			for (var i:uint = 0; i < len; ++i) {
+			for(var i:int = 0; i < len; ++i) {
 				light = value[i];
 				light.addEventListener(LightEvent.CASTS_SHADOW_CHANGE, onCastShadowChange);
 				if (light is PointLight) {

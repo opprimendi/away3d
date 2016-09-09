@@ -32,7 +32,7 @@ package away3d.tools.helpers
 			
 			_lightsArray = [];
 			
-			for (var i:uint = 0; i < lights.length; ++i)
+			for(var i:int = 0; i < lights.length; ++i)
 				_lightsArray[i] = lights[i];
 			
 			_state = 0;
@@ -75,7 +75,7 @@ package away3d.tools.helpers
 			if (objectContainer3D is Mesh && objectContainer3D.numChildren == 0)
 				parseMesh(Mesh(objectContainer3D));
 			
-			for (var i:uint = 0; i < objectContainer3D.numChildren; ++i)
+			for(var i:int = 0; i < objectContainer3D.numChildren; ++i)
 				parseContainer(ObjectContainer3D(objectContainer3D.getChildAt(i)));
 		}
 		

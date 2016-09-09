@@ -111,11 +111,11 @@ package away3d.tools.serialize
 				
 				var matrixIndent:uint = outputString.length;
 				
-				for (var i:uint = 0; i < value.length; i++) {
+				for(var i:int = 0; i < value.length; i++) {
 					outputString += value[i];
 					if ((i < (value.length - 1)) && (((i + 1)%4) == 0)) {
 						outputString += "\n";
-						for (var j:uint = 0; j < matrixIndent; j++)
+						for(var j:int = 0; j < matrixIndent; j++)
 							outputString += " ";
 					} else
 						outputString += " ";
@@ -149,7 +149,7 @@ package away3d.tools.serialize
 		private function _indentString():String
 		{
 			var indentString:String = "";
-			for (var i:uint = 0; i < _indent; i++)
+			for(var i:int = 0; i < _indent; i++)
 				indentString += " ";
 			return indentString;
 		}

@@ -409,7 +409,7 @@
 				clearPasses();
 				if (_screenPass._passes) {
 					var len:uint = _screenPass._passes.length;
-					for (var i:uint = 0; i < len; ++i)
+					for(var i:int = 0; i < len; ++i)
 						addPass(_screenPass._passes[i]);
 				}
 				

@@ -29,7 +29,7 @@ package away3d.tools.serialize
 		
 		public static function serializeScene(scene:Scene3D, serializer:SerializerBase):void
 		{
-			for (var i:uint = 0; i < scene.numChildren; i++)
+			for(var i:int = 0; i < scene.numChildren; i++)
 				serializeObjectContainer(scene.getChildAt(i), serializer);
 		}
 		
@@ -156,7 +156,7 @@ package away3d.tools.serialize
 		
 		private static function serializeChildren(parent:ObjectContainer3D, serializer:SerializerBase):void
 		{
-			for (var i:uint = 0; i < parent.numChildren; i++)
+			for(var i:int = 0; i < parent.numChildren; i++)
 				serializeObjectContainer(parent.getChildAt(i), serializer);
 		}
 		

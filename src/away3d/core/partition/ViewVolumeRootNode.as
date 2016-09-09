@@ -82,7 +82,7 @@ package away3d.core.partition
 		private function getVolumeContaining(entryPoint:Vector3D):ViewVolume
 		{
 			var numVolumes:uint = _viewVolumes.length;
-			for (var i:uint = 0; i < numVolumes; ++i) {
+			for(var i:int = 0; i < numVolumes; ++i) {
 				if (_viewVolumes[i].contains(entryPoint))
 					return _viewVolumes[i];
 			}

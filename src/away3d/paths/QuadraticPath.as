@@ -135,7 +135,7 @@ package away3d.paths
 			
 			var seg:QuadraticPathSegment;
 			
-			for (var i:uint = 0; i < _segments.length; ++i) {
+			for(var i:int = 0; i < _segments.length; ++i) {
 				seg = _segments[i] as QuadraticPathSegment;
 				seg.control.x = (seg.start.x + seg.end.x)*.5;
 				seg.control.y = (seg.start.y + seg.end.y)*.5;

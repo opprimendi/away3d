@@ -27,7 +27,7 @@ package away3d.materials.utils
 		{
 			bitmapData = bitmapData.clone();
 			
-			for (var i:uint = 0; i < mesh.subMeshes.length; ++i)
+			for(var i:int = 0; i < mesh.subMeshes.length; ++i)
 				drawLines(lineColor, lineThickness, bitmapData, mesh.subMeshes[i].subGeometry);
 			
 			return bitmapData;
@@ -55,7 +55,7 @@ package away3d.materials.utils
 			
 			bitmapData = new BitmapData(width, height, fillAlpha == 1? false : true, (fillAlpha << 24) | (fillColor & 0xffffff));
 			
-			for (var i:uint = 0; i < mesh.subMeshes.length; ++i)
+			for(var i:int = 0; i < mesh.subMeshes.length; ++i)
 				drawLines(lineColor, lineThickness, bitmapData, mesh.subMeshes[i].subGeometry);
 			
 			return bitmapData;

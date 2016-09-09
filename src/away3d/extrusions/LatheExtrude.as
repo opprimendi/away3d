@@ -1127,7 +1127,7 @@ package away3d.extrusions
 					var back:Number = indlength - _maxIndProfile;
 					var limitBack:uint = (back < 0)? 0 : back;
 					
-					for (var i:uint = indlength - 1; i > limitBack; --i) {
+					for(var i:int = indlength - 1; i > limitBack; --i) {
 						ind = indices[i];
 						vind = ind*3;
 						vindy = vind + 1;

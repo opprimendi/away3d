@@ -97,7 +97,7 @@ package away3d.tools.commands
 			if (obj is Mesh && obj.numChildren == 0)
 				removedVertCnt += applyToGeom(Mesh(obj).geometry);
 			
-			for (var i:uint = 0; i < obj.numChildren; ++i) {
+			for(var i:int = 0; i < obj.numChildren; ++i) {
 				child = obj.getChildAt(i);
 				removedVertCnt += parse(child);
 			}
@@ -110,7 +110,7 @@ package away3d.tools.commands
 			var removedVertsCnt:int = 0;
 			var outSubGeom:CompactSubGeometry;
 			
-			for (var i:uint = 0; i < geom.subGeometries.length; i++) {
+			for(var i:int = 0; i < geom.subGeometries.length; i++) {
 				var subGeom:ISubGeometry = geom.subGeometries[i];
 				
 				// TODO: Remove this check when ISubGeometry can always

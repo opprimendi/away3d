@@ -109,7 +109,7 @@ package away3d.tools.commands
 			collectMeshChildren(newObjectContainer, meshes);
 			
 			var len:uint = meshes.length;
-			for (var i:uint = 0; i < len; i++) {
+			for(var i:int = 0; i < len; i++) {
 				initTransforms(meshes[i].bounds);
 				applyToMesh(meshes[i], true);
 			}
@@ -159,7 +159,7 @@ package away3d.tools.commands
 			collectMeshChildren(ctr, meshes);
 			len = meshes.length;
 			
-			for (var i:uint = 0; i < len; i++) {
+			for(var i:int = 0; i < len; i++) {
 				initTransforms(meshes[i].bounds);
 				applyToMesh(meshes[i]);
 			}
@@ -171,7 +171,7 @@ package away3d.tools.commands
 			var newGeom:Geometry = new Geometry();
 			var len:uint = geom.subGeometries.length;
 			
-			for (var i:uint = 0; i < len; i++)
+			for(var i:int = 0; i < len; i++)
 				applyToSubGeom(geom.subGeometries[i], newGeom, keepOld);
 			
 			mesh.geometry = newGeom;
@@ -393,7 +393,7 @@ package away3d.tools.commands
 		
 		private function collectMeshChildren(ctr:ObjectContainer3D, meshes:Vector.<Mesh>):void
 		{
-			for (var i:uint = 0; i < ctr.numChildren; i++) {
+			for(var i:int = 0; i < ctr.numChildren; i++) {
 				var child:ObjectContainer3D = ctr.getChildAt(i);
 				if (child is Mesh)
 					meshes.push(Mesh(child));

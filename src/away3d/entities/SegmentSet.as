@@ -133,7 +133,7 @@
 			var indices:Vector.<uint> = subSet.indices;
 			
 			var ind:uint = index*6;
-			for (var i:uint = ind; i < indices.length; ++i)
+			for(var i:int = ind; i < indices.length; ++i)
 				indices[i] -= 4;
 			
 			subSet.indices.splice(index*6, 6);
@@ -191,7 +191,7 @@
 		public function removeAllSegments():void
 		{
 			var subSet:SubSet;
-			for (var i:uint = 0; i < _subSetCount; ++i) {
+			for(var i:int = 0; i < _subSetCount; ++i) {
 				subSet = _subSets[i];
 				subSet.vertices = null;
 				subSet.indices = null;
@@ -370,7 +370,7 @@
 		{
 			var segRef:SegRef;
 			
-			for (var i:uint = index; i < _indexSegments - 1; ++i) {
+			for(var i:int = index; i < _indexSegments - 1; ++i) {
 				segRef = _segments[i + 1];
 				segRef.index = i;
 				if (segRef.subSetIndex == subSetIndex)
@@ -447,7 +447,7 @@
 			var maxZ:Number = -Infinity;
 			var vertices:Vector.<Number>;
 			
-			for (var i:uint = 0; i < _subSetCount; ++i) {
+			for(var i:int = 0; i < _subSetCount; ++i) {
 				subSet = _subSets[i];
 				index = 0;
 				vertices = subSet.vertices;

@@ -207,7 +207,7 @@ package away3d.containers
 			
 			// Sweep children.
 			var length:uint = _children.length;
-			for (var i:uint = 0; i < length; ++i)
+			for(var i:int = 0; i < length; ++i)
 				_children[i].updateMouseChildren();
 		}
 		
@@ -287,7 +287,7 @@ package away3d.containers
 			_explicitVisibility = value;
 			
 			var length:uint = _children.length;
-			for (var i:uint = 0; i < length; ++i)
+			for(var i:int = 0; i < length; ++i)
 				_children[i].updateImplicitVisibility();
 		}
 		
@@ -651,7 +651,7 @@ package away3d.containers
 			var clone:ObjectContainer3D = ObjectContainer3D(super.clone());
 			clone.partition = partition;
 			var length:uint = _children.length;
-			for (var i:uint = 0; i < length; ++i)
+			for(var i:int = 0; i < length; ++i)
 				clone.addChild(ObjectContainer3D(_children[i].clone()));
 			// todo: implement for all subtypes
 			return clone;
@@ -669,7 +669,7 @@ package away3d.containers
 			_implicitVisibility = _parent._explicitVisibility && _parent._implicitVisibility;
 			
 			var length:uint = _children.length;
-			for (var i:uint = 0; i < length; ++i)
+			for(var i:int = 0; i < length; ++i)
 				_children[i].updateImplicitVisibility();
 		}
 		

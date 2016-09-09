@@ -402,7 +402,7 @@ package away3d.loaders.parsers
 			var dic:Dictionary = new Dictionary();
 			var ref:String;
 			
-			for (var i:uint = 0; i < _uvs.length; i += 6) {
+			for(var i:int = 0; i < _uvs.length; i += 6) {
 				
 				if (indices.length + 3 > LIMIT) {
 					vertices = new Vector.<Number>();
@@ -532,7 +532,7 @@ package away3d.loaders.parsers
 			var gloss:Number = 0;
 			var alpha:Number = 0;
 			
-			for (var i:uint = 0; i < trunk.length; ++i) {
+			for(var i:int = 0; i < trunk.length; ++i) {
 				
 				if (trunk[i] == "")
 					continue;
@@ -602,7 +602,7 @@ package away3d.loaders.parsers
 		
 		private function cleanUpBuffers():void
 		{
-			for (var i:uint = 0; i < _vertices.length; ++i)
+			for(var i:int = 0; i < _vertices.length; ++i)
 				_vertices[i] = null;
 			
 			for (i = 0; i < _uvs.length; ++i)

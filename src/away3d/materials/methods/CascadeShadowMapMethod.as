@@ -236,7 +236,7 @@ package away3d.materials.methods
 			var nearPlaneDistances:Vector.<Number> = _cascadeShadowMapper.nearPlaneDistances;
 			
 			fragmentIndex += 8;
-			for (var i:uint = 0; i < numCascades; ++i)
+			for(var i:int = 0; i < numCascades; ++i)
 				fragmentData[fragmentIndex + i] = nearPlaneDistances[i];
 			
 			_baseMethod.activateForCascade(vo, stage3DProxy);

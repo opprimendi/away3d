@@ -49,7 +49,7 @@ package away3d.tools.utils
 			var color:uint = _colorMap.getPixel(x / _scaleX + _offsetX, y / _scaleY + _offsetY);
 			
 			var length:int = _colorObjects.length;
-			for (var i:uint = 0; i < length; ++i) {
+			for(var i:int = 0; i < length; ++i) {
 				var co:ColorObject = _colorObjects[i];
 				if (co.color == color) {
 					dispatchEvent(new Event(co.eventID));

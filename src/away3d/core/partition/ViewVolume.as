@@ -307,9 +307,9 @@ package away3d.core.partition
 			var minBounds:Vector3D = viewVolume.minBound;
 			var maxBounds:Vector3D = viewVolume.maxBound;
 			
-			for (var z:uint = 0; z < _numCellsZ; ++z) {
-				for (var y:uint = 0; y < _numCellsY; ++y) {
-					for (var x:uint = 0; x < _numCellsX; ++x)
+			for(var z:int = 0; z < _numCellsZ; ++z) {
+				for(var y:int = 0; y < _numCellsY; ++y) {
+					for(var x:int = 0; x < _numCellsX; ++x)
 						addVisibleRegion(minBounds, maxBounds, scene, dynamicGrid, x, y, z);
 				}
 			}
@@ -365,7 +365,7 @@ package away3d.core.partition
 			if (minX != minX || minY != minY || minZ != minZ)
 				return true;
 			
-			for (var i:uint = 3; i < 24; i += 3) {
+			for(var i:int = 3; i < 24; i += 3) {
 				var x:Number = _entityWorldBounds[i];
 				var y:Number = _entityWorldBounds[i + 1];
 				var z:Number = _entityWorldBounds[i + 2];

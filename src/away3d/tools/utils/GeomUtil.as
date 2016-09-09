@@ -248,7 +248,7 @@ package away3d.tools.utils
 		{
 			var subGeometries:Vector.<ISubGeometry> = subGeometry.parentGeometry.subGeometries;
 			var length:int = subGeometries.length;
-			for (var i:uint = 0; i < length; ++i) {
+			for(var i:int = 0; i < length; ++i) {
 				if (subGeometries[i] == subGeometry) {
 					return i;
 				}
@@ -263,7 +263,7 @@ package away3d.tools.utils
 		{
 			var subMeshes:Vector.<SubMesh> = subMesh.parentMesh.subMeshes;
 			var length:int = subMeshes.length;
-			for (var i:uint = 0; i < length; ++i) {
+			for(var i:int = 0; i < length; ++i) {
 				if (subMeshes[i] == subMesh) {
 					return i;
 				}

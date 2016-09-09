@@ -150,7 +150,7 @@ package away3d.materials
 			if (value != _lightPicker) {
 				_lightPicker = value;
 				var len:uint = _passes.length;
-				for (var i:uint = 0; i < len; ++i)
+				for(var i:int = 0; i < len; ++i)
 					_passes[i].lightPicker = _lightPicker;
 			}
 		}

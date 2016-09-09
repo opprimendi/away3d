@@ -607,7 +607,7 @@ package away3d.core.base
 			var ratioU:Number = scaleU/_scaleU;
 			var ratioV:Number = scaleV/_scaleV;
 			
-			for (var i:uint = offset; i < len; i += stride) {
+			for(var i:int = offset; i < len; i += stride) {
 				uvs[i] *= ratioU;
 				uvs[i + 1] *= ratioV;
 			}
@@ -627,7 +627,7 @@ package away3d.core.base
 			var offset:int = vertexOffset;
 			var stride:int = vertexStride;
 			
-			for (var i:uint = offset; i < len; i += stride) {
+			for(var i:int = offset; i < len; i += stride) {
 				vertices[i] *= scale;
 				vertices[i + 1] *= scale;
 				vertices[i + 2] *= scale;

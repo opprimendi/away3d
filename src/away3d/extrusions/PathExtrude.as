@@ -545,7 +545,7 @@ package away3d.extrusions
 			var uvlength:int = (points.length - 1) + offsetV;
 			var offset:uint;
 			
-			for (var i:uint = 0; i < points.length - 1; ++i) {
+			for(var i:int = 0; i < points.length - 1; ++i) {
 				_varr = new Vector.<Vertex>();
 				offset = (closedata)? i + uvlength : i;
 				
@@ -736,7 +736,7 @@ package away3d.extrusions
 		{
 			var sglist:SubGeometryList;
 			
-			for (var i:uint = 0; i < _MaterialsSubGeometries.length; ++i) {
+			for(var i:int = 0; i < _MaterialsSubGeometries.length; ++i) {
 				if (_MaterialsSubGeometries[i].material == mat) {
 					sglist = _MaterialsSubGeometries[i];
 					break;
@@ -863,7 +863,7 @@ package away3d.extrusions
 					var back:Number = indlength - _maxIndProfile;
 					var limitBack:uint = (back < 0)? 0 : back;
 					
-					for (var i:uint = indlength - 1; i > limitBack; --i) {
+					for(var i:int = indlength - 1; i > limitBack; --i) {
 						ind = indices[i];
 						vind = ind*3;
 						vindy = vind + 1;
@@ -979,7 +979,7 @@ package away3d.extrusions
 			var tmpV:Vector3D = new Vector3D();
 			var prevV:Vector3D;
 			
-			for (var i:uint = 0; i < segs.length; ++i) {
+			for(var i:int = 0; i < segs.length; ++i) {
 				seg = segs[i];
 				for (j = 0; j < _subdivision; ++j) {
 					if (prevV)
@@ -1046,7 +1046,7 @@ package away3d.extrusions
 			var tdist:Number = 0;
 			var dist:Number = 0;
 			var tmpDists:Vector.<Number> = new Vector.<Number>();
-			for (var i:uint = 0; i < _profile.length - 1; ++i) {
+			for(var i:int = 0; i < _profile.length - 1; ++i) {
 				tmpDists[i] = Vector3D.distance(_profile[i], _profile[i + 1]);
 				tdist += tmpDists[i];
 			}

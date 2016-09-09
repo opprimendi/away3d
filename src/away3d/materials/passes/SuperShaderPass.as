@@ -221,7 +221,7 @@ package away3d.materials.passes
 			var set:MethodVOSet;
 			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
 			var len:uint = methods.length;
-			for (var i:uint = 0; i < len; ++i) {
+			for(var i:int = 0; i < len; ++i) {
 				set = methods[i];
 				set.method.deactivate(set.data, stage3DProxy);
 			}
@@ -238,7 +238,7 @@ package away3d.materials.passes
 				addPasses(_methodSetup._colorTransformMethod.passes);
 			
 			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
-			for (var i:uint = 0; i < methods.length; ++i)
+			for(var i:int = 0; i < methods.length; ++i)
 				addPasses(methods[i].method.passes);
 		}
 
@@ -269,7 +269,7 @@ package away3d.materials.passes
 			
 			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
 			var len:uint = methods.length;
-			for (var i:uint = 0; i < len; ++i)
+			for(var i:int = 0; i < len; ++i)
 				methods[i].method.initConstants(methods[i].data);
 		}
 
@@ -379,7 +379,7 @@ package away3d.materials.passes
 			if (!(addDiff || addSpec))
 				return;
 			
-			for (var i:uint = 0; i < len; ++i) {
+			for(var i:int = 0; i < len; ++i) {
 				probe = lightProbes[i];
 				
 				if (addDiff)

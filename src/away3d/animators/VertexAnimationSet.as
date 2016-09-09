@@ -146,10 +146,10 @@ package away3d.animators
 				len = 2;
 			var streamIndex:uint = _streamIndices[pass] = pass.numUsedStreams;
 			
-			for (var i:uint = 0; i < len; ++i) {
+			for(var i:int = 0; i < len; ++i) {
 				code += "mul " + temp1 + ", " + sourceRegisters[i] + ", " + constantReg + "." + regs[0] + "\n";
 				
-				for (var j:uint = 1; j < _numPoses; ++j) {
+				for(var j:int = 1; j < _numPoses; ++j) {
 					code += "mul " + temp2 + ", va" + streamIndex + ", " + constantReg + "." + regs[j] + "\n";
 					
 					if (j < _numPoses - 1)
@@ -191,8 +191,8 @@ package away3d.animators
 			if (useNormals)
 				code += "mov " + targetRegisters[1] + ", " + sourceRegisters[1] + "\n";
 			
-			for (var i:uint = 0; i < len; ++i) {
-				for (var j:uint = 0; j < _numPoses; ++j) {
+			for(var i:int = 0; i < len; ++i) {
+				for(var j:int = 0; j < _numPoses; ++j) {
 					code += "mul " + temp1 + ", va" + (streamIndex + k) + ", vc" + pass.numUsedVertexConstants + "." + regs[j] + "\n" +
 						"add " + targetRegisters[i] + ", " + targetRegisters[i] + ", " + temp1 + "\n";
 					k++;

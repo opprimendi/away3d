@@ -28,7 +28,7 @@ package away3d.animators
 		{
 			var len:uint = targetRegisters.length;
 			_agalCode = "";
-			for(var i:uint = 0; i<len; i++) {
+			for(var i:int = 0; i<len; i++) {
 				_agalCode += "mov " + targetRegisters[i] + ", " + sourceRegisters[i] + "\n";
 			}
 			return _agalCode;

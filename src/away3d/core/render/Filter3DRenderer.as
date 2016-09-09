@@ -91,7 +91,7 @@ package away3d.core.render
 			_tasks = new Vector.<Filter3DTaskBase>();
 			
 			var length:uint = _filters.length - 1;
-			for (var i:uint = 0; i <= length; ++i) {
+			for(var i:int = 0; i <= length; ++i) {
 				// make sure all internal tasks are linked together
 				var filter:Filter3DBase = _filters[i];
 				filter.setRenderTargets(i == length ? null : _filters[i + 1].getMainInputTexture(stage3DProxy) as Texture, stage3DProxy);

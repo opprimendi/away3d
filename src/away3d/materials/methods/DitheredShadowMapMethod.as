@@ -106,7 +106,7 @@ package away3d.materials.methods
 			var step:Number = 1/(_depthMapSize*_range);
 			var r:Number, g:Number;
 			
-			for (var i:uint = 0; i < len; ++i) {
+			for(var i:int = 0; i < len; ++i) {
 				r = 2*(Math.random() - .5);
 				g = 2*(Math.random() - .5);
 				if (r < 0)

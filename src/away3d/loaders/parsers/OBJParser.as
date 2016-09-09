@@ -278,7 +278,7 @@ package away3d.loaders.parsers
 				var sm:uint;
 				var bmMaterial:MaterialBase;
 				
-				for (var g:uint = 0; g < numGroups; ++g) {
+				for(var g:int = 0; g < numGroups; ++g) {
 					geometry = new Geometry();
 					materialGroups = groups[g].materialGroups;
 					numMaterialGroups = materialGroups.length;
@@ -349,7 +349,7 @@ package away3d.loaders.parsers
 			_vertexIndex = 0;
 			
 			var j:uint;
-			for (var i:uint = 0; i < numFaces; ++i) {
+			for(var i:int = 0; i < numFaces; ++i) {
 				face = faces[i];
 				numVerts = face.indexIds.length - 1;
 				for (j = 1; j < numVerts; ++j) {
@@ -466,7 +466,7 @@ package away3d.loaders.parsers
 			if (trunk.length > 4) {
 				var nTrunk:Array = [];
 				var val:Number;
-				for (var i:uint = 1; i < trunk.length; ++i) {
+				for(var i:int = 1; i < trunk.length; ++i) {
 					val = parseFloat(trunk[i]);
 					if (!isNaN(val))
 						nTrunk.push(val);
@@ -486,7 +486,7 @@ package away3d.loaders.parsers
 			if (trunk.length > 3) {
 				var nTrunk:Array = [];
 				var val:Number;
-				for (var i:uint = 1; i < trunk.length; ++i) {
+				for(var i:int = 1; i < trunk.length; ++i) {
 					val = parseFloat(trunk[i]);
 					if (!isNaN(val))
 						nTrunk.push(val);
@@ -507,7 +507,7 @@ package away3d.loaders.parsers
 			if (trunk.length > 4) {
 				var nTrunk:Array = [];
 				var val:Number;
-				for (var i:uint = 1; i < trunk.length; ++i) {
+				for(var i:int = 1; i < trunk.length; ++i) {
 					val = parseFloat(trunk[i]);
 					if (!isNaN(val))
 						nTrunk.push(val);
@@ -531,7 +531,7 @@ package away3d.loaders.parsers
 				createGroup(null);
 			
 			var indices:Array;
-			for (var i:uint = 1; i < len; ++i) {
+			for(var i:int = 1; i < len; ++i) {
 				if (trunk[i] == "")
 					continue;
 				indices = trunk[i].split("/");
@@ -574,7 +574,7 @@ package away3d.loaders.parsers
 			var alpha:Number;
 			var mapkd:String;
 			
-			for (var i:uint = 0; i < materialDefinitions.length; ++i) {
+			for(var i:int = 0; i < materialDefinitions.length; ++i) {
 				
 				lines = (materialDefinitions[i].split('\r') as Array).join("").split('\n');
 				
@@ -766,7 +766,7 @@ package away3d.loaders.parsers
 			var j:uint;
 			var specularData:SpecularData;
 			
-			for (var i:uint = 0; i < _meshes.length; ++i) {
+			for(var i:int = 0; i < _meshes.length; ++i) {
 				mesh = _meshes[i];
 				decomposeID = mesh.material.name.split("~");
 				
@@ -846,7 +846,7 @@ package away3d.loaders.parsers
 			if (_materialLoaded.length == 0)
 				return;
 			
-			for (var i:uint = 0; i < _materialLoaded.length; ++i)
+			for(var i:int = 0; i < _materialLoaded.length; ++i)
 				applyMaterial(_materialLoaded[i]);
 		}
 	}

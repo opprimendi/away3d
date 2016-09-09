@@ -312,7 +312,7 @@ package away3d.materials.compilation
 			if (!(addSpec || addDiff))
 				return;
 			
-			for (var i:uint = 0; i < _numDirectionalLights; ++i) {
+			for(var i:int = 0; i < _numDirectionalLights; ++i) {
 				lightDirReg = _dirLightRegisters[regIndex++];
 				diffuseColorReg = _dirLightRegisters[regIndex++];
 				specularColorReg = _dirLightRegisters[regIndex++];
@@ -336,7 +336,7 @@ package away3d.materials.compilation
 			if (!(addSpec || addDiff))
 				return;
 			
-			for (var i:uint = 0; i < _numPointLights; ++i) {
+			for(var i:int = 0; i < _numPointLights; ++i) {
 				lightPosReg = _pointLightRegisters[regIndex++];
 				diffuseColorReg = _pointLightRegisters[regIndex++];
 				specularColorReg = _pointLightRegisters[regIndex++];

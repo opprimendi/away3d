@@ -51,7 +51,7 @@ package away3d.tools.commands
 			if (object is Mesh && object.numChildren == 0)
 				apply(Mesh(object).geometry, _keepNormals);
 			
-			for (var i:uint = 0; i < object.numChildren; ++i) {
+			for(var i:int = 0; i < object.numChildren; ++i) {
 				child = object.getChildAt(i);
 				parse(child);
 			}

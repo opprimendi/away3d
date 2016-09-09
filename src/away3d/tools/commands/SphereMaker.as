@@ -65,7 +65,7 @@ package away3d.tools.commands
 					_radius = vectorMinlength;
 			}
 			var length:int = mesh.geometry.subGeometries.length;
-			for (var i:uint = 0; i < length; i++)
+			for(var i:int = 0; i < length; i++)
 				spherizeSubGeom(mesh.geometry.subGeometries[i]);
 		}
 		
@@ -75,7 +75,7 @@ package away3d.tools.commands
 				apply(Mesh(object), _weight, _radiusMode, _radius);
 			
 			var numChildren:uint = object.numChildren;
-			for (var i:uint = 0; i < numChildren; ++i) {
+			for(var i:int = 0; i < numChildren; ++i) {
 				parse(object.getChildAt(i));
 			}
 		}
@@ -89,7 +89,7 @@ package away3d.tools.commands
 			var nStride:uint = subGeom.vertexNormalStride;
 			var nOffs:uint = subGeom.vertexNormalOffset;
 			var numVertices:uint = subGeom.numVertices;
-			for (var i:uint = 0; i < numVertices; i++) {
+			for(var i:int = 0; i < numVertices; i++) {
 				var vectorVert:Vector3D = new Vector3D(vd[vOffs + i*vStride], vd[vOffs + i*vStride + 1], vd[vOffs + i*vStride + 2]);
 				var vectorVertLength:Number = vectorVert.length;
 				var vectorNormal:Vector3D = vectorVert.clone();

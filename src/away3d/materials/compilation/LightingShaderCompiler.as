@@ -328,7 +328,7 @@ package away3d.materials.compilation
 			if (!(addSpec || addDiff))
 				return;
 			
-			for (var i:uint = 0; i < _numDirectionalLights; ++i) {
+			for(var i:int = 0; i < _numDirectionalLights; ++i) {
 				
 				if (tangentSpace) {
 					lightDirReg = _dirLightVertexConstants[vertexRegIndex++];
@@ -373,7 +373,7 @@ package away3d.materials.compilation
 			if (!(addSpec || addDiff))
 				return;
 			
-			for (var i:uint = 0; i < _numPointLights; ++i) {
+			for(var i:int = 0; i < _numPointLights; ++i) {
 				lightPosReg = _pointLightVertexConstants[vertexRegIndex++];
 				diffuseColorReg = _pointLightFragmentConstants[fragmentRegIndex++];
 				specularColorReg = _pointLightFragmentConstants[fragmentRegIndex++];

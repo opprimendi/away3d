@@ -2501,7 +2501,7 @@ package away3d.loaders.parsers
 		private function parseMatrix32RawData():Vector.<Number>
 		{
 			var mtx_raw:Vector.<Number> = new Vector.<Number>(6, true);
-			for (var i:uint = 0; i < 6; i++)
+			for(var i:int = 0; i < 6; i++)
 				mtx_raw[i] = _newBlockBytes.readFloat();
 			return mtx_raw;
 		}
