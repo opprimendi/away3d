@@ -151,10 +151,10 @@ package away3d.tools.helpers
 				}
 				
 				if (subGeom is CompactSubGeometry)
-					CompactSubGeometry(subGeom).updateData(vertices);
+					(subGeom as CompactSubGeometry).updateData(vertices);
 				else {
-					SubGeometry(subGeom).updateVertexData(vertices);
-					SubGeometry(subGeom).updateVertexNormalData(normals);
+					(subGeom as SubGeometry).updateVertexData(vertices);
+					(subGeom as SubGeometry).updateVertexNormalData(normals);
 				}
 			}
 			
@@ -220,9 +220,9 @@ package away3d.tools.helpers
 				}
 				
 				if (subGeom is CompactSubGeometry)
-					CompactSubGeometry(subGeom).updateData(vertices);
+					(subGeom as CompactSubGeometry).updateData(vertices);
 				else
-					SubGeometry(subGeom).updateVertexData(vertices);
+					(subGeom as SubGeometry).updateVertexData(vertices);
 			}
 			
 			mesh.scaleX = mesh.scaleY = mesh.scaleZ = 1;
@@ -286,9 +286,9 @@ package away3d.tools.helpers
 				}
 				
 				if (subGeom is CompactSubGeometry)
-					CompactSubGeometry(subGeom).updateData(vertices);
+					(subGeom as CompactSubGeometry).updateData(vertices);
 				else
-					SubGeometry(subGeom).updateVertexData(vertices);
+					(subGeom as SubGeometry).updateVertexData(vertices);
 			}
 			
 			mesh.x -= dx;
@@ -387,12 +387,12 @@ package away3d.tools.helpers
 				}
 				
 				if (subGeom is CompactSubGeometry)
-					CompactSubGeometry(subGeom).updateData(subGeom.vertexData);
+					(subGeom as CompactSubGeometry).updateData(subGeom.vertexData);
 				else {
-					SubGeometry(subGeom).updateIndexData(indices);
-					SubGeometry(subGeom).updateVertexNormalData(normals);
-					SubGeometry(subGeom).updateVertexTangentData(tangents);
-					SubGeometry(subGeom).updateUVData(uvs);
+					(subGeom as SubGeometry).updateIndexData(indices);
+					(subGeom as SubGeometry).updateVertexNormalData(normals);
+					(subGeom as SubGeometry).updateVertexTangentData(tangents);
+					(subGeom as SubGeometry).updateUVData(uvs);
 				}
 			}
 		}

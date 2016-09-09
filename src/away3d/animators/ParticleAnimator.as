@@ -184,7 +184,7 @@ package away3d.animators
 		{
 			super.dispose();
 			for each(var it:* in _animatorSubGeometries)
-				IDisposable(it).dispose();
+				(it as IDisposable).dispose();
 			_particleAnimationSet = null;
 			_animationParticleStates = null;
 			_animatorParticleStates = null;

@@ -33,7 +33,7 @@ package away3d.textures
 		
 		override protected function uploadContent(texture:TextureBase):void
 		{
-			CubeTexture(texture).uploadCompressedTextureFromByteArray(_atfData.data, 0, false);
+			(texture as CubeTexture).uploadCompressedTextureFromByteArray(_atfData.data, 0, false);
 		}
 		
 		override protected function createTexture(context3D:Context3D):TextureBase

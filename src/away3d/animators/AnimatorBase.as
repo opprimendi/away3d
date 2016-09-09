@@ -334,7 +334,7 @@ package away3d.animators
 		{
 			stop();
 			for each(var it:* in _animationStates)
-				IDisposable(it).dispose();
+				(it as IDisposable).dispose();
 			_activeState = null;
 			_activeNode = null;
 			_animationSet = null;

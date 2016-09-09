@@ -677,20 +677,20 @@ package away3d.loaders.parsers
 					var cm:MaterialBase;
 					if (materialMode < 2) {
 						cm = new ColorMaterial(diffuseColor);
-						ColorMaterial(cm).alpha = alpha;
-						ColorMaterial(cm).ambientColor = ambientColor;
-						ColorMaterial(cm).repeat = true;
+						(cm as ColorMaterial).alpha = alpha;
+						(cm as ColorMaterial).ambientColor = ambientColor;
+						(cm as ColorMaterial).repeat = true;
 						if (useSpecular) {
-							ColorMaterial(cm).specularColor = specularColor;
-							ColorMaterial(cm).specular = specular;
+							(cm as ColorMaterial).specularColor = specularColor;
+							(cm as ColorMaterial).specular = specular;
 						}
 					} else {
 						cm = new ColorMultiPassMaterial(diffuseColor);
-						ColorMultiPassMaterial(cm).ambientColor = ambientColor;
-						ColorMultiPassMaterial(cm).repeat = true;
+						(cm as ColorMultiPassMaterial).ambientColor = ambientColor;
+						(cm as ColorMultiPassMaterial).repeat = true;
 						if (useSpecular) {
-							ColorMultiPassMaterial(cm).specularColor = specularColor;
-							ColorMultiPassMaterial(cm).specular = specular;
+							(cm as ColorMultiPassMaterial).specularColor = specularColor;
+							(cm as ColorMultiPassMaterial).specular = specular;
 						}
 					}
 					
@@ -780,50 +780,50 @@ package away3d.loaders.parsers
 					} else if (lm.texture) {
 						if (materialMode < 2) { // if materialMode is 0 or 1, we create a SinglePass				
 							mat = TextureMaterial(mesh.material);
-							TextureMaterial(mat).texture = lm.texture;
-							TextureMaterial(mat).ambientColor = lm.ambientColor;
-							TextureMaterial(mat).alpha = lm.alpha;
-							TextureMaterial(mat).repeat = true;
+							(mat as TextureMaterial).texture = lm.texture;
+							(mat as TextureMaterial).ambientColor = lm.ambientColor;
+							(mat as TextureMaterial).alpha = lm.alpha;
+							(mat as TextureMaterial).repeat = true;
 							
 							if (lm.specularMethod) {
 								// By setting the specularMethod property to null before assigning
 								// the actual method instance, we avoid having the properties of
 								// the new method being overridden with the settings from the old
 								// one, which is default behavior of the setter.
-								TextureMaterial(mat).specularMethod = null;
-								TextureMaterial(mat).specularMethod = lm.specularMethod;
+								(mat as TextureMaterial).specularMethod = null;
+								(mat as TextureMaterial).specularMethod = lm.specularMethod;
 							} else if (_materialSpecularData) {
 								for (j = 0; j < _materialSpecularData.length; ++j) {
 									specularData = _materialSpecularData[j];
 									if (specularData.materialID == lm.materialID) {
-										TextureMaterial(mat).specularMethod = null; // Prevent property overwrite (see above)
-										TextureMaterial(mat).specularMethod = specularData.basicSpecularMethod;
-										TextureMaterial(mat).ambientColor = specularData.ambientColor;
-										TextureMaterial(mat).alpha = specularData.alpha;
+										(mat as TextureMaterial).specularMethod = null; // Prevent property overwrite (see above)
+										(mat as TextureMaterial).specularMethod = specularData.basicSpecularMethod;
+										(mat as TextureMaterial).ambientColor = specularData.ambientColor;
+										(mat as TextureMaterial).alpha = specularData.alpha;
 										break;
 									}
 								}
 							}
 						} else { //if materialMode==2 this is a MultiPassTexture					
 							mat = TextureMultiPassMaterial(mesh.material);
-							TextureMultiPassMaterial(mat).texture = lm.texture;
-							TextureMultiPassMaterial(mat).ambientColor = lm.ambientColor;
-							TextureMultiPassMaterial(mat).repeat = true;
+							(mat as TextureMultiPassMaterial).texture = lm.texture;
+							(mat as TextureMultiPassMaterial).ambientColor = lm.ambientColor;
+							(mat as TextureMultiPassMaterial).repeat = true;
 							
 							if (lm.specularMethod) {
 								// By setting the specularMethod property to null before assigning
 								// the actual method instance, we avoid having the properties of
 								// the new method being overridden with the settings from the old
 								// one, which is default behavior of the setter.
-								TextureMultiPassMaterial(mat).specularMethod = null;
-								TextureMultiPassMaterial(mat).specularMethod = lm.specularMethod;
+								(mat as TextureMultiPassMaterial).specularMethod = null;
+								(mat as TextureMultiPassMaterial).specularMethod = lm.specularMethod;
 							} else if (_materialSpecularData) {
 								for (j = 0; j < _materialSpecularData.length; ++j) {
 									specularData = _materialSpecularData[j];
 									if (specularData.materialID == lm.materialID) {
-										TextureMultiPassMaterial(mat).specularMethod = null; // Prevent property overwrite (see above)
-										TextureMultiPassMaterial(mat).specularMethod = specularData.basicSpecularMethod;
-										TextureMultiPassMaterial(mat).ambientColor = specularData.ambientColor;
+										(mat as TextureMultiPassMaterial).specularMethod = null; // Prevent property overwrite (see above)
+										(mat as TextureMultiPassMaterial).specularMethod = specularData.basicSpecularMethod;
+										(mat as TextureMultiPassMaterial).ambientColor = specularData.ambientColor;
 										break;
 									}
 								}

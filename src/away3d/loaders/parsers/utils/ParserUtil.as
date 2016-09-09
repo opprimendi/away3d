@@ -40,7 +40,7 @@ package away3d.loaders.parsers.utils
 			length ||= uint.MAX_VALUE;
 			
 			if (data is String)
-				return String(data).substr(0, length);
+				return (data as String).substr(0, length);
 			
 			ba = toByteArray(data);
 			if (ba) {

@@ -187,8 +187,8 @@ package away3d.tools.utils
 				// is a skinned mesh and needs to be built from skinned
 				// sub-geometries.
 				sub = new SkinnedSubGeometry(weights.length/(verts.length/3));
-				SkinnedSubGeometry(sub).updateJointWeightsData(weights);
-				SkinnedSubGeometry(sub).updateJointIndexData(jointIndices);
+				(sub as SkinnedSubGeometry).updateJointWeightsData(weights);
+				(sub as SkinnedSubGeometry).updateJointIndexData(jointIndices);
 				
 			} else
 				sub = new CompactSubGeometry();

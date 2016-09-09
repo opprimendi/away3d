@@ -576,19 +576,19 @@ package away3d.loaders.parsers
 			
 			if (materialMode < 2) {
 				colorMaterial = new ColorMaterial(0xFFFFFF);
-				ColorMaterial(colorMaterial).name = name;
-				ColorMaterial(colorMaterial).color = color;
-				ColorMaterial(colorMaterial).ambient = ambient;
-				ColorMaterial(colorMaterial).specular = specular;
-				ColorMaterial(colorMaterial).gloss = gloss;
-				ColorMaterial(colorMaterial).alpha = alpha;
+				(colorMaterial as ColorMaterial).name = name;
+				(colorMaterial as ColorMaterial).color = color;
+				(colorMaterial as ColorMaterial).ambient = ambient;
+				(colorMaterial as ColorMaterial).specular = specular;
+				(colorMaterial as ColorMaterial).gloss = gloss;
+				(colorMaterial as ColorMaterial).alpha = alpha;
 			} else {
 				colorMaterial = new ColorMultiPassMaterial(0xFFFFFF);
-				ColorMultiPassMaterial(colorMaterial).name = name;
-				ColorMultiPassMaterial(colorMaterial).color = color;
-				ColorMultiPassMaterial(colorMaterial).ambient = ambient;
-				ColorMultiPassMaterial(colorMaterial).specular = specular;
-				ColorMultiPassMaterial(colorMaterial).gloss = gloss;
+				(colorMaterial as ColorMultiPassMaterial).name = name;
+				(colorMaterial as ColorMultiPassMaterial).color = color;
+				(colorMaterial as ColorMultiPassMaterial).ambient = ambient;
+				(colorMaterial as ColorMultiPassMaterial).specular = specular;
+				(colorMaterial as ColorMultiPassMaterial).gloss = gloss;
 					//ColorMultiPassMaterial(colorMaterial).alpha=alpha;
 			}
 			return colorMaterial;

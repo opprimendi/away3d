@@ -711,15 +711,15 @@ package away3d.loaders.parsers
 					mat = new TextureMaterial(_cur_mat.colorMap.texture || DefaultMaterialManager.getDefaultTexture());
 				else
 					mat = new ColorMaterial(_cur_mat.diffuseColor);
-				SinglePassMaterialBase(mat).ambientColor = _cur_mat.ambientColor;
-				SinglePassMaterialBase(mat).specularColor = _cur_mat.specularColor;
+				(mat as SinglePassMaterialBase).ambientColor = _cur_mat.ambientColor;
+				(mat as SinglePassMaterialBase).specularColor = _cur_mat.specularColor;
 			} else {
 				if (_cur_mat.colorMap)
 					mat = new TextureMultiPassMaterial(_cur_mat.colorMap.texture || DefaultMaterialManager.getDefaultTexture());
 				else
 					mat = new ColorMultiPassMaterial(_cur_mat.diffuseColor);
-				MultiPassMaterialBase(mat).ambientColor = _cur_mat.ambientColor;
-				MultiPassMaterialBase(mat).specularColor = _cur_mat.specularColor;
+				(mat as MultiPassMaterialBase).ambientColor = _cur_mat.ambientColor;
+				(mat as MultiPassMaterialBase).specularColor = _cur_mat.specularColor;
 			}
 			
 			mat.bothSides = _cur_mat.twoSided;

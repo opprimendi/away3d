@@ -55,7 +55,7 @@ package away3d.animators.states
 			
 			if (_vertexClipNode.looping && _nextFrame >= _vertexClipNode.lastFrame) {
 				_nextGeometry = _frames[0];
-				VertexAnimator(_animator).dispatchCycleEvent();
+				(_animator as VertexAnimator).dispatchCycleEvent();
 			} else
 				_nextGeometry = _frames[_nextFrame];
 		}

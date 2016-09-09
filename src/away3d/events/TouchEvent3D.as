@@ -168,7 +168,7 @@ package away3d.events
 		public function get scenePosition():Vector3D
 		{
 			if (object is ObjectContainer3D)
-				return ObjectContainer3D(object).sceneTransform.transformVector(localPosition);
+				return (object as ObjectContainer3D).sceneTransform.transformVector(localPosition);
 			return localPosition;
 		}
 		
