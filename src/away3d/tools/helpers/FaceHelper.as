@@ -71,6 +71,7 @@ package away3d.tools.helpers
 				indices[nind++] = ind++;
 				indices[nind++] = ind++;
 				indices[nind++] = ind++;
+				
 				vertices.push(v0.x, v0.y, v0.z, v1.x, v1.y, v1.z, v2.x, v2.y, v2.z);
 				uvs.push(uv0.u, uv0.v, uv1.u, uv1.v, uv2.u, uv2.v);
 				normals.push(_n.x, _n.y, _n.z, _n.x, _n.y, _n.z, _n.x, _n.y, _n.z);

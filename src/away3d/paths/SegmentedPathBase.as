@@ -66,7 +66,7 @@ package away3d.paths
 		
 		public function addSegment(segment:IPathSegment):void
 		{
-			_segments.push(segment);
+			_segments[_segments.length] = segment;
 		}
 		
 		/**

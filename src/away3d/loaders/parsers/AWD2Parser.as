@@ -190,28 +190,28 @@ package away3d.loaders.parsers
 			super(ParserDataFormat.BINARY);		
 			
 			blendModeDic = new Vector.<String>(); // used to translate ints to blendMode-strings
-			blendModeDic.push(BlendMode.NORMAL);
-			blendModeDic.push(BlendMode.ADD);
-			blendModeDic.push(BlendMode.ALPHA);
-			blendModeDic.push(BlendMode.DARKEN);
-			blendModeDic.push(BlendMode.DIFFERENCE);
-			blendModeDic.push(BlendMode.ERASE);
-			blendModeDic.push(BlendMode.HARDLIGHT);
-			blendModeDic.push(BlendMode.INVERT);
-			blendModeDic.push(BlendMode.LAYER);
-			blendModeDic.push(BlendMode.LIGHTEN);
-			blendModeDic.push(BlendMode.MULTIPLY);
-			blendModeDic.push(BlendMode.NORMAL);
-			blendModeDic.push(BlendMode.OVERLAY);
-			blendModeDic.push(BlendMode.SCREEN);
-			blendModeDic.push(BlendMode.SHADER);
-			blendModeDic.push(BlendMode.OVERLAY);
+			blendModeDic[blendModeDic.length] = BlendMode.NORMAL;
+			blendModeDic[blendModeDic.length] = BlendMode.ADD;
+			blendModeDic[blendModeDic.length] = BlendMode.ALPHA;
+			blendModeDic[blendModeDic.length] = BlendMode.DARKEN;
+			blendModeDic[blendModeDic.length] = BlendMode.DIFFERENCE;
+			blendModeDic[blendModeDic.length] = BlendMode.ERASE;
+			blendModeDic[blendModeDic.length] = BlendMode.HARDLIGHT;
+			blendModeDic[blendModeDic.length] = BlendMode.INVERT;
+			blendModeDic[blendModeDic.length] = BlendMode.LAYER;
+			blendModeDic[blendModeDic.length] = BlendMode.LIGHTEN;
+			blendModeDic[blendModeDic.length] = BlendMode.MULTIPLY;
+			blendModeDic[blendModeDic.length] = BlendMode.NORMAL;
+			blendModeDic[blendModeDic.length] = BlendMode.OVERLAY;
+			blendModeDic[blendModeDic.length] = BlendMode.SCREEN;
+			blendModeDic[blendModeDic.length] = BlendMode.SHADER;
+			blendModeDic[blendModeDic.length] = BlendMode.OVERLAY;
 			
 			_depthSizeDic = new Vector.<uint>(); // used to translate ints to depthSize-values
-			_depthSizeDic.push(256);
-			_depthSizeDic.push(512);
-			_depthSizeDic.push(2048);
-			_depthSizeDic.push(1024);
+			_depthSizeDic[_depthSizeDic.length] = 256;
+			_depthSizeDic[_depthSizeDic.length] = 512;
+			_depthSizeDic[_depthSizeDic.length] = 2048;
+			_depthSizeDic[_depthSizeDic.length] = 1024;
 		}
 		
 		/**
@@ -271,7 +271,7 @@ package away3d.loaders.parsers
 				}
 				if (isCubeTextureArray.length > 1) {
 					thisBitmapTexture = resourceDependency.assets[0] as BitmapTexture;
-					_cubeTextures[uint(isCubeTextureArray[1])] = BitmapTexture(thisBitmapTexture).bitmapData;
+					_cubeTextures[int(isCubeTextureArray[1])] = (thisBitmapTexture as BitmapTexture).bitmapData;
 					_texture_users[ressourceID].push(1);
 					
 					if (_debug)
@@ -867,8 +867,8 @@ package away3d.loaders.parsers
 				returnedArrayMaterial = getAssetByID(mat_id, [AssetType.MATERIAL])
 				if ((!returnedArrayMaterial[0]) && (mat_id > 0))
 					_blocks[blockID].addError("Could not find Material Nr " + materials_parsed + " (ID = " + mat_id + " ) for this Mesh");
-				materials.push(returnedArrayMaterial[1] as MaterialBase);
-				materialNames.push(MaterialBase(returnedArrayMaterial[1]).name);
+				materials[materials.length] = returnedArrayMaterial[1] as MaterialBase;
+				materialNames[materialNames.length] = (returnedArrayMaterial[1] as MaterialBase).name;
 				
 				materials_parsed++;
 			}
@@ -1119,8 +1119,8 @@ package away3d.loaders.parsers
 				lightID = _newBlockBytes.readUnsignedInt();
 				returnedArrayLight = getAssetByID(lightID, [AssetType.LIGHT])
 				if (returnedArrayLight[0]) {
-					lightsArray.push(returnedArrayLight[1] as LightBase);
-					lightsArrayNames.push(LightBase(returnedArrayLight[1]).name);
+					lightsArray[lightsArray.length] = returnedArrayLight[1] as LightBase;
+					lightsArrayNames[lightsArrayNames.length] = (returnedArrayLight[1] as LightBase).name;
 				} else
 					_blocks[blockID].addError("Could not find a Light Nr " + k + " (ID = " + lightID + " ) for this LightPicker");
 			}
@@ -1568,7 +1568,7 @@ package away3d.loaders.parsers
 			
 			for (var i:int = 0; i < 6; i++) {
 				_texture_users[_cur_block_id] = [];
-				_cubeTextures.push(null);
+				_cubeTextures[_cubeTextures.length] = null;
 				// External
 				if (type == 0) {
 					data_len = _newBlockBytes.readUnsignedInt();
@@ -1778,6 +1778,7 @@ package away3d.loaders.parsers
 			var name:String = parseVarStr();
 			var num_joints:uint = _newBlockBytes.readUnsignedShort();
 			var skeleton:Skeleton = new Skeleton();
+			var joints:Vector.<SkeletonJoint> = skeleton.joints;
 			parseProperties(null); // Discard properties for now		
 			
 			var joints_parsed:uint = 0;
@@ -1795,7 +1796,7 @@ package away3d.loaders.parsers
 				// Ignore joint props/attributes for now
 				parseProperties(null);
 				parseUserAttributes();
-				skeleton.joints.push(joint);
+				joints[joints.length] = joint;
 				joints_parsed++;
 			}
 			
@@ -1914,7 +1915,7 @@ package away3d.loaders.parsers
 			num_Streams = _newBlockBytes.readUnsignedShort();
 			streamsParsed = 0;
 			while (streamsParsed < num_Streams) {
-				streamtypes.push(_newBlockBytes.readUnsignedShort());
+				streamtypes[streamtypes.length] = _newBlockBytes.readUnsignedShort();
 				streamsParsed++;
 			}
 			props = parseProperties({1:BOOL, 2:BOOL});
@@ -1987,9 +1988,9 @@ package away3d.loaders.parsers
 					_blocks[blockID].addError("Could not find the AnimationClipNode Nr " + clips_parsed + " ( " + poseBlockAdress + " ) for this AnimationSet");
 				else {
 					if (returnedArray[1] is VertexClipNode)
-						vertexFrames.push(returnedArray[1])
+						vertexFrames[vertexFrames.length] = returnedArray[1]
 					if (returnedArray[1] is SkeletonClipNode)
-						skeletonFrames.push(returnedArray[1])
+						skeletonFrames[skeletonFrames.length] = returnedArray[1]
 				}
 				clips_parsed++;
 			}
@@ -2063,7 +2064,7 @@ package away3d.loaders.parsers
 			var targetMeshLength:uint = _newBlockBytes.readUnsignedShort();
 			var meshAdresses:Vector.<uint> = new Vector.<uint>;
 			for (var i:int = 0; i < targetMeshLength; i++)
-				meshAdresses.push(_newBlockBytes.readUnsignedInt());
+				meshAdresses[meshAdresses.length] = _newBlockBytes.readUnsignedInt();
 			
 			var activeState:uint = _newBlockBytes.readUnsignedShort();
 			var autoplay:Boolean = Boolean(_newBlockBytes.readUnsignedByte());
@@ -2076,7 +2077,7 @@ package away3d.loaders.parsers
 			for (i = 0; i < meshAdresses.length; i++) {
 				returnedArray = getAssetByID(meshAdresses[i], [AssetType.MESH]);
 				if (returnedArray[0])
-					targetMeshes.push(returnedArray[1] as Mesh);
+					targetMeshes[targetMeshes.length] = returnedArray[1] as Mesh;
 			}
 			returnedArray = getAssetByID(animSetBlockAdress, [AssetType.ANIMATION_SET]);
 			if (!returnedArray[0]) {
@@ -2191,17 +2192,21 @@ package away3d.loaders.parsers
 			var i:int;
 			var newUvs:Vector.<Number>;
 			_blocks[meshID].uvsForVertexAnimation = new Vector.<Vector.<Number>>;
+			var block:AWDBlock = _blocks[meshID];
+			var uvsForVertexAnimation:Vector.<Vector.<Number>>;
 			while (geoCnt < geometry.subGeometries.length) {
 				newUvs = new Vector.<Number>;
 				numPoints = geometry.subGeometries[geoCnt].numVertices;
 				ud = geometry.subGeometries[geoCnt].UVData;
 				uStride = geometry.subGeometries[geoCnt].UVStride;
 				uOffs = geometry.subGeometries[geoCnt].UVOffset;
-				for (i = 0; i < numPoints; i++) {
-					newUvs.push(ud[uOffs + i*uStride]);
-					newUvs.push(ud[uOffs + i*uStride + 1]);
+				for (i = 0; i < numPoints; i++) 
+				{
+					newUvs[newUvs.length] = ud[uOffs + i*uStride];
+					newUvs[newUvs.length] = ud[uOffs + i*uStride + 1];
 				}
-				_blocks[meshID].uvsForVertexAnimation.push(newUvs);
+				
+				uvsForVertexAnimation[uvsForVertexAnimation.length] = newUvs;
 				geoCnt++;
 			}
 			return _blocks[meshID].uvsForVertexAnimation;
@@ -2376,27 +2381,27 @@ package away3d.loaders.parsers
 								//if the right assetType was found 
 								if ((assetTypesToGet[typeCnt] == AssetType.TEXTURE) && (extraTypeInfo == "CubeTexture")) {
 									if ((_blocks[assetID].data is BitmapCubeTexture)||(_blocks[assetID].data is ATFCubeTexture)) {
-										returnArray.push(true);
-										returnArray.push(_blocks[assetID].data);
+										returnArray[returnArray.length] = true;
+										returnArray[returnArray.length] = _blocks[assetID].data;
 										return returnArray;
 									}
 								}
 								if ((assetTypesToGet[typeCnt] == AssetType.TEXTURE) && (extraTypeInfo == "SingleTexture")) {
 									if ((_blocks[assetID].data is BitmapTexture)||(_blocks[assetID].data is ATFTexture)) {
-										returnArray.push(true);
-										returnArray.push(_blocks[assetID].data);
+										returnArray[returnArray.length] = true;
+										returnArray[returnArray.length] = _blocks[assetID].data;
 										return returnArray;
 									}
 								} else {
-									returnArray.push(true);
-									returnArray.push(_blocks[assetID].data);
+									returnArray[returnArray.length] = true;
+									returnArray[returnArray.length] = _blocks[assetID].data;
 									return returnArray;
 									
 								}
 							}
 							if ((assetTypesToGet[typeCnt] == AssetType.GEOMETRY) && (IAsset(_blocks[assetID].data).assetType == AssetType.MESH)) {
-								returnArray.push(true);
-								returnArray.push(Mesh(_blocks[assetID].data).geometry);
+								returnArray[returnArray.length] = true;
+								returnArray[returnArray.length] = (_blocks[assetID].data as Mesh).geometry;
 								return returnArray;
 							}
 							typeCnt++;
@@ -2405,8 +2410,9 @@ package away3d.loaders.parsers
 				}
 			}
 			// if the function has not returned anything yet, the asset is not found, or the found asset is not the right type.
-			returnArray.push(false);
-			returnArray.push(getDefaultAsset(assetTypesToGet[0], extraTypeInfo));
+			returnArray[returnArray.length] = false;
+			returnArray[returnArray.length] = getDefaultAsset(assetTypesToGet[0], extraTypeInfo);
+			
 			return returnArray;
 		}
 		
@@ -2475,7 +2481,7 @@ package away3d.loaders.parsers
 				num_read = 0;
 				num_elems = len/elem_len;
 				while (num_read < num_elems) {
-					list.push(read_func());
+					list[list.length] = read_func();
 					num_read++;
 				}
 				
@@ -2578,7 +2584,7 @@ class AWDBlock
 	{
 		if (!errorMessages)
 			errorMessages = new Vector.<String>();
-		errorMessages.push(errorMsg);
+		errorMessages[errorMessages.length] = errorMsg;
 	}
 }
 

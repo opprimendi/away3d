@@ -678,7 +678,7 @@
 				pass.specularMethod = _specularMethod;
 				pass.diffuseLightSources = _diffuseLightSources;
 				pass.specularLightSources = _specularLightSources;
-				_nonCasterLightPasses.push(pass);
+				_nonCasterLightPasses[_nonCasterLightPasses.length] = pass;
 				
 				dirLightOffset += pass.numDirectionalLights;
 				pointLightOffset += pass.numPointLights;

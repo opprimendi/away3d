@@ -104,7 +104,7 @@ package away3d.tools.commands
 			// Collect ctr (if it's a mesh) and all it's
 			// mesh children to a flat list.
 			if (newObjectContainer is Mesh)
-				meshes.push(Mesh(newObjectContainer));
+				meshes[meshes.length] = newObjectContainer as Mesh;
 			
 			collectMeshChildren(newObjectContainer, meshes);
 			
@@ -154,7 +154,7 @@ package away3d.tools.commands
 			var meshes:Vector.<Mesh> = new Vector.<Mesh>();
 			
 			if (ctr is Mesh)
-				meshes.push(Mesh(ctr));
+				meshes[meshes.length] = ctr as Mesh;
 			
 			collectMeshChildren(ctr, meshes);
 			len = meshes.length;
@@ -396,7 +396,7 @@ package away3d.tools.commands
 			for(var i:int = 0; i < ctr.numChildren; i++) {
 				var child:ObjectContainer3D = ctr.getChildAt(i);
 				if (child is Mesh)
-					meshes.push(Mesh(child));
+					meshes[meshes.length] = child as Mesh;
 				
 				collectMeshChildren(child, meshes);
 			}

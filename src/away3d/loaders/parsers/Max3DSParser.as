@@ -426,7 +426,7 @@ package away3d.loaders.parsers
 			while (i < faces.length)
 				faces[i++] = _byteData.readUnsignedShort();
 			
-			_cur_obj.materials.push(mat);
+			_cur_obj.materials[_cur_obj.materials.length] = mat;
 			_cur_obj.materialFaces[mat] = faces;
 		}
 		
@@ -537,8 +537,12 @@ package away3d.loaders.parsers
 				// Construct sub-geometries (potentially splitting buffers)
 				// and add them to geometry.
 				subs = GeomUtil.fromVectors(obj.verts, obj.indices, obj.uvs, null, null, null, null);
+				
+				var subGeometries:Vector.<ISubGeometry> = geom.subGeometries;
 				for (i = 0; i < subs.length; i++)
-					geom.subGeometries.push(subs[i]);
+				{
+					subGeometries[subGeometries.length] = subs[i];
+				}
 				
 				if (obj.materials.length > 0) {
 					var mname:String;
@@ -648,7 +652,7 @@ package away3d.loaders.parsers
 							k = groups.length - 1;
 						}
 					}
-					groups.push(group);
+					groups[groups.length] = group;
 				}
 			}
 			// clone vertices
@@ -668,7 +672,7 @@ package away3d.loaders.parsers
 					v1.u = v0.u;
 					v1.v = v0.v;
 					clones[j] = vertices.length;
-					vertices.push(v1);
+					vertices[vertices.length] = v1;
 				}
 			}
 			numVerts = vertices.length;

@@ -214,7 +214,7 @@ package away3d.tools.commands
 				mb.maxX = Bounds.maxX;
 				mb.maxY = Bounds.maxY;
 				mb.maxZ = Bounds.maxZ;
-				mbs.push(mb);
+				mbs[mbs.length] = mb;
 			}
 			
 			return mbs;

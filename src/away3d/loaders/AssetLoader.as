@@ -2,6 +2,7 @@ package away3d.loaders
 {
 	import away3d.*;
 	import away3d.events.*;
+	import away3d.library.assets.IAsset;
 	import away3d.loaders.misc.*;
 	import away3d.loaders.parsers.*;
 	
@@ -339,7 +340,7 @@ package away3d.loaders
 			if (_loadingDependency.dependencies.length) {
 				var dep:ResourceDependency = _loadingDependency.dependencies.pop();
 				
-				_stack.push(_loadingDependency);
+				_stack[_stack.length] = _loadingDependency;
 				retrieveDependency(dep);
 			} else if (_loadingDependency.loader.parser && _loadingDependency.loader.parser.parsingPaused) {
 				_loadingDependency.loader.parser.resumeParsingAfterDependencies();
@@ -473,7 +474,7 @@ package away3d.loaders
 			// list so that the same dependency isn't retrieved more than once.
 			loader.dependencies.length = 0;
 			
-			_stack.push(_loadingDependency);
+			_stack[_stack.length] = _loadingDependency;
 			
 			retrieveNext();
 		}
@@ -570,7 +571,10 @@ package away3d.loaders
 				// of the current dependency. This list will be inspected
 				// by the parent parser when dependency is resolved
 				if (_loadingDependency)
-					_loadingDependency.assets.push(event.asset);
+				{
+					var assets:Vector.<IAsset> = _loadingDependency.assets;
+					assets[assets.length] = event.asset;
+				}
 				
 				event.asset.resetAssetPath(event.asset.name, _namespace);
 			}
@@ -699,14 +703,14 @@ package away3d.loaders
 		arcane function addParseErrorHandler(handler:Function):void
 		{
 			if (_parseErrorHandlers.indexOf(handler) < 0)
-				_parseErrorHandlers.push(handler);
+				_parseErrorHandlers[_parseErrorHandlers.length] = handler;
 		
 		}
 		
 		arcane function addErrorHandler(handler:Function):void
 		{
 			if (_errorHandlers.indexOf(handler) < 0)
-				_errorHandlers.push(handler);
+				_errorHandlers[_errorHandlers.length] = handler;
 		}
 	}
 }

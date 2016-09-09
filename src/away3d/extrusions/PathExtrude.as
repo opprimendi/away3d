@@ -705,7 +705,7 @@ package away3d.extrusions
 			
 			if (_materials && _materials.length > 0) {
 				var sglist:SubGeometryList = new SubGeometryList();
-				_MaterialsSubGeometries.push(sglist);
+				_MaterialsSubGeometries[_MaterialsSubGeometries.length] = sglist;
 				sglist.subGeometry = new SubGeometry();
 				_subGeometry = sglist.subGeometry;
 				
@@ -745,7 +745,7 @@ package away3d.extrusions
 			
 			if (!sglist) {
 				sglist = new SubGeometryList();
-				_MaterialsSubGeometries.push(sglist);
+				_MaterialsSubGeometries[_MaterialsSubGeometries.length] = sglist;
 				sglist.subGeometry = new SubGeometry();
 				sglist.uvs = new Vector.<Number>();
 				sglist.vertices = new Vector.<Number>();
@@ -1007,7 +1007,7 @@ package away3d.extrusions
 					
 					if (segs.length == 0) {
 						v = segs[i][0];
-						seg.push(v);
+						seg[seg.length] = v;
 						prevV = v;
 						continue;
 					}
@@ -1028,11 +1028,11 @@ package away3d.extrusions
 					if (!ignore) {
 						v = new Vector3D(tmpV.x, tmpV.y, tmpV.z);
 						prevV = v;
-						seg.push(v);
+						seg[seg.length] = v;
 					}
 				}
 				
-				nSegs.push(seg);
+				nSegs[nSegs.length] = seg;
 			}
 			
 			segs = null;
@@ -1115,7 +1115,7 @@ package away3d.extrusions
 				if (_scales.length != _path.numSegments + 2) {
 					var lastScl:Vector3D = _scales[_scales.length - 1];
 					while (_scales.length != _path.numSegments + 2)
-						_scales.push(lastScl);
+						_scales[_scales.length] = lastScl;
 				}
 			}
 			
@@ -1188,7 +1188,7 @@ package away3d.extrusions
 						} else
 							tmppt = new Vector3D(atmp[k].x + vSegPts[i][j].x, atmp[k].y + vSegPts[i][j].y, atmp[k].z + vSegPts[i][j].z);
 						
-						vPtsList.push(tmppt);
+						vPtsList[vPtsList.length] = tmppt;
 					}
 					
 					if (_closePath && i == vSegPts.length - 1 && j == vSegPts[i].length - 1)
@@ -1197,7 +1197,7 @@ package away3d.extrusions
 					if (_closePath)
 						lastP = vPtsList;
 					
-					vSegResults.push(vPtsList);
+					vSegResults[vSegResults.length] = vPtsList;
 					
 				}
 			}
@@ -1231,7 +1231,7 @@ package away3d.extrusions
 						stepz = (vSegResults[0][j].z - lastP[j].z)/_subdivision;
 						c.push(new Vector3D(lastP[j].x + (stepx*i), lastP[j].y + (stepy*i), lastP[j].z + (stepz*i)));
 					}
-					c2.push(c);
+					c2[c2.length] = c;
 				}
 				
 				c2[0] = lastP;

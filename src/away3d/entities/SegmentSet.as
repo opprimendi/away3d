@@ -84,9 +84,18 @@
 			
 			var index:uint = subSet.lineCount << 2;
 			
-			subSet.indices.push(index, index + 1, index + 2, index + 3, index + 2, index + 1);
+			var indices:Vector.<uint> = subSet.indices;
+			var indicesLength:int = indices.length;
+			
+			indices[indicesLength++] = index;
+			indices[indicesLength++] = index + 1;
+			indices[indicesLength++] = index + 2;
+			indices[indicesLength++] = index + 3;
+			indices[indicesLength++] = index + 2;
+			indices[indicesLength++] = index + 1;
+			
 			subSet.numVertices = subSet.vertices.length/11;
-			subSet.numIndices = subSet.indices.length;
+			subSet.numIndices = indicesLength;
 			subSet.lineCount++;
 			
 			var segRef:SegRef = new SegRef();
@@ -383,7 +392,7 @@
 		private function addSubSet():SubSet
 		{
 			var subSet:SubSet = new SubSet();
-			_subSets.push(subSet);
+			_subSets[_subSets.length] = subSet;
 			
 			subSet.vertices = new Vector.<Number>();
 			subSet.numVertices = 0;

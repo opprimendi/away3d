@@ -126,7 +126,7 @@ package away3d.loaders.parsers
 					lm.materialID = resourceDependency.id;
 					lm.texture = asset as Texture2DBase;
 					
-					_materialLoaded.push(lm);
+					_materialLoaded[_materialLoaded.length] = lm;
 					
 					if (_meshes.length > 0)
 						applyMaterial(lm);
@@ -145,7 +145,7 @@ package away3d.loaders.parsers
 			} else {
 				var lm:LoadedMaterial = new LoadedMaterial();
 				lm.materialID = resourceDependency.id;
-				_materialLoaded.push(lm);
+				_materialLoaded[_materialLoaded.length] = lm;
 			}
 			
 			if (_meshes.length > 0)
@@ -241,7 +241,7 @@ package away3d.loaders.parsers
 					if (_mtlLib) {
 						if (!trunk[1])
 							trunk[1] = "def000";
-						_materialIDs.push(trunk[1]);
+						_materialIDs[_materialIDs.length] = trunk[1];
 						_activeMaterialID = trunk[1];
 						if (_currentGroup)
 							_currentGroup.materialID = _activeMaterialID;
@@ -310,7 +310,7 @@ package away3d.loaders.parsers
 						mesh.name = "";
 					}
 					
-					_meshes.push(mesh);
+					_meshes[_meshes.length] = mesh;
 					
 					if (groups[g].materialID != "")
 						bmMaterial.name = groups[g].materialID + "~" + mesh.name;
@@ -408,7 +408,7 @@ package away3d.loaders.parsers
 			} else
 				index = _realIndices[face.indexIds[vertexIndex]] - 1;
 			
-			indices.push(index);
+			indices[indices.length] = index;
 		}
 		
 		/**
@@ -419,7 +419,7 @@ package away3d.loaders.parsers
 		{
 			_currentGroup = null;
 			_currentMaterialGroup = null;
-			_objects.push(_currentObject = new ObjectGroup());
+			_objects[_objects.length] = _currentObject = new ObjectGroup();
 			
 			if (trunk)
 				_currentObject.name = trunk[1];
@@ -434,12 +434,14 @@ package away3d.loaders.parsers
 			if (!_currentObject)
 				createObject(null);
 			_currentGroup = new Group();
+			var groups:Vector.<Group> = _currentObject.groups;
 			
 			_currentGroup.materialID = _activeMaterialID;
 			
 			if (trunk)
 				_currentGroup.name = trunk[1];
-			_currentObject.groups.push(_currentGroup);
+				
+			groups[groups.length] = _currentGroup;
 			
 			createMaterialGroup(null);
 		}
@@ -451,9 +453,12 @@ package away3d.loaders.parsers
 		private function createMaterialGroup(trunk:Array):void
 		{
 			_currentMaterialGroup = new MaterialGroup();
+			var materialGroups:Vector.<MaterialGroup> = _currentGroup.materialGroups;
+			
 			if (trunk)
 				_currentMaterialGroup.url = trunk[1];
-			_currentGroup.materialGroups.push(_currentMaterialGroup);
+				
+			materialGroups[materialGroups.length] = _currentMaterialGroup;
 		}
 		
 		/**
@@ -469,7 +474,7 @@ package away3d.loaders.parsers
 				for(var i:int = 1; i < trunk.length; ++i) {
 					val = parseFloat(trunk[i]);
 					if (!isNaN(val))
-						nTrunk.push(val);
+						nTrunk[nTrunk.length] = val;
 				}
 				_vertices.push(new Vertex(nTrunk[0], nTrunk[1], -nTrunk[2]));
 			} else
@@ -489,7 +494,7 @@ package away3d.loaders.parsers
 				for(var i:int = 1; i < trunk.length; ++i) {
 					val = parseFloat(trunk[i]);
 					if (!isNaN(val))
-						nTrunk.push(val);
+						nTrunk[nTrunk.length] = val;
 				}
 				_uvs.push(new UV(nTrunk[0], 1 - nTrunk[1]));
 				
@@ -510,7 +515,7 @@ package away3d.loaders.parsers
 				for(var i:int = 1; i < trunk.length; ++i) {
 					val = parseFloat(trunk[i]);
 					if (!isNaN(val))
-						nTrunk.push(val);
+						nTrunk[nTrunk.length] = val;
 				}
 				_vertexNormals.push(new Vertex(nTrunk[0], nTrunk[1], -nTrunk[2]));
 				
@@ -540,10 +545,11 @@ package away3d.loaders.parsers
 					face.uvIndices.push(parseIndex(parseInt(indices[1]), _uvs.length));
 				if (indices[2] && String(indices[2]).length > 0)
 					face.normalIndices.push(parseIndex(parseInt(indices[2]), _vertexNormals.length));
-				face.indexIds.push(trunk[i]);
+				face.indexIds[face.indexIds.length] = trunk[i];
 			}
 			
-			_currentMaterialGroup.faces.push(face);
+			var faces:Vector.<FaceData> = _currentMaterialGroup.faces;
+			faces[faces.length] = face;
 		}
 		
 		/**
@@ -661,7 +667,7 @@ package away3d.loaders.parsers
 						if (!_materialSpecularData)
 							_materialSpecularData = new Vector.<SpecularData>();
 						
-						_materialSpecularData.push(specularData);
+						_materialSpecularData[_materialSpecularData.length] = specularData;
 					}
 					
 					addDependency(_lastMtlID, new URLRequest(mapkd));
@@ -695,7 +701,7 @@ package away3d.loaders.parsers
 					}
 					
 					lm.cm = cm;
-					_materialLoaded.push(lm);
+					_materialLoaded[_materialLoaded.length] = lm;
 					
 					if (_meshes.length > 0)
 						applyMaterial(lm);

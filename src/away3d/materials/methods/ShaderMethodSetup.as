@@ -244,7 +244,7 @@ package away3d.materials.methods
 		 */
 		public function addMethod(method:EffectMethodBase):void
 		{
-			_methods.push(new MethodVOSet(method));
+			_methods[_methods.length] = new MethodVOSet(method);
 			method.addEventListener(ShadingMethodEvent.SHADER_INVALIDATED, onShaderInvalidated);
 			invalidateShaderProgram();
 		}

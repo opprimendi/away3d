@@ -22,7 +22,7 @@ package away3d.materials.utils
 			if (!_defaultMaterial)
 				createDefaultMaterial();
 			
-			//_defaultMaterialRenderables.push(renderable);
+			//_defaultMaterialRenderables[_defaultMaterialRenderables.length] = renderable;
 			
 			return _defaultMaterial;
 		}
@@ -32,7 +32,7 @@ package away3d.materials.utils
 			if (!_defaultTexture)
 				createDefaultTexture();
 			
-			//_defaultMaterialRenderables.push(renderable);
+			//_defaultMaterialRenderables[_defaultMaterialRenderables.length] = renderable;
 			
 			return _defaultTexture;
 		}

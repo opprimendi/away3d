@@ -245,7 +245,7 @@ package away3d.loaders.misc
 		public static function enableParser(parser:Class):void
 		{
 			if (_parsers.indexOf(parser) < 0)
-				_parsers.push(parser);
+				_parsers[_parsers.length] = parser;
 		}
 		
 		public static function enableParsers(parsers:Vector.<Class>):void

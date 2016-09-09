@@ -25,7 +25,7 @@ package away3d.filters
 		
 		protected function addTask(filter:Filter3DTaskBase):void
 		{
-			_tasks.push(filter);
+			_tasks[_tasks.length] = filter;
 			_requireDepthRender ||= filter.requireDepthRender;
 		}
 		

@@ -129,12 +129,12 @@ package away3d.materials.lightpickers
 				--_numDirectionalLights;
 				++_numCastingDirectionalLights;
 				_directionalLights.splice(_directionalLights.indexOf(light as DirectionalLight), 1);
-				_castingDirectionalLights.push(light);
+				_castingDirectionalLights[_castingDirectionalLights.length] = light;
 			} else {
 				++_numDirectionalLights;
 				--_numCastingDirectionalLights;
 				_castingDirectionalLights.splice(_castingDirectionalLights.indexOf(light as DirectionalLight), 1);
-				_directionalLights.push(light);
+				_directionalLights[_directionalLights.length] = light;
 			}
 		}
 
@@ -147,12 +147,12 @@ package away3d.materials.lightpickers
 				--_numPointLights;
 				++_numCastingPointLights;
 				_pointLights.splice(_pointLights.indexOf(light as PointLight), 1);
-				_castingPointLights.push(light);
+				_castingPointLights[_castingPointLights.length] = light;
 			} else {
 				++_numPointLights;
 				--_numCastingPointLights;
 				_castingPointLights.splice(_castingPointLights.indexOf(light as PointLight), 1);
-				_pointLights.push(light);
+				_pointLights[_pointLights.length] = light;
 			}
 		}
 	}

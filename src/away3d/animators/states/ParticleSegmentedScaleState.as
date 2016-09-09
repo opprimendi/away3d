@@ -96,28 +96,60 @@ package away3d.animators.states {
 			for (i = 0; i < _numSegmentPoint; i++)
 			{
 				if (i == 0)
-					_timeLifeData.push(_segmentPoints[i].w);
+					_timeLifeData[_timeLifeData.length] = _segmentPoints[i].w;
 				else
-					_timeLifeData.push(_segmentPoints[i].w - _segmentPoints[i - 1].w);
+					_timeLifeData[_timeLifeData.length] = _segmentPoints[i].w - _segmentPoints[i - 1].w;
 			}
 			if (_numSegmentPoint == 0)
-				_timeLifeData.push(1);
+				_timeLifeData[_timeLifeData.length] = 1;
 			else
-				_timeLifeData.push(1 - _segmentPoints[i - 1].w);
+				_timeLifeData[_timeLifeData.length] = 1 - _segmentPoints[i - 1].w;
 				
-			_scaleData.push(_startScale.x , _startScale.y , _startScale.z , 0);
+			var scaleDataLength:Number = _scaleData.length;
+			_scaleData[scaleDataLength++] = _startScale.x;
+			_scaleData[scaleDataLength++] = _startScale.y;
+			_scaleData[scaleDataLength++] = _startScale.z;
+			_scaleData[scaleDataLength++] = 0;
+			
+			var timeData:Number;
+			var segmentPoint2:Vector3D;
 			for (i = 0; i < _numSegmentPoint; i++)
 			{
-				if (i == 0)
-					_scaleData.push((_segmentPoints[i].x - _startScale.x)/_timeLifeData[i] , (_segmentPoints[i].y - _startScale.y)/_timeLifeData[i] , (_segmentPoints[i].z - _startScale.z)/_timeLifeData[i] , _timeLifeData[i]);
-				else
-					_scaleData.push((_segmentPoints[i].x - _segmentPoints[i - 1].x)/_timeLifeData[i] , (_segmentPoints[i].y - _segmentPoints[i - 1].y)/_timeLifeData[i] , (_segmentPoints[i].z - _segmentPoints[i - 1].z)/_timeLifeData[i] , _timeLifeData[i]);
-			}
-			if (_numSegmentPoint == 0)
-				_scaleData.push(_endScale.x - _startScale.x , _endScale.y - _startScale.y , _endScale.z - _startScale.z , 1);
-			else
-				_scaleData.push((_endScale.x - _segmentPoints[i - 1].x) / _timeLifeData[i] , (_endScale.y - _segmentPoints[i - 1].y) / _timeLifeData[i] , (_endScale.z - _segmentPoints[i - 1].z) / _timeLifeData[i] , _timeLifeData[i]);
+				var segmentPoint:Vector3D = _segmentPoints[i];
+				timeData = _timeLifeData[i];
 				
+				if (i == 0)
+				{
+					_scaleData[scaleDataLength++] = (segmentPoint.x - _startScale.x) / timeData;
+					_scaleData[scaleDataLength++] =  (segmentPoint.y - _startScale.y) / timeData;
+					_scaleData[scaleDataLength++] =  (segmentPoint.z - _startScale.z) / timeData;
+					_scaleData[scaleDataLength++] = timeData;
+				}
+				else
+				{
+					segmentPoint2 = _segmentPoints[i - 1];
+					_scaleData[scaleDataLength++] = (segmentPoint.x - segmentPoint2.x) / timeData;
+					_scaleData[scaleDataLength++] = (segmentPoint.y - segmentPoint2.y) / timeData;
+					_scaleData[scaleDataLength++] = (segmentPoint.z - segmentPoint2.z) / timeData;
+					_scaleData[scaleDataLength++] = timeData;
+				}
+			}
+			
+			if (_numSegmentPoint == 0)
+			{
+				_scaleData[scaleDataLength++] = _endScale.x - _startScale.x;
+				_scaleData[scaleDataLength++] = _endScale.y - _startScale.y;
+				_scaleData[scaleDataLength++] = _endScale.z - _startScale.z;
+				_scaleData[scaleDataLength++] = 1;
+			}
+			else
+			{
+				segmentPoint2 = _segmentPoints[i - 1];
+				_scaleData[scaleDataLength++] = (_endScale.x - segmentPoint2.x) / timeData;
+				_scaleData[scaleDataLength++] = (_endScale.y - segmentPoint2.y) / timeData;
+				_scaleData[scaleDataLength++] = (_endScale.z - segmentPoint2.z) / timeData;
+				_scaleData[scaleDataLength++] = timeData;
+			}
 		}
 	}
 }

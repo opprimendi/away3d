@@ -216,7 +216,7 @@ package away3d.loaders.parsers
 							if (_activeContainer)
 								_activeContainer.addChild(cont);
 							cont.name = "c_" + _containersList.length;
-							_containersList.push(cont);
+							_containersList[_containersList.length] = cont;
 							_activeContainer = cont;
 							
 							finalizeAsset(cont);
@@ -424,30 +424,30 @@ package away3d.loaders.parsers
 				//face order other than away
 				ref = v1.toString() + uv1.toString();
 				if (dic[ref])
-					indices.push(dic[ref]);
+					indices[indices.length] = dic[ref];
 				else {
 					dic[ref] = vertices.length/3;
-					indices.push(dic[ref]);
+					indices[indices.length] = dic[ref];
 					vertices.push(v1.x, v1.y, v1.z);
 					uvs.push(uv1.u, uv1.v);
 				}
 				
 				ref = v0.toString() + uv0.toString();
 				if (dic[ref])
-					indices.push(dic[ref]);
+					indices[indices.length] = dic[ref];
 				else {
 					dic[ref] = vertices.length/3;
-					indices.push(dic[ref]);
+					indices[indices.length] = dic[ref];
 					vertices.push(v0.x, v0.y, v0.z);
 					uvs.push(uv0.u, uv0.v);
 				}
 				
 				ref = v2.toString() + uv2.toString();
 				if (dic[ref])
-					indices.push(dic[ref]);
+					indices[indices.length] = dic[ref];
 				else {
 					dic[ref] = vertices.length/3;
-					indices.push(dic[ref]);
+					indices[indices.length] = dic[ref];
 					vertices.push(v2.x, v2.y, v2.z);
 					uvs.push(uv2.u, uv2.v);
 				}
@@ -518,7 +518,7 @@ package away3d.loaders.parsers
 		
 		private function generateMaterial(materialString:String):void
 		{
-			_materialList.push(parseMaterialLine(materialString));
+			_materialList[_materialList.length] = parseMaterialLine(materialString);
 		}
 		
 		private function parseMaterialLine(materialString:String):MaterialBase

@@ -72,7 +72,7 @@ package away3d.animators.data
 			addVertexTempUsages(scaleAndRotateTarget, 1);
 			var length:int = targetRegisters.length;
 			for (var i:int = 1; i < length; i++) {
-				rotationRegisters.push(getRegisterFromString(targetRegisters[i]));
+				rotationRegisters[rotationRegisters.length] = getRegisterFromString(targetRegisters[i]);
 				addVertexTempUsages(rotationRegisters[i - 1], 1);
 			}
 			

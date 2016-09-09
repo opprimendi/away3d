@@ -110,7 +110,7 @@ package away3d.tools.helpers
 								}
 								
 								if (!hasLight) {
-									aLights.push(_light);
+									aLights[aLights.length] = _light;
 									picker.lights = aLights;
 								} else {
 									hasLight = false;

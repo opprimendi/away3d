@@ -330,11 +330,16 @@ package away3d.loaders.parsers
 			info.maxTime = -info.minTime;
 			info.numFrames = 0;
 			
-			for each (var animation:DAEAnimation in _libAnimations) {
-				for each (var channel:DAEChannel in animation.channels) {
+			for each (var animation:DAEAnimation in _libAnimations) 
+			{
+				for each (var channel:DAEChannel in animation.channels) 
+				{
 					var node:DAENode = _root.findNodeById(channel.targetId);
-					if (node) {
-						node.channels.push(channel);
+					
+					if (node) 
+					{
+						var channels:Vector.<DAEChannel> = node.channels;
+						channels[channels.length] = channel;
 						info.minTime = Math.min(info.minTime, channel.sampler.minTime);
 						info.maxTime = Math.max(info.maxTime, channel.sampler.maxTime);
 						info.numFrames = Math.max(info.numFrames, channel.sampler.input.length);
@@ -425,7 +430,7 @@ package away3d.loaders.parsers
 				if (!geometry)
 					return null;
 				
-				targets.push(geometry);
+				targets[targets.length] = geometry;
 				startWeight -= morph.weights[i];
 			}
 			
@@ -538,8 +543,8 @@ package away3d.loaders.parsers
 					clip.name = "node_" + _rootNodes.length;
 					animationSet.addAnimation(clip);
 					
-					//_animators.push(animator);
-					_rootNodes.push(clip);
+					//_animators[_animators.length] = animator;
+					_rootNodes[_rootNodes.length] = clip;
 				}
 				
 				finalizeAsset(mesh);
@@ -574,6 +579,7 @@ package away3d.loaders.parsers
 			
 			for (i = 0; i < numFrames; i++) {
 				skeletonPose = new SkeletonPose();
+				var jointPoses:Vector.<JointPose> = skeletonPose.jointPoses;
 				
 				for (j = 0; j < skin.joints.length; j++) {
 					node = _root.findNodeById(skin.joints[j]) || _root.findNodeBySid(skin.joints[j]);
@@ -589,7 +595,7 @@ package away3d.loaders.parsers
 						pose.orientation.fromMatrix(identity);
 					}
 					
-					skeletonPose.jointPoses.push(pose);
+					jointPoses[jointPoses.length] = pose;
 				}
 				
 				t += frameDuration;
@@ -680,7 +686,7 @@ package away3d.loaders.parsers
 						material = _libMaterials[instance.target] as DAEMaterial;
 						effect = _libEffects[material.instance_effect.url];
 						if (effect)
-							effects.push(effect);
+							effects[effects.length] = effect;
 						break;
 					}
 				}
@@ -835,7 +841,7 @@ package away3d.loaders.parsers
 					if (geometry.subGeometries.length) {
 						if (id && isNaN(Number(id)))
 							geometry.name = id;
-						geometries.push(geometry);
+						geometries[geometries.length] = geometry;
 						
 						finalizeAsset(geometry);
 					}
@@ -888,7 +894,7 @@ package away3d.loaders.parsers
 				f = faces[i];
 				for (j = 0; j < f.vertices.length; j++) {
 					v = f.vertices[j];
-					indexData.push(v.index);
+					indexData[indexData.length] = v.index;
 				}
 			}
 			
@@ -1012,7 +1018,7 @@ class DAEElement
 		var floats:Vector.<Number> = new Vector.<Number>();
 		
 		for(var i:int = 0; i < parts.length; i++)
-			floats.push(parseFloat(parts[i]));
+			floats[floats.length] = parseFloat(parts[i]);
 		
 		return floats;
 	}
@@ -1036,7 +1042,7 @@ class DAEElement
 		var strings:Vector.<String> = new Vector.<String>();
 		
 		for(var i:int = 0; i < parts.length; i++)
-			strings.push(parts[i]);
+			strings[strings.length] = parts[i];
 		
 		return strings;
 	}
@@ -1118,7 +1124,7 @@ class DAEAccessor extends DAEElement
 	protected override function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		if (nodeName == "param")
-			this.params.push(new DAEParam(child));
+			this.params[params.length] = new DAEParam(child);
 	}
 }
 
@@ -1273,7 +1279,7 @@ class DAEPrimitive extends DAEElement
 		var list:XMLList = element.ns::input;
 		
 		for(var i:int = 0; i < list.length(); i++)
-			_inputs.push(new DAEInput(list[i]));
+			_inputs[_inputs.length] = new DAEInput(list[i]);
 		
 		if (element.ns::p && element.ns::p.length())
 			_p = readIntArray(element.ns::p[0]);
@@ -1357,12 +1363,12 @@ class DAEPrimitive extends DAEElement
 				var hash:String = vertex.hash;
 				
 				if (vertexDict[hash])
-					face.vertices.push(vertexDict[hash]);
+					face.vertices[vertices.length] = vertexDict[hash];
 				else {
 					vertex.index = this.vertices.length;
 					vertexDict[hash] = vertex;
-					face.vertices.push(vertex);
-					this.vertices.push(vertex);
+					face.vertices[vertices.length] = vertex;
+					this.vertices[vertices.length] = vertex;
 				}
 			}
 			
@@ -1371,14 +1377,14 @@ class DAEPrimitive extends DAEElement
 				var v0:DAEVertex = face.vertices[0];
 				for(var k:int = 1; k < face.vertices.length - 1; k++) {
 					var f:DAEFace = new DAEFace();
-					f.vertices.push(v0);
-					f.vertices.push(face.vertices[k]);
-					f.vertices.push(face.vertices[k + 1]);
-					faces.push(f);
+					f.vertices[vertices.length] = v0;
+					f.vertices[vertices.length] = face.vertices[k];
+					f.vertices[vertices.length] = face.vertices[k + 1];
+					faces[faces.length] = f;
 				}
 				
 			} else if (face.vertices.length == 3)
-				faces.push(face);
+				faces[faces.length] = face;
 			idx += (vcount*numInputs);
 		}
 		return faces;
@@ -1395,7 +1401,7 @@ class DAEPrimitive extends DAEElement
 			input = _inputs[i];
 			
 			if (input.semantic == "TEXCOORD")
-				_texcoordSets.push(input.set);
+				_texcoordSets[_texcoordSets.length] = input.set;
 			
 			if (!mesh.sources[input.source]) {
 				result = false;
@@ -1436,7 +1442,7 @@ class DAEVertices extends DAEElement
 	protected override function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		nodeName = nodeName;
-		this.inputs.push(new DAEInput(child));
+		this.inputs[inputs.length] = new DAEInput(child);
 	}
 }
 
@@ -1499,7 +1505,7 @@ class DAEMesh extends DAEElement
 			case "triangles":
 			case "polylist":
 			case "polygon":
-				this.primitives.push(new DAEPrimitive(child));
+				this.primitives[primitives.length] = new DAEPrimitive(child);
 		}
 	}
 }
@@ -1524,7 +1530,7 @@ class DAEBindMaterial extends DAEElement
 	{
 		if (nodeName == "technique_common") {
 			for(var i:int = 0; i < child.children().length(); i++)
-				this.instance_material.push(new DAEInstanceMaterial(child.children()[i]));
+				this.instance_material[instance_material.length] = new DAEInstanceMaterial(child.children()[i]);
 		}
 	}
 }
@@ -1649,7 +1655,7 @@ class DAEInstanceMaterial extends DAEInstance
 	protected override function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		if (nodeName == "bind_vertex_input")
-			this.bind_vertex_input.push(new DAEBindVertexInput(child));
+			this.bind_vertex_input[bind_vertex_input.length] = new DAEBindVertexInput(child);
 	}
 }
 
@@ -2023,11 +2029,11 @@ class DAENode extends DAEElement
 			
 			case "instance_controller":
 				instance = new DAEInstanceController(child);
-				this.instance_controllers.push(instance);
+				this.instance_controllers[instance_controllers.length] = instance;
 				break;
 			
 			case "instance_geometry":
-				this.instance_geometries.push(new DAEInstanceGeometry(child));
+				this.instance_geometries[instance_geometries.length] = new DAEInstanceGeometry(child);
 				break;
 			
 			case "instance_node":
@@ -2041,7 +2047,7 @@ class DAENode extends DAEElement
 			case "translate":
 			case "scale":
 			case "rotate":
-				this.transforms.push(new DAETransform(child));
+				this.transforms[transforms.length] = new DAETransform(child);
 				break;
 		}
 	}
@@ -2448,7 +2454,7 @@ class DAESkin extends DAEElement
 						matrix.transpose();
 						if (DAEElement.USE_LEFT_HANDED)
 							convertMatrix(matrix);
-						inv_bind_matrix.push(matrix);
+						inv_bind_matrix[inv_bind_matrix.length] = matrix;
 					}
 			}
 		}
@@ -2473,7 +2479,7 @@ class DAESkin extends DAEElement
 		this.maxBones = 0;
 		
 		for (i = 0; i < list.length(); i++)
-			inputs.push(new DAEInput(list[i]));
+			inputs[inputs.length] = new DAEInput(list[i]);
 		
 		for (i = 0; i < vcount.length; i++) {
 			var numBones:uint = vcount[i];
@@ -2500,11 +2506,11 @@ class DAESkin extends DAEElement
 					}
 				}
 				influence.vertex = i;
-				vertex_weights.push(influence);
+				vertex_weights[vertex_weights.length] = influence;
 				index += inputs.length;
 			}
 			
-			this.weights.push(vertex_weights);
+			this.weights[weights.length] = vertex_weights;
 		}
 	}
 }
@@ -2557,7 +2563,7 @@ class DAESampler extends DAEElement
 		_inputs = new Vector.<DAEInput>();
 		
 		for (i = 0; i < list.length(); i++)
-			_inputs.push(new DAEInput(list[i]));
+			_inputs[_inputs.length] = new DAEInput(list[i]);
 	}
 	
 	public function create(sources:Object):void
@@ -2730,10 +2736,10 @@ class DAEAnimation extends DAEElement
 				this.sources[source.id] = source;
 				break;
 			case "sampler":
-				this.samplers.push(new DAESampler(child));
+				this.samplers[samplers.length] = new DAESampler(child);
 				break;
 			case "channel":
-				this.channels.push(new DAEChannel(child));
+				this.channels[channels.length] = new DAEChannel(child);
 		}
 	}
 	

@@ -46,7 +46,7 @@ package away3d.core.partition
 		public function addViewVolume(viewVolume:ViewVolume):void
 		{
 			if (_viewVolumes.indexOf(viewVolume) == -1)
-				_viewVolumes.push(viewVolume);
+				_viewVolumes[_viewVolumes.length] = viewVolume;
 			
 			addNode(viewVolume);
 		}

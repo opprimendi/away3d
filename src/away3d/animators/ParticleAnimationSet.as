@@ -103,9 +103,9 @@ package away3d.animators
 			if (n.mode == ParticlePropertiesMode.LOCAL_STATIC) {
 				n.dataOffset = _totalLenOfOneVertex;
 				_totalLenOfOneVertex += n.dataLength;
-				_localStaticNodes.push(n);
+				_localStaticNodes[_localStaticNodes.length] = n;
 			} else if (n.mode == ParticlePropertiesMode.LOCAL_DYNAMIC)
-				_localDynamicNodes.push(n);
+				_localDynamicNodes[_localDynamicNodes.length] = n;
 			
 			var i:int;
 			for (i = _particleNodes.length - 1; i > -1; i--) {
@@ -364,7 +364,10 @@ package away3d.animators
 					
 					//store particle properties if they need to be retreived for dynamic local nodes
 					if (_localDynamicNodes.length)
-						animationSubGeometry.animationParticles.push(new ParticleAnimationData(i, particleProperties.startTime, particleProperties.duration, particleProperties.delay, particle));
+					{
+						var animationParticles:Vector.<ParticleAnimationData> = animationSubGeometry.animationParticles;
+						animationParticles[animationParticles.length] = new ParticleAnimationData(i, particleProperties.startTime, particleProperties.duration, particleProperties.delay, particle);
+					}
 					
 					animationSubGeometry.numProcessedVertices += numVertices;
 					

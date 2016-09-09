@@ -1076,10 +1076,10 @@
 			cam.rotationY = rotationY;
 			cam.rotationZ = rotationZ;
 			cam.lens.near = .01;
-			PerspectiveLens(cam.lens).fieldOfView = 90;
-			_lenses.push(PerspectiveLens(cam.lens));
+			(cam.lens as PerspectiveLens).fieldOfView = 90;
+			_lenses[_lenses.length] = cam.lens as PerspectiveLens;
 			cam.lens.aspectRatio = 1;
-			_cameras.push(cam);
+			_cameras[_cameras.length] = cam;
 		}
 		
 		// dead ends:

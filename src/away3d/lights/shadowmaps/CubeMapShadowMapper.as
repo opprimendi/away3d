@@ -52,9 +52,9 @@ package away3d.lights.shadowmaps
 			cam.rotationZ = rotationZ;
 			cam.lens.near = .01;
 			PerspectiveLens(cam.lens).fieldOfView = 90;
-			_lenses.push(PerspectiveLens(cam.lens));
+			_lenses[_lenses.length] = cam.lens as PerspectiveLens;
 			cam.lens.aspectRatio = 1;
-			_depthCameras.push(cam);
+			_depthCameras[_depthCameras.length] = cam;
 		}
 		
 		override protected function createDepthTexture():TextureProxyBase

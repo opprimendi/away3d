@@ -269,7 +269,7 @@ package away3d.animators
 		 */
 		public function addOwner(mesh:Mesh):void
 		{
-			_owners.push(mesh);
+			_owners[_owners.length] = mesh;
 		}
 		
 		/**

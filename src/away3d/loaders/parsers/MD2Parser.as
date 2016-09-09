@@ -344,11 +344,11 @@ package away3d.loaders.parsers
 			var index:int = findIndex(vertexIndex, uvIndex);
 			
 			if (index == -1) {
-				_indices.push((_indexMap[vertexIndex] ||= new Dictionary(true))[uvIndex] = _vertIndices.length);
-				_vertIndices.push(vertexIndex);
-				_uvIndices.push(uvIndex);	
+				_indices[_indices.length] = (_indexMap[vertexIndex] ||= new Dictionary(true))[uvIndex] = _vertIndices.length;
+				_vertIndices[_vertIndices.length] = vertexIndex;
+				_uvIndices[_uvIndices.length] = uvIndex;	
 			} else
-				_indices.push(index);
+				_indices[_indices.length] = index;
 		}
 		
 		/**

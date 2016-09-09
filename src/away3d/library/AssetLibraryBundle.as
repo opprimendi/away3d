@@ -408,7 +408,7 @@ package away3d.library
 			asset.id = IDUtil.createUID();
 			
 			// Add it
-			_assets.push(asset);
+			_assets[_assets.length] = asset;
 			if (!_assetDictionary.hasOwnProperty(ns))
 				_assetDictionary[ns] = {};
 			_assetDictionary[ns][asset.name] = asset;
@@ -551,7 +551,7 @@ package away3d.library
 			var loader:AssetLoader = new AssetLoader();
 			if (!_loadingSessions)
 				_loadingSessions = new Vector.<AssetLoader>;
-			_loadingSessions.push(loader);
+			_loadingSessions[_loadingSessions.length] = loader;
 			loader.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onResourceRetrieved);
 			loader.addEventListener(LoaderEvent.DEPENDENCY_COMPLETE, onDependencyRetrieved);
 			loader.addEventListener(AssetEvent.TEXTURE_SIZE_ERROR, onTextureSizeError);
@@ -600,7 +600,7 @@ package away3d.library
 			var loader:AssetLoader = new AssetLoader();
 			if (!_loadingSessions)
 				_loadingSessions = new Vector.<AssetLoader>;
-			_loadingSessions.push(loader);
+			_loadingSessions[_loadingSessions.length] = loader;
 			loader.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onResourceRetrieved);
 			loader.addEventListener(LoaderEvent.DEPENDENCY_COMPLETE, onDependencyRetrieved);
 			loader.addEventListener(AssetEvent.TEXTURE_SIZE_ERROR, onTextureSizeError);

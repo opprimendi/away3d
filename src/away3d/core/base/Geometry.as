@@ -60,7 +60,7 @@ package away3d.core.base
 		 */
 		public function addSubGeometry(subGeometry:ISubGeometry):void
 		{
-			_subGeometries.push(subGeometry);
+			_subGeometries[_subGeometries.length] = subGeometry;
 			subGeometry.parentGeometry = this;
 			if (hasEventListener(GeometryEvent.SUB_GEOMETRY_ADDED))
 				dispatchEvent(new GeometryEvent(GeometryEvent.SUB_GEOMETRY_ADDED, subGeometry));
@@ -142,7 +142,7 @@ package away3d.core.base
 				if (subGeom is SubGeometry)
 					continue;
 				
-				_removableCompactSubGeometries.push(subGeom);
+				_removableCompactSubGeometries[_removableCompactSubGeometries.length] = subGeom;
 				addSubGeometry(subGeom.cloneWithSeperateBuffers());
 			}
 			

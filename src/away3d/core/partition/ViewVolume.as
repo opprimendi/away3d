@@ -100,7 +100,7 @@ package away3d.core.partition
 			
 			var index:int = getCellIndex(indexX, indexY, indexZ);
 			_cells[index].visibleStatics ||= new Vector.<EntityNode>();
-			_cells[index].visibleStatics.push(entity.getEntityPartitionNode());
+			_cells[index].visibleStatics[visibleStatics.length] = entity.getEntityPartitionNode();
 			updateNumEntities(_numEntities + 1);
 		}
 		
@@ -108,7 +108,7 @@ package away3d.core.partition
 		{
 			var index:int = getCellIndex(indexX, indexY, indexZ);
 			_cells[index].visibleDynamics ||= new Vector.<InvertedOctreeNode>();
-			_cells[index].visibleDynamics.push(cell);
+			_cells[index].visibleDynamics[visibleDynamics.length] = cell;
 			updateNumEntities(_numEntities + 1);
 		}
 		
@@ -331,7 +331,7 @@ package away3d.core.partition
 				if (entity && staticIntersects(entity, minBounds, maxBounds)) {
 					var node:EntityNode = entity.getEntityPartitionNode();
 					if (visibleStatics.indexOf(node) == -1) {
-						visibleStatics.push(node);
+						visibleStatics[visibleStatics.length] = node;
 						++numAdded;
 					}
 				}

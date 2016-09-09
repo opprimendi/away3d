@@ -498,7 +498,7 @@ package away3d.materials
 		 */
 		arcane function addOwner(owner:IMaterialOwner):void
 		{
-			_owners.push(owner);
+			_owners[_owners.length] = owner;
 			
 			if (owner.animator) {
 				if (_animationSet && owner.animator.animationSet != _animationSet)

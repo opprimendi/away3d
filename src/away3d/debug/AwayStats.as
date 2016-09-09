@@ -172,7 +172,7 @@ package away3d.debug
 			
 			_views = new Vector.<View3D>();
 			if (view3d)
-				_views.push(view3d);
+				_views[_views.length] = view3d;
 			
 			// Store instance for singleton access. Singleton status
 			// is not enforced, since the widget will work anyway.
@@ -251,7 +251,7 @@ package away3d.debug
 		public function registerView(view3d:View3D):void
 		{
 			if (view3d && _views.indexOf(view3d) < 0)
-				_views.push(view3d);
+				_views[_views.length] = view3d;
 		}
 		
 		/**
@@ -795,7 +795,7 @@ package away3d.debug
 			// subtract it from the running sum, to keep
 			// the sum reflecting the log entries.
 			if (_mean_data) {
-				_mean_data.push(_fps);
+				_mean_data[_mean_data.length] = _fps;
 				_fps_sum -= Number(_mean_data.shift());
 				
 				// Average = sum of all log entries over

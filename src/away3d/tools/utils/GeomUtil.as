@@ -67,7 +67,7 @@ package away3d.tools.utils
 					splitIndex = splitVerts.length + 6;
 					
 					if (( (outIndex + 2) >= LIMIT_INDICES) || (splitIndex >= LIMIT_VERTS)) {
-						subs.push(constructSubGeometry(splitVerts, splitIndices, splitUvs, splitNormals, splitTangents, splitWeights, splitJointIndices, secondaryUVs));
+						subs[subs.length] = constructSubGeometry(splitVerts, splitIndices, splitUvs, splitNormals, splitTangents, splitWeights, splitJointIndices, secondaryUVs);
 						splitVerts = new Vector.<Number>();
 						splitIndices = new Vector.<uint>();
 						splitUvs = (uvs != null)? new Vector.<Number>() : null;
@@ -166,11 +166,12 @@ package away3d.tools.utils
 				
 				if (splitVerts.length > 0) {
 					// More was added in the last iteration of the loop.
-					subs.push(constructSubGeometry(splitVerts, splitIndices, splitUvs, splitNormals, splitTangents, splitWeights, splitJointIndices, splitSecondaryUVs));
+					subs[subs.length] = constructSubGeometry(splitVerts, splitIndices, splitUvs, splitNormals, splitTangents, splitWeights, splitJointIndices, splitSecondaryUVs);
 				}
 				
-			} else
-				subs.push(constructSubGeometry(verts, indices, uvs, normals, tangents, weights, jointIndices, secondaryUVs));
+			} 
+			else
+				subs[subs.length] = constructSubGeometry(verts, indices, uvs, normals, tangents, weights, jointIndices, secondaryUVs);
 			
 			return subs;
 		}

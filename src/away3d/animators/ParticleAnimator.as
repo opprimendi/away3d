@@ -58,14 +58,14 @@ package away3d.animators
 				state = getAnimationState(node) as ParticleStateBase;
 				if (node.mode == ParticlePropertiesMode.LOCAL_DYNAMIC) 
 				{
-					_animatorParticleStates.push(state);
+					_animatorParticleStates[_animatorParticleStates.length] = state;
 					node.dataOffset = _totalLenOfOneVertex;
 					_totalLenOfOneVertex += node.dataLength;
 				} 
 				else
-					_animationParticleStates.push(state);
+					_animationParticleStates[_animationParticleStates.length] = state;
 				if (state.needUpdateTime)
-					_timeParticleStates.push(state);
+					_timeParticleStates[_timeParticleStates.length] = state;
 			}
 		}
 		

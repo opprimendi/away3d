@@ -234,7 +234,7 @@ package away3d.core.managers
 			}
 			
 			// Store event to be dispatched later.
-			_queuedEvents.push(event);
+			_queuedEvents[_queuedEvents.length] = event;
 		}
 		
 		private function reThrowEvent(event:MouseEvent):void

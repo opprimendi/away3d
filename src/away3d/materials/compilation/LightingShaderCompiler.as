@@ -58,8 +58,8 @@ package away3d.materials.compilation
 				_sharedRegisters.tangentInput = _registerCache.getFreeVertexAttribute();
 				_tangentBufferIndex = _sharedRegisters.tangentInput.index;
 				
-				_animatableAttributes.push(_sharedRegisters.tangentInput.toString());
-				_animationTargetRegisters.push(_sharedRegisters.animatedTangent.toString());
+				_animatableAttributes[_animatableAttributes.length] = _sharedRegisters.tangentInput.toString();
+				_animationTargetRegisters[_animationTargetRegisters.length] = _sharedRegisters.animatedTangent.toString();
 			}
 			
 			_sharedRegisters.normalInput = _registerCache.getFreeVertexAttribute();
@@ -68,8 +68,8 @@ package away3d.materials.compilation
 			_sharedRegisters.animatedNormal = _registerCache.getFreeVertexVectorTemp();
 			_registerCache.addVertexTempUsages(_sharedRegisters.animatedNormal, 1);
 			
-			_animatableAttributes.push(_sharedRegisters.normalInput.toString());
-			_animationTargetRegisters.push(_sharedRegisters.animatedNormal.toString());
+			_animatableAttributes[_animatableAttributes.length] = _sharedRegisters.normalInput.toString();
+			_animationTargetRegisters[_animationTargetRegisters.length] = _sharedRegisters.animatedNormal.toString();
 		}
 
 		/**

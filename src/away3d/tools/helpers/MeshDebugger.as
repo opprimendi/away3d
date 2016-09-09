@@ -60,7 +60,7 @@ package away3d.tools.helpers
 				
 				meshDebugData.meshDebug.transform = meshDebugData.mesh.transform;
 				
-				_meshesData.push(meshDebugData);
+				_meshesData[_meshesData.length] = meshDebugData;
 			}
 			
 			return meshDebugData;

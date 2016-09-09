@@ -310,14 +310,14 @@ package away3d.loaders.parsers
 								case "70":
 									// 128, is the closing tag for a face.
 									if (lineVal != 128 && _vSet == 3)
-										_polyLines.push(_v0.clone());
+										_polyLines[_polyLines.length] = _v0.clone();
 									
 									_vSet = 0;
 									break;
 								
 								case "71":
 								case "72":
-									_polyLinesIndices.push(int(Math.abs(lineVal)) - 1);
+									_polyLinesIndices[_polyLinesIndices.length] = int(Math.abs(lineVal)) - 1;
 									break;
 								case "73":
 									//in case of negative, invisible edges (line draw for faces not supported anyway)

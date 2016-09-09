@@ -540,7 +540,7 @@ package away3d.tools.helpers
 			var numSubGeoms:uint = geometries.length;
 			
 			if (numSubGeoms == 1) {
-				meshes.push(mesh);
+				meshes[meshes.length] = mesh;
 				return meshes;
 			}
 			
@@ -609,7 +609,7 @@ package away3d.tools.helpers
 				
 				nGeom.addSubGeometry(nSubGeom);
 				
-				meshes.push(nm);
+				meshes[meshes.length] = nm;
 			}
 			
 			if (disposeSource)
@@ -625,7 +625,7 @@ package away3d.tools.helpers
 			var numSubGeoms:uint = geometries.length;
 			
 			if (numSubGeoms == 1) {
-				meshes.push(mesh);
+				meshes[meshes.length] = mesh;
 				return meshes;
 			}
 			
@@ -651,7 +651,7 @@ package away3d.tools.helpers
 				
 				nGeom.addSubGeometry(nSubGeom);
 				
-				meshes.push(nm);
+				meshes[meshes.length] = nm;
 			}
 			
 			if (disposeSource)

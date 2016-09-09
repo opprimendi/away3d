@@ -163,11 +163,11 @@ package away3d.paths
 				midPoint = new Vector3D(X, Y, Z);
 				
 				if (i)
-					aVectors.push(midPoint);
+					aVectors[aVectors.length] = midPoint;
 				
 				if (i < points.length - 2 || closed) {
-					aVectors.push(midPoint);
-					aVectors.push(nextPoint);
+					aVectors[aVectors.length] = midPoint;
+					aVectors[aVectors.length] = nextPoint;
 				}
 			}
 			
@@ -179,10 +179,10 @@ package away3d.paths
 				Z = (currentPoint.z + nextPoint.z)/2;
 				midPoint = new Vector3D(X, Y, Z);
 				
-				aVectors.push(midPoint);
-				aVectors.push(midPoint);
-				aVectors.push(points[0]);
-				aVectors.push(aVectors[0]);
+				aVectors[aVectors.length] = midPoint;
+				aVectors[aVectors.length] = midPoint;
+				aVectors[aVectors.length] = points[0];
+				aVectors[aVectors.length] = aVectors[0];
 			}
 			
 			_segments = new Vector.<IPathSegment>();

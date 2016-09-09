@@ -288,7 +288,7 @@ package away3d.loaders.parsers
 						ignoreLine();
 						break;
 					case MESH_SHADER_TOKEN:
-						_shaders.push(parseLiteralString());
+						_shaders[_shaders.length] = parseLiteralString();
 						break;
 					case MESH_NUM_VERTS_TOKEN:
 						vertexData = new Vector.<VertexData>(getNextInt(), true);

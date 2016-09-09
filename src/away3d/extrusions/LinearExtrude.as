@@ -840,7 +840,7 @@
 						pointResult = definelines(i, anchors[i], anchors[i - 1], lines);
 					
 					if (pointResult != null)
-						lines.push(pointResult);
+						lines[lines.length] = pointResult;
 				}
 				
 			} else {
@@ -983,7 +983,7 @@
 			if (_materials) {
 				_MaterialsSubGeometries = new Vector.<SubGeometryList>();
 				var sglist:SubGeometryList = new SubGeometryList();
-				_MaterialsSubGeometries.push(sglist);
+				_MaterialsSubGeometries[_MaterialsSubGeometries.length] = sglist;
 				sglist.subGeometry = new SubGeometry();
 				_subGeometry = sglist.subGeometry;
 				
@@ -1013,7 +1013,7 @@
 			
 			if (!sglist) {
 				sglist = new SubGeometryList();
-				_MaterialsSubGeometries.push(sglist);
+				_MaterialsSubGeometries[_MaterialsSubGeometries.length] = sglist;
 				sglist.subGeometry = new SubGeometry();
 				sglist.uvs = new Vector.<Number>();
 				sglist.vertices = new Vector.<Number>();

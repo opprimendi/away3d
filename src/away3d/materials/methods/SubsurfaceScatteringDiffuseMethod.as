@@ -46,7 +46,7 @@ package away3d.materials.methods
 			super(scatterLight);
 			_passes = new Vector.<MaterialPassBase>();
 			_depthPass = new SingleObjectDepthPass(depthMapSize, depthMapOffset);
-			_passes.push(_depthPass);
+			_passes[_passes.length] = _depthPass;
 			_scattering = 0.2;
 			_translucency = 1;
 		}

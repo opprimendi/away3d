@@ -257,7 +257,7 @@ package away3d.loaders
 				token = lib.load(req, context, ns, parser);
 			} else {
 				var loader:AssetLoader = new AssetLoader();
-				_loadingSessions.push(loader);
+				_loadingSessions[_loadingSessions.length] = loader;
 				token = loader.load(req, context, ns, parser);
 			}
 			
@@ -300,7 +300,7 @@ package away3d.loaders
 				token = lib.loadData(data, context, ns, parser);
 			} else {
 				var loader:AssetLoader = new AssetLoader();
-				_loadingSessions.push(loader);
+				_loadingSessions[_loadingSessions.length] = loader;
 				token = loader.loadData(data, '', context, ns, parser);
 			}
 			

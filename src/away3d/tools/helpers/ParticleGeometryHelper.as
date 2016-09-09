@@ -50,11 +50,11 @@ package away3d.tools.helpers
 				for (var srcIndex:int = 0; srcIndex < numSubGeometries; srcIndex++) {
 					//create a different particle subgeometry group for each source subgeometry in a particle.
 					if (sub2SubMap.length <= srcIndex) {
-						sub2SubMap.push(subGeometries.length);
-						verticesVector.push(new Vector.<Number>);
-						indicesVector.push(new Vector.<uint>);
-						subGeometries.push(new CompactSubGeometry());
-						vertexCounters.push(0);
+						sub2SubMap[sub2SubMap.length] = subGeometries.length;
+						verticesVector[verticesVector.length] = new Vector.<Number>;
+						indicesVector[indicesVector.length] = new Vector.<uint>;
+						subGeometries[subGeometries.length] = new CompactSubGeometry();
+						vertexCounters[vertexCounters.length] = 0;
 					}
 					
 					sourceSubGeometry = sourceSubGeometries[srcIndex];
@@ -63,10 +63,10 @@ package away3d.tools.helpers
 					if (sourceSubGeometry.numVertices + vertexCounters[sub2SubMap[srcIndex]] > MAX_VERTEX) {
 						//update submap and add new subgeom vectors
 						sub2SubMap[srcIndex] = subGeometries.length;
-						verticesVector.push(new Vector.<Number>);
-						indicesVector.push(new Vector.<uint>);
-						subGeometries.push(new CompactSubGeometry());
-						vertexCounters.push(0);
+						verticesVector[verticesVector.length] = new Vector.<Number>;
+						indicesVector[indicesVector.length] = new Vector.<uint>;
+						subGeometries[subGeometries.length] = new CompactSubGeometry();
+						vertexCounters[vertexCounters.length] = 0;
 					}
 					
 					j = sub2SubMap[srcIndex];
@@ -82,7 +82,7 @@ package away3d.tools.helpers
 					particleData.startVertexIndex = vertexCounter;
 					particleData.particleIndex = i;
 					particleData.subGeometry = subGeometry;
-					particles.push(particleData);
+					particles[particles.length] = particleData;
 					
 					vertexCounters[j] += sourceSubGeometry.numVertices;
 					

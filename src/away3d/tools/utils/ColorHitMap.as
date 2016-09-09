@@ -101,7 +101,7 @@ package away3d.tools.utils
 			colorObject.color = color;
 			colorObject.eventID = eventID;
 			colorObject.listener = listener;
-			_colorObjects.push(colorObject);
+			_colorObjects[_colorObjects.length] = colorObject;
 			addEventListener(eventID, listener, false, 0, false);
 		}
 		

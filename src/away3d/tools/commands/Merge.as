@@ -286,7 +286,7 @@ package away3d.tools.commands
 				}
 				
 				if (dispose)
-					_toDispose.push(mesh);
+					_toDispose[_toDispose.length] = mesh;
 			}
 		}
 		
@@ -320,7 +320,7 @@ package away3d.tools.commands
 				data.indices = new Vector.<uint>();
 				data.material = material;
 				
-				_geomVOs.push(data);
+				_geomVOs[_geomVOs.length] = data;
 			}
 			
 			return data;
