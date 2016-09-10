@@ -117,7 +117,12 @@ package away3d.loaders.parsers
 			if (!_startedParsing) {
 				_byteData.position = 0;
 				if (_byteData.readUTFBytes(3) == 'ATF') {	
-					_byteData.position = 6;							
+					
+					if (_byteData[6] == 255)
+						_byteData.position = 12; // new file version
+					else
+						_byteData.position = 6; // old file version
+					
 					var tdata:uint = _byteData.readUnsignedByte();
 					var _type:int = tdata >> 7; // UB[1]		
 					_byteData.position = 0;			
