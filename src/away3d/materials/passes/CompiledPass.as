@@ -477,7 +477,7 @@
 				currentPass.material = material;
 				currentPass.lightPicker = _lightPicker;
 				
-				_passes[len++] = currentPass;
+				_passes[_len++] = currentPass;
 			}
 		}
 
