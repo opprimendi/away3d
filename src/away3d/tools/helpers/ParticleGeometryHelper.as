@@ -78,7 +78,7 @@ package away3d.tools.helpers
 					if (sourceSubGeometry.numVertices + vertexCounters[sub2SubMap[srcIndex]] > MAX_VERTEX) 
 					{
 						//update submap and add new subgeom vectors
-						sub2SubMap[srcIndex] = subGeometriesLength;
+						sub2SubMap[srcIndex] = subGeometries.length;
 						verticesVector[verticesVectorLength++] = new Vector.<Number>;
 						indicesVector[indicesVectorLength++] = new Vector.<uint>;
 						subGeometries[subGeometriesLength++] = new CompactSubGeometry();
@@ -155,6 +155,7 @@ package away3d.tools.helpers
 								vertices[vertsLength++] = tempVertex.x;
 								vertices[vertsLength++] = tempVertex.y;
 								vertices[vertsLength++] = tempVertex.z;
+								vertices[vertsLength++] = tempNormal.x;
 								vertices[vertsLength++] = tempNormal.y;
 								vertices[vertsLength++] = tempNormal.z;
 								vertices[vertsLength++] = tempTangents.x;
@@ -202,9 +203,9 @@ package away3d.tools.helpers
 					{
 						product = k * 3;
 						
-						indices[indicesLength] = sourceIndices[product] + vertexCounter;
-						indices[indicesLength] = sourceIndices[product + 1] + vertexCounter;
-						indices[indicesLength] = sourceIndices[product + 2] + vertexCounter;
+						indices[indicesLength++] = sourceIndices[product] + vertexCounter;
+						indices[indicesLength++] = sourceIndices[product + 1] + vertexCounter;
+						indices[indicesLength++] = sourceIndices[product + 2] + vertexCounter;
 					}
 				}
 			}
