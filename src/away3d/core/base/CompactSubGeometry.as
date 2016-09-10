@@ -17,7 +17,7 @@ package away3d.core.base
 		protected var _vertexDataInvalid:Vector.<Boolean> = new Vector.<Boolean>(8, true);
 		protected var _vertexBuffer:Vector.<VertexBuffer3D> = new Vector.<VertexBuffer3D>(8);
 		protected var _bufferContext:Vector.<Context3D> = new Vector.<Context3D>(8);
-		protected var _numVertices:uint;
+		protected var _numVertices:int;
 		protected var _contextIndex:int;
 		protected var _activeBuffer:VertexBuffer3D;
 		protected var _activeContext3D:Context3D;
@@ -31,7 +31,7 @@ package away3d.core.base
 			_autoDeriveVertexTangents = false;
 		}
 		
-		public function get numVertices():uint
+		public function get numVertices():int
 		{
 			return _numVertices;
 		}
@@ -262,27 +262,27 @@ package away3d.core.base
 			invalidateBuffers(_vertexDataInvalid);
 		}
 		
-		override public function get vertexStride():uint
+		override public function get vertexStride():int
 		{
 			return 13;
 		}
 		
-		override public function get vertexNormalStride():uint
+		override public function get vertexNormalStride():int
 		{
 			return 13;
 		}
 		
-		override public function get vertexTangentStride():uint
+		override public function get vertexTangentStride():int
 		{
 			return 13;
 		}
 		
-		override public function get UVStride():uint
+		override public function get UVStride():int
 		{
 			return 13;
 		}
 		
-		public function get secondaryUVStride():uint
+		public function get secondaryUVStride():int
 		{
 			return 13;
 		}

@@ -23,10 +23,10 @@ package away3d.core.base
 		protected var _faceTangents:Vector.<Number>;
 		protected var _indices:Vector.<uint>;
 		protected var _indexBuffer:Vector.<IndexBuffer3D> = new Vector.<IndexBuffer3D>(8);
-		protected var _numIndices:uint;
+		protected var _numIndices:int;
 		protected var _indexBufferContext:Vector.<Context3D> = new Vector.<Context3D>(8);
 		protected var _indicesInvalid:Vector.<Boolean> = new Vector.<Boolean>(8, true);
-		protected var _numTriangles:uint;
+		protected var _numTriangles:int;
 		
 		protected var _autoDeriveVertexNormals:Boolean = true;
 		protected var _autoDeriveVertexTangents:Boolean = true;
@@ -114,7 +114,7 @@ package away3d.core.base
 		/**
 		 * The total amount of triangles in the SubGeometry.
 		 */
-		public function get numTriangles():uint
+		public function get numTriangles():int
 		{
 			return _numTriangles;
 		}
@@ -156,8 +156,8 @@ package away3d.core.base
 			
 			_faceTangents ||= new Vector.<Number>(_indices.length, true);
 			
-			var i:uint;
-			var length:uint = _indices.length;
+			var i:int;
+			var length:int = _indices.length;
 			while (i < length) {
 				var index1:uint = _indices[i];
 				var index2:uint = _indices[i + 1];
@@ -196,9 +196,9 @@ package away3d.core.base
 		 */
 		private function updateFaceNormals():void
 		{
-			var i:uint, j:uint, k:uint;
-			var index:uint;
-			var len:uint = _indices.length;
+			var i:int, j:uint, k:uint;
+			var index:int;
+			var len:int = _indices.length;
 			var x1:Number, x2:Number, x3:Number;
 			var y1:Number, y2:Number, y3:Number;
 			var z1:Number, z2:Number, z3:Number;
@@ -261,9 +261,9 @@ package away3d.core.base
 			if (_faceNormalsDirty)
 				updateFaceNormals();
 			
-			var v1:uint;
+			var v1:int;
 			var f1:uint = 0, f2:uint = 1, f3:uint = 2;
-			var lenV:uint = _vertexData.length;
+			var lenV:int = _vertexData.length;
 			var normalStride:int = vertexNormalStride;
 			var normalOffset:int = vertexNormalOffset;
 			
@@ -276,9 +276,9 @@ package away3d.core.base
 				v1 += normalStride;
 			}
 			
-			var i:uint, k:uint;
-			var lenI:uint = _indices.length;
-			var index:uint;
+			var i:int, k:uint;
+			var lenI:int = _indices.length;
+			var index:int;
 			var weight:Number;
 			
 			while (i < lenI) {
@@ -325,8 +325,8 @@ package away3d.core.base
 			if (_faceTangentsDirty)
 				updateFaceTangents();
 			
-			var i:uint;
-			var lenV:uint = _vertexData.length;
+			var i:int;
+			var lenV:int = _vertexData.length;
 			var tangentStride:int = vertexTangentStride;
 			var tangentOffset:int = vertexTangentOffset;
 			
@@ -341,8 +341,8 @@ package away3d.core.base
 			}
 			
 			var k:uint;
-			var lenI:uint = _indices.length;
-			var index:uint;
+			var lenI:int = _indices.length;
+			var index:int;
 			var weight:Number;
 			var f1:uint = 0, f2:uint = 1, f3:uint = 2;
 			
@@ -493,7 +493,7 @@ package away3d.core.base
 				invalid[i] = true;
 		}
 		
-		public function get UVStride():uint
+		public function get UVStride():int
 		{
 			throw new AbstractMethodError();
 		}
@@ -528,16 +528,16 @@ package away3d.core.base
 			throw new AbstractMethodError();
 		}
 		
-		public function get vertexStride():uint
+		public function get vertexStride():int
 		{
 			throw new AbstractMethodError();
 		}
-		public function get vertexNormalStride():uint
+		public function get vertexNormalStride():int
 		{
 			throw new AbstractMethodError();
 		}
 		
-		public function get vertexTangentStride():uint
+		public function get vertexTangentStride():int
 		{
 			throw new AbstractMethodError();
 		}
@@ -623,7 +623,7 @@ package away3d.core.base
 		public function scale(scale:Number):void
 		{
 			var vertices:Vector.<Number> = UVData;
-			var len:uint = vertices.length;
+			var len:int = vertices.length;
 			var offset:int = vertexOffset;
 			var stride:int = vertexStride;
 			
@@ -645,8 +645,8 @@ package away3d.core.base
 			var posOffset:int = vertexOffset;
 			var normalOffset:int = vertexNormalOffset;
 			var tangentOffset:int = vertexTangentOffset;
-			var len:uint = vertices.length/posStride;
-			var i:uint, i1:uint, i2:uint;
+			var len:int = vertices.length/posStride;
+			var i:int, i1:int, i2:int;
 			var vector:Vector3D = new Vector3D();
 			
 			var bakeNormals:Boolean = normals != null;
@@ -713,10 +713,10 @@ package away3d.core.base
 		{
 			_uvsDirty = false;
 			
-			var idx:uint, uvIdx:uint;
+			var idx:int, uvIdx:int;
 			var stride:int = UVStride;
 			var skip:int = stride - 2;
-			var len:uint = _vertexData.length/vertexStride*stride;
+			var len:int = _vertexData.length/vertexStride*stride;
 			
 			if (!target)
 				target = new Vector.<Number>();

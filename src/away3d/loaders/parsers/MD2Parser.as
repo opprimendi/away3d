@@ -343,11 +343,13 @@ package away3d.loaders.parsers
 		{
 			var index:int = findIndex(vertexIndex, uvIndex);
 			
-			if (index == -1) {
+			if (index == -1) 
+			{
 				_indices[_indices.length] = (_indexMap[vertexIndex] ||= new Dictionary(true))[uvIndex] = _vertIndices.length;
 				_vertIndices[_vertIndices.length] = vertexIndex;
 				_uvIndices[_uvIndices.length] = uvIndex;	
-			} else
+			} 
+			else
 				_indices[_indices.length] = index;
 		}
 		

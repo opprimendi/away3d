@@ -1,4 +1,4 @@
-package away3d.materials.passes
+ package away3d.materials.passes
 {
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
@@ -467,12 +467,17 @@ package away3d.materials.passes
 			if (!passes)
 				return;
 			
-			var len:uint = passes.length;
+			var len:int = passes.length;
+			var _len:int = _passes.length;
 			
-			for(var i:int = 0; i < len; ++i) {
-				passes[i].material = material;
-				passes[i].lightPicker = _lightPicker;
-				_passes[_passes.length] = passes[i];
+			for (var i:int = 0; i < len; ++i) 
+			{
+				var currentPass:MaterialPassBase = passes[i];
+				
+				currentPass.material = material;
+				currentPass.lightPicker = _lightPicker;
+				
+				_passes[len++] = currentPass;
 			}
 		}
 

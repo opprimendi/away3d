@@ -269,14 +269,21 @@ package away3d.loaders.parsers
 						}
 					}
 				}
-				if (isCubeTextureArray.length > 1) {
+				
+				if (isCubeTextureArray.length > 1) 
+				{
 					thisBitmapTexture = resourceDependency.assets[0] as BitmapTexture;
-					_cubeTextures[int(isCubeTextureArray[1])] = (thisBitmapTexture as BitmapTexture).bitmapData;
-					_texture_users[ressourceID].push(1);
+					var cubeTextureIndex:int = isCubeTextureArray[1] as int;
+					_cubeTextures[cubeTextureIndex] = (thisBitmapTexture as BitmapTexture).bitmapData;
+					
+					var currentTextureUsers:Array = _texture_users[ressourceID];
+					currentTextureUsers[currentTextureUsers.length] = 1;
 					
 					if (_debug)
 						trace("Successfully loadet Bitmap " + _texture_users[ressourceID].length + " / 6 for Cubetexture");
-					if (_texture_users[ressourceID].length == _cubeTextures.length) {
+						
+					if (currentTextureUsers.length == _cubeTextures.length) 
+					{
 						asset = new BitmapCubeTexture(_cubeTextures[0], _cubeTextures[1], _cubeTextures[2], _cubeTextures[3], _cubeTextures[4], _cubeTextures[5]);
 						block = _blocks[ressourceID];
 						block.data = asset; // Store finished asset				
@@ -1237,7 +1244,7 @@ package away3d.loaders.parsers
 				spezialType = 1;
 			if (spezialType < 2) { //this is SinglePass or MultiPass					
 				if (type == 1) { // Color material
-					var color:uint = color = props.get(1, 0xcccccc);
+					var color:uint = props.get(1, 0xcccccc);
 					if (spezialType == 1) { //	MultiPassMaterial
 						mat = new ColorMultiPassMaterial(color);
 						debugString += "Parsed a ColorMaterial(MultiPass): Name = '" + name + "' | ";
@@ -1776,13 +1783,14 @@ package away3d.loaders.parsers
 		private function parseSkeleton(blockID:uint):void
 		{
 			var name:String = parseVarStr();
-			var num_joints:uint = _newBlockBytes.readUnsignedShort();
+			var num_joints:int = _newBlockBytes.readUnsignedShort();
 			var skeleton:Skeleton = new Skeleton();
 			var joints:Vector.<SkeletonJoint> = skeleton.joints;
 			parseProperties(null); // Discard properties for now		
 			
-			var joints_parsed:uint = 0;
-			while (joints_parsed < num_joints) {
+			var joints_parsed:int = 0;
+			while (joints_parsed < num_joints) 
+			{
 				var joint:SkeletonJoint;
 				var ibp:Matrix3D;
 				// Ignore joint id
@@ -1796,7 +1804,7 @@ package away3d.loaders.parsers
 				// Ignore joint props/attributes for now
 				parseProperties(null);
 				parseUserAttributes();
-				joints[joints.length] = joint;
+				joints[joints_parsed] = joint;
 				joints_parsed++;
 			}
 			
@@ -1804,6 +1812,7 @@ package away3d.loaders.parsers
 			parseUserAttributes();
 			finalizeAsset(skeleton, name);
 			_blocks[blockID].data = skeleton;
+			
 			if (_debug)
 				trace("Parsed a Skeleton: Name = " + skeleton.name + " | Number of Joints = " + joints_parsed);
 		}
@@ -1812,18 +1821,21 @@ package away3d.loaders.parsers
 		private function parseSkeletonPose(blockID:uint):void
 		{
 			var name:String = parseVarStr();
-			var num_joints:uint = _newBlockBytes.readUnsignedShort();
+			var num_joints:int = _newBlockBytes.readUnsignedShort();
 			parseProperties(null); // Ignore properties for now
 			
 			var pose:SkeletonPose = new SkeletonPose();
 			
-			var joints_parsed:uint = 0;
-			while (joints_parsed < num_joints) {
+			var joints_parsed:int = 0;
+			while (joints_parsed < num_joints) 
+			{
 				var joint_pose:JointPose;
 				var has_transform:uint;
 				joint_pose = new JointPose();
 				has_transform = _newBlockBytes.readUnsignedByte();
-				if (has_transform == 1) {
+				
+				if (has_transform == 1) 
+				{
 					var mtx_data:Vector.<Number> = parseMatrix43RawData();
 					
 					var mtx:Matrix3D = new Matrix3D(mtx_data);
@@ -1846,25 +1858,30 @@ package away3d.loaders.parsers
 		private function parseSkeletonAnimation(blockID:uint):void
 		{
 			var frame_dur:Number;
-			var pose_addr:uint;
+			var pose_addr:int;
 			var name:String = parseVarStr();
 			var clip:SkeletonClipNode = new SkeletonClipNode();
 			var num_frames:uint = _newBlockBytes.readUnsignedShort();
 			parseProperties(null); // Ignore properties for now 
 			
-			var frames_parsed:uint = 0;
+			var frames_parsed:int = 0;
 			var returnedArray:Array;
-			while (frames_parsed < num_frames) {
+			while (frames_parsed < num_frames) 
+			{
 				pose_addr = _newBlockBytes.readUnsignedInt();
 				frame_dur = _newBlockBytes.readUnsignedShort();
 				returnedArray = getAssetByID(pose_addr, [AssetType.SKELETON_POSE]);
+				
 				if (!returnedArray[0])
 					_blocks[blockID].addError("Could not find the SkeletonPose Frame # " + frames_parsed + " (ID = " + pose_addr + " ) for this SkeletonClipNode");
 				else
 					clip.addFrame(_blocks[pose_addr].data as SkeletonPose, frame_dur);
+					
 				frames_parsed++;
 			}
-			if (clip.frames.length == 0) {
+			
+			if (clip.frames.length == 0) 
+			{
 				_blocks[blockID].addError("Could not this SkeletonClipNode, because no Frames where set.");
 				return;
 			}
@@ -2179,11 +2196,19 @@ package away3d.loaders.parsers
 		// Helper - functions
 		private function getUVForVertexAnimation(meshID:uint):Vector.<Vector.<Number>>
 		{
-			if (_blocks[meshID].data is Mesh)
+			var block:AWDBlock = _blocks[meshID];
+			
+			if (block.data is Mesh)
 				meshID = _blocks[meshID].geoID;
-			if (_blocks[meshID].uvsForVertexAnimation)
-				return _blocks[meshID].uvsForVertexAnimation;
-			var geometry:Geometry = Geometry(_blocks[[meshID]].data);
+				
+			if (block.uvsForVertexAnimation)
+				return block.uvsForVertexAnimation;
+				
+			var uvsForVertexAnimation:Vector.<Vector.<Number>> = new Vector.<Vector.<Number>>();
+			var uvsForVertexLength:int = 0;
+			block.uvsForVertexAnimation = uvsForVertexAnimation;
+				
+			var geometry:Geometry = block.data as Geometry;
 			var geoCnt:int = 0;
 			var ud:Vector.<Number>;
 			var uStride:uint;
@@ -2191,25 +2216,33 @@ package away3d.loaders.parsers
 			var numPoints:uint;
 			var i:int;
 			var newUvs:Vector.<Number>;
-			_blocks[meshID].uvsForVertexAnimation = new Vector.<Vector.<Number>>;
-			var block:AWDBlock = _blocks[meshID];
-			var uvsForVertexAnimation:Vector.<Vector.<Number>>;
-			while (geoCnt < geometry.subGeometries.length) {
+			
+			var subGeometries:Vector.<ISubGeometry> = geometry.subGeometries;
+			var subGeometriesCount:int = subGeometries.length;
+			
+			while (geoCnt < subGeometriesCount)
+			{
 				newUvs = new Vector.<Number>;
-				numPoints = geometry.subGeometries[geoCnt].numVertices;
-				ud = geometry.subGeometries[geoCnt].UVData;
-				uStride = geometry.subGeometries[geoCnt].UVStride;
-				uOffs = geometry.subGeometries[geoCnt].UVOffset;
+				
+				var currentSubGeometry:ISubGeometry = subGeometries[geoCnt];
+				numPoints = currentSubGeometry.numVertices;
+				ud = currentSubGeometry.UVData;
+				uStride = currentSubGeometry.UVStride;
+				uOffs = currentSubGeometry.UVOffset;
+				
+				var uwsLength:int = newUvs.length;
 				for (i = 0; i < numPoints; i++) 
 				{
-					newUvs[newUvs.length] = ud[uOffs + i*uStride];
-					newUvs[newUvs.length] = ud[uOffs + i*uStride + 1];
+					var uwIndex:int = uOffs + i * uStride;
+					newUvs[uwsLength++] = ud[uwIndex];
+					newUvs[uwsLength++] = ud[uwIndex + 1];
 				}
 				
-				uvsForVertexAnimation[uvsForVertexAnimation.length] = newUvs;
+				uvsForVertexAnimation[uvsForVertexLength++] = newUvs;
 				geoCnt++;
 			}
-			return _blocks[meshID].uvsForVertexAnimation;
+			
+			return uvsForVertexAnimation;
 		}
 		
 		private function parseVarStr():String
@@ -2371,47 +2404,68 @@ package away3d.loaders.parsers
 		
 		private function getAssetByID(assetID:uint, assetTypesToGet:Array, extraTypeInfo:String = "SingleTexture"):Array
 		{
-			var returnArray:Array = new Array();
+			var returnArray:Array = [];
+			var returnArrayLength:int = 0;
 			var typeCnt:int = 0;
-			if (assetID > 0) {
-				if (_blocks[assetID]) {
-					if (_blocks[assetID].data) {
-						while (typeCnt < assetTypesToGet.length) {
-							if (IAsset(_blocks[assetID].data).assetType == assetTypesToGet[typeCnt]) {
+			
+			if (assetID > 0) 
+			{
+				var block:AWDBlock = _blocks[assetID];
+				if (block) 
+				{
+					var blockData:IAsset = block.data as IAsset;
+					if (block.data) 
+					{
+						var assetTypesCount:int = assetTypesToGet.length;
+						while (typeCnt < assetTypesCount) 
+						{
+							if (blockData.assetType == assetTypesToGet[typeCnt]) 
+							{
 								//if the right assetType was found 
-								if ((assetTypesToGet[typeCnt] == AssetType.TEXTURE) && (extraTypeInfo == "CubeTexture")) {
-									if ((_blocks[assetID].data is BitmapCubeTexture)||(_blocks[assetID].data is ATFCubeTexture)) {
-										returnArray[returnArray.length] = true;
-										returnArray[returnArray.length] = _blocks[assetID].data;
+								if ((assetTypesToGet[typeCnt] == AssetType.TEXTURE) && (extraTypeInfo == "CubeTexture")) 
+								{
+									if ((blockData is BitmapCubeTexture) || (blockData is ATFCubeTexture)) 
+									{
+										returnArray[returnArrayLength++] = true;
+										returnArray[returnArrayLength++] = blockData;
 										return returnArray;
 									}
 								}
-								if ((assetTypesToGet[typeCnt] == AssetType.TEXTURE) && (extraTypeInfo == "SingleTexture")) {
-									if ((_blocks[assetID].data is BitmapTexture)||(_blocks[assetID].data is ATFTexture)) {
-										returnArray[returnArray.length] = true;
-										returnArray[returnArray.length] = _blocks[assetID].data;
+								
+								if ((assetTypesToGet[typeCnt] == AssetType.TEXTURE) && (extraTypeInfo == "SingleTexture")) 
+								{
+									if ((blockData is BitmapTexture) || (blockData is ATFTexture)) 
+									{
+										returnArray[returnArrayLength++] = true;
+										returnArray[returnArrayLength++] = blockData;
 										return returnArray;
 									}
-								} else {
-									returnArray[returnArray.length] = true;
-									returnArray[returnArray.length] = _blocks[assetID].data;
+								} 
+								else 
+								{
+									returnArray[returnArrayLength++] = true;
+									returnArray[returnArrayLength++] = blockData;
 									return returnArray;
 									
 								}
 							}
-							if ((assetTypesToGet[typeCnt] == AssetType.GEOMETRY) && (IAsset(_blocks[assetID].data).assetType == AssetType.MESH)) {
-								returnArray[returnArray.length] = true;
-								returnArray[returnArray.length] = (_blocks[assetID].data as Mesh).geometry;
+							
+							if ((assetTypesToGet[typeCnt] == AssetType.GEOMETRY) && (blockData.assetType == AssetType.MESH)) 
+							{
+								returnArray[returnArrayLength++] = true;
+								returnArray[returnArrayLength++] = (blockData as Mesh).geometry;
 								return returnArray;
 							}
+							
 							typeCnt++;
 						}
 					}
 				}
 			}
+			
 			// if the function has not returned anything yet, the asset is not found, or the found asset is not the right type.
-			returnArray[returnArray.length] = false;
-			returnArray[returnArray.length] = getDefaultAsset(assetTypesToGet[0], extraTypeInfo);
+			returnArray[returnArrayLength++] = false;
+			returnArray[returnArrayLength++] = getDefaultAsset(assetTypesToGet[0], extraTypeInfo);
 			
 			return returnArray;
 		}

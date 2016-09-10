@@ -10,40 +10,40 @@ package away3d.core.base
 		/**
 		 * The total amount of vertices in the SubGeometry.
 		 */
-		function get numVertices():uint;
+		function get numVertices():int;
 		
 		/**
 		 * The amount of triangles that comprise the IRenderable geometry.
 		 */
-		function get numTriangles():uint;
+		function get numTriangles():int;
 		
 		/**
 		 * The distance between two consecutive vertex, normal or tangent elements
 		 * This always applies to vertices, normals and tangents.
 		 */
-		function get vertexStride():uint;
+		function get vertexStride():int;
 		
 		/**
 		 * The distance between two consecutive normal elements
 		 * This always applies to vertices, normals and tangents.
 		 */
-		function get vertexNormalStride():uint;
+		function get vertexNormalStride():int;
 		
 		/**
 		 * The distance between two consecutive tangent elements
 		 * This always applies to vertices, normals and tangents.
 		 */
-		function get vertexTangentStride():uint;
+		function get vertexTangentStride():int;
 		
 		/**
 		 * The distance between two consecutive UV elements
 		 */
-		function get UVStride():uint;
+		function get UVStride():int;
 		
 		/**
 		 * The distance between two secondary UV elements
 		 */
-		function get secondaryUVStride():uint;
+		function get secondaryUVStride():int;
 		
 		/**
 		 * Assigns the attribute stream for vertex positions.

@@ -48,7 +48,7 @@
 		protected var _vertexNormalBufferContext:Vector.<Context3D> = new Vector.<Context3D>(8);
 		protected var _vertexTangentBufferContext:Vector.<Context3D> = new Vector.<Context3D>(8);
 		
-		protected var _numVertices:uint;
+		protected var _numVertices:int;
 		
 		/**
 		 * Creates a new SubGeometry object.
@@ -60,7 +60,7 @@
 		/**
 		 * The total amount of vertices in the SubGeometry.
 		 */
-		public function get numVertices():uint
+		public function get numVertices():int
 		{
 			return _numVertices;
 		}
@@ -449,27 +449,27 @@
 			}
 		}
 		
-		override public function get vertexStride():uint
+		override public function get vertexStride():int
 		{
 			return 3;
 		}
 		
-		override public function get vertexTangentStride():uint
+		override public function get vertexTangentStride():int
 		{
 			return 3;
 		}
 		
-		override public function get vertexNormalStride():uint
+		override public function get vertexNormalStride():int
 		{
 			return 3;
 		}
 		
-		override public function get UVStride():uint
+		override public function get UVStride():int
 		{
 			return 2;
 		}
 		
-		public function get secondaryUVStride():uint
+		public function get secondaryUVStride():int
 		{
 			return 2;
 		}

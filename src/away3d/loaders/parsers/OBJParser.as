@@ -419,7 +419,9 @@ package away3d.loaders.parsers
 		{
 			_currentGroup = null;
 			_currentMaterialGroup = null;
-			_objects[_objects.length] = _currentObject = new ObjectGroup();
+			_currentObject = new ObjectGroup();
+			
+			_objects[_objects.length] = _currentObject;
 			
 			if (trunk)
 				_currentObject.name = trunk[1];
