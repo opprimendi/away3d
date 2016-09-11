@@ -43,7 +43,7 @@ package away3d.animators
 		{
 			super(spriteSheetAnimationSet);
 			_spriteSheetAnimationSet = spriteSheetAnimationSet;
-			_vectorFrame = new Vector.<Number>();
+			_vectorFrame = new <Number>[0, 0, 0, 0];
 		}
 		
 		/* Set the playrate of the animation in frames per second (not depending on player fps)*/

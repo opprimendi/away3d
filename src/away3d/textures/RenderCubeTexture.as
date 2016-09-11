@@ -16,7 +16,7 @@
 		
 		public function set size(value:int):void
 		{
-			if (value == _width)
+			if (value == _size)
 				return;
 			
 			if (!TextureUtils.isDimensionValid(value))

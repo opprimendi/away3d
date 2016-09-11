@@ -140,7 +140,7 @@ package away3d.textures
 			_mockBitmapData.dispose();
 		}
 		
-		private function renderSurface(surfaceIndex:uint, scene:Scene3D, targetTexture:TextureBase):void
+		private function renderSurface(surfaceIndex:int, scene:Scene3D, targetTexture:TextureBase):void
 		{
 			var camera:Camera3D = _cameras[surfaceIndex];
 			
