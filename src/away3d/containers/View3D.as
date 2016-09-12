@@ -1007,7 +1007,7 @@
 		}
 		
 		[Inline]
-		private function __localToGlobal(localPos:Point, output:Point):void
+		private final function __localToGlobal(localPos:Point, output:Point):void
 		{
 			var _parent:Object = parent;
 			output.setTo(localPos.x, localPos.y);

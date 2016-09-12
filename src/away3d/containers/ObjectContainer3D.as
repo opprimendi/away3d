@@ -447,7 +447,6 @@ package away3d.containers
 		{
 			var length:int = _children.length;
 			for (var i:int = 0; i < length; i++)
-			{
 				_children[i++].scene = value;
 			
 			if (_scene == value)
@@ -536,8 +535,9 @@ package away3d.containers
 		 */
 		public function addChildren(...children):void
 		{
-			for each (var child:ObjectContainer3D in children)
-				addChild(child);
+			var numOfChildren:int = children.length;
+			for (var i:int = 0; i < numOfChildren; i++)
+				addChild(children[i]);
 		}
 		
 		/**
