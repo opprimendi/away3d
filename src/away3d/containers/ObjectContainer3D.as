@@ -133,9 +133,9 @@ package away3d.containers
 			
 			_implicitPartition = value;
 			
-			var i:uint;
-			var length:uint = _children.length;
-			while (i < length) {
+			var length:int = _children.length;
+			for (var i:int = 0; i < length; i++)
+			{
 				var child:ObjectContainer3D = _children[i++];
 				
 				// assign implicit partition if no explicit one is given
@@ -170,11 +170,9 @@ package away3d.containers
 			
 			invalidateSceneTransform();
 			
-			var i:uint;
-			var length:uint = _children.length;
-			
+			var length:int = _children.length;
 			//act recursively on child objects
-			while (i < length)
+			for (var i:int = 0; i < length; i++)
 				_children[i++].notifySceneTransformChange();
 			
 			//trigger event if listener exists
@@ -187,10 +185,9 @@ package away3d.containers
 		{
 			notifySceneTransformChange();
 			
-			var i:uint;
-			var length:uint = _children.length;
+			var length:int = _children.length;
 			//act recursively on child objects
-			while (i < length)
+			for (var i:int = 0; i < length; i++)
 				_children[i++].notifySceneChange();
 			
 			if (hasEventListener(Object3DEvent.SCENE_CHANGED))
@@ -206,7 +203,7 @@ package away3d.containers
 				_ancestorsAllowMouseEnabled = mouseChildren;
 			
 			// Sweep children.
-			var length:uint = _children.length;
+			var length:int = _children.length;
 			for(var i:int = 0; i < length; ++i)
 				_children[i].updateMouseChildren();
 		}
@@ -286,7 +283,7 @@ package away3d.containers
 			
 			_explicitVisibility = value;
 			
-			var length:uint = _children.length;
+			var length:int = _children.length;
 			for(var i:int = 0; i < length; ++i)
 				_children[i].updateImplicitVisibility();
 		}
@@ -314,9 +311,9 @@ package away3d.containers
 		public function get minX():Number
 		{
 			var min:Number = Number.POSITIVE_INFINITY;
-			var i:uint;
-			var length:uint = _children.length;
-			while (i < length) {
+			var length:int = _children.length;
+			for (var i:int = 0; i < length; i++)
+			{
 				var child:ObjectContainer3D = _children[i++];
 				var m:Number = child.minX + child.x;
 				if (m < min)
@@ -331,9 +328,9 @@ package away3d.containers
 		public function get minY():Number
 		{
 			var min:Number = Number.POSITIVE_INFINITY;
-			var i:uint;
-			var length:uint = _children.length;
-			while (i < length) {
+			var length:int = _children.length;
+			for (var i:int = 0; i < length; i++)
+			{
 				var child:ObjectContainer3D = _children[i++];
 				var m:Number = child.minY + child.y;
 				if (m < min)
@@ -348,9 +345,9 @@ package away3d.containers
 		public function get minZ():Number
 		{
 			var min:Number = Number.POSITIVE_INFINITY;
-			var i:uint;
-			var length:uint = _children.length;
-			while (i < length) {
+			var length:int = _children.length;
+			for (var i:int = 0; i < length; i++)
+			{
 				var child:ObjectContainer3D = _children[i++];
 				var m:Number = child.minZ + child.z;
 				if (m < min)
@@ -366,9 +363,9 @@ package away3d.containers
 		{
 			// todo: this isn't right, doesn't take into account transforms
 			var max:Number = Number.NEGATIVE_INFINITY;
-			var i:uint;
-			var length:uint = _children.length;
-			while (i < length) {
+			var length:int = _children.length;
+			for (var i:int = 0; i < length; i++)
+			{
 				var child:ObjectContainer3D = _children[i++];
 				var m:Number = child.maxX + child.x;
 				if (m > max)
@@ -383,9 +380,9 @@ package away3d.containers
 		public function get maxY():Number
 		{
 			var max:Number = Number.NEGATIVE_INFINITY;
-			var i:uint;
-			var length:uint = _children.length;
-			while (i < length) {
+			var length:int = _children.length;
+			for (var i:int = 0; i < length; i++)
+			{
 				var child:ObjectContainer3D = _children[i++];
 				var m:Number = child.maxY + child.y;
 				if (m > max)
@@ -400,9 +397,9 @@ package away3d.containers
 		public function get maxZ():Number
 		{
 			var max:Number = Number.NEGATIVE_INFINITY;
-			var i:uint;
-			var length:uint = _children.length;
-			while (i < length) {
+			var length:int = _children.length;
+			for (var i:int = 0; i < length; i++)
+			{
 				var child:ObjectContainer3D = _children[i++];
 				var m:Number = child.maxZ + child.z;
 				if (m > max)
@@ -448,9 +445,9 @@ package away3d.containers
 		
 		public function set scene(value:Scene3D):void
 		{
-			var i:uint;
-			var length:uint = _children.length;
-			while (i < length)
+			var length:int = _children.length;
+			for (var i:int = 0; i < length; i++)
+			{
 				_children[i++].scene = value;
 			
 			if (_scene == value)
@@ -578,7 +575,7 @@ package away3d.containers
 		 *
 		 * @param    index    Index of 3d object to be removed
 		 */
-		public function removeChildAt(index:uint, dispose:Boolean = false):void
+		public function removeChildAt(index:int, dispose:Boolean = false):void
 		{
 			removeChildInternal(index, _children[index], dispose);
 		}
@@ -599,7 +596,7 @@ package away3d.containers
 		 * @param index The index of the object to be retrieved.
 		 * @return The child object at the given index.
 		 */
-		public function getChildAt(index:uint):ObjectContainer3D
+		public function getChildAt(index:int):ObjectContainer3D
 		{
 			return _children[index];
 		}
@@ -611,7 +608,7 @@ package away3d.containers
 		/**
 		 * The amount of child objects of the ObjectContainer3D.
 		 */
-		public function get numChildren():uint
+		public function get numChildren():int
 		{
 			return _children.length;
 		}
@@ -648,11 +645,11 @@ package away3d.containers
 		 */
 		override public function clone():Object3D
 		{
-			var clone:ObjectContainer3D = ObjectContainer3D(super.clone());
+			var clone:ObjectContainer3D = super.clone() as ObjectContainer3D;
 			clone.partition = partition;
-			var length:uint = _children.length;
+			var length:int = _children.length;
 			for(var i:int = 0; i < length; ++i)
-				clone.addChild(ObjectContainer3D(_children[i].clone()));
+				clone.addChild(_children[i].clone() as ObjectContainer3D);
 			// todo: implement for all subtypes
 			return clone;
 		}
@@ -668,7 +665,7 @@ package away3d.containers
 		{
 			_implicitVisibility = _parent._explicitVisibility && _parent._implicitVisibility;
 			
-			var length:uint = _children.length;
+			var length:int = _children.length;
 			for(var i:int = 0; i < length; ++i)
 				_children[i].updateImplicitVisibility();
 		}
