@@ -136,7 +136,7 @@ package away3d.containers
 			var length:int = _children.length;
 			for (var i:int = 0; i < length; i++)
 			{
-				var child:ObjectContainer3D = _children[i++];
+				var child:ObjectContainer3D = _children[i];
 				
 				// assign implicit partition if no explicit one is given
 				if (!child._explicitPartition)
@@ -173,7 +173,7 @@ package away3d.containers
 			var length:int = _children.length;
 			//act recursively on child objects
 			for (var i:int = 0; i < length; i++)
-				_children[i++].notifySceneTransformChange();
+				_children[i].notifySceneTransformChange();
 			
 			//trigger event if listener exists
 			if (hasEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED)) {
@@ -188,7 +188,7 @@ package away3d.containers
 			var length:int = _children.length;
 			//act recursively on child objects
 			for (var i:int = 0; i < length; i++)
-				_children[i++].notifySceneChange();
+				_children[i].notifySceneChange();
 			
 			if (hasEventListener(Object3DEvent.SCENE_CHANGED))
 				dispatchEvent(new Object3DEvent(Object3DEvent.SCENE_CHANGED));
@@ -314,7 +314,7 @@ package away3d.containers
 			var length:int = _children.length;
 			for (var i:int = 0; i < length; i++)
 			{
-				var child:ObjectContainer3D = _children[i++];
+				var child:ObjectContainer3D = _children[i];
 				var m:Number = child.minX + child.x;
 				if (m < min)
 					min = m;
@@ -331,7 +331,7 @@ package away3d.containers
 			var length:int = _children.length;
 			for (var i:int = 0; i < length; i++)
 			{
-				var child:ObjectContainer3D = _children[i++];
+				var child:ObjectContainer3D = _children[i];
 				var m:Number = child.minY + child.y;
 				if (m < min)
 					min = m;
@@ -348,7 +348,7 @@ package away3d.containers
 			var length:int = _children.length;
 			for (var i:int = 0; i < length; i++)
 			{
-				var child:ObjectContainer3D = _children[i++];
+				var child:ObjectContainer3D = _children[i];
 				var m:Number = child.minZ + child.z;
 				if (m < min)
 					min = m;
@@ -366,7 +366,7 @@ package away3d.containers
 			var length:int = _children.length;
 			for (var i:int = 0; i < length; i++)
 			{
-				var child:ObjectContainer3D = _children[i++];
+				var child:ObjectContainer3D = _children[i];
 				var m:Number = child.maxX + child.x;
 				if (m > max)
 					max = m;
@@ -383,7 +383,7 @@ package away3d.containers
 			var length:int = _children.length;
 			for (var i:int = 0; i < length; i++)
 			{
-				var child:ObjectContainer3D = _children[i++];
+				var child:ObjectContainer3D = _children[i];
 				var m:Number = child.maxY + child.y;
 				if (m > max)
 					max = m;
@@ -400,7 +400,7 @@ package away3d.containers
 			var length:int = _children.length;
 			for (var i:int = 0; i < length; i++)
 			{
-				var child:ObjectContainer3D = _children[i++];
+				var child:ObjectContainer3D = _children[i];
 				var m:Number = child.maxZ + child.z;
 				if (m > max)
 					max = m;
@@ -447,7 +447,7 @@ package away3d.containers
 		{
 			var length:int = _children.length;
 			for (var i:int = 0; i < length; i++)
-				_children[i++].scene = value;
+				_children[i].scene = value;
 			
 			if (_scene == value)
 				return;

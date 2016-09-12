@@ -980,7 +980,8 @@
 			_globalPosDirty = true;
 		}
 		
-		private function __localToGlobalX(localPos:Point, output:Point):void
+		[Inline]
+		private final function __localToGlobalX(localPos:Point, output:Point):void
 		{
 			var _parent:Object = parent;
 			output.x = localPos.x;
@@ -993,7 +994,8 @@
 			}
 		}
 		
-		private function __localToGlobalY(localPos:Point, output:Point):void
+		[Inline]
+		private final function __localToGlobalY(localPos:Point, output:Point):void
 		{
 			var _parent:Object = parent;
 			output.y = localPos.y;
