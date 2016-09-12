@@ -148,7 +148,7 @@ package away3d.textures
 		{
 			if (_isUseStreamingUpload)
 			{
-				var mipLevel:int = MathUtils.log(_size);
+				var mipLevel:int = MathUtils.log(_size, 2);
 				maxMipLevel = mipLevel;
 				currentMipLevel = maxMipLevel;
 				isMipMapsUploaded = false;

@@ -1,6 +1,7 @@
 ﻿package away3d.textures
 {
 	import away3d.materials.utils.MipmapGenerator;
+	import away3d.tools.utils.MathUtils;
 	import away3d.tools.utils.TextureUtils;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DTextureFormat;

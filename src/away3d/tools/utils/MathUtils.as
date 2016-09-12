@@ -8,7 +8,8 @@ package away3d.tools.utils
 		 * @param	base
 		 * @return
 		 */
-		public static function log(value:Number, base:Number = 2):Number
+		[Inline]
+		public static function log(value:Number, base:Number):Number
 		{
 			return Math.log(value) / Math.log(base);
 		}

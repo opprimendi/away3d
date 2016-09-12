@@ -28,18 +28,18 @@ package away3d.materials.utils
 		 */
 		public static function generateMipMaps(source:BitmapData, target:TextureBase, alpha:Boolean = false, side:int = -1, startLevel:int = -1, levelsToUpload:int = -1):void
 		{
-			var sourceWidth:Number = source.width;
-			var sourceHeight:Number = source.height;
+			var sourceWidth:int = source.width;
+			var sourceHeight:int = source.height;
 			
 			var w:int = 0;
 			var h:int = 0;
 			var mipmap:BitmapData;
 			
-			var largestSide:int = Math.max(sourceWidth, sourceHeight);
+			var largestSide:int = MathUtils.maxi(sourceWidth, sourceHeight);
 			var mipLevel:int = startLevel;
 			
 			if (mipLevel == -1)
-				mipLevel = MathUtils.log(largestSide);
+				mipLevel = MathUtils.log(largestSide, 2);
 				
 			var endLvel:int = -1;
 			if (levelsToUpload != -1)

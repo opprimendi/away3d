@@ -59,8 +59,8 @@
 		
 		private function resetMipMapData():void
 		{
-			var largestSide:int = Math.max(_width, _height);
-			currentMipLevel = MathUtils.log(largestSide);
+			var largestSide:int = MathUtils.maxi(_width, _height);
+			currentMipLevel = MathUtils.log(largestSide, 2);
 		}
 		
 		override protected function createTexture(context3D:Context3D):TextureBase
