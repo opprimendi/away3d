@@ -1006,6 +1006,7 @@
 			}
 		}
 		
+		[Inline]
 		private function __localToGlobal(localPos:Point, output:Point):void
 		{
 			var _parent:Object = parent;

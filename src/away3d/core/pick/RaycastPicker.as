@@ -167,8 +167,10 @@ package away3d.core.pick
 				return true;
 			
 			var ignoredEntity:Entity;
-			for each (ignoredEntity in _ignoredEntities) {
-				if (ignoredEntity == entity)
+			var ignoredEntitiesLength:int = _ignoredEntities.length;
+			for (var i:int = 0; i < ignoredEntitiesLength; i++)
+			{
+				if (_ignoredEntities[i] == entity)
 					return true;
 			}
 			

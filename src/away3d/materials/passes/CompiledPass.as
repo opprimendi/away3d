@@ -72,9 +72,9 @@
 		protected var _preserveAlpha:Boolean = true;
 		protected var _animateUVs:Boolean;
 		
-		protected var _numPointLights:uint;
-		protected var _numDirectionalLights:uint;
-		protected var _numLightProbes:uint;
+		protected var _numPointLights:int;
+		protected var _numDirectionalLights:int;
+		protected var _numLightProbes:int;
 		
 		protected var _enableLightFallOff:Boolean = true;
 		
@@ -125,7 +125,7 @@
 		/**
 		 * The amount of point lights that need to be supported.
 		 */
-		arcane function get numPointLights():uint
+		arcane function get numPointLights():int
 		{
 			return _numPointLights;
 		}
@@ -133,7 +133,7 @@
 		/**
 		 * The amount of directional lights that need to be supported.
 		 */
-		arcane function get numDirectionalLights():uint
+		arcane function get numDirectionalLights():int
 		{
 			return _numDirectionalLights;
 		}
@@ -141,7 +141,7 @@
 		/**
 		 * The amount of light probes that need to be supported.
 		 */
-		arcane function get numLightProbes():uint
+		arcane function get numLightProbes():int
 		{
 			return _numLightProbes;
 		}
@@ -597,7 +597,7 @@
 		 */
 		arcane override function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
-			var i:uint;
+			var i:int;
 			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			
 			if (_uvBufferIndex != -1)
@@ -639,7 +639,8 @@
 			if (usesProbes())
 				updateProbes(stage3DProxy);
 			
-			if (_sceneMatrixIndex != -1) {
+			if (_sceneMatrixIndex != -1) 
+			{
 				renderable.getRenderSceneTransform(camera).copyRawDataTo(_vertexConstantData, _sceneMatrixIndex, true);
 				viewProjection.copyRawDataTo(_vertexConstantData, 0, true);
 			} else {
@@ -663,14 +664,17 @@
 			
 			if (_methodSetup._shadowMethod)
 				_methodSetup._shadowMethod.setRenderState(_methodSetup._shadowMethodVO, renderable, stage3DProxy, camera);
+				
 			_methodSetup._diffuseMethod.setRenderState(_methodSetup._diffuseMethodVO, renderable, stage3DProxy, camera);
+			
 			if (_usingSpecularMethod)
 				_methodSetup._specularMethod.setRenderState(_methodSetup._specularMethodVO, renderable, stage3DProxy, camera);
+				
 			if (_methodSetup._colorTransformMethod)
 				_methodSetup._colorTransformMethod.setRenderState(_methodSetup._colorTransformMethodVO, renderable, stage3DProxy, camera);
 			
 			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
-			var len:uint = methods.length;
+			var len:int = methods.length;
 			for (i = 0; i < len; ++i) {
 				var set:MethodVOSet = methods[i];
 				set.method.setRenderState(set.data, renderable, stage3DProxy, camera);

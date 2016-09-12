@@ -201,8 +201,8 @@ package away3d.core.render
 		 */
 		private function drawRenderables(item:RenderableListItem, entityCollector:EntityCollector, which:int):void
 		{
-			var numPasses:uint;
-			var j:uint;
+			var numPasses:int;
+			var j:int;
 			var camera:Camera3D = entityCollector.camera;
 			var item2:RenderableListItem;
 
@@ -213,25 +213,32 @@ package away3d.core.render
 				numPasses = _activeMaterial.numPasses;
 				j = 0;
 
-				do {
+				do 
+				{
 					item2 = item;
 
 					var rttMask:int = _activeMaterial.passRendersToTexture(j) ? 1 : 2;
 
-					if ((rttMask & which) != 0) {
+					if ((rttMask & which) != 0) 
+					{
 						_activeMaterial.activatePass(j, _stage3DProxy, camera);
-						do {
+						do 
+						{
 							_activeMaterial.renderPass(j, item2.renderable, _stage3DProxy, entityCollector, _rttViewProjectionMatrix);
 							item2 = item2.next;
-						} while (item2 && item2.renderable.material == _activeMaterial);
-						_activeMaterial.deactivatePass(j, _stage3DProxy);
-					} else {
+						}
+						while (item2 && item2.renderable.material == _activeMaterial);
+							_activeMaterial.deactivatePass(j, _stage3DProxy);
+					} 
+					else 
+					{
 						do
 							item2 = item2.next;
 						while (item2 && item2.renderable.material == _activeMaterial);
 					}
 
-				} while (++j < numPasses);
+				} 
+				while (++j < numPasses);
 
 				item = item2;
 			}

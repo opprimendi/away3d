@@ -154,8 +154,8 @@ package away3d.core.managers
 		{
 			if(backBufferWidth<50) backBufferWidth = 50;
 			if(backBufferHeight<50) backBufferHeight = 50;
-			var oldWidth:uint = _backBufferWidth;
-			var oldHeight:uint = _backBufferHeight;
+			var oldWidth:int = _backBufferWidth;
+			var oldHeight:int = _backBufferHeight;
 			
 			_backBufferWidth = _viewPort.width = backBufferWidth;
 			_backBufferHeight = _viewPort.height = backBufferHeight;

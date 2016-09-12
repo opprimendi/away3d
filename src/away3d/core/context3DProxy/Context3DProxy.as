@@ -165,9 +165,7 @@ package away3d.core.context3DProxy
 		{
 			if (_depthTestData.depthMask != depthMask || _depthTestData.passCompareMode != passCompareMode)
 			{
-				_depthTestData.depthMask = depthMask;
-				_depthTestData.passCompareMode = passCompareMode;
-				
+				_depthTestData.setTo(depthMask, passCompareMode);
 				_context3D.setDepthTest(depthMask, passCompareMode);
 			}
 		}

@@ -167,6 +167,7 @@ package away3d.animators
 			
 			var code:String = _animationRegisterCache.getInitCode();
 			var node:ParticleNodeBase;
+			
 			for each (node in _particleNodes) {
 				if (node.priority < POST_PRIORITY)
 					code += node.getAGALVertexCode(pass, _animationRegisterCache);

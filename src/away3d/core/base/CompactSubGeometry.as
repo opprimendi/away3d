@@ -102,6 +102,7 @@ package away3d.core.base
 			
 			if (!_activeBuffer || _activeContext3D != context3D)
 				createBuffer(contextIndex, context3D);
+				
 			if (_activeDataInvalid)
 				uploadData(contextIndex);
 			

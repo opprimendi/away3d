@@ -512,10 +512,11 @@
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activatePass(index:uint, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override arcane function activatePass(index:int, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			if (index == 0)
 				stage3DProxy._context3DProxy.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+				
 			super.activatePass(index, stage3DProxy, camera);
 		}
 

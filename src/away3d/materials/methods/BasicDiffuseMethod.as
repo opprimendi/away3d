@@ -339,11 +339,17 @@ package away3d.materials.methods
 		 */
 		override arcane function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
-			if (_useTexture) {
+			if (_useTexture) 
+			{
 				stage3DProxy._context3DProxy.setTextureAt(vo.texturesIndex, _texture.getTextureForStage3D(stage3DProxy));
+				
 				if (_alphaThreshold > 0)
+				{
 					vo.fragmentData[vo.fragmentConstantsIndex] = _alphaThreshold;
-			} else {
+				}
+			} 
+			else 
+			{
 				var index:int = vo.fragmentConstantsIndex;
 				var data:Vector.<Number> = vo.fragmentData;
 				data[index] = _diffuseR;

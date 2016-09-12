@@ -44,11 +44,11 @@ package away3d.materials.passes
 		
 		// agal props. these NEED to be set by subclasses!
 		// todo: can we perhaps figure these out manually by checking read operations in the bytecode, so other sources can be safely updated?
-		protected var _numUsedStreams:uint;
-		protected var _numUsedTextures:uint;
-		protected var _numUsedVertexConstants:uint;
-		protected var _numUsedFragmentConstants:uint;
-		protected var _numUsedVaryings:uint;
+		protected var _numUsedStreams:int;
+		protected var _numUsedTextures:int;
+		protected var _numUsedVertexConstants:int;
+		protected var _numUsedFragmentConstants:int;
+		protected var _numUsedVaryings:int;
 		
 		protected var _smooth:Boolean = true;
 		protected var _repeat:Boolean;
@@ -279,7 +279,7 @@ package away3d.materials.passes
 		/**
 		 * The amount of used vertex streams in the vertex code. Used by the animation code generation to know from which index on streams are available.
 		 */
-		public function get numUsedStreams():uint
+		public function get numUsedStreams():int
 		{
 			return _numUsedStreams;
 		}
@@ -287,12 +287,12 @@ package away3d.materials.passes
 		/**
 		 * The amount of used vertex constants in the vertex code. Used by the animation code generation to know from which index on registers are available.
 		 */
-		public function get numUsedVertexConstants():uint
+		public function get numUsedVertexConstants():int
 		{
 			return _numUsedVertexConstants;
 		}
 		
-		public function get numUsedVaryings():uint
+		public function get numUsedVaryings():int
 		{
 			return _numUsedVaryings;
 		}
@@ -300,7 +300,7 @@ package away3d.materials.passes
 		/**
 		 * The amount of used fragment constants in the fragment code. Used by the animation code generation to know from which index on registers are available.
 		 */
-		public function get numUsedFragmentConstants():uint
+		public function get numUsedFragmentConstants():int
 		{
 			return _numUsedFragmentConstants;
 		}
@@ -428,7 +428,7 @@ package away3d.materials.passes
 			}
 			
 			var prevUsed:int = _previousUsedStreams[contextIndex];
-			var i:uint;
+			var i:int;
 			for (i = _numUsedStreams; i < prevUsed; ++i)
 				context3DProxy.clearVertexBufferAt(i);
 			
@@ -460,7 +460,7 @@ package away3d.materials.passes
 		 */
 		arcane function deactivate(stage3DProxy:Stage3DProxy):void
 		{
-			var index:uint = stage3DProxy._stage3DIndex;
+			var index:int = stage3DProxy._stage3DIndex;
 			_previousUsedStreams[index] = _numUsedStreams;
 			_previousUsedTexs[index] = _numUsedTextures;
 			
@@ -513,7 +513,7 @@ package away3d.materials.passes
 					UVAnimatorCode = _animationSet.getAGALUVCode(this, _UVSource, _UVTarget);
 				_animationSet.doneAGALCode(this);
 			} else {
-				var len:uint = _animatableAttributes.length;
+				var len:int = _animatableAttributes.length;
 				
 				// simply write attributes to targets, do not animate them
 				// projection will pick up on targets[0] to do the projection

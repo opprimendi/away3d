@@ -172,12 +172,12 @@ package away3d.core.math
 				z2 = -z2;
 			}
 			
-			w = w1 + t*(w2 - w1);
-			x = x1 + t*(x2 - x1);
-			y = y1 + t*(y2 - y1);
-			z = z1 + t*(z2 - z1);
+			w = w1 + t * (w2 - w1);
+			x = x1 + t * (x2 - x1);
+			y = y1 + t * (y2 - y1);
+			z = z1 + t * (z2 - z1);
 			
-			len = 1.0/Math.sqrt(w*w + x*x + y*y + z*z);
+			len = 1.0 / Math.sqrt(w * w + x * x + y * y + z * z);
 			w *= len;
 			x *= len;
 			y *= len;

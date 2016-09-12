@@ -34,15 +34,15 @@ package away3d.core.partition
 		 */
 		override public function acceptTraverser(traverser:PartitionTraverser):void
 		{
-			if (traverser.enterNode(this)) {
+			if (traverser.enterNode(this)) 
+			{
 				super.acceptTraverser(traverser);
 				var subs:Vector.<SubMesh> = _mesh.subMeshes;
-				var i:uint;
-				var len:uint = subs.length;
-				while (i < len)
-					traverser.applyRenderable(subs[i++]);
+				
+				var len:int = subs.length;
+				for (var i:int = 0; i < len; i++)
+					traverser.applyRenderable(subs[i]);
 			}
 		}
-	
 	}
 }

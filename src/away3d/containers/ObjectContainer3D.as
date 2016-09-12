@@ -673,14 +673,12 @@ package away3d.containers
 				_children[i].updateImplicitVisibility();
 		}
 		
-		override public function get zOffset():int
-		{
-			return super.zOffset;
-		}
-		
 		override public function set zOffset(value:int):void
 		{
-			super.zOffset = value;
+			if (_zOffset == value)
+				return;
+				
+			_zOffset = value;
 			
 			var length:int = _children.length;
 			for (var i:int = 0; i < length; i++)

@@ -11,5 +11,12 @@ package away3d.core.context3DProxy
 		{
 			
 		}
+		
+		[Inline]
+		public final function setTo(depthMask:Boolean, passCompareMode:String):void 
+		{
+			this.depthMask = depthMask;
+			this.passCompareMode = passCompareMode;
+		}
 	}
 }

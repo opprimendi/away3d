@@ -164,10 +164,10 @@ package away3d.core.partition
 			if (_numEntities == 0 && !_debugPrimitive)
 				return;
 			
-			if (traverser.enterNode(this)) {
-				var i:uint;
-				while (i < _numChildNodes)
-					_childNodes[i++].acceptTraverser(traverser);
+			if (traverser.enterNode(this)) 
+			{
+				for (var i:int = 0; i < _numChildNodes; i++)
+					_childNodes[i].acceptTraverser(traverser);
 				
 				if (_debugPrimitive)
 					traverser.applyRenderable(_debugPrimitive);
