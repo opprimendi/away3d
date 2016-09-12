@@ -27,7 +27,7 @@ package away3d.core.context3DProxy
 		private var _scissorRectangle:Rectangle = new Rectangle();
 		private var _isScissorRectangleClear:Boolean = true;
 		
-		private var _currentCulling:String = Context3DTriangleFace.BACK;
+		private var _currentCulling:String = Context3DTriangleFace.NONE;
 		
 		private var _depthTestData:DepthTestData = new DepthTestData();
 		private var _depthClear:Boolean = true;
@@ -237,8 +237,8 @@ package away3d.core.context3DProxy
 				_texturesRegisterCache[i] = null;
 			}
 			
-			vertexConstantBuffer.clearConstants();
-			fragmentConstantBuffer.clearConstants();
+			//vertexConstantBuffer.clearConstants();
+			//fragmentConstantBuffer.clearConstants();
 			
 			_currentProgram3D = null;
 		}
