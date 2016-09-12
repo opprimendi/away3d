@@ -41,7 +41,7 @@ package away3d.materials
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activatePass(index:uint, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override arcane function activatePass(index:int, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			if (occlude)
 				stage3DProxy._context3D.setColorMask(false, false, false, false);
@@ -51,7 +51,7 @@ package away3d.materials
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function deactivatePass(index:uint, stage3DProxy:Stage3DProxy):void
+		override arcane function deactivatePass(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			super.deactivatePass(index, stage3DProxy);
 			stage3DProxy._context3D.setColorMask(true, true, true, true);

@@ -115,7 +115,7 @@ package away3d.core.partition
 			if (_cells[index].visibleDynamics == null)
 				_cells[index].visibleDynamics = new Vector.<InvertedOctreeNode>();
 				
-			var visibleDynamics:Vector.<EntityNode> = _cells[index].visibleDynamics;
+			var visibleDynamics:Vector.<InvertedOctreeNode> = _cells[index].visibleDynamics;
 			visibleDynamics[visibleDynamics.length] = cell;
 			
 			updateNumEntities(_numEntities + 1);
