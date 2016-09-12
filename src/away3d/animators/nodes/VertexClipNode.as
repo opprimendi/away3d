@@ -38,9 +38,9 @@ package away3d.animators.nodes
 		 */
 		public function addFrame(geometry:Geometry, duration:uint, translation:Vector3D = null):void
 		{
-			_frames.push(geometry);
-			_durations.push(duration);
-			_translations.push(translation || new Vector3D());
+			_frames[_frames.length] = geometry;
+			_durations[_durations.length] = duration;
+			_translations[_translations.length] = translation || new Vector3D();
 			
 			_numFrames = _durations.length;
 			

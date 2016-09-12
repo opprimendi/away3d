@@ -46,7 +46,7 @@ package away3d.tools.utils
 		public function snapVertices(vertices:Vector.<Number>):Vector.<Number>
 		{
 			var length:int = vertices.length;
-			for (var i:uint = 0; i < length; ++i)
+			for(var i:int = 0; i < length; ++i)
 				vertices[i] -= vertices[i] % _unit;
 			return vertices;
 		}
@@ -102,7 +102,7 @@ package away3d.tools.utils
 			var numChildren:uint = object3d.numChildren;
 			if (object3d is Mesh && numChildren == 0 && dovert)
 				snap(Mesh(object3d));
-			for (var i:uint = 0; i < numChildren; ++i) {
+			for(var i:int = 0; i < numChildren; ++i) {
 				parse(object3d.getChildAt(i), dovert);
 			}
 		}
@@ -112,12 +112,12 @@ package away3d.tools.utils
 			var geometry:Geometry = mesh.geometry;
 			var geometries:Vector.<ISubGeometry> = geometry.subGeometries;
 			var numSubGeoms:int = geometries.length;
-			for (var i:uint = 0; i < numSubGeoms; ++i) {
+			for(var i:int = 0; i < numSubGeoms; ++i) {
 				var subGeom:SubGeometry = SubGeometry(geometries[i]);
 				var vertices:Vector.<Number> = subGeom.vertexData;
 				var vecLength:uint = vertices.length;
 				var stride:uint = subGeom.vertexStride;
-				for (var j:uint = subGeom.vertexOffset; j < vecLength; j += stride) {
+				for(var j:int = subGeom.vertexOffset; j < vecLength; j += stride) {
 					vertices[j] -= vertices[j] % _unit;
 					vertices[j + 1] -= vertices[j + 1] % _unit;
 					vertices[j + 2] -= vertices[j + 2] % _unit;

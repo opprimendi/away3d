@@ -126,10 +126,10 @@ package away3d.bounds
 			var c:Number = px*px + py*py + pz*pz - _radius*_radius;
 			var det:Number = b*b - 4*a*c;
 			
-			if (det >= 0) { // ray goes through sphere
+			if (det > -1) { // ray goes through sphere
 				var sqrtDet:Number = Math.sqrt(det);
 				rayEntryDistance = ( -b - sqrtDet )/( 2*a );
-				if (rayEntryDistance >= 0) {
+				if (rayEntryDistance > -1) {
 					targetNormal.x = px + rayEntryDistance*vx;
 					targetNormal.y = py + rayEntryDistance*vy;
 					targetNormal.z = pz + rayEntryDistance*vz;

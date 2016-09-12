@@ -42,7 +42,7 @@ package away3d.animators.states
 			
 			_positionDeltaDirty = true;
 			
-			for (var j:uint = 0; j < _skeletonAnimationNode.numInputs; ++j) {
+			for(var j:int = 0; j < _skeletonAnimationNode.numInputs; ++j) {
 				if (_blendWeights[j])
 					_inputs[j].update(value);
 			}
@@ -53,7 +53,7 @@ package away3d.animators.states
 		 */
 		override protected function updateTime(time:int):void
 		{
-			for (var j:uint = 0; j < _skeletonAnimationNode.numInputs; ++j) {
+			for(var j:int = 0; j < _skeletonAnimationNode.numInputs; ++j) {
 				if (_blendWeights[j])
 					_inputs[j].update(time);
 			}
@@ -110,7 +110,7 @@ package away3d.animators.states
 			positionDelta.y = 0;
 			positionDelta.z = 0;
 			
-			for (var j:uint = 0; j < _skeletonAnimationNode.numInputs; ++j) {
+			for(var j:int = 0; j < _skeletonAnimationNode.numInputs; ++j) {
 				weight = _blendWeights[j];
 				
 				if (weight) {
@@ -147,7 +147,7 @@ package away3d.animators.states
 			if (endPoses.length != numJoints)
 				endPoses.length = numJoints;
 			
-			for (var j:uint = 0; j < _skeletonAnimationNode.numInputs; ++j) {
+			for(var j:int = 0; j < _skeletonAnimationNode.numInputs; ++j) {
 				weight = _blendWeights[j];
 				
 				if (!weight)

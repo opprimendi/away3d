@@ -53,19 +53,22 @@ package away3d.animators
 			var state:ParticleStateBase;
 			var node:ParticleNodeBase;
 			
-			for each (node in _particleAnimationSet.particleNodes) 
+			var particleAnimationSetNodes:Vector.<ParticleNodeBase> = _particleAnimationSet.particleNodes;
+			var particleAnimationSetNodesLength:int = particleAnimationSetNodes.length;
+			for (var i:int = 0; i < particleAnimationSetNodesLength; i++)
 			{
+				node = particleAnimationSetNodes[i];
 				state = getAnimationState(node) as ParticleStateBase;
 				if (node.mode == ParticlePropertiesMode.LOCAL_DYNAMIC) 
 				{
-					_animatorParticleStates.push(state);
+					_animatorParticleStates[_animatorParticleStates.length] = state;
 					node.dataOffset = _totalLenOfOneVertex;
 					_totalLenOfOneVertex += node.dataLength;
 				} 
 				else
-					_animationParticleStates.push(state);
+					_animationParticleStates[_animationParticleStates.length] = state;
 				if (state.needUpdateTime)
-					_timeParticleStates.push(state);
+					_timeParticleStates[_timeParticleStates.length] = state;
 			}
 		}
 		
@@ -102,6 +105,7 @@ package away3d.animators
 		 */
 		public function setRenderState(stage3DProxy:Stage3DProxy, renderable:IRenderable, vertexConstantOffset:int, vertexStreamOffset:int, camera:Camera3D):void
 		{
+			var i:int;
 			var animationRegisterCache:AnimationRegisterCache = _particleAnimationSet._animationRegisterCache;
 			
 			var subMesh:SubMesh = renderable as SubMesh;
@@ -116,8 +120,12 @@ package away3d.animators
 			
 			var animationSubGeometry:AnimationSubGeometry = subMesh.animationSubGeometry;
 			
-			for each (state in _animationParticleStates)
+			var animationParticleStatesLength:int = _animationParticleStates.length;
+			for (i = 0; i < animationParticleStatesLength; i++)
+			{
+				state = _animationParticleStates[i];
 				state.setRenderState(stage3DProxy, renderable, animationSubGeometry, animationRegisterCache, camera);
+			}
 			
 			//process animator subgeometries
 			if (!subMesh.animatorSubGeometry && _animatorParticleStates.length)
@@ -125,13 +133,17 @@ package away3d.animators
 			
 			var animatorSubGeometry:AnimationSubGeometry = subMesh.animatorSubGeometry;
 			
-			for each (state in _animatorParticleStates)
+			var animatorParticleStatesLength:int = _animatorParticleStates.length;
+			for (i = 0; i < animatorParticleStatesLength; i++)
+			{
+				state = _animatorParticleStates[i];
 				state.setRenderState(stage3DProxy, renderable, animatorSubGeometry, animationRegisterCache, camera);
+			}
 			
-			stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, animationRegisterCache.vertexConstantOffset, animationRegisterCache.vertexConstantData, animationRegisterCache.numVertexConstant);
+			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, animationRegisterCache.vertexConstantOffset, animationRegisterCache.vertexConstantData, animationRegisterCache.numVertexConstant);
 			
 			if (animationRegisterCache.numFragmentConstant > 0)
-				stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, animationRegisterCache.fragmentConstantOffset, animationRegisterCache.fragmentConstantData, animationRegisterCache.numFragmentConstant);
+				stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, animationRegisterCache.fragmentConstantOffset, animationRegisterCache.fragmentConstantData, animationRegisterCache.numFragmentConstant);
 		}
 		
 		/**
@@ -148,8 +160,13 @@ package away3d.animators
 		override public function start():void
 		{
 			super.start();
-			for each (var state:ParticleStateBase in _timeParticleStates)
+			
+			var timeParticlesStatesLength:int = _timeParticleStates.length;
+			for (var i:int = 0; i < timeParticlesStatesLength; i++)
+			{
+				var state:ParticleStateBase = _timeParticleStates[i];
 				state.offset(_absoluteTime);
+			}
 		}
 		
 		/**
@@ -162,8 +179,12 @@ package away3d.animators
 			if (animationEnded)
 				return;
 				
-			for each (var state:ParticleStateBase in _timeParticleStates)
+			var timeParticlesStatesLength:int = _timeParticleStates.length;
+			for (var i:int = 0; i < timeParticlesStatesLength; i++)
+			{
+				var state:ParticleStateBase = _timeParticleStates[i];
 				state.update(_absoluteTime);
+			}
 			
 			if(!_isUsesLoop && _absoluteAnimationTime > 0)
 				animationEnded = _absoluteTime >= _absoluteAnimationTime * 1000;
@@ -174,8 +195,12 @@ package away3d.animators
 		 */
 		public function resetTime(offset:int = 0):void
 		{
-			for each (var state:ParticleStateBase in _timeParticleStates)
+			var timeParticlesStatesLength:int = _timeParticleStates.length;
+			for (var i:int = 0; i < timeParticlesStatesLength; i++)
+			{
+				var state:ParticleStateBase = _timeParticleStates[i];
 				state.offset(_absoluteTime + offset);
+			}
 				
 			update(time);
 		}
@@ -183,8 +208,10 @@ package away3d.animators
 		public override function dispose():void
 		{
 			super.dispose();
-			for each(var it:* in _animatorSubGeometries)
-				IDisposable(it).dispose();
+			
+			for each(var it:Object in _animatorSubGeometries)
+				(it as IDisposable).dispose();
+				
 			_particleAnimationSet = null;
 			_animationParticleStates = null;
 			_animatorParticleStates = null;

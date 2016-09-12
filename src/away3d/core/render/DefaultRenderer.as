@@ -100,24 +100,24 @@ package away3d.core.render
 		 */
 		override protected function draw(entityCollector:EntityCollector, target:TextureBase):void
 		{
-			_context.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+			_context3DProxy.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 
 			if (entityCollector.skyBox) {
 				if (_activeMaterial)
 					_activeMaterial.deactivate(_stage3DProxy);
 				_activeMaterial = null;
 
-				_context.setDepthTest(false, Context3DCompareMode.ALWAYS);
+				_context3DProxy.setDepthTest(false, Context3DCompareMode.ALWAYS);
 				drawSkyBox(entityCollector);
 			}
 
-			_context.setDepthTest(true, Context3DCompareMode.LESS_EQUAL);
+			_context3DProxy.setDepthTest(true, Context3DCompareMode.LESS_EQUAL);
 
 			var which:int = target? SCREEN_PASSES : ALL_PASSES;
 			drawRenderables(entityCollector.opaqueRenderableHead, entityCollector, which);
 			drawRenderables(entityCollector.blendedRenderableHead, entityCollector, which);
 
-			_context.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);
+			_context3DProxy.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);
 
 			if (_activeMaterial)
 				_activeMaterial.deactivate(_stage3DProxy);
@@ -173,8 +173,8 @@ package away3d.core.render
 			}
 
 			var cw:Number = -(cx*camPos.x + cy*camPos.y + cz*camPos.z + length);
-			var signX:Number = cx >= 0? 1 : -1;
-			var signY:Number = cy >= 0? 1 : -1;
+			var signX:Number = cx > -1? 1 : -1;
+			var signY:Number = cy > -1? 1 : -1;
 
 			var p:Vector3D = _skyboxTempVector;
 			p.x = signX;
@@ -201,37 +201,44 @@ package away3d.core.render
 		 */
 		private function drawRenderables(item:RenderableListItem, entityCollector:EntityCollector, which:int):void
 		{
-			var numPasses:uint;
-			var j:uint;
+			var numPasses:int;
+			var j:int;
 			var camera:Camera3D = entityCollector.camera;
 			var item2:RenderableListItem;
 
 			while (item) {
 				_activeMaterial = item.renderable.material;
-				_activeMaterial.updateMaterial(_context);
+				_activeMaterial.updateMaterial(_context3D);
 
 				numPasses = _activeMaterial.numPasses;
 				j = 0;
 
-				do {
+				do 
+				{
 					item2 = item;
 
 					var rttMask:int = _activeMaterial.passRendersToTexture(j) ? 1 : 2;
 
-					if ((rttMask & which) != 0) {
+					if ((rttMask & which) != 0) 
+					{
 						_activeMaterial.activatePass(j, _stage3DProxy, camera);
-						do {
+						do 
+						{
 							_activeMaterial.renderPass(j, item2.renderable, _stage3DProxy, entityCollector, _rttViewProjectionMatrix);
 							item2 = item2.next;
-						} while (item2 && item2.renderable.material == _activeMaterial);
-						_activeMaterial.deactivatePass(j, _stage3DProxy);
-					} else {
+						}
+						while (item2 && item2.renderable.material == _activeMaterial);
+							_activeMaterial.deactivatePass(j, _stage3DProxy);
+					} 
+					else 
+					{
 						do
 							item2 = item2.next;
 						while (item2 && item2.renderable.material == _activeMaterial);
 					}
 
-				} while (++j < numPasses);
+				} 
+				while (++j < numPasses);
 
 				item = item2;
 			}

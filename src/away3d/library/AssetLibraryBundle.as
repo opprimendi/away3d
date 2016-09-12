@@ -362,7 +362,7 @@ package away3d.library
 		 * @param ns An optional namespace string under which the file is to be loaded, allowing the differentiation of two resources with identical assets
 		 * @param parser An optional parser object for translating the loaded data into a usable resource. If not provided, AssetLoader will attempt to auto-detect the file type.
 		 */
-		public function loadData(data:*, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
+		public function loadData(data:Object, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
 		{
 			return parseResource(data, context, ns, parser);
 		}
@@ -395,7 +395,7 @@ package away3d.library
 			var old:IAsset;
 			
 			// Bail if asset has already been added.
-			if (_assets.indexOf(asset) >= 0)
+			if (_assets.indexOf(asset) != -1)
 				return;
 			
 			old = getAsset(asset.name, asset.assetNamespace);
@@ -408,7 +408,7 @@ package away3d.library
 			asset.id = IDUtil.createUID();
 			
 			// Add it
-			_assets.push(asset);
+			_assets[_assets.length] = asset;
 			if (!_assetDictionary.hasOwnProperty(ns))
 				_assetDictionary[ns] = {};
 			_assetDictionary[ns][asset.name] = asset;
@@ -433,7 +433,7 @@ package away3d.library
 			asset.removeEventListener(AssetEvent.ASSET_CONFLICT_RESOLVED, onAssetConflictResolved);
 			
 			idx = _assets.indexOf(asset);
-			if (idx >= 0)
+			if (idx != -1)
 				_assets.splice(idx, 1);
 			
 			if (dispose)
@@ -551,7 +551,7 @@ package away3d.library
 			var loader:AssetLoader = new AssetLoader();
 			if (!_loadingSessions)
 				_loadingSessions = new Vector.<AssetLoader>;
-			_loadingSessions.push(loader);
+			_loadingSessions[_loadingSessions.length] = loader;
 			loader.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onResourceRetrieved);
 			loader.addEventListener(LoaderEvent.DEPENDENCY_COMPLETE, onDependencyRetrieved);
 			loader.addEventListener(AssetEvent.TEXTURE_SIZE_ERROR, onTextureSizeError);
@@ -595,12 +595,12 @@ package away3d.library
 		 * @param parser An optional parser object that will translate the data into a usable resource.
 		 * @return A handle to the retrieved resource.
 		 */
-		private function parseResource(data:*, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
+		private function parseResource(data:Object, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
 		{
 			var loader:AssetLoader = new AssetLoader();
 			if (!_loadingSessions)
 				_loadingSessions = new Vector.<AssetLoader>;
-			_loadingSessions.push(loader);
+			_loadingSessions[_loadingSessions.length] = loader;
 			loader.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onResourceRetrieved);
 			loader.addEventListener(LoaderEvent.DEPENDENCY_COMPLETE, onDependencyRetrieved);
 			loader.addEventListener(AssetEvent.TEXTURE_SIZE_ERROR, onTextureSizeError);

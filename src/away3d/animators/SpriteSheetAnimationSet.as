@@ -1,10 +1,12 @@
 package away3d.animators
 {
+	import away3d.arcane;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.passes.MaterialPassBase;
 	
-	import flash.display3D.Context3D;
-	
+	use namespace arcane;
+
 	/**
 	 * The animation data set containing the Spritesheet animation state data.
 	 *
@@ -26,7 +28,7 @@ package away3d.animators
 		{
 			var len:uint = targetRegisters.length;
 			_agalCode = "";
-			for(var i:uint = 0; i<len; i++) {
+			for(var i:int = 0; i<len; i++) {
 				_agalCode += "mov " + targetRegisters[i] + ", " + sourceRegisters[i] + "\n";
 			}
 			return _agalCode;
@@ -44,8 +46,8 @@ package away3d.animators
 		 */
 		public function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):void
 		{
-			var context:Context3D = stage3DProxy.context3D;
-			context.setVertexBufferAt(0, null);
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			context3DProxy.clearVertexBufferAt(0);
 		}
 		
 		/**

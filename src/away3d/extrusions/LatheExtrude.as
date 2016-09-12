@@ -863,12 +863,12 @@ package away3d.extrusions
 								vector[prop1] = points.pt2.x;
 								vector[prop2] = points.pt2.y;
 								vector[prop3] = _profile[0][prop3];
-								profileFront.push(vector);
+								profileFront[profileFront.length] = vector;
 								
 								vector2[prop1] = points.pt1.x;
 								vector2[prop2] = points.pt1.y;
 								vector2[prop3] = _profile[0][prop3];
-								profileBack.push(vector2);
+								profileBack[profileBack.length] = vector2;
 								
 								if (lines.length == 1) {
 									vector3 = new Vector3D();
@@ -877,24 +877,24 @@ package away3d.extrusions
 									vector3[prop1] = points.pt4.x;
 									vector3[prop2] = points.pt4.y;
 									vector3[prop3] = _profile[0][prop3];
-									profileFront.push(vector3);
+									profileFront[profileFront.length] = vector3;
 									
 									vector4[prop1] = points.pt3.x;
 									vector4[prop2] = points.pt3.y;
 									vector4[prop3] = _profile[0][prop3];
-									profileBack.push(vector4);
+									profileBack[profileBack.length] = vector4;
 								}
 								
 							} else if (i == lines.length - 1) {
 								vector[prop1] = points.pt2.x;
 								vector[prop2] = points.pt2.y;
 								vector[prop3] = _profile[i][prop3];
-								profileFront.push(vector);
+								profileFront[profileFront.length] = vector;
 								
 								vector2[prop1] = points.pt1.x;
 								vector2[prop2] = points.pt1.y;
 								vector2[prop3] = _profile[i][prop3];
-								profileBack.push(vector2);
+								profileBack[profileBack.length] = vector2;
 								
 								vector3 = new Vector3D();
 								vector4 = new Vector3D();
@@ -902,24 +902,24 @@ package away3d.extrusions
 								vector3[prop1] = points.pt4.x;
 								vector3[prop2] = points.pt4.y;
 								vector3[prop3] = _profile[i][prop3];
-								profileFront.push(vector3);
+								profileFront[profileFront.length] = vector3;
 								
 								vector4[prop1] = points.pt3.x;
 								vector4[prop2] = points.pt3.y;
 								vector4[prop3] = _profile[i][prop3];
-								profileBack.push(vector4);
+								profileBack[profileBack.length] = vector4;
 								
 							} else {
 								
 								vector[prop1] = points.pt2.x;
 								vector[prop2] = points.pt2.y;
 								vector[prop3] = _profile[i][prop3];
-								profileFront.push(vector);
+								profileFront[profileFront.length] = vector;
 								
 								vector2[prop1] = points.pt1.x;
 								vector2[prop2] = points.pt1.y;
 								vector2[prop3] = _profile[i][prop3];
-								profileBack.push(vector2);
+								profileBack[profileBack.length] = vector2;
 								
 							}
 						}
@@ -1127,7 +1127,7 @@ package away3d.extrusions
 					var back:Number = indlength - _maxIndProfile;
 					var limitBack:uint = (back < 0)? 0 : back;
 					
-					for (var i:uint = indlength - 1; i > limitBack; --i) {
+					for(var i:int = indlength - 1; i > limitBack; --i) {
 						ind = indices[i];
 						vind = ind*3;
 						vindy = vind + 1;
@@ -1288,7 +1288,7 @@ package away3d.extrusions
 						pointResult = defineLines(i, anchors[i], anchors[i - 1], lines);
 					
 					if (pointResult != null)
-						lines.push(pointResult);
+						lines[lines.length] = pointResult;
 				}
 				
 			} else {
@@ -1431,7 +1431,7 @@ package away3d.extrusions
 			
 			for (i = 0; i < 6; ++i) {
 				sglist = new SubGeometryList();
-				_MaterialsSubGeometries.push(sglist);
+				_MaterialsSubGeometries[_MaterialsSubGeometries.length] = sglist;
 				sglist.id = i;
 				if (i == 0) {
 					sglist.subGeometry = _subGeometry;

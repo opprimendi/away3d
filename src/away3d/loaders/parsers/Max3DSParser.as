@@ -64,7 +64,7 @@ package away3d.loaders.parsers
 		 * @param data The data block to potentially be parsed.
 		 * @return Whether or not the given data is supported.
 		 */
-		public static function supportsData(data:*):Boolean
+		public static function supportsData(data:Object):Boolean
 		{
 			var ba:ByteArray;
 			
@@ -426,7 +426,7 @@ package away3d.loaders.parsers
 			while (i < faces.length)
 				faces[i++] = _byteData.readUnsignedShort();
 			
-			_cur_obj.materials.push(mat);
+			_cur_obj.materials[_cur_obj.materials.length] = mat;
 			_cur_obj.materialFaces[mat] = faces;
 		}
 		
@@ -537,8 +537,12 @@ package away3d.loaders.parsers
 				// Construct sub-geometries (potentially splitting buffers)
 				// and add them to geometry.
 				subs = GeomUtil.fromVectors(obj.verts, obj.indices, obj.uvs, null, null, null, null);
+				
+				var subGeometries:Vector.<ISubGeometry> = geom.subGeometries;
 				for (i = 0; i < subs.length; i++)
-					geom.subGeometries.push(subs[i]);
+				{
+					subGeometries[subGeometries.length] = subs[i];
+				}
 				
 				if (obj.materials.length > 0) {
 					var mname:String;
@@ -641,14 +645,14 @@ package away3d.loaders.parsers
 				for (j = 0; j < 3; j++) {
 					var groups:Vector.<uint> = vGroups[(j == 0)? face.a : ((j == 1)? face.b : face.c)];
 					var group:uint = face.smoothGroup;
-					for (k = groups.length - 1; k >= 0; k--) {
+					for (k = groups.length - 1; k > -1; k--) {
 						if ((group & groups[k]) > 0) {
 							group |= groups[k];
 							groups.splice(k, 1);
 							k = groups.length - 1;
 						}
 					}
-					groups.push(group);
+					groups[groups.length] = group;
 				}
 			}
 			// clone vertices
@@ -668,7 +672,7 @@ package away3d.loaders.parsers
 					v1.u = v0.u;
 					v1.v = v0.v;
 					clones[j] = vertices.length;
-					vertices.push(v1);
+					vertices[vertices.length] = v1;
 				}
 			}
 			numVerts = vertices.length;
@@ -711,15 +715,15 @@ package away3d.loaders.parsers
 					mat = new TextureMaterial(_cur_mat.colorMap.texture || DefaultMaterialManager.getDefaultTexture());
 				else
 					mat = new ColorMaterial(_cur_mat.diffuseColor);
-				SinglePassMaterialBase(mat).ambientColor = _cur_mat.ambientColor;
-				SinglePassMaterialBase(mat).specularColor = _cur_mat.specularColor;
+				(mat as SinglePassMaterialBase).ambientColor = _cur_mat.ambientColor;
+				(mat as SinglePassMaterialBase).specularColor = _cur_mat.specularColor;
 			} else {
 				if (_cur_mat.colorMap)
 					mat = new TextureMultiPassMaterial(_cur_mat.colorMap.texture || DefaultMaterialManager.getDefaultTexture());
 				else
 					mat = new ColorMultiPassMaterial(_cur_mat.diffuseColor);
-				MultiPassMaterialBase(mat).ambientColor = _cur_mat.ambientColor;
-				MultiPassMaterialBase(mat).specularColor = _cur_mat.specularColor;
+				(mat as MultiPassMaterialBase).ambientColor = _cur_mat.ambientColor;
+				(mat as MultiPassMaterialBase).specularColor = _cur_mat.specularColor;
 			}
 			
 			mat.bothSides = _cur_mat.twoSided;

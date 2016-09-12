@@ -2,9 +2,9 @@ package away3d.filters.tasks
 {
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	
-	import flash.display3D.Context3D;
 	import flash.display3D.Context3DProgramType;
 	import flash.display3D.textures.Texture;
 	
@@ -124,20 +124,21 @@ package away3d.filters.tasks
 		
 		override public function activate(stage3DProxy:Stage3DProxy, camera:Camera3D, depthTexture:Texture):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			
 			var n:Number = camera.lens.near;
 			var f:Number = camera.lens.far;
 			
 			_data[6] = f/(f - n);
 			_data[7] = -n*_data[6];
 			
-			context.setTextureAt(1, depthTexture);
-			context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 4);
+			context3DProxy.setTextureAt(1, depthTexture);
+			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 4);
 		}
 		
 		override public function deactivate(stage3DProxy:Stage3DProxy):void
 		{
-			stage3DProxy._context3D.setTextureAt(1, null);
+			stage3DProxy._context3DProxy.setTextureAt(1, null);
 		}
 		
 		override protected function updateTextures(stage:Stage3DProxy):void

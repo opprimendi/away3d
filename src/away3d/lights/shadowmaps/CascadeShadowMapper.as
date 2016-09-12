@@ -69,7 +69,7 @@ package away3d.lights.shadowmaps
 			_nearPlaneDistances = new Vector.<Number>(_numCascades, true);
 			
 			var s:Number = 1;
-			for (var i:int = _numCascades - 1; i >= 0; --i) {
+			for (var i:int = _numCascades - 1; i > -1; --i) {
 				_splitRatios[i] = s;
 				s *= 0.4;
 			}

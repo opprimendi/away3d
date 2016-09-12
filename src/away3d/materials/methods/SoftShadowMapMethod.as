@@ -183,8 +183,8 @@ package away3d.materials.methods
 			var numRegs:int = _numSamples >> 1;
 			for (var i:int = 0; i < numRegs; ++i) {
 				var reg:ShaderRegisterElement = regCache.getFreeFragmentConstant();
-				offsets.push(reg + ".xy");
-				offsets.push(reg + ".zw");
+				offsets[offsets.length] = reg + ".xy";
+				offsets[offsets.length] = reg + ".zw";
 			}
 			
 			for (i = 0; i < _numSamples; ++i) {

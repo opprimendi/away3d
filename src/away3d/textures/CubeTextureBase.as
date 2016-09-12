@@ -1,5 +1,6 @@
 package away3d.textures
 {
+	import away3d.tools.utils.MathUtils;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DTextureFormat;
 	import flash.display3D.textures.TextureBase;
@@ -15,7 +16,7 @@ package away3d.textures
 		
 		override protected function setSize(width:int, height:int):void 
 		{
-			_size = width;
+			_size = MathUtils.maxi(width, height);
 		}
 		
 		public function get size():int
@@ -23,9 +24,9 @@ package away3d.textures
 			return _size;
 		}
 		
-		override protected function createTexture(context:Context3D):TextureBase
+		override protected function createTexture(context3D:Context3D):TextureBase
 		{
-			return context.createCubeTexture(_width, Context3DTextureFormat.BGRA, false);
+			return context3D.createCubeTexture(_size, Context3DTextureFormat.BGRA, false);
 		}
 	}
 }

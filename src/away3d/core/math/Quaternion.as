@@ -58,7 +58,8 @@ package away3d.core.math
 		 * @param    qa    The first quaternion in the multiplication.
 		 * @param    qb    The second quaternion in the multiplication.
 		 */
-		public function multiply(qa:Quaternion, qb:Quaternion):void
+		[Inline]
+		public final function multiply(qa:Quaternion, qb:Quaternion):void
 		{
 			var w1:Number = qa.w, x1:Number = qa.x, y1:Number = qa.y, z1:Number = qa.z;
 			var w2:Number = qb.w, x2:Number = qb.x, y2:Number = qb.y, z2:Number = qb.z;
@@ -69,7 +70,8 @@ package away3d.core.math
 			z = w1*z2 + x1*y2 - y1*x2 + z1*w2;
 		}
 		
-		public function multiplyVector(vector:Vector3D, target:Quaternion = null):Quaternion
+		[Inline]
+		public final function multiplyVector(vector:Vector3D, target:Quaternion = null):Quaternion
 		{
 			target ||= new Quaternion();
 			
@@ -109,7 +111,8 @@ package away3d.core.math
 		 * @param qb The second quaternion to interpolate.
 		 * @param t The interpolation weight, a value between 0 and 1.
 		 */
-		public function slerp(qa:Quaternion, qb:Quaternion, t:Number):void
+		[Inline]
+		public final function slerp(qa:Quaternion, qb:Quaternion, t:Number):void
 		{
 			var w1:Number = qa.w, x1:Number = qa.x, y1:Number = qa.y, z1:Number = qa.z;
 			var w2:Number = qb.w, x2:Number = qb.x, y2:Number = qb.y, z2:Number = qb.z;
@@ -154,7 +157,8 @@ package away3d.core.math
 		 * @param qb The second quaternion to interpolate.
 		 * @param t The interpolation weight, a value between 0 and 1.
 		 */
-		public function lerp(qa:Quaternion, qb:Quaternion, t:Number):void
+		[Inline]
+		public final function lerp(qa:Quaternion, qb:Quaternion, t:Number):void
 		{
 			var w1:Number = qa.w, x1:Number = qa.x, y1:Number = qa.y, z1:Number = qa.z;
 			var w2:Number = qb.w, x2:Number = qb.x, y2:Number = qb.y, z2:Number = qb.z;
@@ -168,12 +172,12 @@ package away3d.core.math
 				z2 = -z2;
 			}
 			
-			w = w1 + t*(w2 - w1);
-			x = x1 + t*(x2 - x1);
-			y = y1 + t*(y2 - y1);
-			z = z1 + t*(z2 - z1);
+			w = w1 + t * (w2 - w1);
+			x = x1 + t * (x2 - x1);
+			y = y1 + t * (y2 - y1);
+			z = z1 + t * (z2 - z1);
 			
-			len = 1.0/Math.sqrt(w*w + x*x + y*y + z*z);
+			len = 1.0 / Math.sqrt(w * w + x * x + y * y + z * z);
 			w *= len;
 			x *= len;
 			y *= len;

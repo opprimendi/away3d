@@ -92,7 +92,7 @@ package away3d.tools.helpers
 			if (obj is Mesh && ObjectContainer3D(obj).numChildren == 0)
 				recenter(Mesh(obj), keepPosition);
 			
-			for (var i:uint = 0; i < ObjectContainer3D(obj).numChildren; ++i) {
+			for(var i:int = 0; i < ObjectContainer3D(obj).numChildren; ++i) {
 				child = ObjectContainer3D(obj).getChildAt(i);
 				recenterContainer(child, keepPosition);
 			}
@@ -151,10 +151,10 @@ package away3d.tools.helpers
 				}
 				
 				if (subGeom is CompactSubGeometry)
-					CompactSubGeometry(subGeom).updateData(vertices);
+					(subGeom as CompactSubGeometry).updateData(vertices);
 				else {
-					SubGeometry(subGeom).updateVertexData(vertices);
-					SubGeometry(subGeom).updateVertexNormalData(normals);
+					(subGeom as SubGeometry).updateVertexData(vertices);
+					(subGeom as SubGeometry).updateVertexNormalData(normals);
 				}
 			}
 			
@@ -172,7 +172,7 @@ package away3d.tools.helpers
 			if (obj is Mesh && ObjectContainer3D(obj).numChildren == 0)
 				applyRotations(Mesh(obj));
 			
-			for (var i:uint = 0; i < ObjectContainer3D(obj).numChildren; ++i) {
+			for(var i:int = 0; i < ObjectContainer3D(obj).numChildren; ++i) {
 				child = ObjectContainer3D(obj).getChildAt(i);
 				applyRotationsContainer(child);
 			}
@@ -220,9 +220,9 @@ package away3d.tools.helpers
 				}
 				
 				if (subGeom is CompactSubGeometry)
-					CompactSubGeometry(subGeom).updateData(vertices);
+					(subGeom as CompactSubGeometry).updateData(vertices);
 				else
-					SubGeometry(subGeom).updateVertexData(vertices);
+					(subGeom as SubGeometry).updateVertexData(vertices);
 			}
 			
 			mesh.scaleX = mesh.scaleY = mesh.scaleZ = 1;
@@ -250,7 +250,7 @@ package away3d.tools.helpers
 			if (obj is Mesh && ObjectContainer3D(obj).numChildren == 0)
 				applyScales(Mesh(obj), scaleX, scaleY, scaleZ, obj);
 			
-			for (var i:uint = 0; i < ObjectContainer3D(obj).numChildren; ++i) {
+			for(var i:int = 0; i < ObjectContainer3D(obj).numChildren; ++i) {
 				child = ObjectContainer3D(obj).getChildAt(i);
 				applyScalesContainer(child, scaleX, scaleY, scaleZ, obj);
 			}
@@ -286,9 +286,9 @@ package away3d.tools.helpers
 				}
 				
 				if (subGeom is CompactSubGeometry)
-					CompactSubGeometry(subGeom).updateData(vertices);
+					(subGeom as CompactSubGeometry).updateData(vertices);
 				else
-					SubGeometry(subGeom).updateVertexData(vertices);
+					(subGeom as SubGeometry).updateVertexData(vertices);
 			}
 			
 			mesh.x -= dx;
@@ -323,7 +323,7 @@ package away3d.tools.helpers
 			if (obj is Mesh && ObjectContainer3D(obj).numChildren == 0)
 				invertFaces(Mesh(obj));
 			
-			for (var i:uint = 0; i < ObjectContainer3D(obj).numChildren; ++i) {
+			for(var i:int = 0; i < ObjectContainer3D(obj).numChildren; ++i) {
 				child = ObjectContainer3D(obj).getChildAt(i);
 				invertFacesInContainer(child);
 			}
@@ -387,12 +387,12 @@ package away3d.tools.helpers
 				}
 				
 				if (subGeom is CompactSubGeometry)
-					CompactSubGeometry(subGeom).updateData(subGeom.vertexData);
+					(subGeom as CompactSubGeometry).updateData(subGeom.vertexData);
 				else {
-					SubGeometry(subGeom).updateIndexData(indices);
-					SubGeometry(subGeom).updateVertexNormalData(normals);
-					SubGeometry(subGeom).updateVertexTangentData(tangents);
-					SubGeometry(subGeom).updateUVData(uvs);
+					(subGeom as SubGeometry).updateIndexData(indices);
+					(subGeom as SubGeometry).updateVertexNormalData(normals);
+					(subGeom as SubGeometry).updateVertexTangentData(tangents);
+					(subGeom as SubGeometry).updateUVData(uvs);
 				}
 			}
 		}
@@ -540,7 +540,7 @@ package away3d.tools.helpers
 			var numSubGeoms:uint = geometries.length;
 			
 			if (numSubGeoms == 1) {
-				meshes.push(mesh);
+				meshes[meshes.length] = mesh;
 				return meshes;
 			}
 			
@@ -561,7 +561,7 @@ package away3d.tools.helpers
 			var nMeshMat:MaterialBase;
 			var j:uint = 0;
 			
-			for (var i:uint = 0; i < numSubGeoms; ++i) {
+			for(var i:int = 0; i < numSubGeoms; ++i) {
 				if (geometries[0] is SubGeometry)
 					subGeom = SubGeometry(geometries[i]);
 				
@@ -609,7 +609,7 @@ package away3d.tools.helpers
 				
 				nGeom.addSubGeometry(nSubGeom);
 				
-				meshes.push(nm);
+				meshes[meshes.length] = nm;
 			}
 			
 			if (disposeSource)
@@ -625,7 +625,7 @@ package away3d.tools.helpers
 			var numSubGeoms:uint = geometries.length;
 			
 			if (numSubGeoms == 1) {
-				meshes.push(mesh);
+				meshes[meshes.length] = mesh;
 				return meshes;
 			}
 			
@@ -639,7 +639,7 @@ package away3d.tools.helpers
 			
 			var nMeshMat:MaterialBase;
 			
-			for (var i:uint = 0; i < numSubGeoms; ++i) {
+			for(var i:int = 0; i < numSubGeoms; ++i) {
 				subGeom = CompactSubGeometry(geometries[i]);
 				
 				nGeom = new Geometry();
@@ -651,7 +651,7 @@ package away3d.tools.helpers
 				
 				nGeom.addSubGeometry(nSubGeom);
 				
-				meshes.push(nm);
+				meshes[meshes.length] = nm;
 			}
 			
 			if (disposeSource)

@@ -79,11 +79,11 @@ package away3d.core.partition
 			}
 			
 			minZ = _minZ;
-			for (var z:uint = 0; z < numCellsZ; ++z) {
+			for(var z:int = 0; z < numCellsZ; ++z) {
 				minY = _minY;
-				for (var y:uint = 0; y < numCellsY; ++y) {
+				for(var y:int = 0; y < numCellsY; ++y) {
 					minX = _minX;
-					for (var x:uint = 0; x < numCellsX; ++x) {
+					for(var x:int = 0; x < numCellsX; ++x) {
 						node = new InvertedOctreeNode(new Vector3D(minX, minY, minZ), new Vector3D(minX + cellWidth, minY + cellHeight, minZ + cellDepth));
 						if (parents) {
 							var index:int = (x >> 1) + ((y >> 1) + (z >> 1)*numParentsY)*numParentsX;
@@ -212,9 +212,9 @@ package away3d.core.partition
 				minIndexZ = _numCellsZ - 1;
 			
 			var i:uint;
-			for (var z:uint = minIndexZ; z <= maxIndexZ; ++z) {
-				for (var y:uint = minIndexY; y <= maxIndexY; ++y) {
-					for (var x:uint = minIndexX; x <= maxIndexX; ++x)
+			for(var z:int = minIndexZ; z <= maxIndexZ; ++z) {
+				for(var y:int = minIndexY; y <= maxIndexY; ++y) {
+					for(var x:int = minIndexX; x <= maxIndexX; ++x)
 						cells[i++] = getCellAt(x, y, z);
 				}
 			}

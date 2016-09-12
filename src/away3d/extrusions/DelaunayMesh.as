@@ -263,7 +263,7 @@ package away3d.extrusions
 				
 				if (indlength > 0) {
 					
-					for (var i:uint = indlength - 1; i > 0; --i) {
+					for(var i:int = indlength - 1; i > 0; --i) {
 						ind = indices[i];
 						vind = ind*3;
 						vindb = vind + 1;

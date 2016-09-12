@@ -25,7 +25,7 @@ package away3d.paths
 				throw new Error("Path Vector.<Vector3D> must contain series of " + _pointsPerSegment + " Vector3D's per segment");
 			
 			_segments = new Vector.<IPathSegment>();
-			for (var i:uint = 0, len:int = data.length; i < len; i += _pointsPerSegment)
+			for(var i:int = 0, len:int = data.length; i < len; i += _pointsPerSegment)
 				_segments.push(createSegmentFromArrayEntry(data, i));
 		}
 		
@@ -66,7 +66,7 @@ package away3d.paths
 		
 		public function addSegment(segment:IPathSegment):void
 		{
-			_segments.push(segment);
+			_segments[_segments.length] = segment;
 		}
 		
 		/**
@@ -99,7 +99,7 @@ package away3d.paths
 		
 		public function dispose():void
 		{
-			for (var i:uint, len:uint = _segments.length; i < len; ++i)
+			for(var i:uint, len:int = _segments.length; i < len; ++i)
 				_segments[i].dispose();
 			
 			_segments = null;
@@ -124,7 +124,7 @@ package away3d.paths
 		{
 			var points:Vector.<Vector.<Vector3D>> = new Vector.<Vector.<Vector3D>>();
 			
-			for (var i:uint = 0, len:uint = _segments.length; i < len; ++i)
+			for(var i:uint = 0, len:int = _segments.length; i < len; ++i)
 				points[i] = getSegmentPoints(_segments[i], subdivision, (i == len - 1));
 			
 			return points;
@@ -134,7 +134,7 @@ package away3d.paths
 		{
 			var points:Vector.<Vector3D> = new Vector.<Vector3D>();
 			
-			for (var i:uint = 0; i < n + ((last)? 1 : 0); ++i)
+			for(var i:int = 0; i < n + ((last)? 1 : 0); ++i)
 				points[i] = segment.getPointOnSegment(i/n);
 			
 			return points;

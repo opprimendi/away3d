@@ -95,7 +95,7 @@ package away3d.loaders.parsers
 		 * @param data The data block to potentially be parsed.
 		 * @return Whether or not the given data is supported.
 		 */
-		public static function supportsData(data:*):Boolean
+		public static function supportsData(data:Object):Boolean
 		{
 			data = data;
 			return false;
@@ -288,7 +288,7 @@ package away3d.loaders.parsers
 						ignoreLine();
 						break;
 					case MESH_SHADER_TOKEN:
-						_shaders.push(parseLiteralString());
+						_shaders[_shaders.length] = parseLiteralString();
 						break;
 					case MESH_NUM_VERTS_TOKEN:
 						vertexData = new Vector.<VertexData>(getNextInt(), true);

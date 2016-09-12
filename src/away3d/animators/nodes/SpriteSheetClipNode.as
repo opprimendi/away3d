@@ -34,8 +34,8 @@ package away3d.animators.nodes
 		 */
 		public function addFrame(spriteSheetAnimationFrame:SpriteSheetAnimationFrame, duration:uint):void
 		{
-			_frames.push(spriteSheetAnimationFrame);
-			_durations.push(duration);
+			_frames[_frames.length] = spriteSheetAnimationFrame;
+			_durations[_durations.length] = duration;
 			_numFrames = _durations.length;
 			
 			_stitchDirty = false;

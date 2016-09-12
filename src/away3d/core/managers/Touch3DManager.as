@@ -176,7 +176,7 @@ package away3d.core.managers
 			}
 			
 			// Store event to be dispatched later.
-			_queuedEvents.push(event);
+			_queuedEvents[_queuedEvents.length] = event;
 		}
 		
 		// ---------------------------------------------------------------------
@@ -191,7 +191,7 @@ package away3d.core.managers
 			touch.x = event.stageX;
 			touch.y = event.stageY;
 			_numTouchPoints++;
-			_touchPoints.push(touch);
+			_touchPoints[_touchPoints.length] = touch;
 			_touchPointFromId[ touch.id ] = touch;
 			
 			updateCollider(); // ensures collision check is done with correct mouse coordinates on mobile

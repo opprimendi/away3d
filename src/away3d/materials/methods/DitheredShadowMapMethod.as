@@ -106,7 +106,7 @@ package away3d.materials.methods
 			var step:Number = 1/(_depthMapSize*_range);
 			var r:Number, g:Number;
 			
-			for (var i:uint = 0; i < len; ++i) {
+			for(var i:int = 0; i < len; ++i) {
 				r = 2*(Math.random() - .5);
 				g = 2*(Math.random() - .5);
 				if (r < 0)
@@ -155,7 +155,7 @@ package away3d.materials.methods
 			data[index + 9] = (stage3DProxy.width - 1)/63;
 			data[index + 10] = (stage3DProxy.height - 1)/63;
 			data[index + 11] = 2*_range/_depthMapSize;
-			stage3DProxy._context3D.setTextureAt(vo.texturesIndex + 1, _grainTexture.getTextureForStage3D(stage3DProxy));
+			stage3DProxy._context3DProxy.setTextureAt(vo.texturesIndex + 1, _grainTexture.getTextureForStage3D(stage3DProxy));
 		}
 
 		/**
@@ -291,7 +291,7 @@ package away3d.materials.methods
 			data[index + 1] = (stage3DProxy.width - 1)/63;
 			data[index + 2] = (stage3DProxy.height - 1)/63;
 			data[index + 3] = 2*_range/_depthMapSize;
-			stage3DProxy._context3D.setTextureAt(vo.texturesIndex + 1, _grainTexture.getTextureForStage3D(stage3DProxy));
+			stage3DProxy._context3DProxy.setTextureAt(vo.texturesIndex + 1, _grainTexture.getTextureForStage3D(stage3DProxy));
 		}
 
 		/**

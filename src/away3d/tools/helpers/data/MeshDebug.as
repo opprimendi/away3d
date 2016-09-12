@@ -53,7 +53,7 @@ package away3d.tools.helpers.data
 			var normalOffset:uint;
 			var tangentOffset:uint;
 			
-			for (var i:uint = 0; i < numSubGeoms; ++i) {
+			for(var i:int = 0; i < numSubGeoms; ++i) {
 				subGeom = SubGeometryBase(geometries[i]);
 				stride = subGeom.vertexStride;
 				offset = subGeom.vertexOffset;
@@ -129,7 +129,7 @@ package away3d.tools.helpers.data
 			var offset:uint;
 			var offsettarget:uint;
 			
-			for (var i:uint = 0; i < numSubGeoms; ++i) {
+			for(var i:int = 0; i < numSubGeoms; ++i) {
 				subGeom = SubGeometryBase(geometries[i]);
 				stride = subGeom.vertexStride;
 				offset = subGeom.vertexOffset;

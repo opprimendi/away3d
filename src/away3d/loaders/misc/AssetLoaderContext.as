@@ -130,7 +130,7 @@ package away3d.loaders.misc
 		 * @param originalUrl The original URL which is referenced in the loaded resource.
 		 * @param data The embedded data. Can be ByteArray or a class which can be used to create a bytearray.
 		 */
-		public function mapUrlToData(originalUrl:String, data:*):void
+		public function mapUrlToData(originalUrl:String, data:Object):void
 		{
 			_embeddedDataByUrl[originalUrl] = data;
 		}
@@ -148,7 +148,7 @@ package away3d.loaders.misc
 		 * @private
 		 * Returns embedded data for a particular URL.
 		 */
-		arcane function getDataForUrl(url:String):*
+		arcane function getDataForUrl(url:String):Object
 		{
 			return _embeddedDataByUrl[url];
 		}

@@ -228,29 +228,38 @@ package away3d.core.traverse
 		{
 			var material:MaterialBase;
 			var entity:Entity = renderable.sourceEntity;
+			
 			if (renderable.mouseEnabled)
 				++_numMouseEnableds;
+				
 			_numTriangles += renderable.numTriangles;
 			_numVertices += renderable.numVertices;
 			
 			material = renderable.material;
-			if (material) {
+			if (material) 
+			{
 				var item:RenderableListItem = _renderableListItemPool.getItem();
 				item.renderable = renderable;
 				item.materialId = material._uniqueId;
 				item.renderOrderId = material._renderOrderId;
 				item.cascaded = false;
+				
 				var entityScenePos:Vector3D = entity.scenePosition;
 				var dx:Number = _entryPoint.x - entityScenePos.x;
 				var dy:Number = _entryPoint.y - entityScenePos.y;
 				var dz:Number = _entryPoint.z - entityScenePos.z;
 				// project onto camera's z-axis
+				
 				item.zIndex = dx*_cameraForward.x + dy*_cameraForward.y + dz*_cameraForward.z + entity.zOffset;
 				item.renderSceneTransform = renderable.getRenderSceneTransform(_camera);
-				if (material.requiresBlending) {
+				
+				if (material.requiresBlending) 
+				{
 					item.next = _blendedRenderableHead;
 					_blendedRenderableHead = item;
-				} else {
+				} 
+				else 
+				{
 					item.next = _opaqueRenderableHead;
 					_opaqueRenderableHead = item;
 				}

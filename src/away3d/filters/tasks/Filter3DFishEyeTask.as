@@ -1,5 +1,6 @@
 package away3d.filters.tasks
 {
+	import away3d.arcane;
 	import away3d.cameras.*;
 	import away3d.core.managers.*;
 	import away3d.core.math.*;
@@ -8,6 +9,8 @@ package away3d.filters.tasks
 	import flash.display.*;
 	import flash.display3D.*;
 	import flash.display3D.textures.*;
+	
+	use namespace arcane;
 	
 	public class Filter3DFishEyeTask extends Filter3DTaskBase
 	{
@@ -80,7 +83,7 @@ package away3d.filters.tasks
 			_data[0] = _fov*MathConsts.DEGREES_TO_RADIANS*_scaledTextureWidth/stage3DProxy.height;
 			_data[1] = _fov*MathConsts.DEGREES_TO_RADIANS*_scaledTextureHeight/stage3DProxy.height;
 			
-			stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 1);
+			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 1);
 		}
 		
 		override protected function updateTextures(stage:Stage3DProxy):void

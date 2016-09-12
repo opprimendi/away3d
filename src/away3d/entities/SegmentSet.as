@@ -6,6 +6,7 @@
 	import away3d.bounds.BoundingVolumeBase;
 	import away3d.cameras.Camera3D;
 	import away3d.core.base.IRenderable;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.core.partition.EntityNode;
 	import away3d.core.partition.RenderableNode;
@@ -83,9 +84,18 @@
 			
 			var index:uint = subSet.lineCount << 2;
 			
-			subSet.indices.push(index, index + 1, index + 2, index + 3, index + 2, index + 1);
+			var indices:Vector.<uint> = subSet.indices;
+			var indicesLength:int = indices.length;
+			
+			indices[indicesLength++] = index;
+			indices[indicesLength++] = index + 1;
+			indices[indicesLength++] = index + 2;
+			indices[indicesLength++] = index + 3;
+			indices[indicesLength++] = index + 2;
+			indices[indicesLength++] = index + 1;
+			
 			subSet.numVertices = subSet.vertices.length/11;
-			subSet.numIndices = subSet.indices.length;
+			subSet.numIndices = indicesLength;
 			subSet.lineCount++;
 			
 			var segRef:SegRef = new SegRef();
@@ -132,7 +142,7 @@
 			var indices:Vector.<uint> = subSet.indices;
 			
 			var ind:uint = index*6;
-			for (var i:uint = ind; i < indices.length; ++i)
+			for(var i:int = ind; i < indices.length; ++i)
 				indices[i] -= 4;
 			
 			subSet.indices.splice(index*6, 6);
@@ -190,7 +200,7 @@
 		public function removeAllSegments():void
 		{
 			var subSet:SubSet;
-			for (var i:uint = 0; i < _subSetCount; ++i) {
+			for(var i:int = 0; i < _subSetCount; ++i) {
 				subSet = _subSets[i];
 				subSet.vertices = null;
 				subSet.indices = null;
@@ -341,12 +351,12 @@
 			}
 			
 			var vertexBuffer:VertexBuffer3D = subSet.vertexBuffer;
-			var context3d:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			
-			context3d.setVertexBufferAt(0, vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_3);
-			context3d.setVertexBufferAt(1, vertexBuffer, 3, Context3DVertexBufferFormat.FLOAT_3);
-			context3d.setVertexBufferAt(2, vertexBuffer, 6, Context3DVertexBufferFormat.FLOAT_1);
-			context3d.setVertexBufferAt(3, vertexBuffer, 7, Context3DVertexBufferFormat.FLOAT_4);
+			context3DProxy.setVertexBufferAt(0, vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_3);
+			context3DProxy.setVertexBufferAt(1, vertexBuffer, 3, Context3DVertexBufferFormat.FLOAT_3);
+			context3DProxy.setVertexBufferAt(2, vertexBuffer, 6, Context3DVertexBufferFormat.FLOAT_1);
+			context3DProxy.setVertexBufferAt(3, vertexBuffer, 7, Context3DVertexBufferFormat.FLOAT_4);
 		}
 		
 		public function activateUVBuffer(index:int, stage3DProxy:Stage3DProxy):void
@@ -369,7 +379,7 @@
 		{
 			var segRef:SegRef;
 			
-			for (var i:uint = index; i < _indexSegments - 1; ++i) {
+			for(var i:int = index; i < _indexSegments - 1; ++i) {
 				segRef = _segments[i + 1];
 				segRef.index = i;
 				if (segRef.subSetIndex == subSetIndex)
@@ -382,7 +392,7 @@
 		private function addSubSet():SubSet
 		{
 			var subSet:SubSet = new SubSet();
-			_subSets.push(subSet);
+			_subSets[_subSets.length] = subSet;
 			
 			subSet.vertices = new Vector.<Number>();
 			subSet.numVertices = 0;
@@ -446,7 +456,7 @@
 			var maxZ:Number = -Infinity;
 			var vertices:Vector.<Number>;
 			
-			for (var i:uint = 0; i < _subSetCount; ++i) {
+			for(var i:int = 0; i < _subSetCount; ++i) {
 				subSet = _subSets[i];
 				index = 0;
 				vertices = subSet.vertices;

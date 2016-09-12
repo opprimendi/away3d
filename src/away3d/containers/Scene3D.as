@@ -173,7 +173,7 @@ package away3d.containers
 		protected function addPartitionUnique(partition:Partition3D):void
 		{
 			if (_partitions.indexOf(partition) == -1)
-				_partitions.push(partition);
+				_partitions[_partitions.length] = partition;
 		}
 	}
 }

@@ -109,7 +109,7 @@ package away3d.tools.commands
 				return;
 			
 			//collect meshes in vector
-			for (var i:uint = 0; i < meshes.length; i++)
+			for(var i:int = 0; i < meshes.length; i++)
 				if (meshes[i] != receiver)
 					collect(meshes[i], _disposeSources);
 			
@@ -286,7 +286,7 @@ package away3d.tools.commands
 				}
 				
 				if (dispose)
-					_toDispose.push(mesh);
+					_toDispose[_toDispose.length] = mesh;
 			}
 		}
 		
@@ -320,7 +320,7 @@ package away3d.tools.commands
 				data.indices = new Vector.<uint>();
 				data.material = material;
 				
-				_geomVOs.push(data);
+				_geomVOs[_geomVOs.length] = data;
 			}
 			
 			return data;

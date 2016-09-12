@@ -509,8 +509,8 @@
 			}
 			
 			var uvBase:int = target.UVOffset;
-			for (i = _vSegments; i >= 0; i--) {
-				for (j = _uSegments; j >= 0; j--) {
+			for (i = _vSegments; i > -1; i--) {
+				for (j = _uSegments; j > -1; j--) {
 					data[uvBase] = j/_uSegments;
 					data[uvBase + 1] = i/_vSegments;
 					uvBase += stride;
@@ -535,7 +535,7 @@
 			var uvStride:int = subGeom.UVStride;
 			
 			var length:int = data.length;
-			for (var vBase:uint = subGeom.vertexOffset; vBase < length; vBase += vertexStride) {
+			for(var vBase:int = subGeom.vertexOffset; vBase < length; vBase += vertexStride) {
 				nurbPoint(data[uvIndex], data[uvIndex + 1], nV);
 				data[vBase] = nV.x;
 				data[vBase + 1] = nV.y;

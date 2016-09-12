@@ -117,7 +117,7 @@ package away3d.library
 		 *
 		 * @see away3d.library.AssetLibraryBundle.loadData()
 		 */
-		public static function loadData(data:*, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
+		public static function loadData(data:Object, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
 		{
 			return getBundle().loadData(data, context, ns, parser);
 		}

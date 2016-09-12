@@ -94,7 +94,7 @@ package away3d.animators.data
 		{
 			var clone:SkeletonPose = new SkeletonPose();
 			var numJointPoses:uint = this.jointPoses.length;
-			for (var i:uint = 0; i < numJointPoses; i++) {
+			for(var i:int = 0; i < numJointPoses; i++) {
 				var cloneJointPose:JointPose = new JointPose();
 				var thisJointPose:JointPose = this.jointPoses[i];
 				cloneJointPose.name = thisJointPose.name;

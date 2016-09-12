@@ -101,7 +101,7 @@ package away3d.materials.passes
 		{
 			renderable.inverseSceneTransform.copyRawDataTo(_inverseSceneMatrix);
 			
-			if (_tangentSpace && _cameraPositionIndex >= 0) {
+			if (_tangentSpace && _cameraPositionIndex != -1) {
 				var pos:Vector3D = camera.scenePosition;
 				var x:Number = pos.x;
 				var y:Number = pos.y;
@@ -121,7 +121,7 @@ package away3d.materials.passes
 		{
 			super.activate(stage3DProxy, camera);
 			
-			if (!_tangentSpace && _cameraPositionIndex >= 0) {
+			if (!_tangentSpace && _cameraPositionIndex != -1) {
 				var pos:Vector3D = camera.scenePosition;
 				_vertexConstantData[_cameraPositionIndex] = pos.x;
 				_vertexConstantData[_cameraPositionIndex + 1] = pos.y;

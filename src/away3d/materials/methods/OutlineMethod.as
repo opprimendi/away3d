@@ -28,7 +28,7 @@ package away3d.materials.methods
 			super();
 			_passes = new Vector.<MaterialPassBase>();
 			_outlinePass = new OutlinePass(outlineColor, outlineSize, showInnerLines, dedicatedWaterProofMesh);
-			_passes.push(_outlinePass);
+			_passes[_passes.length] = _outlinePass;
 		}
 
 		/**

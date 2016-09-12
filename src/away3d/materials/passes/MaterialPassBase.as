@@ -5,6 +5,7 @@ package away3d.materials.passes
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.base.IRenderable;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.AGALProgram3DCache;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.debug.Debug;
@@ -43,11 +44,11 @@ package away3d.materials.passes
 		
 		// agal props. these NEED to be set by subclasses!
 		// todo: can we perhaps figure these out manually by checking read operations in the bytecode, so other sources can be safely updated?
-		protected var _numUsedStreams:uint;
-		protected var _numUsedTextures:uint;
-		protected var _numUsedVertexConstants:uint;
-		protected var _numUsedFragmentConstants:uint;
-		protected var _numUsedVaryings:uint;
+		protected var _numUsedStreams:int;
+		protected var _numUsedTextures:int;
+		protected var _numUsedVertexConstants:int;
+		protected var _numUsedFragmentConstants:int;
+		protected var _numUsedVaryings:int;
 		
 		protected var _smooth:Boolean = true;
 		protected var _repeat:Boolean;
@@ -267,7 +268,7 @@ package away3d.materials.passes
 			if (_lightPicker)
 				_lightPicker.removeEventListener(Event.CHANGE, onLightsChange);
 			
-			for (var i:uint = 0; i < 8; ++i) {
+			for(var i:int = 0; i < 8; ++i) {
 				if (_program3Ds[i]) {
 					AGALProgram3DCache.getInstanceFromIndex(i).freeProgram3D(_program3Dids[i]);
 					_program3Ds[i] = null;
@@ -278,7 +279,7 @@ package away3d.materials.passes
 		/**
 		 * The amount of used vertex streams in the vertex code. Used by the animation code generation to know from which index on streams are available.
 		 */
-		public function get numUsedStreams():uint
+		public function get numUsedStreams():int
 		{
 			return _numUsedStreams;
 		}
@@ -286,12 +287,12 @@ package away3d.materials.passes
 		/**
 		 * The amount of used vertex constants in the vertex code. Used by the animation code generation to know from which index on registers are available.
 		 */
-		public function get numUsedVertexConstants():uint
+		public function get numUsedVertexConstants():int
 		{
 			return _numUsedVertexConstants;
 		}
 		
-		public function get numUsedVaryings():uint
+		public function get numUsedVaryings():int
 		{
 			return _numUsedVaryings;
 		}
@@ -299,7 +300,7 @@ package away3d.materials.passes
 		/**
 		 * The amount of used fragment constants in the fragment code. Used by the animation code generation to know from which index on registers are available.
 		 */
-		public function get numUsedFragmentConstants():uint
+		public function get numUsedFragmentConstants():int
 		{
 			return _numUsedFragmentConstants;
 		}
@@ -411,34 +412,37 @@ package away3d.materials.passes
 		arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			var contextIndex:int = stage3DProxy._stage3DIndex;
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			var context3D:Context3D = stage3DProxy._context3D;
 			
-			context.setDepthTest(_writeDepth && !_enableBlending, _depthCompareMode);
+			context3DProxy.setDepthTest(_writeDepth && !_enableBlending, _depthCompareMode);
 			if (_enableBlending)
-				context.setBlendFactors(_blendFactorSource, _blendFactorDest);
+				context3DProxy.setBlendFactors(_blendFactorSource, _blendFactorDest);
 			
-			if (_context3Ds[contextIndex] != context || !_program3Ds[contextIndex]) {
-				_context3Ds[contextIndex] = context;
+			if (_context3Ds[contextIndex] != context3D || !_program3Ds[contextIndex]) {
+				_context3Ds[contextIndex] = context3D;
 				updateProgram(stage3DProxy);
-				if(hasEventListener(Event.CHANGE)) dispatchEvent(new Event(Event.CHANGE));
+				
+				if (hasEventListener(Event.CHANGE)) 
+					dispatchEvent(new Event(Event.CHANGE));
 			}
 			
 			var prevUsed:int = _previousUsedStreams[contextIndex];
-			var i:uint;
+			var i:int;
 			for (i = _numUsedStreams; i < prevUsed; ++i)
-				context.setVertexBufferAt(i, null);
+				context3DProxy.clearVertexBufferAt(i);
 			
 			prevUsed = _previousUsedTexs[contextIndex];
 			
 			for (i = _numUsedTextures; i < prevUsed; ++i)
-				context.setTextureAt(i, null);
+				context3DProxy.setTextureAt(i, null);
 			
 			if (_animationSet && !_animationSet.usesCPU)
 				_animationSet.activate(stage3DProxy, this);
 			
-			context.setProgram(_program3Ds[contextIndex]);
+			context3DProxy.setProgram(_program3Ds[contextIndex]);
 			
-			context.setCulling(_bothSides? Context3DTriangleFace.NONE : _defaultCulling);
+			context3DProxy.setCulling(_bothSides? Context3DTriangleFace.NONE : _defaultCulling);
 			
 			if (_renderToTexture) {
 				_oldTarget = stage3DProxy.renderTarget;
@@ -456,7 +460,7 @@ package away3d.materials.passes
 		 */
 		arcane function deactivate(stage3DProxy:Stage3DProxy):void
 		{
-			var index:uint = stage3DProxy._stage3DIndex;
+			var index:int = stage3DProxy._stage3DIndex;
 			_previousUsedStreams[index] = _numUsedStreams;
 			_previousUsedTexs[index] = _numUsedTextures;
 			
@@ -470,10 +474,10 @@ package away3d.materials.passes
 			}
 
 			if(_enableBlending) {
-				stage3DProxy._context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+				stage3DProxy._context3DProxy.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 			}
 
-			stage3DProxy._context3D.setDepthTest(true, Context3DCompareMode.LESS_EQUAL);
+			stage3DProxy._context3DProxy.setDepthTest(true, Context3DCompareMode.LESS_EQUAL);
 		}
 		
 		/**
@@ -483,7 +487,7 @@ package away3d.materials.passes
 		 */
 		arcane function invalidateShaderProgram(updateMaterial:Boolean = true):void
 		{
-			for (var i:uint = 0; i < 8; ++i)
+			for(var i:int = 0; i < 8; ++i)
 				_program3Ds[i] = null;
 			
 			if (_material && updateMaterial)
@@ -509,11 +513,11 @@ package away3d.materials.passes
 					UVAnimatorCode = _animationSet.getAGALUVCode(this, _UVSource, _UVTarget);
 				_animationSet.doneAGALCode(this);
 			} else {
-				var len:uint = _animatableAttributes.length;
+				var len:int = _animatableAttributes.length;
 				
 				// simply write attributes to targets, do not animate them
 				// projection will pick up on targets[0] to do the projection
-				for (var i:uint = 0; i < len; ++i)
+				for(var i:int = 0; i < len; ++i)
 					animatorCode += "mov " + _animationTargetRegisters[i] + ", " + _animatableAttributes[i] + "\n";
 				if (_needUVAnimation)
 					UVAnimatorCode = "mov " + _UVTarget + "," + _UVSource + "\n";

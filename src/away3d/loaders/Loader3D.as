@@ -257,7 +257,7 @@ package away3d.loaders
 				token = lib.load(req, context, ns, parser);
 			} else {
 				var loader:AssetLoader = new AssetLoader();
-				_loadingSessions.push(loader);
+				_loadingSessions[_loadingSessions.length] = loader;
 				token = loader.load(req, context, ns, parser);
 			}
 			
@@ -290,7 +290,7 @@ package away3d.loaders
 		 * @param ns An optional namespace string under which the file is to be loaded, allowing the differentiation of two resources with identical assets
 		 * @param parser An optional parser object for translating the loaded data into a usable resource. If not provided, AssetLoader will attempt to auto-detect the file type.
 		 */
-		public function loadData(data:*, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
+		public function loadData(data:Object, context:AssetLoaderContext = null, ns:String = null, parser:ParserBase = null):AssetLoaderToken
 		{
 			var token:AssetLoaderToken;
 			
@@ -300,7 +300,7 @@ package away3d.loaders
 				token = lib.loadData(data, context, ns, parser);
 			} else {
 				var loader:AssetLoader = new AssetLoader();
-				_loadingSessions.push(loader);
+				_loadingSessions[_loadingSessions.length] = loader;
 				token = loader.loadData(data, '', context, ns, parser);
 			}
 			

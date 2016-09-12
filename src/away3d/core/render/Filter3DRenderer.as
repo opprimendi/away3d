@@ -2,15 +2,19 @@
  */
 package away3d.core.render
 {
+	import away3d.arcane;
 	import away3d.cameras.*;
 	import away3d.core.managers.*;
 	import away3d.events.*;
 	import away3d.filters.*;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.filters.tasks.*;
 	
 	import flash.display3D.*;
 	import flash.display3D.textures.*;
 	import flash.events.*;
+	
+	use namespace arcane;
 	
 	public class Filter3DRenderer
 	{
@@ -87,7 +91,7 @@ package away3d.core.render
 			_tasks = new Vector.<Filter3DTaskBase>();
 			
 			var length:uint = _filters.length - 1;
-			for (var i:uint = 0; i <= length; ++i) {
+			for(var i:int = 0; i <= length; ++i) {
 				// make sure all internal tasks are linked together
 				var filter:Filter3DBase = _filters[i];
 				filter.setRenderTargets(i == length ? null : _filters[i + 1].getMainInputTexture(stage3DProxy) as Texture, stage3DProxy);
@@ -101,7 +105,7 @@ package away3d.core.render
 		{
 			var i:int;
 			var task:Filter3DTaskBase;
-			var context:Context3D = stage3DProxy.context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			var indexBuffer:IndexBuffer3D = _rttManager.indexBuffer;
 			var vertexBuffer:VertexBuffer3D = _rttManager.renderToTextureVertexBuffer;
 			
@@ -119,38 +123,38 @@ package away3d.core.render
 			length = _tasks.length;
 			
 			if (length > 1) {
-				context.setVertexBufferAt(0, vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_2);
-				context.setVertexBufferAt(1, vertexBuffer, 2, Context3DVertexBufferFormat.FLOAT_2);
+				context3DProxy.setVertexBufferAt(0, vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_2);
+				context3DProxy.setVertexBufferAt(1, vertexBuffer, 2, Context3DVertexBufferFormat.FLOAT_2);
 			}
 			
 			for (i = 0; i < length; ++i) {
 				task = _tasks[i];
 				stage3DProxy.setRenderTarget(task.target);
 				
-				context.setTextureAt(0, task.getMainInputTexture(stage3DProxy));
-				context.setProgram(task.getProgram3D(stage3DProxy));
+				context3DProxy.setTextureAt(0, task.getMainInputTexture(stage3DProxy));
+				context3DProxy.setProgram(task.getProgram3D(stage3DProxy));
 				if (!task.target) {
-					stage3DProxy.scissorRect = null;
+					stage3DProxy.clearScissorRectangle();
 					vertexBuffer = _rttManager.renderToScreenVertexBuffer;
-					context.setVertexBufferAt(0, vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_2);
-					context.setVertexBufferAt(1, vertexBuffer, 2, Context3DVertexBufferFormat.FLOAT_2);
+					context3DProxy.setVertexBufferAt(0, vertexBuffer, 0, Context3DVertexBufferFormat.FLOAT_2);
+					context3DProxy.setVertexBufferAt(1, vertexBuffer, 2, Context3DVertexBufferFormat.FLOAT_2);
 				}
 					
 				if (!task.target && shareContext) {
-					context.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
+					context3DProxy.setBlendFactors(Context3DBlendFactor.SOURCE_ALPHA, Context3DBlendFactor.ONE_MINUS_SOURCE_ALPHA);
 				} else {
-					context.clear(0.0, 0.0, 0.0, 0.0);
-					context.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+					context3DProxy.clear(0.0, 0.0, 0.0, 0.0, 1, 0, Context3DClearMask.ALL);
+					context3DProxy.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 				}
 				
 				task.activate(stage3DProxy, camera3D, depthTexture);
-				context.drawTriangles(indexBuffer, 0, 2);
+				context3DProxy.drawTriangles(indexBuffer, 0, 2);
 				task.deactivate(stage3DProxy);
 			}
 			
-			context.setTextureAt(0, null);
-			context.setVertexBufferAt(0, null);
-			context.setVertexBufferAt(1, null);
+			context3DProxy.setTextureAt(0, null);
+			context3DProxy.clearVertexBufferAt(0);
+			context3DProxy.clearVertexBufferAt(1);
 		}
 		
 		private function updateFilterSizes():void

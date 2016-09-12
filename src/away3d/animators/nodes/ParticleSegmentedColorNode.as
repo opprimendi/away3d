@@ -106,7 +106,7 @@ package away3d.animators.nodes
 					animationRegisterCache.setRegisterIndex(this, START_MULTIPLIER_INDEX, startMulValue.index);
 					deltaMulValues = new Vector.<ShaderRegisterElement>;
 					for (i = 0; i < _numSegmentPoint + 1; i++)
-						deltaMulValues.push(animationRegisterCache.getFreeVertexConstant());
+						deltaMulValues[deltaMulValues.length] = animationRegisterCache.getFreeVertexConstant();
 				}
 				
 				var startOffsetValue:ShaderRegisterElement;
@@ -116,7 +116,7 @@ package away3d.animators.nodes
 					animationRegisterCache.setRegisterIndex(this, START_OFFSET_INDEX, startOffsetValue.index);
 					deltaOffsetValues = new Vector.<ShaderRegisterElement>;
 					for (i = 0; i < _numSegmentPoint + 1; i++)
-						deltaOffsetValues.push(animationRegisterCache.getFreeVertexConstant());
+						deltaOffsetValues[deltaOffsetValues.length] = animationRegisterCache.getFreeVertexConstant();
 				}
 				
 				if (_usesMultiplier)

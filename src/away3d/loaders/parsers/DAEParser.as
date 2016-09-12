@@ -117,7 +117,7 @@ package away3d.loaders.parsers
 		 * @param data The data block to potentially be parsed.
 		 * @return Whether or not the given data is supported.
 		 */
-		public static function supportsData(data:*):Boolean
+		public static function supportsData(data:Object):Boolean
 		{
 			if (String(data).indexOf("COLLADA") != -1 || String(data).indexOf("collada") != -1)
 				return true;
@@ -330,11 +330,16 @@ package away3d.loaders.parsers
 			info.maxTime = -info.minTime;
 			info.numFrames = 0;
 			
-			for each (var animation:DAEAnimation in _libAnimations) {
-				for each (var channel:DAEChannel in animation.channels) {
+			for each (var animation:DAEAnimation in _libAnimations) 
+			{
+				for each (var channel:DAEChannel in animation.channels) 
+				{
 					var node:DAENode = _root.findNodeById(channel.targetId);
-					if (node) {
-						node.channels.push(channel);
+					
+					if (node) 
+					{
+						var channels:Vector.<DAEChannel> = node.channels;
+						channels[channels.length] = channel;
 						info.minTime = Math.min(info.minTime, channel.sampler.minTime);
 						info.maxTime = Math.max(info.maxTime, channel.sampler.maxTime);
 						info.numFrames = Math.max(info.numFrames, channel.sampler.input.length);
@@ -348,8 +353,8 @@ package away3d.loaders.parsers
 		private function parseLibrary(list:XMLList, clas:Class):Object
 		{
 			var library:Object = {};
-			for (var i:uint = 0; i < list.length(); i++) {
-				var obj:* = new clas(list[i]);
+			for(var i:int = 0; i < list.length(); i++) {
+				var obj:Object = new clas(list[i]);
 				library[ obj.id ] = obj;
 			}
 			
@@ -384,7 +389,7 @@ package away3d.loaders.parsers
 				
 				parent = container;
 			}
-			for (var i:uint = 0; i < node.nodes.length; i++)
+			for(var i:int = 0; i < node.nodes.length; i++)
 				parseSceneGraph(node.nodes[i], parent, _tab);
 		}
 		
@@ -425,7 +430,7 @@ package away3d.loaders.parsers
 				if (!geometry)
 					return null;
 				
-				targets.push(geometry);
+				targets[targets.length] = geometry;
 				startWeight -= morph.weights[i];
 			}
 			
@@ -506,7 +511,7 @@ package away3d.loaders.parsers
 				if (effects.length > 0) {
 					for (j = 0; j < mesh.subMeshes.length; j++) {
 						if (effects[j].material) {
-							mesh.subMeshes[j].material = effects[j].material;
+							mesh.subMeshes[j].material = effects[j].material as MaterialBase;
 							hasMaterial = true;
 						}
 					}
@@ -538,8 +543,8 @@ package away3d.loaders.parsers
 					clip.name = "node_" + _rootNodes.length;
 					animationSet.addAnimation(clip);
 					
-					//_animators.push(animator);
-					_rootNodes.push(clip);
+					//_animators[_animators.length] = animator;
+					_rootNodes[_rootNodes.length] = clip;
 				}
 				
 				finalizeAsset(mesh);
@@ -574,6 +579,7 @@ package away3d.loaders.parsers
 			
 			for (i = 0; i < numFrames; i++) {
 				skeletonPose = new SkeletonPose();
+				var jointPoses:Vector.<JointPose> = skeletonPose.jointPoses;
 				
 				for (j = 0; j < skin.joints.length; j++) {
 					node = _root.findNodeById(skin.joints[j]) || _root.findNodeBySid(skin.joints[j]);
@@ -589,7 +595,7 @@ package away3d.loaders.parsers
 						pose.orientation.fromMatrix(identity);
 					}
 					
-					skeletonPose.jointPoses.push(pose);
+					jointPoses[jointPoses.length] = pose;
 				}
 				
 				t += frameDuration;
@@ -605,7 +611,7 @@ package away3d.loaders.parsers
 		{
 			var node:DAENode;
 			
-			for (var i:uint = 0; i < skeleton.joints.length; i++) {
+			for(var i:int = 0; i < skeleton.joints.length; i++) {
 				try {
 					node = _root.findNodeById(skeleton.joints[i].name) || _root.findNodeBySid(skeleton.joints[i].name);
 				} catch (e:Error) {
@@ -645,7 +651,7 @@ package away3d.loaders.parsers
 						
 						if (effects.length == geometry.subGeometries.length) {
 							for (j = 0; j < mesh.subMeshes.length; j++)
-								mesh.subMeshes[j].material = effects[j].material;
+								mesh.subMeshes[j].material = effects[j].material as MaterialBase;
 						}
 						mesh.transform = node.matrix;
 						
@@ -680,7 +686,7 @@ package away3d.loaders.parsers
 						material = _libMaterials[instance.target] as DAEMaterial;
 						effect = _libEffects[material.instance_effect.url];
 						if (effect)
-							effects.push(effect);
+							effects[effects.length] = effect;
 						break;
 					}
 				}
@@ -718,7 +724,7 @@ package away3d.loaders.parsers
 			
 			var jointIndex:int = skin.jointSourceType == "IDREF_array"? skin.getJointIndex(node.id) : skin.getJointIndex(node.sid);
 			
-			if (jointIndex >= 0) {
+			if (jointIndex != -1) {
 				var joint:SkeletonJoint = new SkeletonJoint();
 				joint.parentIndex = parent;
 				
@@ -738,7 +744,7 @@ package away3d.loaders.parsers
 			} else
 				Debug.trace(_tab + "no jointIndex!");
 			
-			for (var i:uint = 0; i < node.nodes.length; i++) {
+			for(var i:int = 0; i < node.nodes.length; i++) {
 				try {
 					parseSkeletonHierarchy(node.nodes[i], skin, skeleton, jointIndex);
 				} catch (e:Error) {
@@ -771,7 +777,7 @@ package away3d.loaders.parsers
 				if (image.resource !== null && isBitmapDataValid(image.resource.bitmapData)) {
 					mat = buildDefaultMaterial(image.resource.bitmapData);
 					if (materialMode < 2)
-						TextureMaterial(mat).alpha = transparency;
+						(mat as TextureMaterial).alpha = transparency;
 				} else
 					mat = buildDefaultMaterial();
 				
@@ -785,23 +791,23 @@ package away3d.loaders.parsers
 			}
 			if (mat) {
 				if (materialMode < 2) {
-					SinglePassMaterialBase(mat).ambientMethod = new BasicAmbientMethod();
-					SinglePassMaterialBase(mat).diffuseMethod = new BasicDiffuseMethod();
-					SinglePassMaterialBase(mat).specularMethod = new BasicSpecularMethod();
-					SinglePassMaterialBase(mat).ambientColor = (ambient && ambient.color)? ambient.color.rgb : 0x303030;
-					SinglePassMaterialBase(mat).specularColor = (specular && specular.color)? specular.color.rgb : 0x202020;
-					SinglePassMaterialBase(mat).gloss = shininess;
-					SinglePassMaterialBase(mat).ambient = 1;
-					SinglePassMaterialBase(mat).specular = 1;
+					(mat as SinglePassMaterialBase).ambientMethod = new BasicAmbientMethod();
+					(mat as SinglePassMaterialBase).diffuseMethod = new BasicDiffuseMethod();
+					(mat as SinglePassMaterialBase).specularMethod = new BasicSpecularMethod();
+					(mat as SinglePassMaterialBase).ambientColor = (ambient && ambient.color)? ambient.color.rgb : 0x303030;
+					(mat as SinglePassMaterialBase).specularColor = (specular && specular.color)? specular.color.rgb : 0x202020;
+					(mat as SinglePassMaterialBase).gloss = shininess;
+					(mat as SinglePassMaterialBase).ambient = 1;
+					(mat as SinglePassMaterialBase).specular = 1;
 				} else {
-					MultiPassMaterialBase(mat).ambientMethod = new BasicAmbientMethod();
-					MultiPassMaterialBase(mat).diffuseMethod = new BasicDiffuseMethod();
-					MultiPassMaterialBase(mat).specularMethod = new BasicSpecularMethod();
-					MultiPassMaterialBase(mat).ambientColor = (ambient && ambient.color)? ambient.color.rgb : 0x303030;
-					MultiPassMaterialBase(mat).specularColor = (specular && specular.color)? specular.color.rgb : 0x202020;
-					MultiPassMaterialBase(mat).gloss = shininess;
-					MultiPassMaterialBase(mat).ambient = 1;
-					MultiPassMaterialBase(mat).specular = 1;
+					(mat as MultiPassMaterialBase).ambientMethod = new BasicAmbientMethod();
+					(mat as MultiPassMaterialBase).diffuseMethod = new BasicDiffuseMethod();
+					(mat as MultiPassMaterialBase).specularMethod = new BasicSpecularMethod();
+					(mat as MultiPassMaterialBase).ambientColor = (ambient && ambient.color)? ambient.color.rgb : 0x303030;
+					(mat as MultiPassMaterialBase).specularColor = (specular && specular.color)? specular.color.rgb : 0x202020;
+					(mat as MultiPassMaterialBase).gloss = shininess;
+					(mat as MultiPassMaterialBase).ambient = 1;
+					(mat as MultiPassMaterialBase).specular = 1;
 					
 				}
 			}
@@ -835,7 +841,7 @@ package away3d.loaders.parsers
 					if (geometry.subGeometries.length) {
 						if (id && isNaN(Number(id)))
 							geometry.name = id;
-						geometries.push(geometry);
+						geometries[geometries.length] = geometry;
 						
 						finalizeAsset(geometry);
 					}
@@ -848,7 +854,7 @@ package away3d.loaders.parsers
 		private function translateGeometry(mesh:DAEMesh):Geometry
 		{
 			var geometry:Geometry = new Geometry();
-			for (var i:uint = 0; i < mesh.primitives.length; i++) {
+			for(var i:int = 0; i < mesh.primitives.length; i++) {
 				var sub:CompactSubGeometry = translatePrimitive(mesh, mesh.primitives[i]);
 				if (sub)
 					geometry.addSubGeometry(sub);
@@ -888,7 +894,7 @@ package away3d.loaders.parsers
 				f = faces[i];
 				for (j = 0; j < f.vertices.length; j++) {
 					v = f.vertices[j];
-					indexData.push(v.index);
+					indexData[indexData.length] = v.index;
 				}
 			}
 			
@@ -952,7 +958,7 @@ class DAEElement
 	public var id:String;
 	public var name:String;
 	public var sid:String;
-	public var userData:*;
+	public var userData:Object;
 	protected var ns:Namespace;
 	
 	public function DAEElement(element:XML = null)
@@ -982,7 +988,7 @@ class DAEElement
 		var children:XMLList = name? element.ns::[name] : element.children();
 		var count:int = children.length();
 		
-		for (var i:uint = 0; i < count; i++)
+		for(var i:int = 0; i < count; i++)
 			traverseChildHandler(children[i], children[i].name().localName);
 	}
 	
@@ -990,7 +996,7 @@ class DAEElement
 	{
 		var indices:Vector.<int> = Vector.<int>([2, 6, 8, 9, 11, 14]);
 		var raw:Vector.<Number> = matrix.rawData;
-		for (var i:uint = 0; i < indices.length; i++)
+		for(var i:int = 0; i < indices.length; i++)
 			raw[indices[i]] *= -1.0;
 		
 		matrix.rawData = raw;
@@ -1011,8 +1017,8 @@ class DAEElement
 		var parts:Array = raw.split(/\s+/);
 		var floats:Vector.<Number> = new Vector.<Number>();
 		
-		for (var i:uint = 0; i < parts.length; i++)
-			floats.push(parseFloat(parts[i]));
+		for(var i:int = 0; i < parts.length; i++)
+			floats[floats.length] = parseFloat(parts[i]);
 		
 		return floats;
 	}
@@ -1023,7 +1029,7 @@ class DAEElement
 		var parts:Array = raw.split(/\s+/);
 		var ints:Vector.<int> = new Vector.<int>();
 		
-		for (var i:uint = 0; i < parts.length; i++)
+		for(var i:int = 0; i < parts.length; i++)
 			ints.push(parseInt(parts[i], 10));
 		
 		return ints;
@@ -1035,8 +1041,8 @@ class DAEElement
 		var parts:Array = raw.split(/\s+/);
 		var strings:Vector.<String> = new Vector.<String>();
 		
-		for (var i:uint = 0; i < parts.length; i++)
-			strings.push(parts[i]);
+		for(var i:int = 0; i < parts.length; i++)
+			strings[strings.length] = parts[i];
 		
 		return strings;
 	}
@@ -1062,7 +1068,7 @@ class DAEElement
 class DAEImage extends DAEElement
 {
 	public var init_from:String;
-	public var resource:*;
+	public var resource:Object;
 	
 	public function DAEImage(element:XML = null):void
 	{
@@ -1118,7 +1124,7 @@ class DAEAccessor extends DAEElement
 	protected override function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		if (nodeName == "param")
-			this.params.push(new DAEParam(child));
+			this.params[params.length] = new DAEParam(child);
 	}
 }
 
@@ -1272,8 +1278,8 @@ class DAEPrimitive extends DAEElement
 		
 		var list:XMLList = element.ns::input;
 		
-		for (var i:uint = 0; i < list.length(); i++)
-			_inputs.push(new DAEInput(list[i]));
+		for(var i:int = 0; i < list.length(); i++)
+			_inputs[_inputs.length] = new DAEInput(list[i]);
 		
 		if (element.ns::p && element.ns::p.length())
 			_p = readIntArray(element.ns::p[0]);
@@ -1357,28 +1363,28 @@ class DAEPrimitive extends DAEElement
 				var hash:String = vertex.hash;
 				
 				if (vertexDict[hash])
-					face.vertices.push(vertexDict[hash]);
+					face.vertices[vertices.length] = vertexDict[hash];
 				else {
 					vertex.index = this.vertices.length;
 					vertexDict[hash] = vertex;
-					face.vertices.push(vertex);
-					this.vertices.push(vertex);
+					face.vertices[vertices.length] = vertex;
+					this.vertices[vertices.length] = vertex;
 				}
 			}
 			
 			if (face.vertices.length > 3) {
 				// triangulate
 				var v0:DAEVertex = face.vertices[0];
-				for (var k:uint = 1; k < face.vertices.length - 1; k++) {
+				for(var k:int = 1; k < face.vertices.length - 1; k++) {
 					var f:DAEFace = new DAEFace();
-					f.vertices.push(v0);
-					f.vertices.push(face.vertices[k]);
-					f.vertices.push(face.vertices[k + 1]);
-					faces.push(f);
+					f.vertices[vertices.length] = v0;
+					f.vertices[vertices.length] = face.vertices[k];
+					f.vertices[vertices.length] = face.vertices[k + 1];
+					faces[faces.length] = f;
 				}
 				
 			} else if (face.vertices.length == 3)
-				faces.push(face);
+				faces[faces.length] = face;
 			idx += (vcount*numInputs);
 		}
 		return faces;
@@ -1395,7 +1401,7 @@ class DAEPrimitive extends DAEElement
 			input = _inputs[i];
 			
 			if (input.semantic == "TEXCOORD")
-				_texcoordSets.push(input.set);
+				_texcoordSets[_texcoordSets.length] = input.set;
 			
 			if (!mesh.sources[input.source]) {
 				result = false;
@@ -1436,7 +1442,7 @@ class DAEVertices extends DAEElement
 	protected override function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		nodeName = nodeName;
-		this.inputs.push(new DAEInput(child));
+		this.inputs[inputs.length] = new DAEInput(child);
 	}
 }
 
@@ -1499,7 +1505,7 @@ class DAEMesh extends DAEElement
 			case "triangles":
 			case "polylist":
 			case "polygon":
-				this.primitives.push(new DAEPrimitive(child));
+				this.primitives[primitives.length] = new DAEPrimitive(child);
 		}
 	}
 }
@@ -1523,8 +1529,8 @@ class DAEBindMaterial extends DAEElement
 	protected override function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		if (nodeName == "technique_common") {
-			for (var i:uint = 0; i < child.children().length(); i++)
-				this.instance_material.push(new DAEInstanceMaterial(child.children()[i]));
+			for(var i:int = 0; i < child.children().length(); i++)
+				this.instance_material[instance_material.length] = new DAEInstanceMaterial(child.children()[i]);
 		}
 	}
 }
@@ -1649,7 +1655,7 @@ class DAEInstanceMaterial extends DAEInstance
 	protected override function traverseChildHandler(child:XML, nodeName:String):void
 	{
 		if (nodeName == "bind_vertex_input")
-			this.bind_vertex_input.push(new DAEBindVertexInput(child));
+			this.bind_vertex_input[bind_vertex_input.length] = new DAEBindVertexInput(child);
 	}
 }
 
@@ -1828,7 +1834,7 @@ class DAEEffect extends DAEElement
 	public var shader:DAEShader;
 	public var surface:DAESurface;
 	public var sampler:DAESampler2D;
-	public var material:*;
+	public var material:Object;
 	
 	public function DAEEffect(element:XML = null)
 	{
@@ -1854,7 +1860,7 @@ class DAEEffect extends DAEElement
 	{
 		var children:XMLList = element.children();
 		
-		for (var i:uint = 0; i < children.length(); i++) {
+		for(var i:int = 0; i < children.length(); i++) {
 			var child:XML = children[i];
 			var name:String = child.name().localName;
 			
@@ -1872,7 +1878,7 @@ class DAEEffect extends DAEElement
 	{
 		var children:XMLList = element.children();
 		
-		for (var i:uint = 0; i < children.length(); i++) {
+		for(var i:int = 0; i < children.length(); i++) {
 			var child:XML = children[i];
 			var name:String = child.name().localName;
 			
@@ -1896,7 +1902,7 @@ class DAEEffect extends DAEElement
 		var children:XMLList = technique.children();
 		this.shader = null;
 		
-		for (var i:uint = 0; i < children.length(); i++) {
+		for(var i:int = 0; i < children.length(); i++) {
 			var child:XML = children[i];
 			var name:String = child.name().localName;
 			
@@ -2023,11 +2029,11 @@ class DAENode extends DAEElement
 			
 			case "instance_controller":
 				instance = new DAEInstanceController(child);
-				this.instance_controllers.push(instance);
+				this.instance_controllers[instance_controllers.length] = instance as DAEInstanceController;
 				break;
 			
 			case "instance_geometry":
-				this.instance_geometries.push(new DAEInstanceGeometry(child));
+				this.instance_geometries[instance_geometries.length] = new DAEInstanceGeometry(child);
 				break;
 			
 			case "instance_node":
@@ -2041,7 +2047,7 @@ class DAENode extends DAEElement
 			case "translate":
 			case "scale":
 			case "rotate":
-				this.transforms.push(new DAETransform(child));
+				this.transforms[transforms.length] = new DAETransform(child);
 				break;
 		}
 	}
@@ -2208,7 +2214,7 @@ class DAENode extends DAEElement
 	public function get matrix():Matrix3D
 	{
 		var matrix:Matrix3D = new Matrix3D();
-		for (var i:uint = 0; i < this.transforms.length; i++)
+		for(var i:int = 0; i < this.transforms.length; i++)
 			matrix.prepend(this.transforms[i].matrix);
 		
 		if (DAEElement.USE_LEFT_HANDED)
@@ -2236,7 +2242,7 @@ class DAEVisualScene extends DAENode
 		if (node.id == id)
 			return node;
 		
-		for (var i:uint = 0; i < node.nodes.length; i++) {
+		for(var i:int = 0; i < node.nodes.length; i++) {
 			var result:DAENode = findNodeById(id, node.nodes[i]);
 			if (result)
 				return result;
@@ -2251,7 +2257,7 @@ class DAEVisualScene extends DAENode
 		if (node.sid == sid)
 			return node;
 		
-		for (var i:uint = 0; i < node.nodes.length; i++) {
+		for(var i:int = 0; i < node.nodes.length; i++) {
 			var result:DAENode = findNodeBySid(sid, node.nodes[i]);
 			if (result)
 				return result;
@@ -2266,7 +2272,7 @@ class DAEVisualScene extends DAENode
 		if (parent && parent.world)
 			node.world.append(parent.world);
 		
-		for (var i:uint = 0; i < node.nodes.length; i++)
+		for(var i:int = 0; i < node.nodes.length; i++)
 			updateTransforms(node.nodes[i], node);
 	}
 }
@@ -2321,7 +2327,7 @@ class DAEMorph extends DAEEffect
 		var list:XMLList = element.ns::source;
 		
 		if (element.ns::targets && element.ns::targets.length() > 0) {
-			for (var i:uint = 0; i < list.length(); i++) {
+			for(var i:int = 0; i < list.length(); i++) {
 				source = new DAESource(list[i]);
 				sources[source.id] = source;
 			}
@@ -2410,7 +2416,7 @@ class DAESkin extends DAEElement
 	
 	public function getJointIndex(joint:String):int
 	{
-		for (var i:uint = 0; i < this.joints.length; i++) {
+		for(var i:int = 0; i < this.joints.length; i++) {
 			if (this.joints[i] == joint)
 				return i;
 		}
@@ -2448,7 +2454,7 @@ class DAESkin extends DAEElement
 						matrix.transpose();
 						if (DAEElement.USE_LEFT_HANDED)
 							convertMatrix(matrix);
-						inv_bind_matrix.push(matrix);
+						inv_bind_matrix[inv_bind_matrix.length] = matrix;
 					}
 			}
 		}
@@ -2473,7 +2479,7 @@ class DAESkin extends DAEElement
 		this.maxBones = 0;
 		
 		for (i = 0; i < list.length(); i++)
-			inputs.push(new DAEInput(list[i]));
+			inputs[inputs.length] = new DAEInput(list[i]);
 		
 		for (i = 0; i < vcount.length; i++) {
 			var numBones:uint = vcount[i];
@@ -2500,11 +2506,11 @@ class DAESkin extends DAEElement
 					}
 				}
 				influence.vertex = i;
-				vertex_weights.push(influence);
+				vertex_weights[vertex_weights.length] = influence;
 				index += inputs.length;
 			}
 			
-			this.weights.push(vertex_weights);
+			this.weights[weights.length] = vertex_weights;
 		}
 	}
 }
@@ -2557,7 +2563,7 @@ class DAESampler extends DAEElement
 		_inputs = new Vector.<DAEInput>();
 		
 		for (i = 0; i < list.length(); i++)
-			_inputs.push(new DAEInput(list[i]));
+			_inputs[_inputs.length] = new DAEInput(list[i]);
 	}
 	
 	public function create(sources:Object):void
@@ -2682,15 +2688,15 @@ class DAEChannel extends DAEElement
 		this.arrayAccess = this.dotAccess = false;
 		var tmp:String = parts.shift();
 		
-		if (tmp.indexOf("(") >= 0) {
+		if (tmp.indexOf("(") != -1) {
 			parts = tmp.split("(");
 			this.arrayAccess = true;
 			this.arrayIndices = new Array();
 			this.targetSid = parts.shift();
-			for (var i:uint = 0; i < parts.length; i++)
+			for(var i:int = 0; i < parts.length; i++)
 				this.arrayIndices.push(parseInt(parts[i].replace(")", ""), 10));
 			
-		} else if (tmp.indexOf(".") >= 0) {
+		} else if (tmp.indexOf(".") != -1) {
 			parts = tmp.split(".");
 			this.dotAccess = true;
 			this.targetSid = parts[0];
@@ -2730,10 +2736,10 @@ class DAEAnimation extends DAEElement
 				this.sources[source.id] = source;
 				break;
 			case "sampler":
-				this.samplers.push(new DAESampler(child));
+				this.samplers[samplers.length] = new DAESampler(child);
 				break;
 			case "channel":
-				this.channels.push(new DAEChannel(child));
+				this.channels[channels.length] = new DAEChannel(child);
 		}
 	}
 	

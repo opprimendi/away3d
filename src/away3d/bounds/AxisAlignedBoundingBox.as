@@ -40,15 +40,19 @@ package away3d.bounds
 		 */
 		override public function isInFrustum(planes:Vector.<Plane3D>, numPlanes:int):Boolean
 		{
-			for (var i:int = 0; i < numPlanes; ++i) {
+			for (var i:int = 0; i < numPlanes; ++i) 
+			{
 				var plane:Plane3D = planes[i];
 				var a:Number = plane.a;
 				var b:Number = plane.b;
 				var c:Number = plane.c;
+				
 				var flippedExtentX:Number = a < 0 ? -_halfExtentsX : _halfExtentsX;
 				var flippedExtentY:Number = b < 0 ? -_halfExtentsY : _halfExtentsY;
 				var flippedExtentZ:Number = c < 0 ? -_halfExtentsZ : _halfExtentsZ;
+				
 				var projDist:Number = a*(_centerX + flippedExtentX) + b*(_centerY + flippedExtentY) + c*(_centerZ + flippedExtentZ) - plane.d;
+				
 				if (projDist < 0)
 					return false;
 			}

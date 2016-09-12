@@ -1,6 +1,7 @@
 package away3d.materials.methods
 {
 	import away3d.arcane;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
@@ -139,15 +140,18 @@ package away3d.materials.methods
 		 */
 		arcane override function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			
 			var i:int;
 			var texIndex:int = vo.texturesIndex;
 			super.activate(vo, stage3DProxy);
-			context.setTextureAt(texIndex + 1, _blendingTexture.getTextureForStage3D(stage3DProxy));
+			
+			context3DProxy.setTextureAt(texIndex + 1, _blendingTexture.getTextureForStage3D(stage3DProxy));
 			
 			texIndex += 2;
+			
 			for (i = 0; i < _numSplattingLayers; ++i)
-				context.setTextureAt(i + texIndex, _splats[i].getTextureForStage3D(stage3DProxy));
+				context3DProxy.setTextureAt(i + texIndex, _splats[i].getTextureForStage3D(stage3DProxy));
 		}
 
 		/**

@@ -27,6 +27,7 @@
 	{
 		private var _width:Number = 0;
 		private var _height:Number = 0;
+		private var _tempPoint:Point = new Point();
 		private var _localPos:Point = new Point();
 		private var _globalPos:Point = new Point();
 		private var _globalPosDirty:Boolean;
@@ -507,7 +508,11 @@
 			
 			_localPos.x = super.x = value;
 			
-			_globalPos.x = parent? parent.localToGlobal(_localPos).x : value;
+			if (parent != null)
+				__localToGlobalX(_localPos, _globalPos);
+			else
+				_globalPos.x = value;
+			
 			_globalPosDirty = true;
 		}
 		
@@ -518,7 +523,11 @@
 			
 			_localPos.y = super.y = value;
 			
-			_globalPos.y = parent? parent.localToGlobal(_localPos).y : value;
+			if (parent != null)
+				__localToGlobalY(_localPos, _globalPos);
+			else
+				_globalPos.y = value;
+				
 			_globalPosDirty = true;
 		}
 		
@@ -649,9 +658,9 @@
 				stage3DProxy.clearDepthBuffer();
 			
 			if (!_parentIsStage) {
-				var globalPos:Point = parent.localToGlobal(_localPos);
-				if (_globalPos.x != globalPos.x || _globalPos.y != globalPos.y) {
-					_globalPos = globalPos;
+				__localToGlobal(_localPos, _tempPoint);
+				if (_globalPos.x != _tempPoint.x || _globalPos.y != _tempPoint.y) {
+					_globalPos.setTo(_tempPoint.x, _tempPoint.y)
 					_globalPosDirty = true;
 				}
 			}
@@ -691,7 +700,7 @@
 					
 					scene.partition.updateEntities();
 					_container.transform = _camera.transform;
-					for (var i:uint = 0; i < 6; ++i)
+					for(var i:int = 0; i < 6; ++i)
 						renderSurface(i, scene, targetTexture);
 					
 					_filter3DRenderer.render(_stage3DProxy, camera, _depthRender, _shareContext);
@@ -800,14 +809,14 @@
 			_depthRenderer.render(entityCollector, _depthRender);
 		}
 		
-		private function initDepthTexture(context:Context3D):void
+		private function initDepthTexture(context3D:Context3D):void
 		{
 			_depthTextureInvalid = false;
 			
 			if (_depthRender)
 				_depthRender.dispose();
 			
-			_depthRender = context.createTexture(_rttBufferManager.textureWidth, _rttBufferManager.textureHeight, Context3DTextureFormat.BGRA, true);
+			_depthRender = context3D.createTexture(_rttBufferManager.textureWidth, _rttBufferManager.textureHeight, Context3DTextureFormat.BGRA, true);
 		}
 		
 		/**
@@ -967,8 +976,51 @@
 		{
 			_parentIsStage = (parent == stage);
 			
-			_globalPos = parent.localToGlobal(_localPos);
+			__localToGlobal(_localPos, _globalPos);
 			_globalPosDirty = true;
+		}
+		
+		[Inline]
+		private final function __localToGlobalX(localPos:Point, output:Point):void
+		{
+			var _parent:Object = parent;
+			output.x = localPos.x;
+			
+			while (_parent != null)
+			{
+				output.x += _parent.x;
+				
+				_parent = _parent.parent;
+			}
+		}
+		
+		[Inline]
+		private final function __localToGlobalY(localPos:Point, output:Point):void
+		{
+			var _parent:Object = parent;
+			output.y = localPos.y;
+			
+			while (_parent != null)
+			{
+				output.y += _parent.y;
+				
+				_parent = _parent.parent;
+			}
+		}
+		
+		[Inline]
+		private final function __localToGlobal(localPos:Point, output:Point):void
+		{
+			var _parent:Object = parent;
+			output.setTo(localPos.x, localPos.y);
+			
+			while (_parent != null)
+			{
+				output.x += _parent.x;
+				output.y += _parent.y;
+				
+				_parent = _parent.parent;
+			}
 		}
 		
 		private function onViewportUpdated(event:Stage3DEvent):void
@@ -1027,10 +1079,10 @@
 			cam.rotationY = rotationY;
 			cam.rotationZ = rotationZ;
 			cam.lens.near = .01;
-			PerspectiveLens(cam.lens).fieldOfView = 90;
-			_lenses.push(PerspectiveLens(cam.lens));
+			(cam.lens as PerspectiveLens).fieldOfView = 90;
+			_lenses[_lenses.length] = cam.lens as PerspectiveLens;
 			cam.lens.aspectRatio = 1;
-			_cameras.push(cam);
+			_cameras[_cameras.length] = cam;
 		}
 		
 		// dead ends:

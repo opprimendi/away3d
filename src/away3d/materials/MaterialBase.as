@@ -41,7 +41,7 @@ package away3d.materials
 		 * A counter used to assign unique ids per material, which is used to sort per material while rendering.
 		 * This reduces state changes.
 		 */
-		private static var MATERIAL_ID_COUNT:uint = 0;
+		private static var MATERIAL_ID_COUNT:int = int.MIN_VALUE;
 
 		/**
 		 * An object to contain any extra data.
@@ -63,7 +63,7 @@ package away3d.materials
 		 *
 		 * @private
 		 */
-		arcane var _uniqueId:uint;
+		arcane var _uniqueId:int;
 
 		/**
 		 * An id for this material used to sort the renderables by shader program, which reduces Program3D state changes.
@@ -91,7 +91,7 @@ package away3d.materials
 		
 		private var _blendMode:String = BlendMode.NORMAL;
 		
-		protected var _numPasses:uint;
+		protected var _numPasses:int;
 		protected var _passes:Vector.<MaterialPassBase>;
 		
 		protected var _mipmap:Boolean = true;
@@ -149,8 +149,8 @@ package away3d.materials
 		{
 			if (value != _lightPicker) {
 				_lightPicker = value;
-				var len:uint = _passes.length;
-				for (var i:uint = 0; i < len; ++i)
+				var len:int = _passes.length;
+				for(var i:int = 0; i < len; ++i)
 					_passes[i].lightPicker = _lightPicker;
 			}
 		}
@@ -259,7 +259,7 @@ package away3d.materials
 		 */
 		public function dispose():void
 		{
-			var i:uint;
+			var i:int;
 			
 			for (i = 0; i < _numPasses; ++i)
 				_passes[i].dispose();
@@ -339,7 +339,7 @@ package away3d.materials
 		 * An id for this material used to sort the renderables by material, which reduces render state changes across
 		 * materials using the same Program3D.
 		 */
-		public function get uniqueId():uint
+		public function get uniqueId():int
 		{
 			return _uniqueId;
 		}
@@ -349,7 +349,7 @@ package away3d.materials
 		 *
 		 * @private
 		 */
-		arcane function get numPasses():uint
+		arcane function get numPasses():int
 		{
 			return _numPasses;
 		}
@@ -431,7 +431,7 @@ package away3d.materials
 		 *
 		 * @private
 		 */
-		arcane function passRendersToTexture(index:uint):Boolean
+		arcane function passRendersToTexture(index:int):Boolean
 		{
 			return _passes[index].renderToTexture;
 		}
@@ -444,7 +444,7 @@ package away3d.materials
 		 * @param camera The camera from which the scene is viewed.
 		 * @private
 		 */
-		arcane function activatePass(index:uint, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		arcane function activatePass(index:int, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			_passes[index].activate(stage3DProxy, camera);
 		}
@@ -457,7 +457,7 @@ package away3d.materials
 		 *
 		 * @private
 		 */
-		arcane function deactivatePass(index:uint, stage3DProxy:Stage3DProxy):void
+		arcane function deactivatePass(index:int, stage3DProxy:Stage3DProxy):void
 		{
 			_passes[index].deactivate(stage3DProxy);
 		}
@@ -471,7 +471,7 @@ package away3d.materials
 		 * @param viewProjection The view-projection matrix used to project to the screen. This is not the same as
 		 * camera.viewProjection as it includes the scaling factors when rendering to textures.
 		 */
-		arcane function renderPass(index:uint, renderable:IRenderable, stage3DProxy:Stage3DProxy, entityCollector:EntityCollector, viewProjection:Matrix3D):void
+		arcane function renderPass(index:int, renderable:IRenderable, stage3DProxy:Stage3DProxy, entityCollector:EntityCollector, viewProjection:Matrix3D):void
 		{
 			if (_lightPicker)
 				_lightPicker.collectLights(renderable, entityCollector);
@@ -498,7 +498,7 @@ package away3d.materials
 		 */
 		arcane function addOwner(owner:IMaterialOwner):void
 		{
-			_owners.push(owner);
+			_owners[_owners.length] = owner;
 			
 			if (owner.animator) {
 				if (_animationSet && owner.animator.animationSet != _animationSet)
@@ -679,7 +679,7 @@ package away3d.materials
 		private function onDistancePassChange(event:Event):void
 		{
 			var ids:Vector.<int> = _distancePass._program3Dids;
-			var len:uint = ids.length;
+			var len:int = ids.length;
 			
 			_depthPassId = 0;
 			
@@ -697,7 +697,7 @@ package away3d.materials
 		private function onDepthPassChange(event:Event):void
 		{
 			var ids:Vector.<int> = _depthPass._program3Dids;
-			var len:uint = ids.length;
+			var len:int = ids.length;
 			
 			_depthPassId = 0;
 			

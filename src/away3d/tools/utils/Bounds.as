@@ -74,7 +74,7 @@ package away3d.tools.utils
 			if (length % 3 != 0)
 				return;
 			
-			for (var i:uint = 0; i < length; i += 3) {
+			for(var i:int = 0; i < length; i += 3) {
 				var x:Number = vertices[i];
 				var y:Number = vertices[i + 1];
 				var z:Number = vertices[i + 2];
@@ -214,7 +214,7 @@ package away3d.tools.utils
 				parseObjectBounds(obj, mat);
 			}
 			var numChildren:uint = obj.numChildren;
-			for (var i:uint = 0; i < numChildren; ++i) {
+			for(var i:int = 0; i < numChildren; ++i) {
 				child = obj.getChildAt(i);
 				parseObjectContainerBounds(child, containerTransform);
 			}

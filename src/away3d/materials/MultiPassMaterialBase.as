@@ -504,7 +504,7 @@
 			
 			if (pass._passes) {
 				var len:uint = pass._passes.length;
-				for (var i:uint = 0; i < len; ++i)
+				for(var i:int = 0; i < len; ++i)
 					addPass(pass._passes[i]);
 			}
 		}
@@ -512,10 +512,11 @@
 		/**
 		 * @inheritDoc
 		 */
-		override arcane function activatePass(index:uint, stage3DProxy:Stage3DProxy, camera:Camera3D):void
+		override arcane function activatePass(index:int, stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			if (index == 0)
-				stage3DProxy._context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+				stage3DProxy._context3DProxy.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+				
 			super.activatePass(index, stage3DProxy, camera);
 		}
 
@@ -525,7 +526,7 @@
 		override arcane function deactivate(stage3DProxy:Stage3DProxy):void
 		{
 			super.deactivate(stage3DProxy);
-			stage3DProxy._context3D.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+			stage3DProxy._context3DProxy.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
 		}
 
 		/**
@@ -678,7 +679,7 @@
 				pass.specularMethod = _specularMethod;
 				pass.diffuseLightSources = _diffuseLightSources;
 				pass.specularLightSources = _specularLightSources;
-				_nonCasterLightPasses.push(pass);
+				_nonCasterLightPasses[_nonCasterLightPasses.length] = pass;
 				
 				dirLightOffset += pass.numDirectionalLights;
 				pointLightOffset += pass.numPointLights;

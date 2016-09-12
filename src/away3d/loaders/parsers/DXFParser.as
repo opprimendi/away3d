@@ -91,7 +91,7 @@ package away3d.loaders.parsers
 		 * @param data The data block to potentially be parsed.
 		 * @return Whether or not the given data is supported.
 		 */
-		public static function supportsData(data:*):Boolean
+		public static function supportsData(data:Object):Boolean
 		{
 			var str:String = ParserUtil.toString(data);
 			if (!str)
@@ -310,14 +310,14 @@ package away3d.loaders.parsers
 								case "70":
 									// 128, is the closing tag for a face.
 									if (lineVal != 128 && _vSet == 3)
-										_polyLines.push(_v0.clone());
+										_polyLines[_polyLines.length] = _v0.clone();
 									
 									_vSet = 0;
 									break;
 								
 								case "71":
 								case "72":
-									_polyLinesIndices.push(int(Math.abs(lineVal)) - 1);
+									_polyLinesIndices[_polyLinesIndices.length] = int(Math.abs(lineVal)) - 1;
 									break;
 								case "73":
 									//in case of negative, invisible edges (line draw for faces not supported anyway)
@@ -389,7 +389,7 @@ package away3d.loaders.parsers
 				//indices were set in the vertex tags so we expect 4 indices per face (we forced push a negative index to make sure there are 4)
 				if (_polyLinesIndices.length%4 == 0) {
 					
-					for (var i:uint = 0; i < _polyLinesIndices.length; i += 4) {
+					for(var i:int = 0; i < _polyLinesIndices.length; i += 4) {
 						_v0 = _polyLines[_polyLinesIndices[i]];
 						_v1 = _polyLines[_polyLinesIndices[i + 1]];
 						_v2 = _polyLines[_polyLinesIndices[i + 2]];

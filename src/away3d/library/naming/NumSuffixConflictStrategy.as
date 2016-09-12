@@ -25,7 +25,7 @@ package away3d.library.naming
 			var base:String, suffix:int;
 			
 			orig = changedAsset.name;
-			if (orig.indexOf(_separator) >= 0) {
+			if (orig.indexOf(_separator) != -1) {
 				// Name has an ocurrence of the separator, so get base name and suffix,
 				// unless suffix is non-numerical, in which case revert to zero and 
 				// use entire name as base

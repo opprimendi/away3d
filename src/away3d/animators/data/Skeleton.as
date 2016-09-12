@@ -19,7 +19,7 @@ package away3d.animators.data
 		/**
 		 * The total number of joints in the skeleton.
 		 */
-		public function get numJoints():uint
+		public function get numJoints():int
 		{
 			return joints.length;
 		}

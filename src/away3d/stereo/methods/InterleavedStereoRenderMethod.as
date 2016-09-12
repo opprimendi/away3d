@@ -36,12 +36,12 @@ package away3d.stereo.methods
 				_shaderData[3] = .5;
 			}
 			
-			stage3DProxy.context3D.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _shaderData);
+			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _shaderData, 1);
 		}
 		
 		override public function deactivate(stage3DProxy:Stage3DProxy):void
 		{
-			stage3DProxy._context3D.setTextureAt(2, null);
+			stage3DProxy._context3DProxy.setTextureAt(2, null);
 		}
 		
 		override public function getFragmentCode():String

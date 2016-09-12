@@ -34,8 +34,8 @@ package away3d.animators.nodes
 		 */
 		public function addFrame(uvFrame:UVAnimationFrame, duration:uint):void
 		{
-			_frames.push(uvFrame);
-			_durations.push(duration);
+			_frames[_frames.length] = uvFrame;
+			_durations[_durations.length] = duration;
 			_numFrames = _durations.length;
 			
 			_stitchDirty = true;

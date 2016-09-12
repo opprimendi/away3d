@@ -3,6 +3,7 @@ package away3d.materials.passes
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.base.IRenderable;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.lights.DirectionalLight;
 	import away3d.lights.LightProbe;
@@ -210,7 +211,7 @@ package away3d.materials.passes
 		{
 			renderable.inverseSceneTransform.copyRawDataTo(_inverseSceneMatrix);
 			
-			if (_tangentSpace && _cameraPositionIndex >= 0) {
+			if (_tangentSpace && _cameraPositionIndex != -1) {
 				var pos:Vector3D = camera.scenePosition;
 				var x:Number = pos.x;
 				var y:Number = pos.y;
@@ -230,7 +231,7 @@ package away3d.materials.passes
 		{
 			super.activate(stage3DProxy, camera);
 			
-			if (!_tangentSpace && _cameraPositionIndex >= 0) {
+			if (!_tangentSpace && _cameraPositionIndex != -1) {
 				var pos:Vector3D = camera.scenePosition;
 				_vertexConstantData[_cameraPositionIndex] = pos.x;
 				_vertexConstantData[_cameraPositionIndex + 1] = pos.y;
@@ -403,7 +404,8 @@ package away3d.materials.passes
 		 */
 		override protected function updateProbes(stage3DProxy:Stage3DProxy):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			
 			var probe:LightProbe;
 			var lightProbes:Vector.<LightProbe> = _lightPicker.lightProbes;
 			var weights:Vector.<Number> = _lightPicker.lightProbeWeights;
@@ -417,13 +419,13 @@ package away3d.materials.passes
 			if (len > _numLightProbes)
 				len = _numLightProbes;
 			
-			for (var i:uint = 0; i < len; ++i) {
+			for(var i:int = 0; i < len; ++i) {
 				probe = lightProbes[_lightProbesOffset + i];
 				
 				if (addDiff)
-					context.setTextureAt(_lightProbeDiffuseIndices[i], probe.diffuseMap.getTextureForStage3D(stage3DProxy));
+					context3DProxy.setTextureAt(_lightProbeDiffuseIndices[i], probe.diffuseMap.getTextureForStage3D(stage3DProxy));
 				if (addSpec)
-					context.setTextureAt(_lightProbeSpecularIndices[i], probe.specularMap.getTextureForStage3D(stage3DProxy));
+					context3DProxy.setTextureAt(_lightProbeSpecularIndices[i], probe.specularMap.getTextureForStage3D(stage3DProxy));
 			}
 			
 			for (i = 0; i < len; ++i)

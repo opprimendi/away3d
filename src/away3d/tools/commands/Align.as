@@ -78,7 +78,7 @@ package away3d.tools.commands
 			if (meshes.length == 0)
 				return;
 			
-			for (var i:uint = 0; i < meshes.length; ++i) {
+			for(var i:int = 0; i < meshes.length; ++i) {
 				Bounds.getMeshBounds(meshes[i]);
 				meshes[i].y = Bounds.minY + (Bounds.maxY - Bounds.minY);
 			}
@@ -120,7 +120,7 @@ package away3d.tools.commands
 					base = 0;
 			}
 			
-			for (var i:uint = 0; i < aObjs.length; ++i)
+			for(var i:int = 0; i < aObjs.length; ++i)
 				aObjs[i][_axis] = base;
 		}
 		
@@ -140,7 +140,7 @@ package away3d.tools.commands
 			aObjs.sortOn(axis, 16);
 			
 			var step:Number = 0;
-			for (var i:uint = 0; i < aObjs.length; ++i) {
+			for(var i:int = 0; i < aObjs.length; ++i) {
 				aObjs[i][_axis] = min + step;
 				step += unit;
 			}
@@ -161,7 +161,7 @@ package away3d.tools.commands
 		{
 			condition = condition.toLowerCase();
 			var aConds:Array = [POSITIVE, NEGATIVE, "", AVERAGE];
-			for (var i:uint = 0; i < aConds.length; ++i) {
+			for(var i:int = 0; i < aConds.length; ++i) {
 				if (aConds[i] == condition) {
 					_condition = condition;
 					return;
@@ -174,7 +174,7 @@ package away3d.tools.commands
 		private static function getMin(a:Array, prop:String):Number
 		{
 			var min:Number = Infinity;
-			for (var i:uint = 0; i < a.length; ++i)
+			for(var i:int = 0; i < a.length; ++i)
 				min = Math.min(a[i][prop], min);
 			
 			return min;
@@ -183,7 +183,7 @@ package away3d.tools.commands
 		private static function getMax(a:Array, prop:String):Number
 		{
 			var max:Number = -Infinity;
-			for (var i:uint = 0; i < a.length; ++i)
+			for(var i:int = 0; i < a.length; ++i)
 				max = Math.max(a[i][prop], max);
 			
 			return max;
@@ -193,7 +193,7 @@ package away3d.tools.commands
 		{
 			var av:Number = 0;
 			var loop:int = a.length;
-			for (var i:uint = 0; i < loop; ++i)
+			for(var i:int = 0; i < loop; ++i)
 				av += a[i][prop];
 			
 			return av/loop;
@@ -203,7 +203,7 @@ package away3d.tools.commands
 		{
 			var mbs:Vector.<MeshBound> = new Vector.<MeshBound>();
 			var mb:MeshBound;
-			for (var i:uint = 0; i < meshes.length; ++i) {
+			for(var i:int = 0; i < meshes.length; ++i) {
 				Bounds.getMeshBounds(meshes[i]);
 				
 				mb = new MeshBound();
@@ -214,7 +214,7 @@ package away3d.tools.commands
 				mb.maxX = Bounds.maxX;
 				mb.maxY = Bounds.maxY;
 				mb.maxZ = Bounds.maxZ;
-				mbs.push(mb);
+				mbs[mbs.length] = mb;
 			}
 			
 			return mbs;
@@ -245,7 +245,7 @@ package away3d.tools.commands
 			var min:Number = Infinity;
 			var mb:MeshBound;
 			
-			for (var i:uint = 0; i < bounds.length; ++i) {
+			for(var i:int = 0; i < bounds.length; ++i) {
 				mb = bounds[i];
 				switch (_axis) {
 					case X_AXIS:
@@ -269,7 +269,7 @@ package away3d.tools.commands
 			var max:Number = -Infinity;
 			var mb:MeshBound;
 			
-			for (var i:uint = 0; i < bounds.length; ++i) {
+			for(var i:int = 0; i < bounds.length; ++i) {
 				mb = bounds[i];
 				switch (_axis) {
 					case X_AXIS:

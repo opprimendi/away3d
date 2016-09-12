@@ -129,9 +129,9 @@ package away3d.animators
 			
 			_animationDictionary[node.name] = node;
 			
-			_animations.push(node);
+			_animations[_animations.length] = node;
 			
-			_animationNames.push(node.name);
+			_animationNames[_animationNames.length] = node.name;
 		}
 		
 		/**

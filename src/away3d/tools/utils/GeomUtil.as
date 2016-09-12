@@ -67,7 +67,7 @@ package away3d.tools.utils
 					splitIndex = splitVerts.length + 6;
 					
 					if (( (outIndex + 2) >= LIMIT_INDICES) || (splitIndex >= LIMIT_VERTS)) {
-						subs.push(constructSubGeometry(splitVerts, splitIndices, splitUvs, splitNormals, splitTangents, splitWeights, splitJointIndices, secondaryUVs));
+						subs[subs.length] = constructSubGeometry(splitVerts, splitIndices, splitUvs, splitNormals, splitTangents, splitWeights, splitJointIndices, secondaryUVs);
 						splitVerts = new Vector.<Number>();
 						splitIndices = new Vector.<uint>();
 						splitUvs = (uvs != null)? new Vector.<Number>() : null;
@@ -89,7 +89,7 @@ package away3d.tools.utils
 						
 						originalIndex = indices[i + j];
 						
-						if (mappings[originalIndex] >= 0)
+						if (mappings[originalIndex] != -1)
 							splitIndex = mappings[originalIndex];
 						
 						else {
@@ -166,11 +166,12 @@ package away3d.tools.utils
 				
 				if (splitVerts.length > 0) {
 					// More was added in the last iteration of the loop.
-					subs.push(constructSubGeometry(splitVerts, splitIndices, splitUvs, splitNormals, splitTangents, splitWeights, splitJointIndices, splitSecondaryUVs));
+					subs[subs.length] = constructSubGeometry(splitVerts, splitIndices, splitUvs, splitNormals, splitTangents, splitWeights, splitJointIndices, splitSecondaryUVs);
 				}
 				
-			} else
-				subs.push(constructSubGeometry(verts, indices, uvs, normals, tangents, weights, jointIndices, secondaryUVs));
+			} 
+			else
+				subs[subs.length] = constructSubGeometry(verts, indices, uvs, normals, tangents, weights, jointIndices, secondaryUVs);
 			
 			return subs;
 		}
@@ -187,8 +188,8 @@ package away3d.tools.utils
 				// is a skinned mesh and needs to be built from skinned
 				// sub-geometries.
 				sub = new SkinnedSubGeometry(weights.length/(verts.length/3));
-				SkinnedSubGeometry(sub).updateJointWeightsData(weights);
-				SkinnedSubGeometry(sub).updateJointIndexData(jointIndices);
+				(sub as SkinnedSubGeometry).updateJointWeightsData(weights);
+				(sub as SkinnedSubGeometry).updateJointIndexData(jointIndices);
 				
 			} else
 				sub = new CompactSubGeometry();
@@ -248,7 +249,7 @@ package away3d.tools.utils
 		{
 			var subGeometries:Vector.<ISubGeometry> = subGeometry.parentGeometry.subGeometries;
 			var length:int = subGeometries.length;
-			for (var i:uint = 0; i < length; ++i) {
+			for(var i:int = 0; i < length; ++i) {
 				if (subGeometries[i] == subGeometry) {
 					return i;
 				}
@@ -263,7 +264,7 @@ package away3d.tools.utils
 		{
 			var subMeshes:Vector.<SubMesh> = subMesh.parentMesh.subMeshes;
 			var length:int = subMeshes.length;
-			for (var i:uint = 0; i < length; ++i) {
+			for(var i:int = 0; i < length; ++i) {
 				if (subMeshes[i] == subMesh) {
 					return i;
 				}

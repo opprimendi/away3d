@@ -302,7 +302,7 @@ package away3d.extrusions
 			else
 				_scene.addChild(clone);
 			
-			_clones.push(clone);
+			_clones[_clones.length] = clone;
 		}
 	
 	}

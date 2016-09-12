@@ -100,7 +100,7 @@ package away3d.tools.helpers
 				}
 				
 				bitmapTexture = new BitmapTexture(spriteSheet);
-				spriteSheets.push(bitmapTexture);
+				spriteSheets[spriteSheets.length] = bitmapTexture;
 			}
 			
 			tmpCache.dispose();

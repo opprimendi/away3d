@@ -1,6 +1,7 @@
 package away3d.animators
 {
 	import away3d.arcane;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.passes.MaterialPassBase;
 	
@@ -55,11 +56,11 @@ package away3d.animators
 			var dot:String = "dp4";
 			var code:String = "";
 			
-			for (var i:uint = 0; i < len; ++i) {
+			for(var i:int = 0; i < len; ++i) {
 				
 				var src:String = sourceRegisters[i];
 				
-				for (var j:uint = 0; j < _jointsPerVertex; ++j) {
+				for(var j:int = 0; j < _jointsPerVertex; ++j) {
 					code += dot + " " + temp1 + ".x, " + src + ", vc[" + indices[j] + "+" + indexOffset0 + "]		\n" +
 						dot + " " + temp1 + ".y, " + src + ", vc[" + indices[j] + "+" + indexOffset1 + "]    	\n" +
 						dot + " " + temp1 + ".z, " + src + ", vc[" + indices[j] + "+" + indexOffset2 + "]		\n" +
@@ -93,9 +94,9 @@ package away3d.animators
 		public function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):void
 		{
 			var streamOffset:uint = pass.numUsedStreams;
-			var context:Context3D = stage3DProxy._context3D;
-			context.setVertexBufferAt(streamOffset, null);
-			context.setVertexBufferAt(streamOffset + 1, null);
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			context3DProxy.clearVertexBufferAt(streamOffset);
+			context3DProxy.clearVertexBufferAt(streamOffset + 1);
 		}
 		
 		/**

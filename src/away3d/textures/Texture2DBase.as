@@ -12,9 +12,9 @@ package away3d.textures
 			super();
 		}
 		
-		override protected function createTexture(context:Context3D):TextureBase
+		override protected function createTexture(context3D:Context3D):TextureBase
 		{
-			return context.createTexture(_width, _height, Context3DTextureFormat.BGRA, false);
+			return context3D.createTexture(_width, _height, Context3DTextureFormat.BGRA, false);
 		}
 	}
 }

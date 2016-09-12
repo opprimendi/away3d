@@ -157,8 +157,8 @@ package away3d.primitives
 			
 			numIndices = 0;
 			var index:uint = target.vertexOffset;
-			for (var yi:uint = 0; yi <= _segmentsH; ++yi) {
-				for (var xi:uint = 0; xi <= _segmentsW; ++xi) {
+			for(var yi:int = 0; yi <= _segmentsH; ++yi) {
+				for(var xi:int = 0; xi <= _segmentsW; ++xi) {
 					x = (xi/_segmentsW - .5)*_width;
 					y = (yi/_segmentsH - .5)*_height;
 					
@@ -252,8 +252,8 @@ package away3d.primitives
 			
 			var index:uint = target.UVOffset;
 			
-			for (var yi:uint = 0; yi <= _segmentsH; ++yi) {
-				for (var xi:uint = 0; xi <= _segmentsW; ++xi) {
+			for(var yi:int = 0; yi <= _segmentsH; ++yi) {
+				for(var xi:int = 0; xi <= _segmentsW; ++xi) {
 					data[index++] = (xi/_segmentsW)*target.scaleU;
 					data[index++] = (1 - yi/_segmentsH)*target.scaleV;
 					index += skip;

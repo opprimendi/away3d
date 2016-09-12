@@ -1,6 +1,7 @@
 ﻿package away3d.textures
 {
 	import away3d.materials.utils.MipmapGenerator;
+	import away3d.tools.utils.MathUtils;
 	import away3d.tools.utils.TextureUtils;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DTextureFormat;
@@ -16,7 +17,7 @@
 		
 		public function set size(value:int):void
 		{
-			if (value == _width)
+			if (value == _size)
 				return;
 			
 			if (!TextureUtils.isDimensionValid(value))
@@ -29,12 +30,12 @@
 		override protected function uploadContent(texture:TextureBase):void
 		{
 			for (var i:int = 0; i < 6; ++i)
-				MipmapGenerator.generateMipMaps(MipmapGenerator.getMipMapHolder(_width, _height, false), texture, false, i);
+				MipmapGenerator.generateMipMaps(MipmapGenerator.getMipMapHolder(_size, _size, false), texture, false, i);
 		}
 		
-		override protected function createTexture(context:Context3D):TextureBase
+		override protected function createTexture(context3D:Context3D):TextureBase
 		{
-			return context.createCubeTexture(_width, Context3DTextureFormat.BGRA, true);
+			return context3D.createCubeTexture(_size, Context3DTextureFormat.BGRA, true);
 		}
 	}
 }

@@ -2,6 +2,7 @@ package away3d.animators
 {
 	import away3d.animators.data.VertexAnimationMode;
 	import away3d.arcane;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.materials.passes.MaterialPassBase;
 	
@@ -92,12 +93,15 @@ package away3d.animators
 		public function deactivate(stage3DProxy:Stage3DProxy, pass:MaterialPassBase):void
 		{
 			var index:int = _streamIndices[pass];
-			var context:Context3D = stage3DProxy._context3D;
-			context.setVertexBufferAt(index, null);
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			
+			context3DProxy.clearVertexBufferAt(index);
+			
 			if (_uploadNormals)
-				context.setVertexBufferAt(index + 1, null);
+				context3DProxy.clearVertexBufferAt(index + 1);
+				
 			if (_uploadTangents)
-				context.setVertexBufferAt(index + 2, null);
+				context3DProxy.clearVertexBufferAt(index + 2);
 		}
 		
 		/**
@@ -142,10 +146,10 @@ package away3d.animators
 				len = 2;
 			var streamIndex:uint = _streamIndices[pass] = pass.numUsedStreams;
 			
-			for (var i:uint = 0; i < len; ++i) {
+			for(var i:int = 0; i < len; ++i) {
 				code += "mul " + temp1 + ", " + sourceRegisters[i] + ", " + constantReg + "." + regs[0] + "\n";
 				
-				for (var j:uint = 1; j < _numPoses; ++j) {
+				for(var j:int = 1; j < _numPoses; ++j) {
 					code += "mul " + temp2 + ", va" + streamIndex + ", " + constantReg + "." + regs[j] + "\n";
 					
 					if (j < _numPoses - 1)
@@ -187,8 +191,8 @@ package away3d.animators
 			if (useNormals)
 				code += "mov " + targetRegisters[1] + ", " + sourceRegisters[1] + "\n";
 			
-			for (var i:uint = 0; i < len; ++i) {
-				for (var j:uint = 0; j < _numPoses; ++j) {
+			for(var i:int = 0; i < len; ++i) {
+				for(var j:int = 0; j < _numPoses; ++j) {
 					code += "mul " + temp1 + ", va" + (streamIndex + k) + ", vc" + pass.numUsedVertexConstants + "." + regs[j] + "\n" +
 						"add " + targetRegisters[i] + ", " + targetRegisters[i] + ", " + temp1 + "\n";
 					k++;

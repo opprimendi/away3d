@@ -99,16 +99,25 @@ package away3d.core.partition
 				throw new Error("Entity being added as a visible static object must have static set to true");
 			
 			var index:int = getCellIndex(indexX, indexY, indexZ);
-			_cells[index].visibleStatics ||= new Vector.<EntityNode>();
-			_cells[index].visibleStatics.push(entity.getEntityPartitionNode());
+			
+			if (_cells[index].visibleStatics == null)
+				_cells[index].visibleStatics = new Vector.<EntityNode>();
+				
+			var visibleStatics:Vector.<EntityNode> = _cells[index].visibleStatics;
+			visibleStatics[visibleStatics.length] = entity.getEntityPartitionNode();
 			updateNumEntities(_numEntities + 1);
 		}
 		
 		public function addVisibleDynamicCell(cell:InvertedOctreeNode, indexX:uint = 0, indexY:uint = 0, indexZ:uint = 0):void
 		{
 			var index:int = getCellIndex(indexX, indexY, indexZ);
-			_cells[index].visibleDynamics ||= new Vector.<InvertedOctreeNode>();
-			_cells[index].visibleDynamics.push(cell);
+			
+			if (_cells[index].visibleDynamics == null)
+				_cells[index].visibleDynamics = new Vector.<InvertedOctreeNode>();
+				
+			var visibleDynamics:Vector.<EntityNode> = _cells[index].visibleDynamics;
+			visibleDynamics[visibleDynamics.length] = cell;
+			
 			updateNumEntities(_numEntities + 1);
 		}
 		
@@ -119,7 +128,7 @@ package away3d.core.partition
 			if (!statics)
 				return;
 			index = statics.indexOf(entity.getEntityPartitionNode());
-			if (index >= 0)
+			if (index != -1)
 				statics.splice(index, 1);
 			updateNumEntities(_numEntities - 1);
 		}
@@ -131,7 +140,7 @@ package away3d.core.partition
 			if (!dynamics)
 				return;
 			index = dynamics.indexOf(cell);
-			if (index >= 0)
+			if (index != -1)
 				dynamics.splice(index, 1);
 			updateNumEntities(_numEntities - 1);
 		}
@@ -307,9 +316,9 @@ package away3d.core.partition
 			var minBounds:Vector3D = viewVolume.minBound;
 			var maxBounds:Vector3D = viewVolume.maxBound;
 			
-			for (var z:uint = 0; z < _numCellsZ; ++z) {
-				for (var y:uint = 0; y < _numCellsY; ++y) {
-					for (var x:uint = 0; x < _numCellsX; ++x)
+			for(var z:int = 0; z < _numCellsZ; ++z) {
+				for(var y:int = 0; y < _numCellsY; ++y) {
+					for(var x:int = 0; x < _numCellsX; ++x)
 						addVisibleRegion(minBounds, maxBounds, scene, dynamicGrid, x, y, z);
 				}
 			}
@@ -331,7 +340,7 @@ package away3d.core.partition
 				if (entity && staticIntersects(entity, minBounds, maxBounds)) {
 					var node:EntityNode = entity.getEntityPartitionNode();
 					if (visibleStatics.indexOf(node) == -1) {
-						visibleStatics.push(node);
+						visibleStatics[visibleStatics.length] = node;
 						++numAdded;
 					}
 				}
@@ -365,7 +374,7 @@ package away3d.core.partition
 			if (minX != minX || minY != minY || minZ != minZ)
 				return true;
 			
-			for (var i:uint = 3; i < 24; i += 3) {
+			for(var i:int = 3; i < 24; i += 3) {
 				var x:Number = _entityWorldBounds[i];
 				var y:Number = _entityWorldBounds[i + 1];
 				var z:Number = _entityWorldBounds[i + 2];

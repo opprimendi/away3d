@@ -179,16 +179,16 @@ package away3d.core.managers
 		// needs to be stored per view of course
 		private function updateRTTBuffers():void
 		{
-			var context:Context3D = _stage3DProxy.context3D;
+			var context3D:Context3D = _stage3DProxy.context3D;
 			var textureVerts:Vector.<Number>;
 			var screenVerts:Vector.<Number>;
 			var x:Number, y:Number;
 
-			_renderToTextureVertexBuffer ||= context.createVertexBuffer(4, 5);
-			_renderToScreenVertexBuffer ||= context.createVertexBuffer(4, 5);
+			_renderToTextureVertexBuffer ||= context3D.createVertexBuffer(4, 5);
+			_renderToScreenVertexBuffer ||= context3D.createVertexBuffer(4, 5);
 			
 			if (!_indexBuffer) {
-				_indexBuffer = context.createIndexBuffer(6);
+				_indexBuffer = context3D.createIndexBuffer(6);
 				_indexBuffer.uploadFromVector(new <uint>[2, 1, 0, 3, 2, 0], 0, 6);
 			}
 			

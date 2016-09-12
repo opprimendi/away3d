@@ -82,7 +82,7 @@ package away3d.loaders.parsers
 		 * @param data The data block to potentially be parsed.
 		 * @return Whether or not the given data is supported.
 		 */
-		public static function supportsData(data:*):Boolean
+		public static function supportsData(data:Object):Boolean
 		{
 			var ba:ByteArray;
 			var str:String;
@@ -216,7 +216,7 @@ package away3d.loaders.parsers
 							if (_activeContainer)
 								_activeContainer.addChild(cont);
 							cont.name = "c_" + _containersList.length;
-							_containersList.push(cont);
+							_containersList[_containersList.length] = cont;
 							_activeContainer = cont;
 							
 							finalizeAsset(cont);
@@ -402,7 +402,7 @@ package away3d.loaders.parsers
 			var dic:Dictionary = new Dictionary();
 			var ref:String;
 			
-			for (var i:uint = 0; i < _uvs.length; i += 6) {
+			for(var i:int = 0; i < _uvs.length; i += 6) {
 				
 				if (indices.length + 3 > LIMIT) {
 					vertices = new Vector.<Number>();
@@ -424,30 +424,30 @@ package away3d.loaders.parsers
 				//face order other than away
 				ref = v1.toString() + uv1.toString();
 				if (dic[ref])
-					indices.push(dic[ref]);
+					indices[indices.length] = dic[ref];
 				else {
 					dic[ref] = vertices.length/3;
-					indices.push(dic[ref]);
+					indices[indices.length] = dic[ref];
 					vertices.push(v1.x, v1.y, v1.z);
 					uvs.push(uv1.u, uv1.v);
 				}
 				
 				ref = v0.toString() + uv0.toString();
 				if (dic[ref])
-					indices.push(dic[ref]);
+					indices[indices.length] = dic[ref];
 				else {
 					dic[ref] = vertices.length/3;
-					indices.push(dic[ref]);
+					indices[indices.length] = dic[ref];
 					vertices.push(v0.x, v0.y, v0.z);
 					uvs.push(uv0.u, uv0.v);
 				}
 				
 				ref = v2.toString() + uv2.toString();
 				if (dic[ref])
-					indices.push(dic[ref]);
+					indices[indices.length] = dic[ref];
 				else {
 					dic[ref] = vertices.length/3;
-					indices.push(dic[ref]);
+					indices[indices.length] = dic[ref];
 					vertices.push(v2.x, v2.y, v2.z);
 					uvs.push(uv2.u, uv2.v);
 				}
@@ -518,7 +518,7 @@ package away3d.loaders.parsers
 		
 		private function generateMaterial(materialString:String):void
 		{
-			_materialList.push(parseMaterialLine(materialString));
+			_materialList[_materialList.length] = parseMaterialLine(materialString);
 		}
 		
 		private function parseMaterialLine(materialString:String):MaterialBase
@@ -532,7 +532,7 @@ package away3d.loaders.parsers
 			var gloss:Number = 0;
 			var alpha:Number = 0;
 			
-			for (var i:uint = 0; i < trunk.length; ++i) {
+			for(var i:int = 0; i < trunk.length; ++i) {
 				
 				if (trunk[i] == "")
 					continue;
@@ -576,19 +576,19 @@ package away3d.loaders.parsers
 			
 			if (materialMode < 2) {
 				colorMaterial = new ColorMaterial(0xFFFFFF);
-				ColorMaterial(colorMaterial).name = name;
-				ColorMaterial(colorMaterial).color = color;
-				ColorMaterial(colorMaterial).ambient = ambient;
-				ColorMaterial(colorMaterial).specular = specular;
-				ColorMaterial(colorMaterial).gloss = gloss;
-				ColorMaterial(colorMaterial).alpha = alpha;
+				(colorMaterial as ColorMaterial).name = name;
+				(colorMaterial as ColorMaterial).color = color;
+				(colorMaterial as ColorMaterial).ambient = ambient;
+				(colorMaterial as ColorMaterial).specular = specular;
+				(colorMaterial as ColorMaterial).gloss = gloss;
+				(colorMaterial as ColorMaterial).alpha = alpha;
 			} else {
 				colorMaterial = new ColorMultiPassMaterial(0xFFFFFF);
-				ColorMultiPassMaterial(colorMaterial).name = name;
-				ColorMultiPassMaterial(colorMaterial).color = color;
-				ColorMultiPassMaterial(colorMaterial).ambient = ambient;
-				ColorMultiPassMaterial(colorMaterial).specular = specular;
-				ColorMultiPassMaterial(colorMaterial).gloss = gloss;
+				(colorMaterial as ColorMultiPassMaterial).name = name;
+				(colorMaterial as ColorMultiPassMaterial).color = color;
+				(colorMaterial as ColorMultiPassMaterial).ambient = ambient;
+				(colorMaterial as ColorMultiPassMaterial).specular = specular;
+				(colorMaterial as ColorMultiPassMaterial).gloss = gloss;
 					//ColorMultiPassMaterial(colorMaterial).alpha=alpha;
 			}
 			return colorMaterial;
@@ -602,7 +602,7 @@ package away3d.loaders.parsers
 		
 		private function cleanUpBuffers():void
 		{
-			for (var i:uint = 0; i < _vertices.length; ++i)
+			for(var i:int = 0; i < _vertices.length; ++i)
 				_vertices[i] = null;
 			
 			for (i = 0; i < _uvs.length; ++i)

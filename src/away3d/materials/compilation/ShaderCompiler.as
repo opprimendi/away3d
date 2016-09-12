@@ -256,7 +256,7 @@ package away3d.materials.compilation
 			calculateDependencies();
 			updateMethodRegisters();
 
-			for (var i:uint = 0; i < 4; ++i)
+			for(var i:int = 0; i < 4; ++i)
 				_registerCache.getFreeVertexConstant();
 
 			createNormalRegisters();

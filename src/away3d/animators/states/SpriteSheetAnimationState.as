@@ -101,7 +101,7 @@ package away3d.animators.states
 							_currentFrameID = _frames.length - 1;
 					}
 					
-					SpriteSheetAnimator(_animator).dispatchCycleEvent();
+					(_animator as SpriteSheetAnimator).dispatchCycleEvent();
 				}
 				
 			} else {
@@ -120,7 +120,7 @@ package away3d.animators.states
 							_currentFrameID = 0;
 					}
 					
-					SpriteSheetAnimator(_animator).dispatchCycleEvent();
+					(_animator as SpriteSheetAnimator).dispatchCycleEvent();
 				}
 			}
 		

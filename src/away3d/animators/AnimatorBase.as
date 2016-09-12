@@ -213,7 +213,7 @@ package away3d.animators
 			
 			_isPlaying = true;
 			
-			if (!_broadcaster.hasEventListener(Event.ENTER_FRAME))
+			if (_autoUpdate && !_broadcaster.hasEventListener(Event.ENTER_FRAME))
 				_broadcaster.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			
 			if (hasEventListener(AnimatorEvent.START))
@@ -269,7 +269,7 @@ package away3d.animators
 		 */
 		public function addOwner(mesh:Mesh):void
 		{
-			_owners.push(mesh);
+			_owners[_owners.length] = mesh;
 		}
 		
 		/**
@@ -311,7 +311,7 @@ package away3d.animators
 			var dist:Number = delta.length;
 			if (dist > 0) {
 				var length:int = _owners.length;
-				for (var i:uint = 0; i < length; ++i)
+				for(var i:int = 0; i < length; ++i)
 					_owners[i].translateLocal(delta, dist);
 			}
 		}
@@ -333,8 +333,8 @@ package away3d.animators
 		public function dispose():void
 		{
 			stop();
-			for each(var it:* in _animationStates)
-				IDisposable(it).dispose();
+			for each(var it:Object in _animationStates)
+				(it as IDisposable).dispose();
 			_activeState = null;
 			_activeNode = null;
 			_animationSet = null;

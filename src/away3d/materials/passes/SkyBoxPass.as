@@ -3,6 +3,7 @@ package away3d.materials.passes
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.base.IRenderable;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.textures.Anisotropy;
 	import away3d.textures.CubeTextureBase;
@@ -127,16 +128,16 @@ package away3d.materials.passes
 		 */
 		override arcane function render(renderable:IRenderable, stage3DProxy:Stage3DProxy, camera:Camera3D, viewProjection:Matrix3D):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			var pos:Vector3D = camera.scenePosition;
 			_vertexData[0] = pos.x;
 			_vertexData[1] = pos.y;
 			_vertexData[2] = pos.z;
 			_vertexData[4] = _vertexData[5] = _vertexData[6] = camera.lens.far/Math.sqrt(3);
-			context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, viewProjection, true);
-			context.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, _vertexData, 2);
+			context3DProxy.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, viewProjection, true);
+			context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, 4, _vertexData, 2);
 			renderable.activateVertexBuffer(0, stage3DProxy);
-			context.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+			context3DProxy.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
 		}
 		
 		/**
@@ -145,9 +146,9 @@ package away3d.materials.passes
 		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
 			super.activate(stage3DProxy, camera);
-			var context:Context3D = stage3DProxy._context3D;
-			context.setDepthTest(false, Context3DCompareMode.LESS);
-			context.setTextureAt(0, _cubeTexture.getTextureForStage3D(stage3DProxy));
+			var _context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
+			_context3DProxy.setDepthTest(false, Context3DCompareMode.LESS);
+			_context3DProxy.setTextureAt(0, _cubeTexture.getTextureForStage3D(stage3DProxy));
 		}
 	}
 }

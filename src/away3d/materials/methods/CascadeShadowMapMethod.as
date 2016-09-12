@@ -182,7 +182,7 @@ package away3d.materials.methods
 			// assume lowest partition is selected, will be overwritten later otherwise
 			code = "mov " + uvCoord + ", " + _depthMapCoordVaryings[numCascades - 1] + "\n";
 			
-			for (var i:int = numCascades - 2; i >= 0; --i) {
+			for (var i:int = numCascades - 2; i > -1; --i) {
 				var uvProjection:ShaderRegisterElement = _depthMapCoordVaryings[i];
 				
 				// calculate if in texturemap (result == 0 or 1, only 1 for a single partition)
@@ -215,7 +215,7 @@ package away3d.materials.methods
 		 */
 		override arcane function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
-			stage3DProxy._context3D.setTextureAt(vo.texturesIndex, _castingLight.shadowMapper.depthMap.getTextureForStage3D(stage3DProxy));
+			stage3DProxy._context3DProxy.setTextureAt(vo.texturesIndex, _castingLight.shadowMapper.depthMap.getTextureForStage3D(stage3DProxy));
 			
 			var vertexData:Vector.<Number> = vo.vertexData;
 			var vertexIndex:int = vo.vertexConstantsIndex;
@@ -236,7 +236,7 @@ package away3d.materials.methods
 			var nearPlaneDistances:Vector.<Number> = _cascadeShadowMapper.nearPlaneDistances;
 			
 			fragmentIndex += 8;
-			for (var i:uint = 0; i < numCascades; ++i)
+			for(var i:int = 0; i < numCascades; ++i)
 				fragmentData[fragmentIndex + i] = nearPlaneDistances[i];
 			
 			_baseMethod.activateForCascade(vo, stage3DProxy);

@@ -46,7 +46,7 @@ package away3d.core.partition
 		public function addViewVolume(viewVolume:ViewVolume):void
 		{
 			if (_viewVolumes.indexOf(viewVolume) == -1)
-				_viewVolumes.push(viewVolume);
+				_viewVolumes[_viewVolumes.length] = viewVolume;
 			
 			addNode(viewVolume);
 		}
@@ -54,7 +54,7 @@ package away3d.core.partition
 		public function removeViewVolume(viewVolume:ViewVolume):void
 		{
 			var index:int = _viewVolumes.indexOf(viewVolume);
-			if (index >= 0)
+			if (index != -1)
 				_viewVolumes.splice(index, 1);
 		}
 		
@@ -82,7 +82,7 @@ package away3d.core.partition
 		private function getVolumeContaining(entryPoint:Vector3D):ViewVolume
 		{
 			var numVolumes:uint = _viewVolumes.length;
-			for (var i:uint = 0; i < numVolumes; ++i) {
+			for(var i:int = 0; i < numVolumes; ++i) {
 				if (_viewVolumes[i].contains(entryPoint))
 					return _viewVolumes[i];
 			}

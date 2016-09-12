@@ -1,6 +1,7 @@
 ﻿package away3d.textures
 {
 	import away3d.materials.utils.MipmapGenerator;
+	import away3d.tools.utils.MathUtils;
 	import away3d.tools.utils.TextureUtils;
 	import flash.display.BitmapData;
 	import flash.display3D.Context3D;
@@ -47,9 +48,9 @@
 			bmp.dispose();
 		}
 		
-		override protected function createTexture(context:Context3D):TextureBase
+		override protected function createTexture(context3D:Context3D):TextureBase
 		{
-			return context.createTexture(width, height, Context3DTextureFormat.BGRA, true);
+			return context3D.createTexture(width, height, Context3DTextureFormat.BGRA, true);
 		}
 	}
 }

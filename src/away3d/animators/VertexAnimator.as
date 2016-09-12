@@ -121,7 +121,7 @@ package away3d.animators
 			var i:uint;
 			var len:uint = _numPoses;
 			
-			stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _weights, 1);
+			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _weights, 1);
 			
 			if (_blendMode == VertexAnimationMode.ABSOLUTE) {
 				i = 1;
@@ -145,11 +145,11 @@ package away3d.animators
 		
 		private function setNullPose(stage3DProxy:Stage3DProxy, renderable:IRenderable, vertexConstantOffset:int, vertexStreamOffset:int):void
 		{
-			stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _weights, 1);
+			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _weights, 1);
 			
 			if (_blendMode == VertexAnimationMode.ABSOLUTE) {
 				var len:uint = _numPoses;
-				for (var i:uint = 1; i < len; ++i) {
+				for(var i:int = 1; i < len; ++i) {
 					renderable.activateVertexBuffer(vertexStreamOffset++, stage3DProxy);
 					
 					if (_vertexAnimationSet.useNormals)

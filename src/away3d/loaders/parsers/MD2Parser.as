@@ -97,7 +97,7 @@ package away3d.loaders.parsers
 		 * @param data The data block to potentially be parsed.
 		 * @return Whether or not the given data is supported.
 		 */
-		public static function supportsData(data:*):Boolean
+		public static function supportsData(data:Object):Boolean
 		{
 			return (ParserUtil.toString(data, 4) == 'IDP2');
 		}
@@ -250,7 +250,7 @@ package away3d.loaders.parsers
 			_byteData.position = _offsetSkins;
 			
 			var regExp:RegExp = new RegExp("[^a-zA-Z0-9\\_\/.]", "g");
-			for (var i:uint = 0; i < _numSkins; ++i) {
+			for(var i:int = 0; i < _numSkins; ++i) {
 				name = _byteData.readUTFBytes(64);
 				name = name.replace(regExp, "");
 				extIndex = name.lastIndexOf(".");
@@ -284,7 +284,7 @@ package away3d.loaders.parsers
 			
 			_uvs = new Vector.<Number>(_numST*2);
 			_byteData.position = _offsetST;
-			for (var i:uint = 0; i < _numST; i++) {
+			for(var i:int = 0; i < _numST; i++) {
 				_uvs[j++] = _byteData.readShort()/_skinWidth;
 				_uvs[j++] = _byteData.readShort()/_skinHeight;
 			}
@@ -343,12 +343,14 @@ package away3d.loaders.parsers
 		{
 			var index:int = findIndex(vertexIndex, uvIndex);
 			
-			if (index == -1) {
-				_indices.push((_indexMap[vertexIndex] ||= new Dictionary(true))[uvIndex] = _vertIndices.length);
-				_vertIndices.push(vertexIndex);
-				_uvIndices.push(uvIndex);	
-			} else
-				_indices.push(index);
+			if (index == -1) 
+			{
+				_indices[_indices.length] = (_indexMap[vertexIndex] ||= new Dictionary(true))[uvIndex] = _vertIndices.length;
+				_vertIndices[_vertIndices.length] = vertexIndex;
+				_uvIndices[_uvIndices.length] = uvIndex;	
+			} 
+			else
+				_indices[_indices.length] = index;
 		}
 		
 		/**
@@ -459,7 +461,7 @@ package away3d.loaders.parsers
 		{
 			var name:String = "";
 			var k:uint = 0;
-			for (var j:uint = 0; j < 16; j++) {
+			for(var j:int = 0; j < 16; j++) {
 				var ch:uint = _byteData.readUnsignedByte();
 				
 				if (ch > 0x39 && ch <= 0x7A && k == 0)

@@ -106,7 +106,7 @@ package away3d.core.managers
 			var newId:int = _programNameToProgramIndex[key];
 			
 			if (oldId != newId) {
-				if (oldId >= 0)
+				if (oldId != -1)
 					freeProgram3D(oldId);
 				_usages[newId]++;
 			}

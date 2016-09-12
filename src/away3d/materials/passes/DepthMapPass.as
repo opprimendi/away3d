@@ -3,6 +3,7 @@
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
 	import away3d.core.base.IRenderable;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.core.math.Matrix3DUtils;
 	import away3d.textures.Texture2DBase;
@@ -149,13 +150,13 @@
 			if (_alphaThreshold > 0)
 				renderable.activateUVBuffer(1, stage3DProxy);
 			
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			var matrix:Matrix3D = Matrix3DUtils.CALCULATION_MATRIX;
 			matrix.copyFrom(renderable.getRenderSceneTransform(camera));
 			matrix.append(viewProjection);
-			context.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
+			context3DProxy.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, 0, matrix, true);
 			renderable.activateVertexBuffer(0, stage3DProxy);
-			context.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
+			context3DProxy.drawTriangles(renderable.getIndexBuffer(stage3DProxy), 0, renderable.numTriangles);
 		}
 		
 		/**
@@ -163,14 +164,14 @@
 		 */
 		override arcane function activate(stage3DProxy:Stage3DProxy, camera:Camera3D):void
 		{
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			super.activate(stage3DProxy, camera);
 			
 			if (_alphaThreshold > 0) {
-				context.setTextureAt(0, _alphaMask.getTextureForStage3D(stage3DProxy));
-				context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 3);
+				context3DProxy.setTextureAt(0, _alphaMask.getTextureForStage3D(stage3DProxy));
+				context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 3);
 			} else
-				context.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 2);
+				context3DProxy.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0, _data, 2);
 		}
 	}
 }

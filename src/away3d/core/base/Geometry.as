@@ -60,7 +60,7 @@ package away3d.core.base
 		 */
 		public function addSubGeometry(subGeometry:ISubGeometry):void
 		{
-			_subGeometries.push(subGeometry);
+			_subGeometries[_subGeometries.length] = subGeometry;
 			subGeometry.parentGeometry = this;
 			if (hasEventListener(GeometryEvent.SUB_GEOMETRY_ADDED))
 				dispatchEvent(new GeometryEvent(GeometryEvent.SUB_GEOMETRY_ADDED, subGeometry));
@@ -100,7 +100,7 @@ package away3d.core.base
 		public function scale(scale:Number):void
 		{
 			var length:uint = _subGeometries.length;
-			for (var i:uint = 0; i < length; ++i)
+			for(var i:int = 0; i < length; ++i)
 				_subGeometries[i].scale(scale);
 		}
 		
@@ -110,7 +110,7 @@ package away3d.core.base
 		public function dispose():void
 		{
 			var length:uint = _subGeometries.length;
-			for (var i:uint = 0; i < length; ++i) {
+			for(var i:int = 0; i < length; ++i) {
 				var subGeom:ISubGeometry = _subGeometries[0];
 				removeSubGeometry(subGeom);
 				subGeom.dispose();
@@ -125,7 +125,7 @@ package away3d.core.base
 		public function scaleUV(scaleU:Number = 1, scaleV:Number = 1):void
 		{
 			var length:uint = _subGeometries.length;
-			for (var i:uint = 0; i < length; ++i)
+			for(var i:int = 0; i < length; ++i)
 				_subGeometries[i].scaleUV(scaleU, scaleV);
 		}
 		
@@ -142,7 +142,7 @@ package away3d.core.base
 				if (subGeom is SubGeometry)
 					continue;
 				
-				_removableCompactSubGeometries.push(subGeom);
+				_removableCompactSubGeometries[_removableCompactSubGeometries.length] = subGeom as CompactSubGeometry;
 				addSubGeometry(subGeom.cloneWithSeperateBuffers());
 			}
 			

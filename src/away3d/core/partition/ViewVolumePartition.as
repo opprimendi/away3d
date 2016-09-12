@@ -24,12 +24,12 @@ package away3d.core.partition
 		 */
 		public function addViewVolume(viewVolume:ViewVolume):void
 		{
-			ViewVolumeRootNode(_rootNode).addViewVolume(viewVolume);
+			(_rootNode as ViewVolumeRootNode).addViewVolume(viewVolume);
 		}
 		
 		public function removeViewVolume(viewVolume:ViewVolume):void
 		{
-			ViewVolumeRootNode(_rootNode).removeViewVolume(viewVolume);
+			(_rootNode as ViewVolumeRootNode).removeViewVolume(viewVolume);
 		}
 		
 		/**
@@ -38,12 +38,12 @@ package away3d.core.partition
 		 */
 		public function get dynamicGrid():DynamicGrid
 		{
-			return ViewVolumeRootNode(_rootNode).dynamicGrid;
+			return (_rootNode as ViewVolumeRootNode).dynamicGrid;
 		}
 		
 		public function set dynamicGrid(value:DynamicGrid):void
 		{
-			ViewVolumeRootNode(_rootNode).dynamicGrid = value;
+			(_rootNode as ViewVolumeRootNode).dynamicGrid = value;
 		}
 	}
 }

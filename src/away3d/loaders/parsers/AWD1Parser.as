@@ -72,7 +72,7 @@ package away3d.loaders.parsers
 		 * @param data The data block to potentially be parsed.
 		 * @return Whether or not the given data is supported.
 		 */
-		public static function supportsData(data:*):Boolean
+		public static function supportsData(data:Object):Boolean
 		{
 			var ba:ByteArray;
 			var str1:String;
@@ -221,7 +221,7 @@ package away3d.loaders.parsers
 								z:parseFloat(_dline[11]),
 								
 								material:(_isMaterial && _dline[12] != null && _dline[12] != "")? _dline[12] : null};
-						_objs.push(oData);
+						_objs[_objs.length] = oData;
 						_buffer = 0;
 					}
 				}
@@ -231,7 +231,7 @@ package away3d.loaders.parsers
 					switch (_buffer) {
 						case 0:
 							_id = _geos.length;
-							_geos.push({});
+							_geos[_geos.length] = {};
 							++_buffer;
 							_geos[_id].aVstr = line.substring(2, line.length);
 							break;
@@ -260,7 +260,7 @@ package away3d.loaders.parsers
 					cont.transform = m;
 					cont.name = (_dline[13] == "null" || _dline[13] == undefined)? "cont_" + _id : _dline[13];
 					
-					_aC.push(cont);
+					_aC[_aC.length] = cont;
 					
 					if (cont != _container)
 						_aC[0].addChild(cont);
@@ -277,7 +277,7 @@ package away3d.loaders.parsers
 					if (ref && ref.geo) {
 						mesh = new Mesh(new Geometry(), null);
 						mesh.name = ref.name;
-						_meshList.push(mesh);
+						_meshList[_meshList.length] = mesh;
 						
 						if (ref.container != -1 && !_isMesh)
 							_aC[ref.container].addChild(mesh);

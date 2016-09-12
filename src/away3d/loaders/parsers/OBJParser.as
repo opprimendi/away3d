@@ -89,7 +89,7 @@ package away3d.loaders.parsers
 		 * @param data The data block to potentially be parsed.
 		 * @return Whether or not the given data is supported.
 		 */
-		public static function supportsData(data:*):Boolean
+		public static function supportsData(data:Object):Boolean
 		{
 			var content:String = ParserUtil.toString(data);
 			var hasV:Boolean;
@@ -126,7 +126,7 @@ package away3d.loaders.parsers
 					lm.materialID = resourceDependency.id;
 					lm.texture = asset as Texture2DBase;
 					
-					_materialLoaded.push(lm);
+					_materialLoaded[_materialLoaded.length] = lm;
 					
 					if (_meshes.length > 0)
 						applyMaterial(lm);
@@ -145,7 +145,7 @@ package away3d.loaders.parsers
 			} else {
 				var lm:LoadedMaterial = new LoadedMaterial();
 				lm.materialID = resourceDependency.id;
-				_materialLoaded.push(lm);
+				_materialLoaded[_materialLoaded.length] = lm;
 			}
 			
 			if (_meshes.length > 0)
@@ -241,7 +241,7 @@ package away3d.loaders.parsers
 					if (_mtlLib) {
 						if (!trunk[1])
 							trunk[1] = "def000";
-						_materialIDs.push(trunk[1]);
+						_materialIDs[_materialIDs.length] = trunk[1];
 						_activeMaterialID = trunk[1];
 						if (_currentGroup)
 							_currentGroup.materialID = _activeMaterialID;
@@ -278,7 +278,7 @@ package away3d.loaders.parsers
 				var sm:uint;
 				var bmMaterial:MaterialBase;
 				
-				for (var g:uint = 0; g < numGroups; ++g) {
+				for(var g:int = 0; g < numGroups; ++g) {
 					geometry = new Geometry();
 					materialGroups = groups[g].materialGroups;
 					numMaterialGroups = materialGroups.length;
@@ -310,7 +310,7 @@ package away3d.loaders.parsers
 						mesh.name = "";
 					}
 					
-					_meshes.push(mesh);
+					_meshes[_meshes.length] = mesh;
 					
 					if (groups[g].materialID != "")
 						bmMaterial.name = groups[g].materialID + "~" + mesh.name;
@@ -349,7 +349,7 @@ package away3d.loaders.parsers
 			_vertexIndex = 0;
 			
 			var j:uint;
-			for (var i:uint = 0; i < numFaces; ++i) {
+			for(var i:int = 0; i < numFaces; ++i) {
 				face = faces[i];
 				numVerts = face.indexIds.length - 1;
 				for (j = 1; j < numVerts; ++j) {
@@ -408,7 +408,7 @@ package away3d.loaders.parsers
 			} else
 				index = _realIndices[face.indexIds[vertexIndex]] - 1;
 			
-			indices.push(index);
+			indices[indices.length] = index;
 		}
 		
 		/**
@@ -419,7 +419,9 @@ package away3d.loaders.parsers
 		{
 			_currentGroup = null;
 			_currentMaterialGroup = null;
-			_objects.push(_currentObject = new ObjectGroup());
+			_currentObject = new ObjectGroup();
+			
+			_objects[_objects.length] = _currentObject;
 			
 			if (trunk)
 				_currentObject.name = trunk[1];
@@ -434,12 +436,14 @@ package away3d.loaders.parsers
 			if (!_currentObject)
 				createObject(null);
 			_currentGroup = new Group();
+			var groups:Vector.<Group> = _currentObject.groups;
 			
 			_currentGroup.materialID = _activeMaterialID;
 			
 			if (trunk)
 				_currentGroup.name = trunk[1];
-			_currentObject.groups.push(_currentGroup);
+				
+			groups[groups.length] = _currentGroup;
 			
 			createMaterialGroup(null);
 		}
@@ -451,9 +455,12 @@ package away3d.loaders.parsers
 		private function createMaterialGroup(trunk:Array):void
 		{
 			_currentMaterialGroup = new MaterialGroup();
+			var materialGroups:Vector.<MaterialGroup> = _currentGroup.materialGroups;
+			
 			if (trunk)
 				_currentMaterialGroup.url = trunk[1];
-			_currentGroup.materialGroups.push(_currentMaterialGroup);
+				
+			materialGroups[materialGroups.length] = _currentMaterialGroup;
 		}
 		
 		/**
@@ -466,10 +473,10 @@ package away3d.loaders.parsers
 			if (trunk.length > 4) {
 				var nTrunk:Array = [];
 				var val:Number;
-				for (var i:uint = 1; i < trunk.length; ++i) {
+				for(var i:int = 1; i < trunk.length; ++i) {
 					val = parseFloat(trunk[i]);
 					if (!isNaN(val))
-						nTrunk.push(val);
+						nTrunk[nTrunk.length] = val;
 				}
 				_vertices.push(new Vertex(nTrunk[0], nTrunk[1], -nTrunk[2]));
 			} else
@@ -486,10 +493,10 @@ package away3d.loaders.parsers
 			if (trunk.length > 3) {
 				var nTrunk:Array = [];
 				var val:Number;
-				for (var i:uint = 1; i < trunk.length; ++i) {
+				for(var i:int = 1; i < trunk.length; ++i) {
 					val = parseFloat(trunk[i]);
 					if (!isNaN(val))
-						nTrunk.push(val);
+						nTrunk[nTrunk.length] = val;
 				}
 				_uvs.push(new UV(nTrunk[0], 1 - nTrunk[1]));
 				
@@ -507,10 +514,10 @@ package away3d.loaders.parsers
 			if (trunk.length > 4) {
 				var nTrunk:Array = [];
 				var val:Number;
-				for (var i:uint = 1; i < trunk.length; ++i) {
+				for(var i:int = 1; i < trunk.length; ++i) {
 					val = parseFloat(trunk[i]);
 					if (!isNaN(val))
-						nTrunk.push(val);
+						nTrunk[nTrunk.length] = val;
 				}
 				_vertexNormals.push(new Vertex(nTrunk[0], nTrunk[1], -nTrunk[2]));
 				
@@ -531,7 +538,7 @@ package away3d.loaders.parsers
 				createGroup(null);
 			
 			var indices:Array;
-			for (var i:uint = 1; i < len; ++i) {
+			for(var i:int = 1; i < len; ++i) {
 				if (trunk[i] == "")
 					continue;
 				indices = trunk[i].split("/");
@@ -540,10 +547,11 @@ package away3d.loaders.parsers
 					face.uvIndices.push(parseIndex(parseInt(indices[1]), _uvs.length));
 				if (indices[2] && String(indices[2]).length > 0)
 					face.normalIndices.push(parseIndex(parseInt(indices[2]), _vertexNormals.length));
-				face.indexIds.push(trunk[i]);
+				face.indexIds[face.indexIds.length] = trunk[i];
 			}
 			
-			_currentMaterialGroup.faces.push(face);
+			var faces:Vector.<FaceData> = _currentMaterialGroup.faces;
+			faces[faces.length] = face;
 		}
 		
 		/**
@@ -574,7 +582,7 @@ package away3d.loaders.parsers
 			var alpha:Number;
 			var mapkd:String;
 			
-			for (var i:uint = 0; i < materialDefinitions.length; ++i) {
+			for(var i:int = 0; i < materialDefinitions.length; ++i) {
 				
 				lines = (materialDefinitions[i].split('\r') as Array).join("").split('\n');
 				
@@ -661,7 +669,7 @@ package away3d.loaders.parsers
 						if (!_materialSpecularData)
 							_materialSpecularData = new Vector.<SpecularData>();
 						
-						_materialSpecularData.push(specularData);
+						_materialSpecularData[_materialSpecularData.length] = specularData;
 					}
 					
 					addDependency(_lastMtlID, new URLRequest(mapkd));
@@ -677,25 +685,25 @@ package away3d.loaders.parsers
 					var cm:MaterialBase;
 					if (materialMode < 2) {
 						cm = new ColorMaterial(diffuseColor);
-						ColorMaterial(cm).alpha = alpha;
-						ColorMaterial(cm).ambientColor = ambientColor;
-						ColorMaterial(cm).repeat = true;
+						(cm as ColorMaterial).alpha = alpha;
+						(cm as ColorMaterial).ambientColor = ambientColor;
+						(cm as ColorMaterial).repeat = true;
 						if (useSpecular) {
-							ColorMaterial(cm).specularColor = specularColor;
-							ColorMaterial(cm).specular = specular;
+							(cm as ColorMaterial).specularColor = specularColor;
+							(cm as ColorMaterial).specular = specular;
 						}
 					} else {
 						cm = new ColorMultiPassMaterial(diffuseColor);
-						ColorMultiPassMaterial(cm).ambientColor = ambientColor;
-						ColorMultiPassMaterial(cm).repeat = true;
+						(cm as ColorMultiPassMaterial).ambientColor = ambientColor;
+						(cm as ColorMultiPassMaterial).repeat = true;
 						if (useSpecular) {
-							ColorMultiPassMaterial(cm).specularColor = specularColor;
-							ColorMultiPassMaterial(cm).specular = specular;
+							(cm as ColorMultiPassMaterial).specularColor = specularColor;
+							(cm as ColorMultiPassMaterial).specular = specular;
 						}
 					}
 					
 					lm.cm = cm;
-					_materialLoaded.push(lm);
+					_materialLoaded[_materialLoaded.length] = lm;
 					
 					if (_meshes.length > 0)
 						applyMaterial(lm);
@@ -766,7 +774,7 @@ package away3d.loaders.parsers
 			var j:uint;
 			var specularData:SpecularData;
 			
-			for (var i:uint = 0; i < _meshes.length; ++i) {
+			for(var i:int = 0; i < _meshes.length; ++i) {
 				mesh = _meshes[i];
 				decomposeID = mesh.material.name.split("~");
 				
@@ -780,50 +788,50 @@ package away3d.loaders.parsers
 					} else if (lm.texture) {
 						if (materialMode < 2) { // if materialMode is 0 or 1, we create a SinglePass				
 							mat = TextureMaterial(mesh.material);
-							TextureMaterial(mat).texture = lm.texture;
-							TextureMaterial(mat).ambientColor = lm.ambientColor;
-							TextureMaterial(mat).alpha = lm.alpha;
-							TextureMaterial(mat).repeat = true;
+							(mat as TextureMaterial).texture = lm.texture;
+							(mat as TextureMaterial).ambientColor = lm.ambientColor;
+							(mat as TextureMaterial).alpha = lm.alpha;
+							(mat as TextureMaterial).repeat = true;
 							
 							if (lm.specularMethod) {
 								// By setting the specularMethod property to null before assigning
 								// the actual method instance, we avoid having the properties of
 								// the new method being overridden with the settings from the old
 								// one, which is default behavior of the setter.
-								TextureMaterial(mat).specularMethod = null;
-								TextureMaterial(mat).specularMethod = lm.specularMethod;
+								(mat as TextureMaterial).specularMethod = null;
+								(mat as TextureMaterial).specularMethod = lm.specularMethod;
 							} else if (_materialSpecularData) {
 								for (j = 0; j < _materialSpecularData.length; ++j) {
 									specularData = _materialSpecularData[j];
 									if (specularData.materialID == lm.materialID) {
-										TextureMaterial(mat).specularMethod = null; // Prevent property overwrite (see above)
-										TextureMaterial(mat).specularMethod = specularData.basicSpecularMethod;
-										TextureMaterial(mat).ambientColor = specularData.ambientColor;
-										TextureMaterial(mat).alpha = specularData.alpha;
+										(mat as TextureMaterial).specularMethod = null; // Prevent property overwrite (see above)
+										(mat as TextureMaterial).specularMethod = specularData.basicSpecularMethod;
+										(mat as TextureMaterial).ambientColor = specularData.ambientColor;
+										(mat as TextureMaterial).alpha = specularData.alpha;
 										break;
 									}
 								}
 							}
 						} else { //if materialMode==2 this is a MultiPassTexture					
 							mat = TextureMultiPassMaterial(mesh.material);
-							TextureMultiPassMaterial(mat).texture = lm.texture;
-							TextureMultiPassMaterial(mat).ambientColor = lm.ambientColor;
-							TextureMultiPassMaterial(mat).repeat = true;
+							(mat as TextureMultiPassMaterial).texture = lm.texture;
+							(mat as TextureMultiPassMaterial).ambientColor = lm.ambientColor;
+							(mat as TextureMultiPassMaterial).repeat = true;
 							
 							if (lm.specularMethod) {
 								// By setting the specularMethod property to null before assigning
 								// the actual method instance, we avoid having the properties of
 								// the new method being overridden with the settings from the old
 								// one, which is default behavior of the setter.
-								TextureMultiPassMaterial(mat).specularMethod = null;
-								TextureMultiPassMaterial(mat).specularMethod = lm.specularMethod;
+								(mat as TextureMultiPassMaterial).specularMethod = null;
+								(mat as TextureMultiPassMaterial).specularMethod = lm.specularMethod;
 							} else if (_materialSpecularData) {
 								for (j = 0; j < _materialSpecularData.length; ++j) {
 									specularData = _materialSpecularData[j];
 									if (specularData.materialID == lm.materialID) {
-										TextureMultiPassMaterial(mat).specularMethod = null; // Prevent property overwrite (see above)
-										TextureMultiPassMaterial(mat).specularMethod = specularData.basicSpecularMethod;
-										TextureMultiPassMaterial(mat).ambientColor = specularData.ambientColor;
+										(mat as TextureMultiPassMaterial).specularMethod = null; // Prevent property overwrite (see above)
+										(mat as TextureMultiPassMaterial).specularMethod = specularData.basicSpecularMethod;
+										(mat as TextureMultiPassMaterial).ambientColor = specularData.ambientColor;
 										break;
 									}
 								}
@@ -846,7 +854,7 @@ package away3d.loaders.parsers
 			if (_materialLoaded.length == 0)
 				return;
 			
-			for (var i:uint = 0; i < _materialLoaded.length; ++i)
+			for(var i:int = 0; i < _materialLoaded.length; ++i)
 				applyMaterial(_materialLoaded[i]);
 		}
 	}

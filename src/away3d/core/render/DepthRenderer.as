@@ -8,6 +8,7 @@ package away3d.core.render
 	import away3d.core.traverse.EntityCollector;
 	import away3d.entities.Entity;
 	import away3d.materials.MaterialBase;
+	import flash.display3D.Context3DClearMask;
 	
 	import flash.display3D.Context3DBlendFactor;
 	import flash.display3D.Context3DCompareMode;
@@ -69,9 +70,9 @@ package away3d.core.render
 			_renderTargetSurface = 0;
 			_renderableSorter.sort(entityCollector);
 			_stage3DProxy.setRenderTarget(target, true, 0);
-			_context.clear(1, 1, 1, 1, 1, 0);
-			_context.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
-			_context.setDepthTest(true, Context3DCompareMode.LESS);
+			_context3DProxy.clear(1, 1, 1, 1, 1, 0, Context3DClearMask.ALL);
+			_context3DProxy.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+			_context3DProxy.setDepthTest(true, Context3DCompareMode.LESS);
 			
 			var head:RenderableListItem = entityCollector.opaqueRenderableHead;
 			var first:Boolean = true;
@@ -87,9 +88,9 @@ package away3d.core.render
 			_activeMaterial = null;
 			
 			//line required for correct rendering when using away3d with starling. DO NOT REMOVE UNLESS STARLING INTEGRATION IS RETESTED!
-			_context.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);
+			_context3DProxy.setDepthTest(false, Context3DCompareMode.LESS_EQUAL);
 			
-			_stage3DProxy.scissorRect = null;
+			_stage3DProxy.clearScissorRectangle();
 		}
 		
 		private function drawCascadeRenderables(item:RenderableListItem, camera:Camera3D, cullPlanes:Vector.<Plane3D>):void
@@ -129,12 +130,12 @@ package away3d.core.render
 		 */
 		override protected function draw(entityCollector:EntityCollector, target:TextureBase):void
 		{
-			_context.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
-			_context.setDepthTest(true, Context3DCompareMode.LESS);
+			_context3DProxy.setBlendFactors(Context3DBlendFactor.ONE, Context3DBlendFactor.ZERO);
+			_context3DProxy.setDepthTest(true, Context3DCompareMode.LESS);
 			drawRenderables(entityCollector.opaqueRenderableHead, entityCollector);
 			
 			if (_disableColor)
-				_context.setColorMask(false, false, false, false);
+				_context3D.setColorMask(false, false, false, false);
 			
 			if (_renderBlended)
 				drawRenderables(entityCollector.blendedRenderableHead, entityCollector);
@@ -143,7 +144,7 @@ package away3d.core.render
 				_activeMaterial.deactivateForDepth(_stage3DProxy);
 			
 			if (_disableColor)
-				_context.setColorMask(true, true, true, true);
+				_context3D.setColorMask(true, true, true, true);
 			
 			_activeMaterial = null;
 		}

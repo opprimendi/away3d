@@ -41,7 +41,7 @@ package away3d.tools.utils
 			{
 				if (PROFILES_LIST[i].versionAvailableFrom <= version)
 				{
-					availableProfiles.push(PROFILES_LIST[i]);
+					availableProfiles[availableProfiles.length] = PROFILES_LIST[i];
 				}
 			}
 			

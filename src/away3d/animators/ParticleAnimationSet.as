@@ -1,5 +1,6 @@
 package away3d.animators
 {
+	import away3d.core.context3DProxy.Context3DProxy;
 	import flash.display3D.*;
 	import flash.utils.*;
 	
@@ -102,12 +103,12 @@ package away3d.animators
 			if (n.mode == ParticlePropertiesMode.LOCAL_STATIC) {
 				n.dataOffset = _totalLenOfOneVertex;
 				_totalLenOfOneVertex += n.dataLength;
-				_localStaticNodes.push(n);
+				_localStaticNodes[_localStaticNodes.length] = n;
 			} else if (n.mode == ParticlePropertiesMode.LOCAL_DYNAMIC)
-				_localDynamicNodes.push(n);
+				_localDynamicNodes[_localDynamicNodes.length] = n;
 			
 			var i:int;
-			for (i = _particleNodes.length - 1; i >= 0; i--) {
+			for (i = _particleNodes.length - 1; i > -1; i--) {
 				if (_particleNodes[i].priority <= n.priority)
 					break;
 			}
@@ -132,11 +133,11 @@ package away3d.animators
 		{
 			if (_animationRegisterCache)
 			{
-				var context:Context3D = stage3DProxy.context3D;
+				var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 				var offset:int = _animationRegisterCache.vertexAttributesOffset;
 				var used:int = _animationRegisterCache.numUsedStreams;
 				for (var i:int = offset; i < used; i++)
-					context.setVertexBufferAt(i, null);
+					context3DProxy.clearVertexBufferAt(i);
 			}
 		}
 		
@@ -166,6 +167,7 @@ package away3d.animators
 			
 			var code:String = _animationRegisterCache.getInitCode();
 			var node:ParticleNodeBase;
+			
 			for each (node in _particleNodes) {
 				if (node.priority < POST_PRIORITY)
 					code += node.getAGALVertexCode(pass, _animationRegisterCache);
@@ -363,7 +365,10 @@ package away3d.animators
 					
 					//store particle properties if they need to be retreived for dynamic local nodes
 					if (_localDynamicNodes.length)
-						animationSubGeometry.animationParticles.push(new ParticleAnimationData(i, particleProperties.startTime, particleProperties.duration, particleProperties.delay, particle));
+					{
+						var animationParticles:Vector.<ParticleAnimationData> = animationSubGeometry.animationParticles;
+						animationParticles[animationParticles.length] = new ParticleAnimationData(i, particleProperties.startTime, particleProperties.duration, particleProperties.delay, particle);
+					}
 					
 					animationSubGeometry.numProcessedVertices += numVertices;
 					

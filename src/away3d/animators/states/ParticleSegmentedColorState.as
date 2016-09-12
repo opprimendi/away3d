@@ -121,30 +121,69 @@ package away3d.animators.states
 			var i:int;
 			for (i = 0; i < _numSegmentPoint; i++) {
 				if (i == 0)
-					_timeLifeData.push(_segmentPoints[i].life);
+					_timeLifeData[_timeLifeData.length] = _segmentPoints[i].life;
 				else
-					_timeLifeData.push(_segmentPoints[i].life - _segmentPoints[i - 1].life);
+					_timeLifeData[_timeLifeData.length] = _segmentPoints[i].life - _segmentPoints[i - 1].life;
 			}
 			if (_numSegmentPoint == 0)
-				_timeLifeData.push(1);
+				_timeLifeData[_timeLifeData.length] = 1;
 			else
-				_timeLifeData.push(1 - _segmentPoints[i - 1].life);
+				_timeLifeData[_timeLifeData.length] = 1 - _segmentPoints[i - 1].life;
 			
-			if (_usesMultiplier) {
-				_multiplierData.push(_startColor.redMultiplier, _startColor.greenMultiplier, _startColor.blueMultiplier, _startColor.alphaMultiplier);
-				for (i = 0; i < _numSegmentPoint; i++) {
+			if (_usesMultiplier) 
+			{
+				var multiplierLength:int = _multiplierData.length;
+				
+				var color:ColorTransform;
+				var timeData:Number;
+				
+				_multiplierData[multiplierLength++] = _startColor.redMultiplier;
+				_multiplierData[multiplierLength++] = _startColor.greenMultiplier;
+				_multiplierData[multiplierLength++] = _startColor.blueMultiplier;
+				_multiplierData[multiplierLength++] = _startColor.alphaMultiplier;
+				
+				for (i = 0; i < _numSegmentPoint; i++) 
+				{
+					color = _segmentPoints[i].color
+					timeData = _timeLifeData[i];
+					
 					if (i == 0)
-						_multiplierData.push((_segmentPoints[i].color.redMultiplier - _startColor.redMultiplier)/_timeLifeData[i], (_segmentPoints[i].color.greenMultiplier - _startColor.greenMultiplier)/_timeLifeData[i], (_segmentPoints[i].color.blueMultiplier - _startColor.blueMultiplier)/_timeLifeData[i], (_segmentPoints[i].color.alphaMultiplier - _startColor.alphaMultiplier)/_timeLifeData[i]);
+					{
+						_multiplierData[multiplierLength++] = (color.redMultiplier - _startColor.redMultiplier) / timeData;
+						_multiplierData[multiplierLength++] = (color.greenMultiplier - _startColor.greenMultiplier) / timeData;
+						_multiplierData[multiplierLength++] = (color.blueMultiplier - _startColor.blueMultiplier) / timeData;
+						_multiplierData[multiplierLength++] = (color.alphaMultiplier - _startColor.alphaMultiplier) / timeData;
+					}
 					else
-						_multiplierData.push((_segmentPoints[i].color.redMultiplier - _segmentPoints[i - 1].color.redMultiplier)/_timeLifeData[i], (_segmentPoints[i].color.greenMultiplier - _segmentPoints[i - 1].color.greenMultiplier)/_timeLifeData[i], (_segmentPoints[i].color.blueMultiplier - _segmentPoints[i - 1].color.blueMultiplier)/_timeLifeData[i], (_segmentPoints[i].color.alphaMultiplier - _segmentPoints[i - 1].color.alphaMultiplier)/_timeLifeData[i]);
+					{
+						var color2:ColorTransform = _segmentPoints[i - 1].color;
+						_multiplierData[multiplierLength++] = (color.redMultiplier - color2.redMultiplier) / timeData;
+						_multiplierData[multiplierLength++] = (color.greenMultiplier - color2.greenMultiplier) / timeData;
+						_multiplierData[multiplierLength++] = (color.blueMultiplier - color2.blueMultiplier) / timeData;
+						_multiplierData[multiplierLength++] = (color.alphaMultiplier - color2.alphaMultiplier) / timeData;
+					}
 				}
+				
 				if (_numSegmentPoint == 0)
-					_multiplierData.push(_endColor.redMultiplier - _startColor.redMultiplier, _endColor.greenMultiplier - _startColor.greenMultiplier, _endColor.blueMultiplier - _startColor.blueMultiplier, _endColor.alphaMultiplier - _startColor.alphaMultiplier);
+				{	
+					_multiplierData[multiplierLength++] = _endColor.redMultiplier - _startColor.redMultiplier;
+					_multiplierData[multiplierLength++] = _endColor.greenMultiplier - _startColor.greenMultiplier;
+					_multiplierData[multiplierLength++] = _endColor.blueMultiplier - _startColor.blueMultiplier;
+					_multiplierData[multiplierLength++] = _endColor.alphaMultiplier - _startColor.alphaMultiplier;
+				}
 				else
-					_multiplierData.push((_endColor.redMultiplier - _segmentPoints[i - 1].color.redMultiplier)/_timeLifeData[i], (_endColor.greenMultiplier - _segmentPoints[i - 1].color.greenMultiplier)/_timeLifeData[i], (_endColor.blueMultiplier - _segmentPoints[i - 1].color.blueMultiplier)/_timeLifeData[i], (_endColor.alphaMultiplier - _segmentPoints[i - 1].color.alphaMultiplier)/_timeLifeData[i]);
+				{
+					color2 = _segmentPoints[i - 1].color;
+					timeData = _timeLifeData[i];
+					_multiplierData[multiplierLength++] = (_endColor.redMultiplier - color2.redMultiplier) / timeData;
+					_multiplierData[multiplierLength++] = (_endColor.greenMultiplier - color2.greenMultiplier) / timeData;
+					_multiplierData[multiplierLength++] = (_endColor.blueMultiplier - color2.blueMultiplier) / timeData;
+					_multiplierData[multiplierLength++] = (_endColor.alphaMultiplier - color2.alphaMultiplier) / timeData;
+				}
 			}
 			
-			if (_usesOffset) {
+			if (_usesOffset) 
+			{
 				_offsetData.push(_startColor.redOffset/255, _startColor.greenOffset/255, _startColor.blueOffset/255, _startColor.alphaOffset/255);
 				for (i = 0; i < _numSegmentPoint; i++) {
 					if (i == 0)

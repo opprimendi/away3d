@@ -144,30 +144,30 @@ package away3d.textures
 				throw new Error("Invalid bitmapData: Width and height must be power of 2 and cannot exceed 2048");
 		}
 		
-		override protected function createTexture(context:Context3D):TextureBase 
+		override protected function createTexture(context3D:Context3D):TextureBase 
 		{
 			if (_isUseStreamingUpload)
 			{
-				var mipLevel:int = MathUtils.log(_size);
+				var mipLevel:int = MathUtils.log(_size, 2);
 				maxMipLevel = mipLevel;
 				currentMipLevel = maxMipLevel;
 				isMipMapsUploaded = false;
-				return context.createCubeTexture(_size, Context3DTextureFormat.BGRA, false, mipLevel);
+				return context3D.createCubeTexture(_size, Context3DTextureFormat.BGRA, false, mipLevel);
 			}
-			return context.createCubeTexture(_size, Context3DTextureFormat.BGRA, false, 0);
+			return context3D.createCubeTexture(_size, Context3DTextureFormat.BGRA, false, 0);
 		}
 		
 		override public function getTextureForStage3D(stage3DProxy:Stage3DProxy):TextureBase 
 		{
 			var contextIndex:int = stage3DProxy.arcane::_stage3DIndex;
 			var texture:TextureBase = _textures[contextIndex];
-			var context:Context3D = stage3DProxy.arcane::_context3D;
+			var context3D:Context3D = stage3DProxy.arcane::_context3D;
 			
-			if (!texture || _dirty[contextIndex] != context) 
+			if (!texture || _dirty[contextIndex] != context3D) 
 			{
-				texture = createTexture(context);
+				texture = createTexture(context3D);
 				_textures[contextIndex] = texture;
-				_dirty[contextIndex] = context;
+				_dirty[contextIndex] = context3D;
 				
 				if (!_generateMipmaps)
 					uploadContent(texture);

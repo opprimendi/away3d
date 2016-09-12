@@ -79,7 +79,7 @@ package away3d.animators.nodes
 			deltaValues = new Vector.<ShaderRegisterElement>;
 			for (i = 0; i < _numSegmentPoint + 1; i++)
 			{
-				deltaValues.push(animationRegisterCache.getFreeVertexConstant());
+				deltaValues[deltaValues.length] = animationRegisterCache.getFreeVertexConstant();
 			}
 			
 			

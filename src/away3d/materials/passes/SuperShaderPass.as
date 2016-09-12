@@ -2,6 +2,7 @@ package away3d.materials.passes
 {
 	import away3d.arcane;
 	import away3d.cameras.Camera3D;
+	import away3d.core.context3DProxy.Context3DProxy;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.lights.DirectionalLight;
 	import away3d.lights.LightProbe;
@@ -199,7 +200,7 @@ package away3d.materials.passes
 				vo.method.activate(vo.data, stage3DProxy);
 			}
 			
-			if (_cameraPositionIndex >= 0) {
+			if (_cameraPositionIndex != -1) {
 				var pos:Vector3D = camera.scenePosition;
 				_vertexConstantData[_cameraPositionIndex] = pos.x;
 				_vertexConstantData[_cameraPositionIndex + 1] = pos.y;
@@ -220,7 +221,7 @@ package away3d.materials.passes
 			var set:MethodVOSet;
 			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
 			var len:uint = methods.length;
-			for (var i:uint = 0; i < len; ++i) {
+			for(var i:int = 0; i < len; ++i) {
 				set = methods[i];
 				set.method.deactivate(set.data, stage3DProxy);
 			}
@@ -237,7 +238,7 @@ package away3d.materials.passes
 				addPasses(_methodSetup._colorTransformMethod.passes);
 			
 			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
-			for (var i:uint = 0; i < methods.length; ++i)
+			for(var i:int = 0; i < methods.length; ++i)
 				addPasses(methods[i].method.passes);
 		}
 
@@ -268,7 +269,7 @@ package away3d.materials.passes
 			
 			var methods:Vector.<MethodVOSet> = _methodSetup._methods;
 			var len:uint = methods.length;
-			for (var i:uint = 0; i < len; ++i)
+			for(var i:int = 0; i < len; ++i)
 				methods[i].method.initConstants(methods[i].data);
 		}
 
@@ -373,18 +374,18 @@ package away3d.materials.passes
 			var len:int = lightProbes.length;
 			var addDiff:Boolean = usesProbesForDiffuse();
 			var addSpec:Boolean = Boolean(_methodSetup._specularMethod && usesProbesForSpecular());
-			var context:Context3D = stage3DProxy._context3D;
+			var context3DProxy:Context3DProxy = stage3DProxy._context3DProxy;
 			
 			if (!(addDiff || addSpec))
 				return;
 			
-			for (var i:uint = 0; i < len; ++i) {
+			for(var i:int = 0; i < len; ++i) {
 				probe = lightProbes[i];
 				
 				if (addDiff)
-					context.setTextureAt(_lightProbeDiffuseIndices[i], probe.diffuseMap.getTextureForStage3D(stage3DProxy));
+					context3DProxy.setTextureAt(_lightProbeDiffuseIndices[i], probe.diffuseMap.getTextureForStage3D(stage3DProxy));
 				if (addSpec)
-					context.setTextureAt(_lightProbeSpecularIndices[i], probe.specularMap.getTextureForStage3D(stage3DProxy));
+					context3DProxy.setTextureAt(_lightProbeSpecularIndices[i], probe.specularMap.getTextureForStage3D(stage3DProxy));
 			}
 			
 			_fragmentConstantData[_probeWeightsIndex] = weights[0];

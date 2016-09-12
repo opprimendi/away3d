@@ -21,7 +21,7 @@
 			var color:uint;
 			var j:uint;
 			
-			for (var i:uint = 0; i < vectors.length; ++i) {
+			for(var i:int = 0; i < vectors.length; ++i) {
 				color = colors[i];
 				letter = vectors[i];
 				

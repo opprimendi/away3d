@@ -172,7 +172,7 @@ package away3d.debug
 			
 			_views = new Vector.<View3D>();
 			if (view3d)
-				_views.push(view3d);
+				_views[_views.length] = view3d;
 			
 			// Store instance for singleton access. Singleton status
 			// is not enforced, since the widget will work anyway.
@@ -251,7 +251,7 @@ package away3d.debug
 		public function registerView(view3d:View3D):void
 		{
 			if (view3d && _views.indexOf(view3d) < 0)
-				_views.push(view3d);
+				_views[_views.length] = view3d;
 		}
 		
 		/**
@@ -264,7 +264,7 @@ package away3d.debug
 		{
 			if (view3d) {
 				var idx:int = _views.indexOf(view3d);
-				if (idx >= 0)
+				if (idx != -1)
 					_views.splice(idx, 1);
 			}
 		}
@@ -583,23 +583,25 @@ package away3d.debug
 			var dia_y:int;
 			
 			// Redraw counters
-			_fps_tf.text = String(_fps).concat('/', int(stage.frameRate));
-			_afps_tf.text = String(Math.round(_avg_fps));
-			_ram_tf.text = _getRamString(_ram).concat(' / ', _getRamString(_max_ram));
+			_fps_tf.text = _fps + '/' + stage.frameRate;
+			_afps_tf.text = Math.round(_avg_fps).toString();
+			_ram_tf.text = _getRamString(_ram) + ' / ' + _getRamString(_max_ram);
 			
 			// Move entire diagram
 			_dia_bmp.scroll(1, 0);
 			
 			// Only redraw polycount if there is a  view available
 			// or they won't have been calculated properly
-			if (_views.length > 0) {
+			if (_views.length > 0) 
+			{
 				//				_poly_tf.text = _rfaces.toString().concat(' / ', _tfaces); // TODO: Total faces not yet available in 4.x
 				_poly_tf.text = _rfaces + "/" + _rvertss;
 				
 				// Plot rendered faces
 				dia_y = _dia_bmp.height - Math.floor(_rfaces/_tfaces*_dia_bmp.height);
 				_dia_bmp.setPixel32(1, dia_y, _POLY_COL + 0xff000000);
-			} else
+			} 
+			else
 				_poly_tf.text = 'n/a (no view)';
 			
 			// Show software (SW) or hardware (HW)
@@ -646,7 +648,7 @@ package away3d.debug
 			g.clear();
 			g.lineStyle(.5, _MEM_COL, 1, true, LineScaleMode.NONE);
 			g.moveTo(5*(_mem_points.length - 1), -_mem_points[_mem_points.length - 1]);
-			for (var i:int = _mem_points.length - 1; i >= 0; --i) {
+			for (var i:int = _mem_points.length - 1; i > -1; --i) {
 				if (_mem_points[i + 1] == 0 || _mem_points[i] == 0) {
 					g.moveTo(i*5, -_mem_points[i]);
 					continue;
@@ -793,7 +795,7 @@ package away3d.debug
 			// subtract it from the running sum, to keep
 			// the sum reflecting the log entries.
 			if (_mean_data) {
-				_mean_data.push(_fps);
+				_mean_data[_mean_data.length] = _fps;
 				_fps_sum -= Number(_mean_data.shift());
 				
 				// Average = sum of all log entries over

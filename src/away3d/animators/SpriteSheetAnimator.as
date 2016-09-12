@@ -43,7 +43,7 @@ package away3d.animators
 		{
 			super(spriteSheetAnimationSet);
 			_spriteSheetAnimationSet = spriteSheetAnimationSet;
-			_vectorFrame = new Vector.<Number>();
+			_vectorFrame = new <Number>[0, 0, 0, 0];
 		}
 		
 		/* Set the playrate of the animation in frames per second (not depending on player fps)*/
@@ -97,13 +97,13 @@ package away3d.animators
 		/* returns the current frame*/
 		public function get currentFrameNumber():uint
 		{
-			return SpriteSheetAnimationState(_activeState).currentFrameNumber;
+			return (_activeState as SpriteSheetAnimationState).currentFrameNumber;
 		}
 		
 		/* returns the total amount of frame for the current animation*/
 		public function get totalFrames():uint
 		{
-			return SpriteSheetAnimationState(_activeState).arcane::totalFrames;
+			return (_activeState as SpriteSheetAnimationState).arcane::totalFrames;
 		}
 		
 		/**
@@ -133,7 +133,7 @@ package away3d.animators
 			}
 			
 			//vc[vertexConstantOffset]
-			stage3DProxy._context3D.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _vectorFrame);
+			stage3DProxy._context3DProxy.setProgramConstantsFromVector(Context3DProgramType.VERTEX, vertexConstantOffset, _vectorFrame, 1);
 		}
 		
 		/**
@@ -165,8 +165,8 @@ package away3d.animators
 		override protected function updateDeltaTime(dt:Number):void
 		{
 			if (_specsDirty) {
-				SpriteSheetAnimationState(_activeSpriteSheetState).reverse = _reverse;
-				SpriteSheetAnimationState(_activeSpriteSheetState).backAndForth = _backAndForth;
+				(_activeSpriteSheetState as SpriteSheetAnimationState).reverse = _reverse;
+				(_activeSpriteSheetState as SpriteSheetAnimationState).backAndForth = _backAndForth;
 				_specsDirty = false;
 			}
 			
@@ -197,7 +197,7 @@ package away3d.animators
 		{
 			if (!_activeState)
 				return;
-			SpriteSheetAnimationState(_activeState).currentFrameNumber = (frameNumber == 0)? frameNumber : frameNumber - 1;
+			(_activeState as SpriteSheetAnimationState).currentFrameNumber = (frameNumber == 0)? frameNumber : frameNumber - 1;
 			var currentMapID:uint = _frame.mapID;
 			_frame = SpriteSheetAnimationState(_activeSpriteSheetState).currentFrameData;
 			
