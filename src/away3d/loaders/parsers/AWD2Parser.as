@@ -1099,7 +1099,7 @@ package away3d.loaders.parsers
 			var textureProjector:TextureProjector = new TextureProjector(returnedArrayGeometry[1]);
 			textureProjector.name = name;
 			textureProjector.aspectRatio = _newBlockBytes.readFloat();
-			textureProjector.fieldOfView = _newBlockBytes.readFloat();
+			(textureProjector.lens as PerspectiveLens).fieldOfView = _newBlockBytes.readFloat();
 			textureProjector.transform = mtx;
 			var props:AWDProperties = parseProperties({1:_matrixNrType, 2:_matrixNrType, 3:_matrixNrType, 4:UINT8});
 			textureProjector.pivotPoint = new Vector3D(props.get(1, 0), props.get(2, 0), props.get(3, 0));

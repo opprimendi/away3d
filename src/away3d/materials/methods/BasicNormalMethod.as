@@ -30,7 +30,7 @@ package away3d.materials.methods
 		 */
 		override arcane function initVO(vo:MethodVO):void
 		{
-			vo.needsUV = Boolean(_texture);
+			vo.needsUV = _texture != null;
 		}
 
 		/**
@@ -55,7 +55,7 @@ package away3d.materials.methods
 		 */
 		override public function copyFrom(method:ShadingMethodBase):void
 		{
-			normalMap = BasicNormalMethod(method).normalMap;
+			normalMap = (method as BasicNormalMethod).normalMap;
 		}
 
 		/**
@@ -68,7 +68,7 @@ package away3d.materials.methods
 		
 		public function set normalMap(value:Texture2DBase):void
 		{
-			if (Boolean(value) != _useTexture ||
+			if ((value != null) != _useTexture ||
 				(value && _texture && (value.hasMipMaps != _texture.hasMipMaps || value.format != _texture.format))) {
 				invalidateShaderProgram();
 			}

@@ -1,6 +1,7 @@
 package away3d.entities
 {
 	import away3d.arcane;
+	import away3d.cameras.lenses.LensBase;
 	import away3d.cameras.lenses.PerspectiveLens;
 	import away3d.containers.ObjectContainer3D;
 	import away3d.events.LensEvent;
@@ -22,7 +23,7 @@ package away3d.entities
 	 */
 	public class TextureProjector extends ObjectContainer3D
 	{
-		private var _lens:PerspectiveLens;
+		private var _lens:LensBase;
 		private var _viewProjectionInvalid:Boolean = true;
 		private var _viewProjection:Matrix3D = new Matrix3D();
 		private var _texture:Texture2DBase;
@@ -32,9 +33,13 @@ package away3d.entities
 		 * @param texture The texture to be projected on the geometry. Since any point that is projected out of the range
 		 * of the projector's cone is clamped to the texture's edges, the edges should be entirely neutral.
 		 */
-		public function TextureProjector(texture:Texture2DBase)
+		public function TextureProjector(texture:Texture2DBase, lens:LensBase = null)
 		{
-			_lens = new PerspectiveLens();
+			if (lens != null)
+				_lens = lens;
+			else
+				_lens = new PerspectiveLens();
+				
 			_lens.addEventListener(LensEvent.MATRIX_CHANGED, onInvalidateLensMatrix, false, 0, true);
 			_texture = texture;
 			_lens.aspectRatio = texture.width/texture.height;
@@ -52,19 +57,6 @@ package away3d.entities
 		public function set aspectRatio(value:Number):void
 		{
 			_lens.aspectRatio = value;
-		}
-		
-		/**
-		 * The vertical field of view of the projection, or the angle of the cone.
-		 */
-		public function get fieldOfView():Number
-		{
-			return _lens.fieldOfView;
-		}
-		
-		public function set fieldOfView(value:Number):void
-		{
-			_lens.fieldOfView = value;
 		}
 		
 		public override function get assetType():String
@@ -103,6 +95,16 @@ package away3d.entities
 				_viewProjectionInvalid = false;
 			}
 			return _viewProjection;
+		}
+		
+		public function get lens():LensBase 
+		{
+			return _lens;
+		}
+		
+		public function set lens(value:LensBase):void 
+		{
+			_lens = value;
 		}
 		
 		/**

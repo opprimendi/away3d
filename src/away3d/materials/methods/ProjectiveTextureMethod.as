@@ -7,6 +7,7 @@ package away3d.materials.methods
 	import away3d.entities.TextureProjector;
 	import away3d.materials.compilation.ShaderRegisterCache;
 	import away3d.materials.compilation.ShaderRegisterElement;
+	import away3d.textures.Anisotropy;
 	
 	import flash.geom.Matrix3D;
 	
@@ -28,6 +29,11 @@ package away3d.materials.methods
 		private var _projMatrix:Matrix3D = new Matrix3D();
 		private var _mode:String;
 		
+		private var _bias:Number = 0;
+		private var _anisotropy:int = Anisotropy.NONE;
+		private var _smoth:Boolean = false;
+		private var _useMipmapping:Boolean = false;
+		
 		/**
 		 * Creates a new ProjectiveTextureMethod object.
 		 *
@@ -36,13 +42,29 @@ package away3d.materials.methods
 		 *
 		 * @see away3d.entities.TextureProjector
 		 */
-		public function ProjectiveTextureMethod(projector:TextureProjector, mode:String = "multiply")
+		public function ProjectiveTextureMethod(projector:TextureProjector, mode:String = "multiply", smoth:Boolean = true, useMipmapping:Boolean = true, bias:Number = 0, anisotropy:int = Anisotropy.NONE)
 		{
 			super();
+			
+			_smoth = smoth;
+			_useMipmapping = _useMipmapping;
+			_bias = bias;
+			_anisotropy = anisotropy;
+			
 			_projector = projector;
 			_mode = mode;
 		}
-
+		
+		override arcane function initVO(vo:MethodVO):void 
+		{
+			vo.anisotropy = _anisotropy;
+			vo.useSmoothTextures = _smoth;
+			vo.bias = _bias;
+			vo.useMipmapping = _useMipmapping;
+			
+			super.initVO(vo);
+		}
+		
 		/**
 		 * @inheritDoc
 		 */
@@ -97,6 +119,46 @@ package away3d.materials.methods
 		public function set projector(value:TextureProjector):void
 		{
 			_projector = value;
+		}
+		
+		public function get bias():Number 
+		{
+			return _bias;
+		}
+		
+		public function set bias(value:Number):void 
+		{
+			_bias = value;
+		}
+		
+		public function get anisotropy():int 
+		{
+			return _anisotropy;
+		}
+		
+		public function set anisotropy(value:int):void 
+		{
+			_anisotropy = value;
+		}
+		
+		public function get smoth():Boolean 
+		{
+			return _smoth;
+		}
+		
+		public function set smoth(value:Boolean):void 
+		{
+			_smoth = value;
+		}
+		
+		public function get useMipmapping():Boolean 
+		{
+			return _useMipmapping;
+		}
+		
+		public function set useMipmapping(value:Boolean):void 
+		{
+			_useMipmapping = value;
 		}
 		
 		/**
@@ -161,6 +223,8 @@ package away3d.materials.methods
 		 */
 		override arcane function activate(vo:MethodVO, stage3DProxy:Stage3DProxy):void
 		{
+			
+			
 			stage3DProxy._context3DProxy.setTextureAt(vo.texturesIndex, _projector.texture.getTextureForStage3D(stage3DProxy));
 		}
 	}

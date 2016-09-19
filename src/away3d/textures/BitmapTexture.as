@@ -26,6 +26,7 @@
 			super();
 			this.bitmapData = bitmapData;
 			_generateMipmaps = generateMipmaps;
+			_hasMipmaps = _generateMipmaps;
 		}
 		
 		public function get bitmapData():BitmapData
