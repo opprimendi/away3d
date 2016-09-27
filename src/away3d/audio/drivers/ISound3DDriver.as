@@ -35,7 +35,7 @@ package away3d.audio.drivers
 		
 		/**
 		 * Mutes/unmutes the driver completely, which is typically only done (internally
-		 * by Sound3D) whenever the sound source is removed from the scene. When true,
+		 * by Sound3D) whenever the sound source is removed from the scene or paused. When true,
 		 * any values set to the volume property will be ignored.
 		 */
 		function get mute():Boolean;
