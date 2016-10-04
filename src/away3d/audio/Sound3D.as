@@ -54,10 +54,12 @@ package away3d.audio
 			_driver.volume = volume;
 			_driver.scale = scale;
 			_driver.addEventListener(Event.SOUND_COMPLETE, onSoundComplete);
-			
-			addEventListener(Object3DEvent.SCENE_CHANGED, onSceneChanged);
-			addEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED, onSceneTransformChanged);
-			_reference.addEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED, onSceneTransformChanged);
+		}
+		
+		public override function dispose() : void
+		{
+			removeSceneChangeListeners();
+			super.dispose();
 		}
 		
 		/**
@@ -119,6 +121,13 @@ package away3d.audio
 		 */
 		public function play():void
 		{
+			if (_playing)
+			{
+				return;
+			}
+			
+			addSceneChangeListeners();
+			forceUpdateScene();
 			_playing = true;
 			_paused = false;
 			_driver.play();
@@ -129,8 +138,15 @@ package away3d.audio
 		 */
 		public function pause():void
 		{
+			if (_paused || !_playing)
+			{
+				return;
+			}
+			
+			removeSceneChangeListeners();
 			_playing = false;
 			_paused = true;
+			_driver.mute = true;
 			_driver.pause();
 		}
 		
@@ -143,8 +159,15 @@ package away3d.audio
 		 */
 		public function stop():void
 		{
+			if (!_playing && !_paused) 
+			{
+				return;
+			}
+			
+			removeSceneChangeListeners();
 			_playing = false;
 			_paused = false;
+			_driver.mute = true;
 			_driver.stop();
 		}
 		
@@ -161,22 +184,38 @@ package away3d.audio
 				this.play();
 		}
 		
+		private function addSceneChangeListeners():void
+		{
+			addEventListener(Object3DEvent.SCENE_CHANGED, onSceneChanged);
+			addEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED, onSceneTransformChanged);
+			_reference.addEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED, onSceneTransformChanged);
+		}
+
+		private function removeSceneChangeListeners():void
+		{
+			removeEventListener(Object3DEvent.SCENE_CHANGED, onSceneChanged);
+			removeEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED, onSceneTransformChanged);
+			_reference.removeEventListener(Object3DEvent.SCENE_TRANSFORM_CHANGED, onSceneTransformChanged);
+		}
+		
 		/**
 		 * @internal
 		 * When scene changes, mute if object was removed from scene.
 		 */
 		private function onSceneChanged(ev:Object3DEvent):void
 		{
-			trace('scene changed');
+			forceUpdateScene();
+		}
+		
+		[Inline]
+		private function forceUpdateScene():void 
+		{
 			// mute driver if there is no scene available, i.e. when the
 			// sound3d object has been removed from the scene
 			_driver.mute = (_scene == null);
 			
 			// Force update
 			update();
-			
-			// Re-update reference vector to force changes to take effect
-			_driver.updateReferenceVector(_refv);
 		}
 		
 		/**
@@ -189,6 +228,7 @@ package away3d.audio
 		{
 			// Transform sound position into local space of the reference object ("listener").
 			_refv = _reference.inverseSceneTransform.transformVector(sceneTransform.position);
+			// Re-update reference vector to force changes to take effect
 			_driver.updateReferenceVector(_refv);
 		}
 		
@@ -199,6 +239,7 @@ package away3d.audio
 		
 		private function onSoundComplete(ev:Event):void
 		{
+			removeSceneChangeListeners();
 			dispatchEvent(ev.clone());
 		}
 	}
