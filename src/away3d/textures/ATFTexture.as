@@ -36,7 +36,7 @@
 		
 		override protected function createTexture(context3D:Context3D):TextureBase
 		{
-			return context3D.createTexture(_width, _height, atfData.format, false);
+			return context3D.createTexture(_width, _height, _atfData.format, false);
 		}
 	}
 }
