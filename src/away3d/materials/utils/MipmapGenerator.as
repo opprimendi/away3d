@@ -69,7 +69,7 @@ package away3d.materials.utils
 				_matrix.a = _rect.width / source.width;
 				_matrix.d = _rect.height / source.height;
 				
-				mipmap.draw(source, _matrix, null, null, null, true);
+				mipmap.draw(source, _matrix, null, null, null, false);
 				
 				if (target is Texture)
 				{

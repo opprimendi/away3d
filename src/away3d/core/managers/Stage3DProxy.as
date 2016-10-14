@@ -528,7 +528,7 @@ package away3d.core.managers
 			{
 				var hadContext:Boolean = (_context3D != null);
 				_context3D = _stage3D.context3D;
-				_context3D.enableErrorChecking = Debug.active;
+				_context3D.enableErrorChecking = Debug.enableErrorChecking;
 				
 				_context3DProxy.setContext3D(_context3D);
 				
@@ -578,6 +578,9 @@ package away3d.core.managers
 			
 			// ugly stuff for backward compatibility
 			var renderMode:String = forceSoftware? Context3DRenderMode.SOFTWARE : Context3DRenderMode.AUTO;
+			
+			if (profiles.length == 1)
+				hasRequestMatcingProfiles = false;
 			
 			if (hasRequestMatcingProfiles)
 			{
