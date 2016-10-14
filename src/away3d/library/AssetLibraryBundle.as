@@ -16,6 +16,7 @@ package away3d.library
 	import away3d.loaders.misc.AssetLoaderToken;
 	import away3d.loaders.misc.SingleFileLoader;
 	import away3d.loaders.parsers.ParserBase;
+	import flash.events.ProgressEvent;
 	
 	import flash.events.EventDispatcher;
 	import flash.net.URLRequest;
@@ -554,6 +555,7 @@ package away3d.library
 			_loadingSessions[_loadingSessions.length] = loader;
 			loader.addEventListener(LoaderEvent.RESOURCE_COMPLETE, onResourceRetrieved);
 			loader.addEventListener(LoaderEvent.DEPENDENCY_COMPLETE, onDependencyRetrieved);
+			loader.addEventListener(ProgressEvent.PROGRESS, onDependencyLoadProgress);
 			loader.addEventListener(AssetEvent.TEXTURE_SIZE_ERROR, onTextureSizeError);
 			loader.addEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
 			loader.addEventListener(AssetEvent.ANIMATION_SET_COMPLETE, onAssetComplete);
@@ -641,6 +643,12 @@ package away3d.library
 			_assets.fixed = false;
 			
 			_assetDictDirty = false;
+		}
+		
+		private function onDependencyLoadProgress(event:ProgressEvent):void
+		{
+			if (hasEventListener(ProgressEvent.PROGRESS))
+				dispatchEvent(event);
 		}
 		
 		/**

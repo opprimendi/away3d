@@ -7,6 +7,7 @@ package away3d.loaders.misc
 	import away3d.loaders.parsers.ImageParser;
 	import away3d.loaders.parsers.ParserBase;
 	import away3d.loaders.parsers.ParserDataFormat;
+	import flash.events.ProgressEvent;
 	
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -301,6 +302,7 @@ package away3d.loaders.misc
 			urlLoader = new URLLoader();
 			urlLoader.dataFormat = dataFormat;
 			urlLoader.addEventListener(Event.COMPLETE, handleUrlLoaderComplete);
+			urlLoader.addEventListener(ProgressEvent.PROGRESS, handleLoaderProgress);
 			urlLoader.addEventListener(IOErrorEvent.IO_ERROR, handleUrlLoaderError);
 			urlLoader.load(urlRequest);
 		}
@@ -395,8 +397,15 @@ package away3d.loaders.misc
 		 */
 		private function removeListeners(urlLoader:URLLoader):void
 		{
+			urlLoader.removeEventListener(ProgressEvent.PROGRESS, handleLoaderProgress);
 			urlLoader.removeEventListener(Event.COMPLETE, handleUrlLoaderComplete);
 			urlLoader.removeEventListener(IOErrorEvent.IO_ERROR, handleUrlLoaderError);
+		}
+		
+		private function handleLoaderProgress(e:ProgressEvent):void 
+		{
+			if (hasEventListener(ProgressEvent.PROGRESS))
+				dispatchEvent(new ProgressEvent(ProgressEvent.PROGRESS, false, false, e.bytesLoaded, e.bytesTotal));
 		}
 		
 		/**

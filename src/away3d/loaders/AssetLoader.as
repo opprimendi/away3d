@@ -479,6 +479,12 @@ package away3d.loaders
 			retrieveNext();
 		}
 		
+		private function onLoadProgress(e:ProgressEvent):void
+		{
+			if (hasEventListener(ProgressEvent.PROGRESS))
+				dispatchEvent(e);
+		}
+		
 		/**
 		 * Called when a single dependency loading failed, and pushes further dependencies onto the stack.
 		 * @param event
@@ -520,7 +526,7 @@ package away3d.loaders
 			} else {
 				// Error event was not handled by listeners directly on AssetLoader or
 				// on any of the subscribed loaders (in the list of error handlers.)
-				throw new Error(event.message);
+				throw new Error(event.message + " " + _loadingDependency.request.url);
 			}
 		}
 		
@@ -630,6 +636,7 @@ package away3d.loaders
 		{
 			loader.addEventListener(LoaderEvent.DEPENDENCY_COMPLETE, onRetrievalComplete);
 			loader.addEventListener(LoaderEvent.LOAD_ERROR, onRetrievalFailed);
+			loader.addEventListener(ProgressEvent.PROGRESS, onLoadProgress);
 			loader.addEventListener(AssetEvent.TEXTURE_SIZE_ERROR, onTextureSizeError);
 			loader.addEventListener(AssetEvent.ASSET_COMPLETE, onAssetComplete);
 			loader.addEventListener(AssetEvent.ANIMATION_SET_COMPLETE, onAssetComplete);
