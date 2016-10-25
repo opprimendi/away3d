@@ -124,8 +124,10 @@ package away3d.textures
 		{
 			for (var i:int = 0; i < 8; ++i) {
 				var tex:TextureBase = _textures[i];
-				if (tex)
+				if (tex) {
 					tex.dispose();
+					_textures[i] = null;
+				}
 			}
 		}
 	}

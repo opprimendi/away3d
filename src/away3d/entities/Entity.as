@@ -200,6 +200,7 @@ package away3d.entities
 		public function set bounds(value:BoundingVolumeBase):void
 		{
 			removeBounds();
+			removeWorldBounds();
 			_bounds = value;
 			_worldBounds = value.clone();
 			invalidateBounds();
@@ -286,6 +287,14 @@ package away3d.entities
 			
 			_bounds = getDefaultBoundingVolume();
 			_worldBounds = getDefaultBoundingVolume();
+		}
+		
+		override public function dispose():void 
+		{
+			super.dispose();
+			
+			removeBounds();
+			removeWorldBounds();
 		}
 		
 		/**
@@ -428,6 +437,18 @@ package away3d.entities
 				_boundsIsShown = false;
 				removeChild(_bounds.boundingRenderable);
 				_bounds.disposeRenderable();
+				_bounds = null;
+			} else if (_bounds) {
+				_bounds.disposeRenderable();
+				_bounds = null;
+			}
+		}
+		
+		private function removeWorldBounds():void
+		{
+			if(_worldBounds) {
+				_worldBounds.disposeRenderable();
+				_worldBounds = null;
 			}
 		}
 		
