@@ -2,6 +2,7 @@ package away3d.core.context3DProxy
 {
 	import away3d.arcane;
 	import flash.display.BitmapData;
+	import flash.display.TriangleCulling;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DClearMask;
 	import flash.display3D.Context3DProgramType;
@@ -226,6 +227,8 @@ package away3d.core.context3DProxy
 		[Inline]
 		public final function clear(red:Number, green:Number, blue:Number, alpha:Number, depth:Number, stencil:uint, mask:uint):void 
 		{
+			_currentCulling = TriangleCulling.NONE;
+
 			if (mask == Context3DClearMask.ALL || mask == Context3DClearMask.DEPTH)
 				_depthClear = true;
 				
