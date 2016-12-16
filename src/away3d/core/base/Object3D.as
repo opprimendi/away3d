@@ -923,7 +923,7 @@ package away3d.core.base
 		 */
 		public override function dispatchEvent(event:Event):Boolean {
 			if(event.bubbles) {
-				return dispatchEventFunction(Object3DEvent(event));
+				return dispatchEventFunction(event as Object3DEvent);
 			} 
 			return super.dispatchEvent(event);
 		}

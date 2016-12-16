@@ -4,7 +4,7 @@ package away3d.debug
 	/** Class for emmiting debuging messages, warnings and errors */
 	public class Debug
 	{
-		public static var enableErrorChecking:Boolean = true;
+		public static var enableErrorChecking:Boolean = false;
 		public static var active:Boolean = false;
 		public static var warningsAsErrors:Boolean = false;
 		
