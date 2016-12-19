@@ -636,6 +636,8 @@ package away3d.containers
 		public override function dispose():void
 		{
 			removeChilden(0, -1, true);
+			_scene = null;
+			_oldScene = null;
 		}
 		
 		/**

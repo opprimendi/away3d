@@ -49,8 +49,15 @@ package away3d.animators
 			return new VertexAnimator(_vertexAnimationSet);
 		}
 		
-		public override function dispose():void {
+		public override function dispose():void
+		{
 			super.dispose();
+			for each (var pose : Geometry in _poses)
+			{
+				pose.dispose();
+			}
+			_poses = null;
+			_vertexAnimationSet.dispose();
 			_vertexAnimationSet = null;
 			_activeVertexState = null;
 		}

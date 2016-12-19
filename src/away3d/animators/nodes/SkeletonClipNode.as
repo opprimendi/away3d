@@ -90,5 +90,10 @@ package away3d.animators.nodes
 				}
 			}
 		}
+		
+		override public function dispose() : void {
+			_frames.length = 0;
+			super.dispose();
+		}
 	}
 }
